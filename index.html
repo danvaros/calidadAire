@@ -243,6 +243,10 @@
             $('.contador').html(avg.toFixed(2));
 
           },
+          xhrFields: {
+            withCredentials: false
+          },
+          crossDomain: false,
           async:false
         });
 
