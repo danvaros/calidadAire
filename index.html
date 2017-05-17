@@ -68,7 +68,7 @@
       <div class="container">
 
         <div class="chart-gauge"></div>
-
+        <h1 class="header center white-text text-lighten-2 contador"></h1>
         <h1 class="header center white-text text-lighten-2">Guadalajara</h1>
         <div class="row center">
           <h5 class="header col s12 light">*Concentraciones de PM10 medidas en microgramos de partículas por metro cúbico de aire (µg/m3) <br />Fuente: Plataforma mundial para la salud y la calidad del aire de la OMS</h5>
@@ -235,6 +235,8 @@
             console.log(estaciones.length);
             avg = totalt / estaciones.length;
             console.log(avg);
+
+            $('.contador').html(avg.toFixed(2));
 
           },
           async:false
