@@ -243,6 +243,10 @@
             $('.contador').html(avg.toFixed(2));
 
           },
+          xhrFields: {
+            withCredentials: false
+          },
+          crossDomain: true,
           async:false
         });
 
@@ -330,7 +334,8 @@ valueText = chart.append("text")
                 .attr("text-anchor","middle")
                 .attr("dy",".5em")
                 .style("fill", '#000000');
-formatValue = d3.format('1%');
+//formatValue = d3.format('1%');
+formatValue = d3.format(".2f");
 
 arc5 = d3.svg.arc().outerRadius(radius - chartInset).innerRadius(radius - chartInset - barWidth)
 arc4 = d3.svg.arc().outerRadius(radius - chartInset).innerRadius(radius - chartInset - barWidth)
@@ -488,6 +493,7 @@ Needle.prototype.moveTo = function(perc) {
   this.el.transition().delay(300).ease('bounce').duration(1500).select('.needle').tween('progress', function() {
     return function(percentOfPercent) {
       var progress = percentOfPercent * perc;
+      //var progress = perc;
 
       repaintGauge(progress);
 
