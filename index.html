@@ -3,6 +3,8 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.css' rel='stylesheet' />
   <title>Calidad del Aire</title>
 
   <!-- CSS  -->
@@ -65,6 +67,8 @@
 dgm-navbar {
   background-color: #000000; display: block; box-sizig: border-box; box-shadow: 0 1px 4px rgba(0,0,0,0.3);
 }
+
+#map { position:absolute; top:0; bottom:0; width:100%; }
 
 .navbar-default.dgm-navbar {
   background-color: #000; border: none; top: 50px; min-height: 50px;
@@ -404,18 +408,21 @@ ul.dgm-footer &gt; li.spacing.dgm-footer &gt; h5.dgm-footer {
   			  width: 400px;
   			  margin: 100px auto
   			 }
+
   			.chart-first
   			{
   				fill: #9FBD35;
   			}
+
   			.chart-second
   			{
   				fill: #F2BA3A;
   			}
-              .chart-third
-              {
-                  fill: #FB3033;
-              }
+
+        .chart-third
+        {
+            fill: #FB3033;
+        }
 
   			.needle, .needle-center
   			{
@@ -439,7 +446,7 @@ ul.dgm-footer &gt; li.spacing.dgm-footer &gt; h5.dgm-footer {
   		</style>
 
 </head>
-<body class="front" cz-shortcut-listen="true">
+<body class="front" cz-shortcut-listen="true" style="background-image: url('foto_fondo.png');background-size: cover; background-repeat: no-repeat;background-position:center bottom;">
   <nav class="black" role="navigation">
     <div class="nav-wrapper container">
       <a id="logo-container" href="#" class="brand-logo white-text">gob.mx</a>
@@ -454,7 +461,7 @@ ul.dgm-footer &gt; li.spacing.dgm-footer &gt; h5.dgm-footer {
     </div>
   </nav>
 
-  <div id="" style="background-image: url('foto_fondo.png');background-size: cover; background-repeat: no-repeat;background-position:center center;">
+  <div id="" style="">
     <div class="section no-pad-bot">
       <div class="container">
 
@@ -491,12 +498,13 @@ ul.dgm-footer &gt; li.spacing.dgm-footer &gt; h5.dgm-footer {
     </div>
   </div>
 
+<div id="map"></div>
 
-
-  <div class="parallax-container valign-wrapper">
+  <div class="valign-wrapper">
     <div class="section no-pad-bot">
       <div class="container">
         <div class="row center">
+
           <h5 class="header col s12 light">Ayuda a mantener un mejor nivel de calidad en el aire.</h5>
         </div>
         <div class="row center">
@@ -586,30 +594,30 @@ ul.dgm-footer &gt; li.spacing.dgm-footer &gt; h5.dgm-footer {
             console.log('DATA');
             console.log(data.results);
 
-            for (var i = 0; i < data.results.length; i++) {
+            //for (var i = 0; i < data.results.length; i++) {
 
               //estaciones.push(data.results.stations[i].id);
-              if(data.results[i].stations[0].id != "cve"){
-                var contaminante = data.results[i].stations[0].measurements[0].pollutant;
+              if(data.results[0]._id != "cve"){
+                var contaminante = data.results[0].parametro;
 
                   if (contaminante == 'PM10'){
-                    estaciones.push(parseFloat(data.results[i].stations[0].measurements[0].value));
+                    estaciones.push(parseFloat(data.results[0].valororig));
                   }
 
-                // console.log('----datos----');
-                // console.log(data.results[i].stations[0].measurements[0].pollutant);
               }
 
-            }
+            //}
 
-            for(var k = 0 ; k < estaciones.length; k++) {
-                totalt += estaciones[k];
-            }
-
+            // for(var k = 0 ; k < estaciones.length; k++) {
+            //     totalt += estaciones[k];
+            // }
+            console.log('PM10');
+            console.log(contaminante);
             console.log('Total');
-            console.log(totalt);
-            console.log(estaciones.length);
-            avg = totalt / estaciones.length;
+            console.log(data.results[0].valororig);
+            //console.log(estaciones.length);
+            //avg = totalt / estaciones.length;
+            avg = data.results[0].valororig;
             console.log(avg);
 
             $('.contador').html(avg.toFixed(2));
@@ -661,10 +669,10 @@ el1 = d3.select('.chart-gauge1');
 el2 = d3.select('.chart-gauge2');
 
 margin = {
-top: 30,
-right: 30,
-bottom: 30,
-left: 30
+  top: 30,
+  right: 30,
+  bottom: 30,
+  left: 30
 };
 
 width = el[0][0].offsetWidth - margin.left - margin.right;
@@ -901,6 +909,16 @@ setTimeout(displayValue, 1350);
 
 })();
         </script>
+
+<script>
+  mapboxgl.accessToken = 'pk.eyJ1IjoiZGFudmFyb3MiLCJhIjoiY2l5bTFjcXBoMDAybzJxbnpuZ2dhM3UweCJ9.id1eHlXj7pllIQUyvtx5Jw';
+  var map = new mapboxgl.Map({
+    container: 'map', // container id
+    style: 'mapbox://styles/mapbox/streets-v9', // stylesheet location
+    center: [-19.50, 90], // starting position [lng, lat]
+    zoom: 7 // starting zoom
+  });
+</script>
 
   </body>
 </html>
