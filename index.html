@@ -402,6 +402,11 @@ filter: contrast(100%) brightness(70%);
         <p class="contenido">2652.07</p>
       </div>
     </div>
+    <div class="row">
+      <div class="col s12">
+        <canvas id="myChart"></canvas>
+      </div>
+    </div>
   </div>
 
 
@@ -454,8 +459,39 @@ filter: contrast(100%) brightness(70%);
     crossorigin=""></script>
   <script src="libs/owlcarousel/owl.carousel.min.js"></script>
   <script type="text/javascript" src="libs/jquery.sparkline.min.js"></script>
-  <script src="js/scripts.js" charset="utf-8"></script>
+  <script src="libs/chartjs/Chart.bundle.js"></script>
+	<script src="libs/chartjs/utils.js"></script>
 
+  <!-- local-->
+  <script src="js/scripts.js" charset="utf-8"></script>
+<style media="screen">
+
+canvas{
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+  }
+
+  .chartjs-tooltip {
+    opacity: 1;
+    position: absolute;
+    background: rgba(0, 0, 0, .7);
+    color: white;
+    border-radius: 3px;
+    -webkit-transition: all .1s ease;
+    transition: all .1s ease;
+    pointer-events: none;
+    -webkit-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+    padding: 4px;
+  }
+
+  .chartjs-tooltip-key {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+  }
+</style>
 <script>
   $(function() {
         /** This code runs when everything has been loaded on the page */
@@ -472,6 +508,31 @@ filter: contrast(100%) brightness(70%);
         {
           height: '1.5em', width: '8em', lineColor: '#fff', fillColor: '#a4b6da',
           minSpotColor: false, maxSpotColor: false, spotColor: '#fff', spotRadius: 3
+        });
+
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var color = Chart.helpers.color;
+        var chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'line',
+
+            // The data for our dataset
+            data: {
+                labels: ["January", "February", "March", "April", "May", "June", "July"],
+                datasets: [{
+                    label: "Contaminantes",
+                    // backgroundColor: 'rgb(255, 99, 132)',
+                    // borderColor: 'rgb(0, 156, 242)',
+
+                    backgroundColor: color(window.chartColors.blue).alpha(0.2).rgbString(),
+                    borderColor: window.chartColors.blue,
+                    pointBackgroundColor: window.chartColors.blue,
+                    data: [0, 10, 5, 2, 20, 30, 45],
+                }]
+            },
+
+            // Configuration options go here
+            options: {}
         });
     });
 
