@@ -16,7 +16,9 @@
    integrity="sha512-wcw6ts8Anuw10Mzh9Ytw4pylW8+NAD4ch3lqm9lzAsTxg0GFeJgoAtxuCLREZSC5lUXdVyo/7yfsqFjQ4S+aKw=="
    crossorigin=""/>
 
-
+  <!-- owl carousel  -->
+  <link rel="stylesheet" href="libs/owlcarousel/owl.carousel.min.css">
+  <link rel="stylesheet" href="libs/owlcarousel/owl.theme.default.min.css">
 <style>
 
 .chart-gauge
@@ -95,13 +97,7 @@ filter: contrast(100%) brightness(70%);
 }
 
 </style>
-<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 
-<!-- Leaflet-->
-<script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js"
-  integrity="sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA=="
-  crossorigin=""></script>
-<script src="js/scripts.js" charset="utf-8"></script>
 </head>
 <body class="front" cz-shortcut-listen="true" >
   <nav style="background-color:#393c3e; color:#fff;">
@@ -134,7 +130,7 @@ filter: contrast(100%) brightness(70%);
     </div>
   </nav>
 
-  <div id="" style="background-image: url('foto_fondo.png');background-size: cover; background-repeat: no-repeat;background-position:center top;">
+  <div id="" class="cabezera" style="background-image: url('foto_fondo.png');background-size: cover; background-repeat: no-repeat;background-position:center top;">
     <div class="section no-pad-bot">
       <div class="container">
         <div class="row center">
@@ -145,6 +141,7 @@ filter: contrast(100%) brightness(70%);
             <h5 class="header col s12 white-text text-lighten-2" style="   font-size: 32px;font-weight: 100;letter-spacing: 1px; line-height: inherit;">*Concentraciones de PM10 medidas en microgramos de partículas por metro cúbico de aire (µg/m3)</h5>
           </div>
         </div>
+
         <div class="row center">
           <div class="col s4 m4 l4  offset-s4 offset-m4 offset-l4">
             <div class="nav-wrapper">
@@ -158,6 +155,7 @@ filter: contrast(100%) brightness(70%);
              </div>
           </div>
         </div>
+
         <div class="row center">
           <div class="col s12 margen_arriba_g">
             <div class="base_botones">
@@ -167,25 +165,105 @@ filter: contrast(100%) brightness(70%);
           </div>
         </div>
 
-        <div class="row center">
-          <div class="col s12 l4">
-            <h5>Ciudad de mexico</h5>
-            <div class="carrucel"></div>
-            <div class="chart-gauge"></div>
+        <div class="row center velocimetros">
+          <div class="col s12 m12 l4">
+            <div class="col s12 ">
+              <h5>Ciudad de México</h5>
+            </div>
+            <div class="col s12 cont_carrucel">
+              <div class="col s1 offset-s1">
+                <p class="customPrevBtn"> < </p>
+              </div>
+              <div class="col s8">
+                <div class="owl-carousel owl-theme">
+                  <div class="item"><p>PM10</p></div>
+                  <div class="item"><p>PM2.5</p></div>
+                  <div class="item"><p>S02</p></div>
+                  <div class="item"><p>DV</p></div>
+                </div>
+              </div>
+              <div class="col s1">
+                <p class="customNextBtn"> > </p>
+              </div>
+            </div>
+            <div class="col s12">
+              <div class="chart-gauge"></div>
+            </div>
           </div>
-          <div class="col s12 l4">
-            <div class="chart-gauge1"></div>
+
+          <div class="col s12 m12 l4">
+            <div class="col s12">
+              <h5>Puebla</h5>
+            </div>
+            <div class="col s12 cont_carrucel">
+              <div class="col s1 offset-s1">
+                <p class="customPrevBtn"> < </p>
+              </div>
+              <div class="col s8">
+                <div class="owl-carousel owl-theme">
+                  <div class="item"><p>PM10</p></div>
+                  <div class="item"><p>PM2.5</p></div>
+                  <div class="item"><p>S02</p></div>
+                  <div class="item"><p>DV</p></div>
+                </div>
+              </div>
+              <div class="col s1">
+                <p class="customNextBtn"> > </p>
+              </div>
+            </div>
+            <div class="col s12">
+              <div class="chart-gauge"></div>
+            </div>
           </div>
-          <div class="col s12 l4">
-            <div class="chart-gauge2"></div>
+          <div class="col s12 m12 l4">
+            <div class="col s12">
+              <h5>Guadalajara</h5>
+            </div>
+            <div class="col s12 cont_carrucel">
+              <div class="col s1 offset-s1">
+                <p class="customPrevBtn"> < </p>
+              </div>
+              <div class="col s8">
+                <div class="owl-carousel owl-theme">
+                  <div class="item"><p>PM10</p></div>
+                  <div class="item"><p>PM2.5</p></div>
+                  <div class="item"><p>S02</p></div>
+                  <div class="item"><p>DV</p></div>
+                </div>
+              </div>
+              <div class="col s1">
+                <p class="customNextBtn"> > </p>
+              </div>
+            </div>
+            <div class="col s12">
+              <div class="chart-gauge"></div>
+            </div>
           </div>
         </div>
 
       </div>
+
     </div>
   </div>
-  <div class="col s12">
-    <div id="mapid"></div>
+
+  <div class="row seccion_mapa">
+    <div class="col s12 botonera_mapa">
+      <select class="col s6" name="estados" id="estados">
+        <option value="0">Entidad Federativa</option>
+        <option value="0">México</option>
+        <option value="0">Puebla</option>
+        <option value="0">Guadalajara</option>
+      </select>
+      <select class="col s6" name="municipios" id="municipios">
+        <option value="0">Municipios</option>
+        <option value="0">Municipios 1</option>
+        <option value="0">Municipios 2</option>
+        <option value="0">Municipios 3</option>
+      </select>
+    </div>
+    <div class="col s12">
+      <div id="mapid"></div>
+    </div>
   </div>
   <div class="container">
     <div class="row">
@@ -332,6 +410,15 @@ filter: contrast(100%) brightness(70%);
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
+  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <!-- Leaflet-->
+  <script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js"
+    integrity="sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA=="
+    crossorigin=""></script>
+  <script src="libs/owlcarousel/owl.carousel.min.js"></script>
+  <script src="js/scripts.js" charset="utf-8"></script>
+
+
   <!-- <script type="text/javascript" src="./gaugeClient.js"></script>
 		<script type="text/javascript" src="./labels.js"></script> -->
         <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>

@@ -17,4 +17,32 @@ $(document).ready(function(){
     }
   });
   // +++++++++++++++++++++++++++++++++ fin botonera inicial +++++++++++++++++++++++++
+
+  //inicializacion de owlCarousel
+  $(".owl-carousel").owlCarousel({
+    loop:false,
+    margin:10,
+    nav:false,
+    dots: false,
+    navText : ["<",">"],
+    responsive:{
+        0:{
+            items:2
+        },
+    }
+  });
+
+  var owl = $('.owl-carousel');
+  owl.owlCarousel();
+
+  // Custom Navigation Events
+  $('.customNextBtn').click(function(){
+    owl.trigger('next.owl.carousel');
+  });
+  $('.customPrevBtn').click(function(){
+    owl.trigger('prev.owl.carousel', [300]);
+  });
+
+  //inicializacion selects
+//  $('select').material_select();
 });
