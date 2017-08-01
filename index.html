@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
   <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.css' rel='stylesheet' />
+      <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.css' rel='stylesheet' />
   <title>Calidad del Aire</title>
 
   <!-- CSS  -->
@@ -441,12 +441,12 @@ ul.dgm-footer &gt; li.spacing.dgm-footer &gt; h5.dgm-footer {
         .parallax img{
           filter: contrast(100%) brightness(70%);
         }
-
+ #map { position:absolute; top:0; bottom:0; width:100%; }
 
   		</style>
 
 </head>
-<body class="front" cz-shortcut-listen="true" style="background-image: url('foto_fondo.png');background-size: cover; background-repeat: no-repeat;background-position:center bottom;">
+<body class="front" cz-shortcut-listen="true" >
   <nav class="black" role="navigation">
     <div class="nav-wrapper container">
       <a id="logo-container" href="#" class="brand-logo white-text">gob.mx</a>
@@ -461,7 +461,7 @@ ul.dgm-footer &gt; li.spacing.dgm-footer &gt; h5.dgm-footer {
     </div>
   </nav>
 
-  <div id="" style="">
+  <div id="" style="background-image: url('foto_fondo.png');background-size: cover; background-repeat: no-repeat;background-position:center bottom;">
     <div class="section no-pad-bot">
       <div class="container">
 
@@ -498,22 +498,35 @@ ul.dgm-footer &gt; li.spacing.dgm-footer &gt; h5.dgm-footer {
     </div>
   </div>
 
-<div id="map"></div>
+<!-- <div id="map"></div> -->
 
-  <div class="valign-wrapper">
-    <div class="section no-pad-bot">
-      <div class="container">
-        <div class="row center">
+<!-- <div class="valign-wrapper">
+  <div class="section no-pad-bot">
+    <div class="container">
+      <div class="row center">
 
-          <h5 class="header col s12 light">Ayuda a mantener un mejor nivel de calidad en el aire.</h5>
-        </div>
-        <div class="row center">
-          <a href="#" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Actúa</a>
-        </div>
+        <h5 class="header col s12 light">Ayuda a mantener un mejor nivel de calidad en el aire.</h5>
+      </div>
+      <div class="row center">
+        <a href="#" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Actúa</a>
       </div>
     </div>
-
   </div>
+
+</div> -->
+<div >
+  <div class="section">
+    <div class="container">
+      <div class="row center">
+        <div class="col s12 l4">
+            <div id="map"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
 
   <!-- <div class="container">
     <div class="section">
@@ -911,12 +924,14 @@ setTimeout(displayValue, 1350);
         </script>
 
 <script>
-  mapboxgl.accessToken = 'pk.eyJ1IjoiZGFudmFyb3MiLCJhIjoiY2l5bTFjcXBoMDAybzJxbnpuZ2dhM3UweCJ9.id1eHlXj7pllIQUyvtx5Jw';
+  //mapboxgl.accessToken = 'pk.eyJ1IjoiZGFudmFyb3MiLCJhIjoiY2l5bTFjcXBoMDAybzJxbnpuZ2dhM3UweCJ9.id1eHlXj7pllIQUyvtx5Jw';
+  mapboxgl.accesToken = 'sk.eyJ1IjoiZGFudmFyb3MiLCJhIjoiY2o1c3FzajR2MDF1NTMzbzg1NXczNnlmZiJ9.5IMGtFD6F1Ip8mXfdEAV1A';
+
   var map = new mapboxgl.Map({
     container: 'map', // container id
     style: 'mapbox://styles/mapbox/streets-v9', // stylesheet location
-    center: [-19.50, 90], // starting position [lng, lat]
-    zoom: 7 // starting zoom
+    center: [-101.979,22.842], // starting position [lng, lat]
+    zoom: 5 // starting zoom
   });
 </script>
 
