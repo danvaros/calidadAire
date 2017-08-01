@@ -101,7 +101,7 @@ filter: contrast(100%) brightness(70%);
 <script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js"
   integrity="sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA=="
   crossorigin=""></script>
-
+<script src="js/scripts.js" charset="utf-8"></script>
 </head>
 <body class="front" cz-shortcut-listen="true" >
   <nav style="background-color:#393c3e; color:#fff;">
@@ -137,9 +137,10 @@ filter: contrast(100%) brightness(70%);
   <div id="" style="background-image: url('foto_fondo.png');background-size: cover; background-repeat: no-repeat;background-position:center top;">
     <div class="section no-pad-bot">
       <div class="container">
-
-        <h2 class="header center white-text text-lighten-2">Calidad de Aire MX</h2>
         <div class="row center">
+          <div class="col s12 m12 l12 margen_arriba_g">
+            <h2 class="header center white-text text-lighten-2">Calidad de Aire MX</h2>
+          </div>
           <div class="col s10 m10 l10  offset-s1 offset-m1 offset-l1">
             <h5 class="header col s12 white-text text-lighten-2" style="   font-size: 32px;font-weight: 100;letter-spacing: 1px; line-height: inherit;">*Concentraciones de PM10 medidas en microgramos de partículas por metro cúbico de aire (µg/m3)</h5>
           </div>
@@ -149,7 +150,7 @@ filter: contrast(100%) brightness(70%);
             <div class="nav-wrapper">
                <form>
                  <div class="input-field">
-                   <input id="search_central" type="search" required style="    border-bottom: 1px solid #f1f5fb;">
+                   <input id="search_central" type="search" required style="border-bottom: 1px solid #f1f5fb;">
                    <label class="label-icon" for="search_central"><i class="material-icons" style="color: #ffff;">search</i></label>
                    <i class="material-icons">close</i>
                  </div>
@@ -158,12 +159,18 @@ filter: contrast(100%) brightness(70%);
           </div>
         </div>
         <div class="row center">
-          <a href="#" id="download-button" class="btn-large waves-effect waves-light white teal-text lighten-1 ">Top 3 Ciudades</a>
-          <a href="#" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">32 estados</a>
+          <div class="col s12 margen_arriba_g">
+            <div class="base_botones">
+              <a href="#" id="btn_ciudades" class="boton boton_activo">Top 3 Ciudades</a>
+              <a href="#" id="btn_estados" class="boton boton_inactivo">32 Estados</a>
+            </div>
+          </div>
         </div>
 
         <div class="row center">
           <div class="col s12 l4">
+            <h5>Ciudad de mexico</h5>
+            <div class="carrucel"></div>
             <div class="chart-gauge"></div>
           </div>
           <div class="col s12 l4">
@@ -225,7 +232,7 @@ filter: contrast(100%) brightness(70%);
         </div>
       </div>
       <div class="col s5">
-        <img src="imagenes/mapa.png">
+        <img class="responsive-img" src="imagenes/mapa.png">
       </div>
     </div>
     <div class="row">
@@ -665,6 +672,9 @@ needle.moveTo(percent);
   }
   mymap.scrollWheelZoom.disable();
 // +++++++++++++++++++++++++++++++++ fin mapa +++++++++++++++++++++++++
+
+
+
   </script>
 
   </body>
