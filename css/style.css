@@ -8,7 +8,11 @@
 
 nav ul a,
 nav .brand-logo {
-  color: #444;
+  color: #fff;
+}
+
+.cabezera{
+  color:#fff;
 }
 
 p {
@@ -54,4 +58,42 @@ p {
 
 footer.page-footer {
   margin: 0;
+}
+/*---------------------------------- estilos header -----------------*/
+.margen_arriba_g{
+  margin-top: 70px;
+}
+.base_botones{
+  /*background-color: #fff;*/
+  display: inline-block;
+}
+
+.boton{
+  padding: 5px 0px 5px 0px;
+
+  font-size: 17px;
+  display: inline-block;
+  width: 180px;
+  background-color: transparent;
+  border: 1px solid #fff;
+  margin-left: -5px;
+  color:#fff;
+  font-weight: 200;
+}
+
+.boton_activo{
+  border: 1px solid #fff;
+  margin-left: -5px;
+  background-color: #fff;
+  color:#74b3e0;
+  font-weight: 400;
+}
+
+.cont_carrucel{
+  border-bottom: 2px solid #fff;
+  border-top: 2px solid #fff;
+}
+
+.velocimetros{
+  margin-top: 4em;
 }
