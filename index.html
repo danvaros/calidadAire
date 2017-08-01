@@ -1,585 +1,406 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <title>Calidad del Aire</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.js'></script>
-      <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.css' rel='stylesheet' />
-  <title>Calidad del Aire</title>
 
-  <!-- CSS  -->
-  <style scope="dgm-navbar">@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Open Sans Regular'), local('OpenSans-Regular'), url('https://fonts.gstatic.com/s/opensans/v14/K88pR3goAWT7BTt32Z01m4X0hVgzZQUfRDuZrPvH3D8.woff2') format('woff2');
-  unicode-range: U+0460-052F, U+20B4, U+2DE0-2DFF, U+A640-A69F;
-}
-
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Open Sans Regular'), local('OpenSans-Regular'), url('https://fonts.gstatic.com/s/opensans/v14/RjgO7rYTmqiVp7vzi-Q5UYX0hVgzZQUfRDuZrPvH3D8.woff2') format('woff2');
-  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-}
-
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Open Sans Regular'), local('OpenSans-Regular'), url('https://fonts.gstatic.com/s/opensans/v14/LWCjsQkB6EMdfHrEVqA1KYX0hVgzZQUfRDuZrPvH3D8.woff2') format('woff2');
-  unicode-range: U+1F00-1FFF;
-}
-
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Open Sans Regular'), local('OpenSans-Regular'), url('https://fonts.gstatic.com/s/opensans/v14/xozscpT2726on7jbcb_pAoX0hVgzZQUfRDuZrPvH3D8.woff2') format('woff2');
-  unicode-range: U+0370-03FF;
-}
-
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Open Sans Regular'), local('OpenSans-Regular'), url('https://fonts.gstatic.com/s/opensans/v14/59ZRklaO5bWGqF5A9baEEYX0hVgzZQUfRDuZrPvH3D8.woff2') format('woff2');
-  unicode-range: U+0102-0103, U+1EA0-1EF9, U+20AB;
-}
-
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Open Sans Regular'), local('OpenSans-Regular'), url('https://fonts.gstatic.com/s/opensans/v14/u-WUoqrET9fUeobQW7jkRYX0hVgzZQUfRDuZrPvH3D8.woff2') format('woff2');
-  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
-}
-
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Open Sans Regular'), local('OpenSans-Regular'), url('https://fonts.gstatic.com/s/opensans/v14/cJZKeOuBrn4kERxqtaUH3ZBw1xU1rKptJj_0jans920.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
-}
-
-dgm-navbar {
-  background-color: #000000; display: block; box-sizig: border-box; box-shadow: 0 1px 4px rgba(0,0,0,0.3);
-}
-
-#map { position:absolute; top:0; bottom:0; width:100%; }
-
-.navbar-default.dgm-navbar {
-  background-color: #000; border: none; top: 50px; min-height: 50px;
-}
-
-.navbar.dgm-navbar {
-  max-width: 100%; margin: 0 auto;
-}
-
-.navbar-default.dgm-navbar &gt; .container-fluid.dgm-navbar {
-  max-width: 1100px; margin: 0 auto;
-}
-
-.navbar-inverse.dgm-navbar &gt; .container-fluid.dgm-navbar {
-  max-width: 1100px; margin: 0 auto;
-}
-
-.navbar.dgm-navbar &gt; .container-fluid.dgm-navbar .navbar-brand.dgm-navbar {
-  padding: 10px 15px 0; float: left; display: block; height: 50px;
-}
-
-.navbar.gob-mx-navbar.dgm-navbar &gt; .container-fluid.dgm-navbar .navbar-brand.dgm-navbar {
-  padding-left: 5px;
-}
-
-.navbar.navbar-default.dgm-navbar &gt; .container-fluid.dgm-navbar .navbar-brand.dgm-navbar &gt; img.dgm-navbar {
-  margin-top: 5px; height: 20px;
-}
-
-.navbar.dgm-navbar ul.navbar-nav.social-navigation.dgm-navbar {
-  margin-left: 20px;
-}
-
-.navbar.dgm-navbar ul.navbar-nav.social-navigation.dgm-navbar li.dgm-navbar {
-  display: block; width: 32px; height: 100%; text-indent: -9999px; text-align: center;
-}
-
-.navbar.dgm-navbar ul.navbar-nav.social-navigation.dgm-navbar li.dgm-navbar a.dgm-navbar {
-  height: 18px; margin: 13.5px 0; padding: 0; background: url('https://raw.githubusercontent.com/mxabierto/assets/master/img/ic-social.png') no-repeat; background-size: 18px; outline: 0;
-}
-
-.navbar.dgm-navbar ul.navbar-nav.social-navigation.dgm-navbar li.dgm-navbar a.dgm-navbar:hover,.navbar.dgm-navbar ul.navbar-nav.social-navigation.dgm-navbar li.dgm-navbar a.dgm-navbar:focus,.navbar.dgm-navbar ul.navbar-nav.social-navigation.dgm-navbar li.dgm-navbar a.dgm-navbar:active {
-  outline: 0;
-}
-
-.navbar.dgm-navbar ul.navbar-nav.social-navigation.dgm-navbar &gt; li.dgm-navbar &gt; a.dgm-navbar:hover {
-  background-color: transparent;
-}
-
-.navbar.dgm-navbar ul.navbar-nav.social-navigation.dgm-navbar .item-facebook.dgm-navbar a.dgm-navbar {
-  background-position: 50% 0;
-}
-
-.navbar.dgm-navbar ul.navbar-nav.social-navigation.dgm-navbar .item-twitter.dgm-navbar a.dgm-navbar {
-  background-position: 50% -18px;
-}
-
-.navbar.dgm-navbar ul.navbar-nav.social-navigation.dgm-navbar .item-github.dgm-navbar a.dgm-navbar {
-  background-position: 50% -54px;
-}
-
-.navbar.dgm-navbar ul.navbar-nav.dgm-navbar {
-  margin: 0; padding: 0; list-style: none; float: right;
-}
-
-.navbar.dgm-navbar ul.navbar-nav.dgm-navbar &gt; li.dgm-navbar {
-  float: left;
-}
-
-.navbar.dgm-navbar ul.navbar-nav.dgm-navbar &gt; li.dgm-navbar &gt; a.dgm-navbar {
-  display: block; padding: 16px 20px 15px; color: #fff; font-size: 12px; text-decoration: none; font-family: "Open Sans"; line-height: 20px; transition: all 0.1s ease-in-out 0s;
-}
-
-.navbar.dgm-navbar ul.navbar-nav.dgm-navbar &gt; li.dgm-navbar &gt; a.dgm-navbar:hover,.navbar.dgm-navbar ul.navbar-nav.dgm-navbar &gt; li.dgm-navbar &gt; a.active.dgm-navbar {
-  background-color: #545454; color: #fff;
-}
-
-.navbar.gob-mx-navbar.dgm-navbar ul.navbar-nav.dgm-navbar,.navbar.gob-mx-navbar.dgm-navbar ul.navbar-nav.dgm-navbar &gt; li.dgm-navbar &gt; a.dgm-navbar {
-  font-size: 16px; font-weight: 300;
-}
-
-.navbar.gob-mx-navbar.dgm-navbar ul.navbar-nav.dgm-navbar &gt; li.dgm-navbar &gt; a.datos-item.dgm-navbar {
-  color: #FFF;
-}
-
-.navbar.gob-mx-navbar.dgm-navbar ul.navbar-nav.dgm-navbar &gt; li.dgm-navbar &gt; a.dgm-navbar:hover,.navbar.gob-mx-navbar.dgm-navbar ul.navbar-nav.dgm-navbar &gt; li.dgm-navbar &gt; a.active.dgm-navbar {
-  background-color: #000; color: #fff;
-}
-
-.navbar.gob-mx-navbar.dgm-navbar ul.navbar-nav.dgm-navbar &gt; li.datos-item.dgm-navbar &gt; a.dgm-navbar {
-  background-color: #000;
-}
-
-.navbar.gob-mx-navbar.dgm-navbar ul.navbar-nav.dgm-navbar &gt; li.dgm-navbar &gt; a.dgm-navbar &gt; img.dgm-navbar {
-  width: 20px;
-}
-
-.container-fluid.dgm-navbar {
-  padding-right: 15px;
-            padding-left: 15px;
-}
-
-.navbar-inverse.dgm-navbar {
-  background-color: #393c3e; border-bottom: 1px solid #393c3e;; min-height: 50px;
-}
-
-#navbarMainCollapse.dgm-navbar {
-  padding: 0;
-}
-
-@media (max-width: 991px) {
-.navbar-collapse.dgm-navbar {
-  display: none;
-}
-
-}
-
-@media (max-width: 767px) {
-.datos-desktop.dgm-navbar {
-  display: none;
-}
-
-.datos-mobile.dgm-navbar {
-  display: block;
-}
-
-.navbar-fixed-top.dgm-navbar.dgm-navbar .navbar-collapse.dgm-navbar.dgm-navbar {
-  max-height: inherit;
-}
-
-.navbar.dgm-navbar.dgm-navbar ul.navbar-nav.dgm-navbar.dgm-navbar {
-  float: inherit;
-}
-
-.navbar.dgm-navbar.dgm-navbar ul.navbar-nav.dgm-navbar.dgm-navbar &gt; li.dgm-navbar.dgm-navbar {
-  float: inherit;
-}
-
-.navbar.dgm-navbar.dgm-navbar ul.navbar-nav.dgm-navbar.dgm-navbar &gt; li.dgm-navbar.dgm-navbar &gt; a.dgm-navbar.dgm-navbar {
-  padding: 10px 15px;
-}
-
-#navbarMainCollapse.dgm-navbar &gt; ul.nav.dgm-navbar &gt; li.dgm-navbar &gt; ul.dgm-navbar &gt; li.dgm-navbar &gt; a.dgm-navbar {
-  padding-left: 30px; font-size: 14px;
-}
-
-}
-
-@media (min-width: 768px) {
-.datos-desktop.dgm-navbar {
-  display: block;
-}
-
-.datos-mobile.dgm-navbar {
-  display: none;
-}
-
-.navbar.gob-mx-navbar.dgm-navbar ul.navbar-nav.dgm-navbar &gt; li.dgm-navbar {
-  height: 50px;
-}
-
-.navbar-default.dgm-navbar.dgm-navbar .navbar-nav.dgm-navbar.dgm-navbar &gt; li.dgm-navbar.dgm-navbar &gt; a.dgm-navbar.dgm-navbar:focus {
-  color: #fff;
-}
-
-}</style>
-<style scope="dgm-footer">@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Open Sans Regular'), local('OpenSans-Regular'), url('https://fonts.gstatic.com/s/opensans/v14/K88pR3goAWT7BTt32Z01m4X0hVgzZQUfRDuZrPvH3D8.woff2') format('woff2');
-  unicode-range: U+0460-052F, U+20B4, U+2DE0-2DFF, U+A640-A69F;
-}
-
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Open Sans Regular'), local('OpenSans-Regular'), url('https://fonts.gstatic.com/s/opensans/v14/RjgO7rYTmqiVp7vzi-Q5UYX0hVgzZQUfRDuZrPvH3D8.woff2') format('woff2');
-  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-}
-
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Open Sans Regular'), local('OpenSans-Regular'), url('https://fonts.gstatic.com/s/opensans/v14/LWCjsQkB6EMdfHrEVqA1KYX0hVgzZQUfRDuZrPvH3D8.woff2') format('woff2');
-  unicode-range: U+1F00-1FFF;
-}
-
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Open Sans Regular'), local('OpenSans-Regular'), url('https://fonts.gstatic.com/s/opensans/v14/xozscpT2726on7jbcb_pAoX0hVgzZQUfRDuZrPvH3D8.woff2') format('woff2');
-  unicode-range: U+0370-03FF;
-}
-
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Open Sans Regular'), local('OpenSans-Regular'), url('https://fonts.gstatic.com/s/opensans/v14/59ZRklaO5bWGqF5A9baEEYX0hVgzZQUfRDuZrPvH3D8.woff2') format('woff2');
-  unicode-range: U+0102-0103, U+1EA0-1EF9, U+20AB;
-}
-
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Open Sans Regular'), local('OpenSans-Regular'), url('https://fonts.gstatic.com/s/opensans/v14/u-WUoqrET9fUeobQW7jkRYX0hVgzZQUfRDuZrPvH3D8.woff2') format('woff2');
-  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
-}
-
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Open Sans Regular'), local('OpenSans-Regular'), url('https://fonts.gstatic.com/s/opensans/v14/cJZKeOuBrn4kERxqtaUH3ZBw1xU1rKptJj_0jans920.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
-}
-
-dgm-footer {
-  display: block; padding: 15px 0 10px; background-color: #28292a; box-sizig: border-box; font-family: "Open Sans"; font-size: 12px; line-height: 19px; color: #fff;
-}
-
-.main-container.dgm-footer {
-  width: 100%; overflow: hidden; background-color: #393b3c;
-}
-
-.new-container.dgm-footer {
-  padding-top: 15px;
-}
-
-.container-fluid.dgm-footer {
-  max-width: 1100px; margin: 0 auto;
-}
-
-h5.dgm-footer {
-  margin: 0; margin-bottom: 5px; font-size: 12px;
-}
-
-ul.dgm-footer {
-  margin: 0; margin-bottom: 20px; padding: 0; list-style: none;
-}
-
-ul.dgm-footer &gt; li.dgm-footer &gt; a.dgm-footer,ul.dgm-footer &gt; li.dgm-footer &gt; h5.dgm-footer &gt; a.dgm-footer {
-  color: #fff; font-weight: 200;
-}
-
-ul.dgm-footer &gt; li.dgm-footer &gt; h5.dgm-footer {
-  margin-bottom: 20px;
-}
-
-ul.dgm-footer &gt; li.dgm-footer &gt; h5.dgm-footer &gt; a.dgm-footer {
-  font-weight: bold;
-}
-
-ul.dgm-footer &gt; li.dgm-footer &gt; a.dgm-footer:hover,ul.dgm-footer &gt; li.dgm-footer &gt; h5.dgm-footer &gt; a.dgm-footer:hover {
-  text-decoration: none; text-decoration: underline;
-}
-
-ul.dgm-footer &gt; li.dgm-footer:first-child &gt; h5.dgm-footer {
-  margin-bottom: 5px;
-}
-
-ul.dgm-footer &gt; li.spacing.dgm-footer &gt; h5.dgm-footer {
-  margin-bottom: 20px;
-}
-
-.img-link.dgm-footer {
-  display: block; margin-bottom: 20px;
-}
-
-.img-link.first.dgm-footer {
-  margin-top: 140px;
-}
-
-.navbar-brand.dgm-footer {
-  width: 215px;
-      display: block;
-      overflow: hidden;
-}
-
-.navbar-brand.dgm-footer img.dgm-footer {
-  width: 100%;
-}
-
-.footer-logo.dgm-footer {
-  overflow: hidden;
-}
-
-.footer-logo.dgm-footer .navbar-brand.dgm-footer {
-  padding: 0; height: inherit;
-}
-
-.gobmx-link-logo.dgm-footer {
-  display: inline-block;
-}
-
-.gobmx-link-logo.dgm-footer &gt; img.dgm-footer {
-  width: 100px;
-      padding: 20px 0;
-}
-
-@media (max-width: 767px) {
-.to-right.dgm-footer {
-  float: inherit;
-}
-
-.navbar-brand.dgm-footer {
-  margin-bottom: 20px;
-}
-
-}
-
-@media (min-width: 768px) {
-.to-right.dgm-footer {
-  float: right;
-}
-
-.navbar-brand.dgm-footer {
-  margin-bottom: 65px;
-}
-
-}</style>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="import" href="https://cdn.datos.gob.mx/bower_components/dgm-navbar/dgm-navbar.html">
   <link rel="import" href="https://cdn.datos.gob.mx/bower_components/dgm-footer/dgm-footer.html">
   <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 
-  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-  <style type="text/css" src="gauge.css">
-    			.chart-gauge
-  			{
-  			  width: 400px;
-  			  margin: 100px auto
-  			 }
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css"
+   integrity="sha512-wcw6ts8Anuw10Mzh9Ytw4pylW8+NAD4ch3lqm9lzAsTxg0GFeJgoAtxuCLREZSC5lUXdVyo/7yfsqFjQ4S+aKw=="
+   crossorigin=""/>
 
-  			.chart-first
-  			{
-  				fill: #9FBD35;
-  			}
+  <!-- owl carousel  -->
+  <link rel="stylesheet" href="libs/owlcarousel/owl.carousel.min.css">
+  <link rel="stylesheet" href="libs/owlcarousel/owl.theme.default.min.css">
+<style>
 
-  			.chart-second
-  			{
-  				fill: #F2BA3A;
-  			}
+.chart-gauge
+{
+width: 400px;
+margin: 100px auto
+}
 
-        .chart-third
-        {
-            fill: #FB3033;
-        }
+.chart-first
+{
+fill: #9FBD35;
+}
 
-  			.needle, .needle-center
-  			{
-  				fill: #000000;
-  			}
-              .text {
-                  color: "#112864";
-                  font-size: 16px;
-              }
+.chart-second
+{
+fill: #F2BA3A;
+}
 
+.chart-third
+{
+  fill: #FB3033;
+}
 
-  			svg {
-  			  font: 10px sans-serif;
-  			}
+.needle, .needle-center
+{
+fill: #000000;
+}
+.text {
+    color: "#112864";
+    font-size: 16px;
+}
 
-        .parallax img{
-          filter: contrast(100%) brightness(70%);
-        }
- #map { position:absolute; top:0; bottom:0; width:100%; }
+svg {
+font: 10px sans-serif;
+}
 
-  		</style>
+.parallax img{
+filter: contrast(100%) brightness(70%);
+}
+
+.input-field label{
+  color: #fff !important;
+}
+
+#mapid { height: 800px; }
+
+	.s5ths,
+	.m5ths,
+	.l5ths,
+	.xl5ths {
+	  margin-left: auto;
+	  left: auto;
+	  right: auto;
+	}
+
+	.row .col.s5ths {
+	  width: 20%;
+	}
+
+	@media only screen and (min-width: 601px) {
+	  .row .col.m5ths {
+	    width: 20%;
+	  }
+	}
+
+	@media only screen and (min-width: 993px) {
+	  .row .col.l5ths {
+	    width: 20%;
+	  }
+}
+
+@media only screen and (min-width: 1201px) {
+  .row .col.xl5ths {
+    width: 20%;
+  }
+}
+
+</style>
 
 </head>
 <body class="front" cz-shortcut-listen="true" >
-  <nav class="black" role="navigation">
-    <div class="nav-wrapper container">
-      <a id="logo-container" href="#" class="brand-logo white-text">gob.mx</a>
-      <ul class="right hide-on-med-and-down white-text">
-        <li><a class="white-text" href="#">Navbar Link</a></li>
+  <nav style="background-color:#393c3e; color:#fff;">
+    <div class="nav-wrapper">
+      <a href="#!" class="brand-logo">gob.mx</a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">gob.mx</i></a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="sass.html">Tramites</a></li>
+        <li><a href="badges.html">Gobierno</a></li>
+        <li><a href="collapsible.html">Partisipa</a></li>
+        <li><a href="mobile.html">Datos</a></li>
+        <li>
+          <div class="nav-wrapper">
+             <form>
+               <div class="input-field">
+                 <input id="search" type="search" required>
+                 <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                 <i class="material-icons">close</i>
+               </div>
+             </form>
+           </div>
+        </li>
       </ul>
-
-      <ul id="nav-mobile" class="side-nav white-text">
-        <li><a href="#">Navbar Link</a></li>
+      <ul class="side-nav" id="mobile-demo">
+        <li><a href="sass.html">Tramites</a></li>
+        <li><a href="badges.html">Gobierno</a></li>
+        <li><a href="collapsible.html">Partisipa</a></li>
+        <li><a href="mobile.html">Datos</a></li>
       </ul>
-      <a href="#" data-activates="nav-mobile" class="button-collapse white-text"><i class="material-icons">menu</i></a>
     </div>
   </nav>
 
-  <div id="" style="background-image: url('foto_fondo.png');background-size: cover; background-repeat: no-repeat;background-position:center bottom;">
-    <div class="section no-pad-bot">
-      <div class="container">
-
-        <h2 class="header center white-text text-lighten-2">Calidad de Aire MX</h2>
-        <div class="row center">
-          <h5 class="header col s12 white-text text-lighten-2">*Concentraciones de PM10 medidas en microgramos de partículas por metro cúbico de aire (µg/m3) <br />Fuente: Plataforma mundial para la salud y la calidad del aire de la OMS</h5>
-        </div>
-        <div class="row center">
-          <div class="col l5"></div>
-          <div class="col l2 s12 input-field">
-            <input class="" type="text" id="busqueda" />
-            <i class="material-icons prefix white-text text-lighten-2">search</i>
-          </div>
-          <div class="col l5"></div>
-        </div>
-        <div class="row center">
-          <a href="#" id="download-button" class="btn-large waves-effect waves-light white teal-text lighten-1 ">Top 3 Ciudades</a>
-          <a href="#" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">32 estados</a>
-        </div>
-
-        <div class="row center">
-          <div class="col s12 l4">
-            <div class="chart-gauge"></div>
-          </div>
-          <div class="col s12 l4">
-            <div class="chart-gauge1"></div>
-          </div>
-          <div class="col s12 l4">
-            <div class="chart-gauge2"></div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-<!-- <div id="map"></div> -->
-
-<!-- <div class="valign-wrapper">
-  <div class="section no-pad-bot">
-    <div class="container">
-      <div class="row center">
-
-        <h5 class="header col s12 light">Ayuda a mantener un mejor nivel de calidad en el aire.</h5>
-      </div>
-      <div class="row center">
-        <a href="#" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Actúa</a>
-      </div>
-    </div>
-  </div>
-
-</div> -->
-<div >
-  <div class="section">
-    <div class="container">
-      <div class="row center">
-        <div class="col s12 l4">
-            <div id="map"></div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-</div>
-
-  <!-- <div class="container">
-    <div class="section">
-
-      <div class="row">
-        <div class="col s12 center">
-          <h3><i class="mdi-content-send brown-text"></i></h3>
-          <h4>Contact Us</h4>
-          <p class="left-align light">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque id nunc nec volutpat. Etiam pellentesque tristique arcu, non consequat magna fermentum ac. Cras ut ultricies eros. Maecenas eros justo, ullamcorper a sapien id, viverra ultrices eros. Morbi sem neque, posuere et pretium eget, bibendum sollicitudin lacus. Aliquam eleifend sollicitudin diam, eu mattis nisl maximus sed. Nulla imperdiet semper molestie. Morbi massa odio, condimentum sed ipsum ac, gravida ultrices erat. Nullam eget dignissim mauris, non tristique erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;</p>
-        </div>
-      </div>
-
-    </div>
-  </div> -->
-
-
-  <!-- <div class="parallax-container valign-wrapper">
+  <div id="" class="cabezera" style="background-image: url('foto_fondo.png');background-size: cover; background-repeat: no-repeat;background-position:center top;">
     <div class="section no-pad-bot">
       <div class="container">
         <div class="row center">
-          <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
+          <div class="col s12 m12 l12 margen_arriba_g">
+            <h2 class="header center white-text text-lighten-2">Calidad de Aire MX</h2>
+          </div>
+          <div class="col s10 m10 l10  offset-s1 offset-m1 offset-l1">
+            <h5 class="header col s12 white-text text-lighten-2" style="   font-size: 32px;font-weight: 100;letter-spacing: 1px; line-height: inherit;">*Concentraciones de PM10 medidas en microgramos de partículas por metro cúbico de aire (µg/m3)</h5>
+          </div>
+        </div>
+
+        <div class="row center">
+          <div class="col s4 m4 l4  offset-s4 offset-m4 offset-l4">
+            <div class="nav-wrapper">
+               <form>
+                 <div class="input-field">
+                   <input id="search_central" type="search" required style="border-bottom: 1px solid #f1f5fb;">
+                   <label class="label-icon" for="search_central"><i class="material-icons" style="color: #ffff;">search</i></label>
+                   <i class="material-icons">close</i>
+                 </div>
+               </form>
+             </div>
+          </div>
+        </div>
+
+        <div class="row center">
+          <div class="col s12 margen_arriba_g">
+            <div class="base_botones">
+              <a href="#" id="btn_ciudades" class="boton boton_activo">Top 3 Ciudades</a>
+              <a href="#" id="btn_estados" class="boton boton_inactivo">32 Estados</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="row center velocimetros">
+          <div class="col s12 m12 l4">
+            <div class="col s12 ">
+              <h5>Ciudad de México</h5>
+            </div>
+            <div class="col s12 cont_carrucel">
+              <div class="col s1 offset-s1">
+                <p class="customPrevBtn"> < </p>
+              </div>
+              <div class="col s8">
+                <div class="owl-carousel owl-theme">
+                  <div class="item"><p>PM10</p></div>
+                  <div class="item"><p>PM2.5</p></div>
+                  <div class="item"><p>S02</p></div>
+                  <div class="item"><p>DV</p></div>
+                </div>
+              </div>
+              <div class="col s1">
+                <p class="customNextBtn"> > </p>
+              </div>
+            </div>
+            <div class="col s12">
+              <div class="chart-gauge"></div>
+            </div>
+          </div>
+
+          <div class="col s12 m12 l4">
+            <div class="col s12">
+              <h5>Puebla</h5>
+            </div>
+            <div class="col s12 cont_carrucel">
+              <div class="col s1 offset-s1">
+                <p class="customPrevBtn"> < </p>
+              </div>
+              <div class="col s8">
+                <div class="owl-carousel owl-theme">
+                  <div class="item"><p>PM10</p></div>
+                  <div class="item"><p>PM2.5</p></div>
+                  <div class="item"><p>S02</p></div>
+                  <div class="item"><p>DV</p></div>
+                </div>
+              </div>
+              <div class="col s1">
+                <p class="customNextBtn"> > </p>
+              </div>
+            </div>
+            <div class="col s12">
+              <div class="chart-gauge"></div>
+            </div>
+          </div>
+          <div class="col s12 m12 l4">
+            <div class="col s12">
+              <h5>Guadalajara</h5>
+            </div>
+            <div class="col s12 cont_carrucel">
+              <div class="col s1 offset-s1">
+                <p class="customPrevBtn"> < </p>
+              </div>
+              <div class="col s8">
+                <div class="owl-carousel owl-theme">
+                  <div class="item"><p>PM10</p></div>
+                  <div class="item"><p>PM2.5</p></div>
+                  <div class="item"><p>S02</p></div>
+                  <div class="item"><p>DV</p></div>
+                </div>
+              </div>
+              <div class="col s1">
+                <p class="customNextBtn"> > </p>
+              </div>
+            </div>
+            <div class="col s12">
+              <div class="chart-gauge"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="row seccion_mapa">
+    <div class="col s12 botonera_mapa">
+      <select class="col s6" name="estados" id="estados">
+        <option value="0">Entidad Federativa</option>
+        <option value="0">México</option>
+        <option value="0">Puebla</option>
+        <option value="0">Guadalajara</option>
+      </select>
+      <select class="col s6" name="municipios" id="municipios">
+        <option value="0">Municipios</option>
+        <option value="0">Municipios 1</option>
+        <option value="0">Municipios 2</option>
+        <option value="0">Municipios 3</option>
+      </select>
+    </div>
+    <div class="col s12">
+      <div id="mapid"></div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col s4 m4 l4">
+        <p><strong>Ciudad Fernandez</strong></p>
+        <p>Calidad de aire: Mala22</p>
+      </div>
+      <div class="col l3">
+        <div class="row">
+          <div class="col s6">
+            <img src="imagenes/fecha.png">
+          </div>
+          <div class="col s6">
+            <p><b>Fecha</b></p>
+            <p>24/05/17</p>
+          </div>
+        </div>
+        <div class="row">
+        <div class="col s6">
+          <img src="imagenes/temperatura.png">
+        </div>
+        <div class="col s6">
+          <p><b>Temperatura</b></p>
+          <p>20º C</p>
+        </div>
+        </div>
+        <div class="row">
+        <div class="col s6">
+          <img src="imagenes/contaminante.png">
+        </div>
+        <div class="col s6">
+          <p><b>contaminante:</b></p>
+          <p>PM10, 104</p>
+        </div>
+        </div>
+        <div class="row">
+        <div class="col s6">
+          <img src="imagenes/estacion.png">
+        </div>
+        <div class="col s6">
+          <p><b>Estación:</b></p>
+          <p>XAL-Xalostoc</p>
+        </div>
         </div>
       </div>
+      <div class="col s5">
+        <img class="responsive-img" src="imagenes/mapa.png">
+      </div>
     </div>
-    <div class="parallax"><img src="background3.jpg" alt="Unsplashed background img 3"></div>
-  </div> -->
+    <div class="row">
+      <div class="col s12 ">
+        <p>Parametros de la red</p>
+      </div>
+      <div class="col s5ths">
+        <p>CO</p>
+        <p>2652.07</p>
+      </div>
+      <div class="col s5ths">
+        <p>NO</p>
+        <p>456.07</p>
+      </div>
+      <div class="col s5ths">
+        <p>N02</p>
+        <p>2652.07</p>
+      </div>
+      <div class="col s5ths">
+        <p>NOx</p>
+        <p>456.07</p>
+      </div>
+      <div class="col s5ths">
+        <p>O3</p>
+        <p>2652.07</p>
+      </div>
+      <div class="col s5ths">
+        <p>VV</p>
+        <p>456.07</p>
+      </div>
+      <div class="col s5ths">
+        <p>PM10</p>
+        <p>2652.07</p>
+      </div>
+      <div class="col s5ths">
+        <p>PM2.5</p>
+        <p>456.07</p>
+      </div>
+      <div class="col s5ths">
+        <p>S02</p>
+        <p>2652.07</p>
+      </div>
+      <div class="col s5ths">
+        <p>DV</p>
+        <p>456.07</p>
+      </div>
+      <div class="col s5ths">
+        <p>HR</p>
+        <p>456.07</p>
+      </div>
+      <div class="col s5ths">
+        <p>PB</p>
+        <p>2652.07</p>
+      </div>
+      <div class="col s5ths">
+        <p>PP</p>
+        <p>456.07</p>
+      </div>
+      <div class="col s5ths">
+        <p>RS</p>
+        <p>2652.07</p>
+      </div>
+    </div>
+  </div>
 
   <footer class="page-footer black">
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
-          <h5 class="white-text">Calidad del aire</h5>
-          <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
-
+          <h5 class="white-text">datos.gob.mx</h5>
+        </div>
+        <div class="col l3 s12">
 
         </div>
         <div class="col l3 s12">
-          <h5 class="white-text">Ayuda</h5>
           <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
+            <li><a class="white-text" href="#!">Datos</a></li>
+            <li><a class="white-text" href="#!">Herramientas</a></li>
+            <li><a class="white-text" href="#!">Blog</a></li>
+            <li><a class="white-text" href="#!">Guía</a></li>
+            <li><a class="white-text" href="#!">Consejo Consultivo</a></li>
+            <li><a class="white-text" href="#!">Adela</a></li>
+            <li><a class="white-text" href="#!">Acerca</a></li>
           </ul>
-        </div>
-        <div class="col l3 s12">
-          <h5 class="white-text">Soporte</h5>
-          <p class="grey-text text-lighten-4">ort and continue development on this project and is greatly appreciated.</p>
         </div>
       </div>
     </div>
     <div class="footer-copyright">
       <div class="container">
-      Hecho con <a class="brown-text text-lighten-3" href="#">Datos MX</a>
+      LIBRE USO MX
       </div>
     </div>
   </footer>
@@ -589,8 +410,17 @@ ul.dgm-footer &gt; li.spacing.dgm-footer &gt; h5.dgm-footer {
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
-  <script type="text/javascript" src="./gaugeClient.js"></script>
-		<script type="text/javascript" src="./labels.js"></script>
+  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <!-- Leaflet-->
+  <script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js"
+    integrity="sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA=="
+    crossorigin=""></script>
+  <script src="libs/owlcarousel/owl.carousel.min.js"></script>
+  <script src="js/scripts.js" charset="utf-8"></script>
+
+
+  <!-- <script type="text/javascript" src="./gaugeClient.js"></script>
+		<script type="text/javascript" src="./labels.js"></script> -->
         <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
         <script type="text/javascript">
         var estaciones = [];
@@ -651,12 +481,15 @@ var value = avg;
 
 var gaugeMaxValue = 100;
 
+
 // données à calculer
 var percentValue = value / gaugeMaxValue;
+
 
 ////////////////////////
 
 var needleClient;
+var needleClient2;
 
 
 
@@ -840,12 +673,7 @@ var recalcPointerPos = function(perc) {
   rightX = centerX - this.radius * Math.cos(thetaRad + Math.PI / 2);
   rightY = centerY - this.radius * Math.sin(thetaRad + Math.PI / 2);
 
-
-    return "M " + leftX + " " + leftY + " L " + topX + " " + topY + " L " + rightX + " " + rightY;
-
-
-
-
+  return "M " + leftX + " " + leftY + " L " + topX + " " + topY + " L " + rightX + " " + rightY;
 };
 
 function Needle(el) {
@@ -877,9 +705,6 @@ Needle.prototype.moveTo = function(perc) {
     return function(percentOfPercent) {
       var progress = (1 - percentOfPercent) * oldValue;
 
-
-
-
       repaintGauge(progress);
       return d3.select(this).attr('d', recalcPointerPos.call(self, progress));
     };
@@ -910,30 +735,34 @@ return Needle;
 
 })();
 
-
-
 needle = new Needle(chart);
 needle.render();
 needle.moveTo(percent);
 
-setTimeout(displayValue, 1350);
-
-
-
 })();
-        </script>
 
-<script>
-  //mapboxgl.accessToken = 'pk.eyJ1IjoiZGFudmFyb3MiLCJhIjoiY2l5bTFjcXBoMDAybzJxbnpuZ2dhM3UweCJ9.id1eHlXj7pllIQUyvtx5Jw';
-  mapboxgl.accesToken = 'sk.eyJ1IjoiZGFudmFyb3MiLCJhIjoiY2o1c3FzajR2MDF1NTMzbzg1NXczNnlmZiJ9.5IMGtFD6F1Ip8mXfdEAV1A';
 
-  var map = new mapboxgl.Map({
-    container: 'map', // container id
-    style: 'mapbox://styles/mapbox/streets-v9', // stylesheet location
-    center: [-101.979,22.842], // starting position [lng, lat]
-    zoom: 5 // starting zoom
-  });
-</script>
+
+// +++++++++++++++++++++++++++++++++ mapa ++++++++++++++++++++++++++++
+  var mymap = L.map('mapid').setView([19.432608, -99.133209], 6);
+
+	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+		maxZoom: 18,
+		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+			'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+		id: 'mapbox.streets'
+	}).addTo(mymap);
+
+  if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)){
+    mymap.dragging.disable();
+  }
+  mymap.scrollWheelZoom.disable();
+// +++++++++++++++++++++++++++++++++ fin mapa +++++++++++++++++++++++++
+
+
+
+  </script>
 
   </body>
 </html>
