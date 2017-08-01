@@ -186,8 +186,12 @@ filter: contrast(100%) brightness(70%);
                 <p class="customNextBtn"> > </p>
               </div>
             </div>
-            <div class="col s12">
+            <div class="col s12 center">
               <div class="chart-gauge"></div>
+              <p>
+               <span class="linecustom">10,8,9,3,5,8,5,7</span>
+              </p>
+              <a href="" class="boton_redondo">Ver más</a>
             </div>
           </div>
 
@@ -213,6 +217,10 @@ filter: contrast(100%) brightness(70%);
             </div>
             <div class="col s12">
               <div class="chart-gauge"></div>
+              <p>
+               <span class="linecustom">10,8,9,3,5,8,5,7</span>
+              </p>
+              <a href="" class="boton_redondo">Ver más</a>
             </div>
           </div>
           <div class="col s12 m12 l4">
@@ -237,6 +245,10 @@ filter: contrast(100%) brightness(70%);
             </div>
             <div class="col s12">
               <div class="chart-gauge"></div>
+              <p>
+               <span class="linecustom">10,8,9,3,5,8,5,7</span>
+              </p>
+              <a href="" class="boton_redondo">Ver más</a>
             </div>
           </div>
         </div>
@@ -248,30 +260,42 @@ filter: contrast(100%) brightness(70%);
 
   <div class="row seccion_mapa">
     <div class="col s12 botonera_mapa">
-      <select class="col s6" name="estados" id="estados">
-        <option value="0">Entidad Federativa</option>
-        <option value="0">México</option>
-        <option value="0">Puebla</option>
-        <option value="0">Guadalajara</option>
-      </select>
-      <select class="col s6" name="municipios" id="municipios">
-        <option value="0">Municipios</option>
-        <option value="0">Municipios 1</option>
-        <option value="0">Municipios 2</option>
-        <option value="0">Municipios 3</option>
-      </select>
+      <div class="input-field col s6 m2 l2">
+        <select  name="estados" id="estados">
+          <option value="0" disabled selected>Entidad Federativa</option>
+          <option value="1">México</option>
+          <option value="2">Puebla</option>
+          <option value="3">Guadalajara</option>
+        </select>
+      </div>
+      <div class="input-field col s6 m2 l2">
+        <select  name="municipios" id="municipios">
+          <option value="0" disabled selected>Municipios</option>
+          <option value="0">Municipios 1</option>
+          <option value="0">Municipios 2</option>
+          <option value="0">Municipios 3</option>
+        </select>
+      </div>
+      <div class="input-field col s6 m2 l2">
+        <form action="#">
+          <p class="range-field">
+            <input type="range" id="test5" min="0" max="100" />
+          </p>
+        </form>
+      </div>
     </div>
     <div class="col s12">
       <div id="mapid"></div>
     </div>
   </div>
-  <div class="container">
+
+  <div class="row detalle">
     <div class="row">
-      <div class="col s4 m4 l4">
-        <p><strong>Ciudad Fernandez</strong></p>
-        <p>Calidad de aire: Mala22</p>
+      <div class="col s4">
+        <p class="titulo"><strong>Ciudad Fernandez</strong></p>
+        <p class="subtitulo">Calidad de aire: Mala22</p>
       </div>
-      <div class="col l3">
+      <div class="col s3">
         <div class="row">
           <div class="col s6">
             <img src="imagenes/fecha.png">
@@ -282,99 +306,109 @@ filter: contrast(100%) brightness(70%);
           </div>
         </div>
         <div class="row">
-        <div class="col s6">
-          <img src="imagenes/temperatura.png">
-        </div>
-        <div class="col s6">
-          <p><b>Temperatura</b></p>
-          <p>20º C</p>
-        </div>
-        </div>
-        <div class="row">
-        <div class="col s6">
-          <img src="imagenes/contaminante.png">
-        </div>
-        <div class="col s6">
-          <p><b>contaminante:</b></p>
-          <p>PM10, 104</p>
-        </div>
+          <div class="col s6">
+            <img src="imagenes/temperatura.png">
+          </div>
+          <div class="col s6">
+            <p><b>Temperatura</b></p>
+            <p>20º C</p>
+          </div>
         </div>
         <div class="row">
-        <div class="col s6">
-          <img src="imagenes/estacion.png">
+          <div class="col s6">
+            <img src="imagenes/contaminante.png">
+          </div>
+          <div class="col s6">
+            <p><b>contaminante:</b></p>
+            <p>PM10, 104</p>
+          </div>
         </div>
-        <div class="col s6">
-          <p><b>Estación:</b></p>
-          <p>XAL-Xalostoc</p>
-        </div>
+        <div class="row">
+          <div class="col s6">
+            <img src="imagenes/estacion.png">
+          </div>
+          <div class="col s6">
+            <p><b>Estación:</b></p>
+            <p>XAL-Xalostoc</p>
+          </div>
         </div>
       </div>
-      <div class="col s5">
+      <div class="col s4">
         <img class="responsive-img" src="imagenes/mapa.png">
       </div>
     </div>
     <div class="row">
       <div class="col s12 ">
-        <p>Parametros de la red</p>
+        <p class="subtitulo_chico">Parametros de la red</p>
       </div>
       <div class="col s5ths">
-        <p>CO</p>
-        <p>2652.07</p>
+        <p class="etiqueta">CO</p>
+        <p class="contenido">2652.07</p>
       </div>
       <div class="col s5ths">
-        <p>NO</p>
-        <p>456.07</p>
+        <p class="etiqueta">NO</p>
+        <p class="contenido">456.07</p>
       </div>
       <div class="col s5ths">
-        <p>N02</p>
-        <p>2652.07</p>
+        <p class="etiqueta">N02</p>
+        <p class="contenido">2652.07</p>
       </div>
       <div class="col s5ths">
-        <p>NOx</p>
-        <p>456.07</p>
+        <p class="etiqueta">NOx</p>
+        <p class="contenido">456.07</p>
       </div>
       <div class="col s5ths">
-        <p>O3</p>
-        <p>2652.07</p>
+        <p class="etiqueta">O3</p>
+        <p class="contenido">2652.07</p>
       </div>
       <div class="col s5ths">
-        <p>VV</p>
-        <p>456.07</p>
+        <p class="etiqueta">VV</p>
+        <p class="contenido">456.07</p>
       </div>
       <div class="col s5ths">
-        <p>PM10</p>
-        <p>2652.07</p>
+        <p class="etiqueta">VV</p>
+        <p class="contenido">456.07</p>
       </div>
       <div class="col s5ths">
-        <p>PM2.5</p>
-        <p>456.07</p>
+        <p class="etiqueta">PM10</p>
+        <p class="contenido">2652.07</p>
       </div>
       <div class="col s5ths">
-        <p>S02</p>
-        <p>2652.07</p>
+        <p class="etiqueta">PM2.5</p>
+        <p class="contenido">456.07</p>
       </div>
       <div class="col s5ths">
-        <p>DV</p>
-        <p>456.07</p>
+        <p class="etiqueta">S02</p>
+        <p class="contenido">2652.07</p>
       </div>
       <div class="col s5ths">
-        <p>HR</p>
-        <p>456.07</p>
+        <p class="etiqueta">DV</p>
+        <p class="contenido">456.07</p>
       </div>
       <div class="col s5ths">
-        <p>PB</p>
-        <p>2652.07</p>
+        <p class="etiqueta">HR</p>
+        <p class="contenido">456.07</p>
       </div>
       <div class="col s5ths">
-        <p>PP</p>
-        <p>456.07</p>
+        <p class="etiqueta">PB</p>
+        <p class="contenido">2652.07</p>
       </div>
       <div class="col s5ths">
-        <p>RS</p>
-        <p>2652.07</p>
+        <p class="etiqueta">PP</p>
+        <p class="contenido">456.07</p>
+      </div>
+      <div class="col s5ths">
+        <p class="etiqueta">RS</p>
+        <p class="contenido">2652.07</p>
       </div>
     </div>
   </div>
+
+
+
+
+
+
 
   <footer class="page-footer black">
     <div class="container">
@@ -404,6 +438,9 @@ filter: contrast(100%) brightness(70%);
       </div>
     </div>
   </footer>
+  <!-- <p>
+  Sparkline with dynamic data: <span class="dynamicsparkline">Loading..</span>
+  </p> -->
 
 
   <!--  Scripts-->
@@ -416,8 +453,29 @@ filter: contrast(100%) brightness(70%);
     integrity="sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA=="
     crossorigin=""></script>
   <script src="libs/owlcarousel/owl.carousel.min.js"></script>
+  <script type="text/javascript" src="libs/jquery.sparkline.min.js"></script>
   <script src="js/scripts.js" charset="utf-8"></script>
 
+<script>
+  $(function() {
+        /** This code runs when everything has been loaded on the page */
+        /* Inline sparklines take their values from the contents of the tag */
+        $('.inlinesparkline').sparkline();
+
+        /* Sparklines can also take their values from the first argument
+        passed to the sparkline() function */
+        var myvalues = [10,8,5,7,4,4,1];
+        $('.dynamicsparkline').sparkline(myvalues);
+
+        // Customized line chart
+        $('.linecustom').sparkline('html',
+        {
+          height: '1.5em', width: '8em', lineColor: '#fff', fillColor: '#a4b6da',
+          minSpotColor: false, maxSpotColor: false, spotColor: '#fff', spotRadius: 3
+        });
+    });
+
+  </script>
 
   <!-- <script type="text/javascript" src="./gaugeClient.js"></script>
 		<script type="text/javascript" src="./labels.js"></script> -->
@@ -744,20 +802,28 @@ needle.moveTo(percent);
 
 
 // +++++++++++++++++++++++++++++++++ mapa ++++++++++++++++++++++++++++
-  var mymap = L.map('mapid').setView([19.432608, -99.133209], 6);
+  var mymap = L.map('mapid').setView([19.432608, -99.133209], 5);
 
-	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-		maxZoom: 18,
-		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-			'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-			'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-		id: 'mapbox.streets'
-	}).addTo(mymap);
+  var OpenStreetMap_Mapnik = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  	maxZoom: 19,
+  	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(mymap);
+
+	// L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+	// 	maxZoom: 18,
+	// 	attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+	// 		'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+	// 		'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+	// 	id: 'mapbox.streets'
+	// }).addTo(mymap);
 
   if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)){
     mymap.dragging.disable();
   }
   mymap.scrollWheelZoom.disable();
+
+
+
 // +++++++++++++++++++++++++++++++++ fin mapa +++++++++++++++++++++++++
 
 
