@@ -34,7 +34,7 @@ fill: #9FBD35;
 
 .chart-second
 {
-fill: #F2BA3A;
+fill:url(#grad1);
 }
 
 .chart-third
@@ -42,9 +42,14 @@ fill: #F2BA3A;
   fill: #FB3033;
 }
 
+.chart-blanco
+{
+  fill: #FFFFFF;
+}
+
 .needle, .needle-center
 {
-fill: #000000;
+fill: #ffffff;
 }
 .text {
     color: "#112864";
@@ -600,6 +605,8 @@ var value = avg;
 
 var gaugeMaxValue = 100;
 
+var gaugeMaxValue2 = '.';
+
 
 // données à calculer
 var percentValue = value / gaugeMaxValue;
@@ -617,13 +624,13 @@ var needleClient2;
 var barWidth, chart, chartInset, degToRad, repaintGauge,
 height, margin, numSections, padRad, percToDeg, percToRad,
 percent, radius, sectionIndx, svg, totalPercent, width,
-valueText, formatValue, k;
+valueText,valueTexto, formatValue, k;
 
 percent = percentValue;
 
 numSections = 1;
 sectionPerc = 1 / numSections / 2;
-padRad = 0.025;
+padRad = 0.001;
 chartInset = 10;
 
 // Orientation of gauge:
@@ -641,9 +648,14 @@ margin = {
 };
 
 width = el[0][0].offsetWidth - margin.left - margin.right;
+widtho = el[0][0].offsetWidth - margin.left + 25 - margin.right + 25;
 height = width;
+heighto = widtho;
 radius = Math.min(width, height) / 2;
-barWidth = 40 * width / 300;
+radiuso = Math.min(widtho+10,heighto+10) / 2
+barWidth = 3 * width / 150;
+
+barWidtho = 1 * widtho / 150;
 
 
 
@@ -663,17 +675,36 @@ return deg * Math.PI / 180;
 
 // Create SVG element
 //svg = el.append('svg').attr('width', width + margin.left + margin.right).attr('height', height + margin.top + margin.bottom);
-svg = el.append('svg').attr('width', width + margin.left + margin.right).attr('height', '220');
+svg = el.append('svg').attr('width', width + margin.left + margin.right).attr('height', '280');
 
 // Add layer for the panel
-chart = svg.append('g').attr('transform', "translate(" + ((width) / 2 + margin.left) + ", " + ((height + margin.top) / 2) + ")");
+chort = svg.append('defs').append('linearGradient').attr('id','grad1').attr('x1','0%').attr('y1','100%').attr('x2','100%').attr('y2','0%');
+chort.append('stop').attr('offset','0%').attr('style','stop-color:#9FBD35;stop-opacity:1;');
+chort.append('stop').attr('offset','100%').attr('style','stop-color:#FB3033;stop-opacity:1;');
 
+chart = svg.append('g').attr('transform', "translate(" + ((width) / 2 + margin.left) + ", " + ((height + margin.top +40) / 2) + ")");
+
+// <defs>
+//     <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+//       <stop offset="0%" style="stop-color:#9FBD35;stop-opacity:1" />
+//       <stop offset="100%" style="stop-color:#FB3033;stop-opacity:1" />
+//     </linearGradient>
+//   </defs>.append('stop').attr('offset','0%').attr('style','stop-color:#9FBD35;stop-opacity:1;').append('stop').attr('offset','100%').attr('style','stop-color:#FB3033;stop-opacity:1;')
 
 chart.append('path').attr('class', "arc chart-first");
 chart.append('path').attr('class', "arc chart-second");
 chart.append('path').attr('class', "arc chart-third");
-chart.append('path').attr('class', "arc chart-fourth");
-chart.append('path').attr('class', "arc chart-fifth");
+chart.append('path').attr('class', "arc chart-blanco");
+chart.append('path').attr('id', "arc");
+// chart.append('path').attr('class', "arc chart-fourth");
+// chart.append('path').attr('class', "arc chart-fifth");
+
+valueTexto = chart.append("text")
+                .attr('id', "Valueo")
+                .attr("font-size",72)
+                .attr("text-anchor","middle")
+                .attr("dy",".5em")
+                .style("fill", '#ffffff');
 
 valueText = chart.append("text")
                 .attr('id', "Value")
@@ -684,8 +715,8 @@ valueText = chart.append("text")
 //formatValue = d3.format('1%');
 formatValue = d3.format(".2f");
 
-arc5 = d3.svg.arc().outerRadius(radius - chartInset).innerRadius(radius - chartInset - barWidth)
-arc4 = d3.svg.arc().outerRadius(radius - chartInset).innerRadius(radius - chartInset - barWidth)
+// arc5 = d3.svg.arc().outerRadius(radius - chartInset).innerRadius(radius - chartInset - barWidth)
+blanco = d3.svg.arc().outerRadius(radiuso).innerRadius(radiuso - barWidtho)
 arc3 = d3.svg.arc().outerRadius(radius - chartInset).innerRadius(radius - chartInset - barWidth)
 arc2 = d3.svg.arc().outerRadius(radius - chartInset).innerRadius(radius - chartInset - barWidth)
 arc1 = d3.svg.arc().outerRadius(radius - chartInset).innerRadius(radius - chartInset - barWidth)
@@ -694,41 +725,50 @@ repaintGauge = function ()
 {
 perc = 0.5;
 var next_start = totalPercent;
-arcStartRad = percToRad(next_start);
-arcEndRad = arcStartRad + percToRad(perc / 5);
-next_start += perc / 5;
+var next_starto = totalPercent;
 
+
+arcStartRad = percToRad(next_start);
+arcEndRad = arcStartRad + percToRad(perc / 1);
+next_starto = perc / 1;
+
+blanco.startAngle(arcStartRad).endAngle(arcEndRad);
+
+arcStartRad = percToRad(next_start);
+arcEndRad = arcStartRad + percToRad(perc / 3);
+next_start += perc / 3;
 
 arc1.startAngle(arcStartRad).endAngle(arcEndRad);
 
 arcStartRad = percToRad(next_start);
-arcEndRad = arcStartRad + percToRad(perc / 5);
-next_start += perc / 5;
+arcEndRad = arcStartRad + percToRad(perc / 3);
+next_start += perc / 3;
 
 arc2.startAngle(arcStartRad + padRad).endAngle(arcEndRad);
 
 arcStartRad = percToRad(next_start);
-arcEndRad = arcStartRad + percToRad(perc / 5);
-next_start += perc / 5;
+arcEndRad = arcStartRad + percToRad(perc / 3);
+next_start += perc / 3;
 
 arc3.startAngle(arcStartRad + padRad).endAngle(arcEndRad);
 
-arcStartRad = percToRad(next_start);
-arcEndRad = arcStartRad + percToRad(perc / 5);
-next_start += perc / 5;
 
-arc4.startAngle(arcStartRad + padRad).endAngle(arcEndRad);
-
-arcStartRad = percToRad(next_start);
-arcEndRad = arcStartRad + percToRad(perc / 5);
-
-arc5.startAngle(arcStartRad + padRad).endAngle(arcEndRad);
+// arcStartRad = percToRad(next_start);
+// arcEndRad = arcStartRad + percToRad(perc / 5);
+// next_start += perc / 5;
+//
+// arc4.startAngle(arcStartRad + padRad).endAngle(arcEndRad);
+//
+// arcStartRad = percToRad(next_start);
+// arcEndRad = arcStartRad + percToRad(perc / 5);
+//
+// arc5.startAngle(arcStartRad + padRad).endAngle(arcEndRad);
 
 chart.select(".chart-first").attr('d', arc1);
 chart.select(".chart-second").attr('d', arc2);
 chart.select(".chart-third").attr('d', arc3);
-chart.select(".chart-fourth").attr('d', arc4);
-chart.select(".chart-fifth").attr('d', arc5);
+chart.select(".chart-blanco").attr('d', blanco);
+// chart.select(".chart-fifth").attr('d', arc5);
 
 }
 /////////
@@ -777,6 +817,14 @@ texts.append("text")
     .attr("font-size", 15)
     .style("fill", "#000000");
 
+texts.append("text")
+    .text('.')
+    .attr('id', 'scale30')
+    .attr('transform', "translate(" + ((width + margin.left) / 1.03 ) + ", " + ((height + margin.top) / 2) + ")")
+    .attr("font-size", 72)
+    .style("fill", "#ffffff");
+
+
 var Needle = (function() {
 
 //Helper function that returns the `d` value for moving the needle
@@ -798,18 +846,14 @@ var recalcPointerPos = function(perc) {
 function Needle(el) {
   this.el = el;
   this.len = width / 2.5;
-  this.radius = this.len / 8;
+  this.radius = this.len / 13;
+  this.radiuso = this.len / 18;
 }
 
 Needle.prototype.render = function() {
+  this.el.append('circle').attr('class', 'needle-pointer').attr('cx', 0).attr('cy', 0).attr('r', this.radiuso);
   this.el.append('circle').attr('class', 'needle-center').attr('cx', 0).attr('cy', 0).attr('r', this.radius);
-
-
-
-
   return this.el.append('path').attr('class', 'needle').attr('id', 'client-needle').attr('d', recalcPointerPos.call(this, 0));
-
-
 };
 
 Needle.prototype.moveTo = function(perc) {
@@ -842,6 +886,9 @@ Needle.prototype.moveTo = function(perc) {
 
       valueText.text(formatValue(progress))
         .attr('transform', "translate("+textX+","+textY+")")
+
+        // valueTexto.text('.')
+        //   .attr('transform', "translate("+textX+","+textY+")")
 
       return d3.select(this).attr('d', recalcPointerPos.call(self, progress));
     };
