@@ -44,5 +44,5 @@ $(document).ready(function(){
   });
 
   //inicializacion selects
-//  $('select').material_select();
+  $('select').material_select();
 });
