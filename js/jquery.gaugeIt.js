@@ -74,7 +74,7 @@ console.log(el[0][0].offsetWidth);
 
           // Create SVG element
           //svg = el.append('svg').attr('width', width + margin.left + margin.right).attr('height', height + margin.top + margin.bottom);
-          svg = el.append('svg').attr('width', width + margin.left + margin.right).attr('height', '220');
+          svg = el.append('svg').attr('width', width + margin.left + margin.right).attr('height', width/1.5);
 
           // Add layer for the panel
           chort = svg.append('defs').append('linearGradient').attr('id','grad1').attr('x1','0%').attr('y1','100%').attr('x2','100%').attr('y2','0%');
