@@ -44,6 +44,8 @@
             left: 30
           };
 
+console.log(el[0][0].offsetWidth);
+
           width = el[0][0].offsetWidth - margin.left - margin.right;
           widtho = el[0][0].offsetWidth - margin.left + 25 - margin.right + 25;
           height = width;
