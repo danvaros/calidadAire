@@ -5,6 +5,26 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
 
+  <link rel="import" href="bower_components/polymer/polymer.html">
+  <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+  <link rel="import" href="https://cdn.datos.gob.mx/bower_components/dgm-navbar/dgm-navbar.html">
+
+  <link rel="import" href="https://cdn.datos.gob.mx/bower_components/dgm-footer/dgm-footer.html">
+
+  <link rel='stylesheet' href='http://cdn.datos.gob.mx/qa/bower_components/dgm-style/main.css' />
+
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="import" href="https://cdn.datos.gob.mx/bower_components/dgm-navbar/dgm-navbar.html">
   <link rel="import" href="https://cdn.datos.gob.mx/bower_components/dgm-footer/dgm-footer.html">
@@ -115,121 +135,135 @@ filter: contrast(100%) brightness(70%);
 
 </head>
 <body class="front" cz-shortcut-listen="true" >
-  <nav style="background-color:#393c3e; color:#fff;">
-    <div class="nav-wrapper">
-      <a href="#!" class="brand-logo">gob.mx</a>
-      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">gob.mx</i></a>
-      <ul class="right hide-on-med-and-down">
-        <li><a href="sass.html">Tramites</a></li>
-        <li><a href="badges.html">Gobierno</a></li>
-        <li><a href="collapsible.html">Participa</a></li>
-        <li><a href="mobile.html">Datos</a></li>
-        <li>
-          <div class="nav-wrapper">
-             <form>
-               <div class="input-field">
-                 <input id="search" type="search" required>
-                 <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-                 <i class="material-icons">close</i>
-               </div>
-             </form>
-           </div>
-        </li>
-      </ul>
-      <ul class="side-nav" id="mobile-demo">
-        <li><a href="sass.html">Trámites</a></li>
-        <li><a href="badges.html">Gobierno</a></li>
-        <li><a href="collapsible.html">Participa</a></li>
-        <li><a href="mobile.html">Datos</a></li>
-      </ul>
-    </div>
-  </nav>
 
-  <div id="" class="cabezera" style="background-image: url('foto_fondo.png');background-size: cover; background-repeat: no-repeat;background-position:center top;">
-    <div class="section no-pad-bot">
-      <div class="container">
-        <div class="row center">
-          <div class="col s12 m12 l12 margen_arriba_g">
-            <h2 class="header center white-text text-lighten-2">Calidad de Aire MX</h2>
-          </div>
-          <div class="col s10 m10 l10  offset-s1 offset-m1 offset-l1">
-            <h5 class="header col s12 white-text text-lighten-2" style="   font-size: 32px;font-weight: 100;letter-spacing: 1px; line-height: inherit;">*Concentraciones de PM10 medidas en microgramos de partículas por metro cúbico de aire (µg/m3)</h5>
-          </div>
-        </div>
+  <dgm-navbar></dgm-navbar>
 
-        <div class="row center">
-          <div class="col s4 m4 l4  offset-s4 offset-m4 offset-l4">
+
+
+    <!-- <nav style="background-color:#393c3e; color:#fff;">
+      <div class="nav-wrapper">
+        <a href="#!" class="brand-logo">gob.mx</a>
+        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">gob.mx</i></a>
+        <ul class="right hide-on-med-and-down">
+          <li><a href="sass.html">Tramites</a></li>
+          <li><a href="badges.html">Gobierno</a></li>
+          <li><a href="collapsible.html">Participa</a></li>
+          <li><a href="mobile.html">Datos</a></li>
+          <li>
             <div class="nav-wrapper">
                <form>
                  <div class="input-field">
-                   <input id="search_central" type="search" required style="border-bottom: 1px solid #f1f5fb;">
-                   <label class="label-icon" for="search_central"><i class="material-icons" style="color: #ffff;">search</i></label>
+                   <input id="search" type="search" required>
+                   <label class="label-icon" for="search"><i class="material-icons">search</i></label>
                    <i class="material-icons">close</i>
                  </div>
                </form>
              </div>
-          </div>
-        </div>
-
-        <div class="row center">
-          <div class="col s12 margen_arriba_g">
-            <div class="base_botones">
-              <a href="#" id="btn_ciudades" class="boton boton_activo">Top 3 Ciudades</a>
-              <a href="#" id="btn_estados" class="boton boton_inactivo">32 Estados</a>
+          </li>
+        </ul>
+        <ul class="side-nav" id="mobile-demo">
+          <li><a href="sass.html">Trámites</a></li>
+          <li><a href="badges.html">Gobierno</a></li>
+          <li><a href="collapsible.html">Participa</a></li>
+          <li><a href="mobile.html">Datos</a></li>
+        </ul>
+      </div>
+    </nav> -->
+<main>
+    <div id="" class="cabezera" style="background-image: url('foto_fondo.png');background-size: cover; background-repeat: no-repeat;background-position:center top;">
+      <div class="section no-pad-bot">
+        <div class="container">
+          <div class="row center">
+            <div class="col s12 m12 l12 margen_arriba_g">
+              <h2 class="header center white-text text-lighten-2">Calidad de Aire MX</h2>
+            </div>
+            <div class="col s10 m10 l10  offset-s1 offset-m1 offset-l1">
+              <h5 class="header col s12 white-text text-lighten-2" style="   font-size: 32px;font-weight: 100;letter-spacing: 1px; line-height: inherit;">*Concentraciones de PM10 medidas en microgramos de partículas por metro cúbico de aire (µg/m3)</h5>
             </div>
           </div>
-        </div>
 
-        <div class="row center velocimetros">
-          <div class="col s12 m12 l4">
-            <div class="col s12 ">
-              <h5>Ciudad de México</h5>
+          <div class="row center">
+            <div class="col s4 m4 l4  offset-s4 offset-m4 offset-l4">
+              <div class="nav-wrapper">
+                 <form>
+                   <div class="input-field">
+                     <input id="search_central" type="search" required style="border-bottom: 1px solid #f1f5fb;">
+                     <label class="label-icon" for="search_central"><i class="material-icons" style="color: #ffff;">search</i></label>
+                     <i class="material-icons">close</i>
+                   </div>
+                 </form>
+               </div>
             </div>
-            <div class="col s12 cont_carrucel">
-              <div class="col s1 offset-s1">
-                <p class="customPrevBtn"> < </p>
+          </div>
+
+          <div class="row center">
+            <div class="col s12 margen_arriba_g">
+              <div class="base_botones">
+                <a href="#" id="btn_ciudades" class="boton boton_activo">Top 3 Ciudades</a>
+                <a href="#" id="btn_estados" class="boton boton_inactivo">32 Estados</a>
               </div>
-              <div class="col s8">
-                <div class="owl-carousel owl-theme">
-                  <div class="item"><p>PM10</p></div>
-                  <div class="item"><p>PM2.5</p></div>
-                  <div class="item"><p>S02</p></div>
-                  <div class="item"><p>DV</p></div>
+            </div>
+          </div>
+
+          <div class="row center velocimetros">
+            <div class="col s12 m12 l4">
+              <div class="col s12 ">
+                <h5>Ciudad de México</h5>
+              </div>
+              <div class="col s12 cont_carrucel">
+                <div class="col s1 offset-s1">
+                  <p class="customPrevBtn"> < </p>
+                </div>
+                <div class="col s8">
+                  <div class="owl-carousel owl-theme">
+                    <div class="item"><p>PM10</p></div>
+                    <div class="item"><p>PM2.5</p></div>
+                    <div class="item"><p>S02</p></div>
+                    <div class="item"><p>DV</p></div>
+                  </div>
+                </div>
+                <div class="col s1">
+                  <p class="customNextBtn"> > </p>
                 </div>
               </div>
-              <div class="col s1">
-                <p class="customNextBtn"> > </p>
+              <div class="col s12 center">
+                <div class="chart-gauge"></div>
+                <p>
+                 <span class="linecustom">10,8,9,3,5,8,5,7</span>
+                </p>
+                <a href="" class="boton_redondo">Ver más</a>
               </div>
             </div>
-            <div class="col s12 center">
-              <div class="chart-gauge"></div>
-              <p>
-               <span class="linecustom">10,8,9,3,5,8,5,7</span>
-              </p>
-              <a href="" class="boton_redondo">Ver más</a>
-            </div>
-          </div>
 
-          <div class="col s12 m12 l4">
-            <div class="col s12">
-              <h5>Puebla</h5>
-            </div>
-            <div class="col s12 cont_carrucel">
-              <div class="col s1 offset-s1">
-                <p class="customPrevBtn"> < </p>
+            <div class="col s12 m12 l4">
+              <div class="col s12">
+                <h5>Puebla</h5>
               </div>
-              <div class="col s8">
-                <div class="owl-carousel owl-theme">
-                  <div class="item"><p>PM10</p></div>
-                  <div class="item"><p>PM2.5</p></div>
-                  <div class="item"><p>S02</p></div>
-                  <div class="item"><p>DV</p></div>
+              <div class="col s12 cont_carrucel">
+                <div class="col s1 offset-s1">
+                  <p class="customPrevBtn"> < </p>
+                </div>
+                <div class="col s8">
+                  <div class="owl-carousel owl-theme">
+                    <div class="item"><p>PM10</p></div>
+                    <div class="item"><p>PM2.5</p></div>
+                    <div class="item"><p>S02</p></div>
+                    <div class="item"><p>DV</p></div>
+                  </div>
+                </div>
+                <div class="col s1">
+                  <p class="customNextBtn"> > </p>
                 </div>
               </div>
-              <div class="col s1">
-                <p class="customNextBtn"> > </p>
+              <div class="col s12">
+                <div class="chart-gauge"></div>
+                <p>
+                 <span class="linecustom">10,8,9,3,5,8,5,7</span>
+                </p>
+                <a href="" class="boton_redondo">Ver más</a>
               </div>
             </div>
+
             <div class="col s12">
               <div class="chart-gauge2"></div>
               <p>
@@ -246,18 +280,31 @@ filter: contrast(100%) brightness(70%);
               <div class="col s1 offset-s1">
                 <p class="customPrevBtn"> < </p>
               </div>
-              <div class="col s8">
-                <div class="owl-carousel owl-theme">
-                  <div class="item"><p>PM10</p></div>
-                  <div class="item"><p>PM2.5</p></div>
-                  <div class="item"><p>S02</p></div>
-                  <div class="item"><p>DV</p></div>
+              <div class="col s12 cont_carrucel">
+                <div class="col s1 offset-s1">
+                  <p class="customPrevBtn"> < </p>
+                </div>
+                <div class="col s8">
+                  <div class="owl-carousel owl-theme">
+                    <div class="item"><p>PM10</p></div>
+                    <div class="item"><p>PM2.5</p></div>
+                    <div class="item"><p>S02</p></div>
+                    <div class="item"><p>DV</p></div>
+                  </div>
+                </div>
+                <div class="col s1">
+                  <p class="customNextBtn"> > </p>
                 </div>
               </div>
-              <div class="col s1">
-                <p class="customNextBtn"> > </p>
+              <div class="col s12">
+                <div class="chart-gauge"></div>
+                <p>
+                 <span class="linecustom">10,8,9,3,5,8,5,7</span>
+                </p>
+                <a href="" class="boton_redondo">Ver más</a>
               </div>
             </div>
+
             <div class="col s12">
               <div class="chart-gauge3"></div>
               <p>
@@ -266,203 +313,200 @@ filter: contrast(100%) brightness(70%);
               <a href="" class="boton_redondo">Ver más</a>
             </div>
           </div>
+
         </div>
 
       </div>
+    </div>
 
-    </div>
-  </div>
-
-  <div class="row seccion_mapa">
-    <div class="col s12 botonera_mapa">
-      <div class="input-field col s6 m2 l2">
-        <select  name="estados" id="estados">
-          <option value="0" disabled selected>Entidad Federativa</option>
-          <option value="1">México</option>
-          <option value="2">Puebla</option>
-          <option value="3">Guadalajara</option>
-        </select>
-      </div>
-      <div class="input-field col s6 m2 l2">
-        <select  name="municipios" id="municipios">
-          <option value="0" disabled selected>Municipios</option>
-          <option value="0">Municipios 1</option>
-          <option value="0">Municipios 2</option>
-          <option value="0">Municipios 3</option>
-        </select>
-      </div>
-      <div class="input-field col s6 m2 l2">
-        <form action="#">
-          <p class="range-field">
-            <input type="range" id="test5" min="0" max="100" />
-          </p>
-        </form>
-      </div>
-    </div>
-    <div class="col s12">
-      <div id="mapid"></div>
-    </div>
-  </div>
-
-  <div class="row detalle">
-    <div class="row">
-      <div class="col s4">
-        <p class="titulo"><strong>Ciudad Fernández</strong></p>
-        <p class="subtitulo">Calidad de aire: Mala22</p>
-      </div>
-      <div class="col s3">
-        <div class="row">
-          <div class="col s6">
-            <img src="imagenes/fecha.png">
-          </div>
-          <div class="col s6">
-            <p><b>Fecha</b></p>
-            <p>24/05/17</p>
-          </div>
+    <div class="row seccion_mapa">
+      <div class="col s12 botonera_mapa">
+        <div class="input-field col s6 m2 l2">
+          <select  name="estados" id="estados">
+            <option value="0" disabled selected>Entidad Federativa</option>
+            <option value="1">México</option>
+            <option value="2">Puebla</option>
+            <option value="3">Guadalajara</option>
+          </select>
         </div>
-        <div class="row">
-          <div class="col s6">
-            <img src="imagenes/temperatura.png">
-          </div>
-          <div class="col s6">
-            <p><b>Temperatura</b></p>
-            <p>20º C</p>
-          </div>
+        <div class="input-field col s6 m2 l2">
+          <select  name="municipios" id="municipios">
+            <option value="0" disabled selected>Municipios</option>
+            <option value="0">Municipios 1</option>
+            <option value="0">Municipios 2</option>
+            <option value="0">Municipios 3</option>
+          </select>
         </div>
-        <div class="row">
-          <div class="col s6">
-            <img src="imagenes/contaminante.png">
-          </div>
-          <div class="col s6">
-            <p><b>Contaminante:</b></p>
-            <p>PM10, 104</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col s6">
-            <img src="imagenes/estacion.png">
-          </div>
-          <div class="col s6">
-            <p><b>Estación:</b></p>
-            <p>XAL-Xalostoc</p>
-          </div>
+        <div class="input-field col s6 m2 l2">
+          <form action="#">
+            <p class="range-field">
+              <input type="range" id="test5" min="0" max="100" />
+            </p>
+          </form>
         </div>
       </div>
-      <div class="col s4">
-        <img class="responsive-img" src="imagenes/mapa.png">
-      </div>
-    </div>
-    <div class="row">
-      <div class="col s12 ">
-        <p class="subtitulo_chico">Parámetros de la red</p>
-      </div>
-      <div class="col s5ths">
-        <p class="etiqueta">CO</p>
-        <p class="contenido">2652.07</p>
-      </div>
-      <div class="col s5ths">
-        <p class="etiqueta">NO</p>
-        <p class="contenido">456.07</p>
-      </div>
-      <div class="col s5ths">
-        <p class="etiqueta">N02</p>
-        <p class="contenido">2652.07</p>
-      </div>
-      <div class="col s5ths">
-        <p class="etiqueta">NOx</p>
-        <p class="contenido">456.07</p>
-      </div>
-      <div class="col s5ths">
-        <p class="etiqueta">O3</p>
-        <p class="contenido">2652.07</p>
-      </div>
-      <div class="col s5ths">
-        <p class="etiqueta">VV</p>
-        <p class="contenido">456.07</p>
-      </div>
-      <div class="col s5ths">
-        <p class="etiqueta">VV</p>
-        <p class="contenido">456.07</p>
-      </div>
-      <div class="col s5ths">
-        <p class="etiqueta">PM10</p>
-        <p class="contenido">2652.07</p>
-      </div>
-      <div class="col s5ths">
-        <p class="etiqueta">PM2.5</p>
-        <p class="contenido">456.07</p>
-      </div>
-      <div class="col s5ths">
-        <p class="etiqueta">S02</p>
-        <p class="contenido">2652.07</p>
-      </div>
-      <div class="col s5ths">
-        <p class="etiqueta">DV</p>
-        <p class="contenido">456.07</p>
-      </div>
-      <div class="col s5ths">
-        <p class="etiqueta">HR</p>
-        <p class="contenido">456.07</p>
-      </div>
-      <div class="col s5ths">
-        <p class="etiqueta">PB</p>
-        <p class="contenido">2652.07</p>
-      </div>
-      <div class="col s5ths">
-        <p class="etiqueta">PP</p>
-        <p class="contenido">456.07</p>
-      </div>
-      <div class="col s5ths">
-        <p class="etiqueta">RS</p>
-        <p class="contenido">2652.07</p>
-      </div>
-    </div>
-    <div class="row">
       <div class="col s12">
-        <canvas id="myChart"></canvas>
+        <div id="mapid"></div>
       </div>
     </div>
-  </div>
 
-
-
-
-
-
-
-  <footer class="page-footer black">
-    <div class="container">
+    <div class="row detalle">
       <div class="row">
-        <div class="col l6 s12">
-          <h5 class="white-text">datos.gob.mx</h5>
+        <div class="col s4">
+          <p class="titulo"><strong>Ciudad Fernández</strong></p>
+          <p class="subtitulo">Calidad de aire: Mala22</p>
         </div>
-        <div class="col l3 s12">
+        <div class="col s3">
+          <div class="row">
+            <div class="col s6">
+              <img src="imagenes/fecha.png">
+            </div>
+            <div class="col s6">
+              <p><b>Fecha</b></p>
+              <p>24/05/17</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s6">
+              <img src="imagenes/temperatura.png">
+            </div>
+            <div class="col s6">
+              <p><b>Temperatura</b></p>
+              <p>20º C</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s6">
+              <img src="imagenes/contaminante.png">
+            </div>
+            <div class="col s6">
+              <p><b>Contaminante:</b></p>
+              <p>PM10, 104</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s6">
+              <img src="imagenes/estacion.png">
+            </div>
+            <div class="col s6">
+              <p><b>Estación:</b></p>
+              <p>XAL-Xalostoc</p>
+            </div>
+          </div>
+        </div>
+        <div class="col s4">
+          <img class="responsive-img" src="imagenes/mapa.png">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 ">
+          <p class="subtitulo_chico">Parámetros de la red</p>
+        </div>
+        <div class="col s5ths">
+          <p class="etiqueta">CO</p>
+          <p class="contenido">2652.07</p>
+        </div>
+        <div class="col s5ths">
+          <p class="etiqueta">NO</p>
+          <p class="contenido">456.07</p>
+        </div>
+        <div class="col s5ths">
+          <p class="etiqueta">N02</p>
+          <p class="contenido">2652.07</p>
+        </div>
+        <div class="col s5ths">
+          <p class="etiqueta">NOx</p>
+          <p class="contenido">456.07</p>
+        </div>
+        <div class="col s5ths">
+          <p class="etiqueta">O3</p>
+          <p class="contenido">2652.07</p>
+        </div>
+        <div class="col s5ths">
+          <p class="etiqueta">VV</p>
+          <p class="contenido">456.07</p>
+        </div>
+        <div class="col s5ths">
+          <p class="etiqueta">VV</p>
+          <p class="contenido">456.07</p>
+        </div>
+        <div class="col s5ths">
+          <p class="etiqueta">PM10</p>
+          <p class="contenido">2652.07</p>
+        </div>
+        <div class="col s5ths">
+          <p class="etiqueta">PM2.5</p>
+          <p class="contenido">456.07</p>
+        </div>
+        <div class="col s5ths">
+          <p class="etiqueta">S02</p>
+          <p class="contenido">2652.07</p>
+        </div>
+        <div class="col s5ths">
+          <p class="etiqueta">DV</p>
+          <p class="contenido">456.07</p>
+        </div>
+        <div class="col s5ths">
+          <p class="etiqueta">HR</p>
+          <p class="contenido">456.07</p>
+        </div>
+        <div class="col s5ths">
+          <p class="etiqueta">PB</p>
+          <p class="contenido">2652.07</p>
+        </div>
+        <div class="col s5ths">
+          <p class="etiqueta">PP</p>
+          <p class="contenido">456.07</p>
+        </div>
+        <div class="col s5ths">
+          <p class="etiqueta">RS</p>
+          <p class="contenido">2652.07</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <canvas id="myChart"></canvas>
+        </div>
+      </div>
+    </div>
 
-        </div>
-        <div class="col l3 s12">
-          <ul>
-            <li><a class="white-text" href="#!">Datos</a></li>
-            <li><a class="white-text" href="#!">Herramientas</a></li>
-            <li><a class="white-text" href="#!">Blog</a></li>
-            <li><a class="white-text" href="#!">Guía</a></li>
-            <li><a class="white-text" href="#!">Consejo Consultivo</a></li>
-            <li><a class="white-text" href="#!">Adela</a></li>
-            <li><a class="white-text" href="#!">Acerca</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="footer-copyright">
+    <!-- <footer class="page-footer black">
       <div class="container">
-      LIBRE USO MX
+        <div class="row">
+          <div class="col l6 s12">
+            <h5 class="white-text">datos.gob.mx</h5>
+          </div>
+          <div class="col l3 s12">
+
+          </div>
+          <div class="col l3 s12">
+            <ul>
+              <li><a class="white-text" href="#!">Datos</a></li>
+              <li><a class="white-text" href="#!">Herramientas</a></li>
+              <li><a class="white-text" href="#!">Blog</a></li>
+              <li><a class="white-text" href="#!">Guía</a></li>
+              <li><a class="white-text" href="#!">Consejo Consultivo</a></li>
+              <li><a class="white-text" href="#!">Adela</a></li>
+              <li><a class="white-text" href="#!">Acerca</a></li>
+            </ul>
+          </div>
+        </div>
       </div>
-    </div>
-  </footer>
+      <div class="footer-copyright">
+        <div class="container">
+        LIBRE USO MX
+        </div>
+      </div>
+    </footer> -->
+</main>
+  <dgm-footer></dgm-footer>
+
+
   <!-- <p>
   Sparkline with dynamic data: <span class="dynamicsparkline">Loading..</span>
   </p> -->
   <!--  Scripts-->
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
   <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
@@ -610,8 +654,6 @@ canvas{
           crossDomain: true,
           async:false
         });
-
-
 // +++++++++++++++++++++++++++++++++ mapa ++++++++++++++++++++++++++++
   var mymap = L.map('mapid').setView([19.432608, -99.133209], 5);
 
