@@ -559,17 +559,23 @@ canvas{
         var temporale = [];
         var avg = 0;
         var totalt = 0;
+        var d = new Date();
+        var anio = d.getFullYear();
+        var mes = d.getMonth();
+        var dia = d.getDate();
 
         $.ajax({
           type: 'GET',
-          url: "https://api.datos.gob.mx/v1/sinaica?city=Pachuca&fecha=2017-06-29",
+          url: "https://api.datos.gob.mx/v1/sinaica?fecha="+anio+"-"+(mes+1)+"-"+dia+"&pageSize=2000&parametro=PM10",
           data: {},
           success: function( data, textStatus, jqxhr ) {
 
             console.log('DATA');
-            console.log(data.results);
+            console.log(data);
 
-            //for (var i = 0; i < data.results.length; i++) {
+            for (var i = 0; i < data.results.length; i++) {
+
+            }
 
               //estaciones.push(data.results.stations[i].id);
               if(data.results[0]._id != "cve"){
