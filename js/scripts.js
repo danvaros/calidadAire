@@ -161,11 +161,6 @@ Array.prototype.unique=function(a){
     });
   }
 
-  function ciudadesEstado(estado, ciudad){
-
-  }
-
-
   function estaciones(ciudad){
     var datedate = anio+"-"+mes+"-"+dia;
     console.log(datedate);
@@ -223,5 +218,5 @@ Array.prototype.unique=function(a){
   }
 
   function historico(ciudad, fecha){
-
+    // Debe mostrar el historial del día por contaminante en cada ciudad
   }

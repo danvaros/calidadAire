@@ -201,6 +201,7 @@ filter: contrast(100%) brightness(70%);
               <div class="base_botones">
                 <a href="#" id="btn_ciudades" class="boton boton_activo">Top 3 Ciudades</a>
                 <a href="#" id="btn_estados" class="boton boton_inactivo">32 Estados</a>
+                <a href="#" id="mi_boton" class="boton boton_inactivo">32 Estados</a>
               </div>
             </div>
           </div>
@@ -688,6 +689,10 @@ $(document).ready(function(){
 
 
 });
+
+function gua(){
+    gaugeIt({selector:'.chart-gauge3',value:70});
+}
 </script>
   </body>
 </html>
