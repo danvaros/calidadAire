@@ -212,7 +212,7 @@ filter: contrast(100%) brightness(70%);
               </div>
               <div class="col s12 cont_carrucel">
                 <div class="col s1 offset-s1">
-                  <p class="customPrevBtn"> < </p>
+                  <p class="customPrevBtn"> ◄ </p>
                 </div>
                 <div class="col s8">
                   <div class="owl-carousel owl-theme">
@@ -223,7 +223,7 @@ filter: contrast(100%) brightness(70%);
                   </div>
                 </div>
                 <div class="col s1">
-                  <p class="customNextBtn"> > </p>
+                  <p class="customNextBtn"> ► </p>
                 </div>
               </div>
               <div class="col s12 center">
@@ -241,7 +241,7 @@ filter: contrast(100%) brightness(70%);
               </div>
               <div class="col s12 cont_carrucel">
                 <div class="col s1 offset-s1">
-                  <p class="customPrevBtn"> < </p>
+                  <p class="customPrevBtn"> ◄ </p>
                 </div>
                 <div class="col s8">
                   <div class="owl-carousel owl-theme">
@@ -252,11 +252,11 @@ filter: contrast(100%) brightness(70%);
                   </div>
                 </div>
                 <div class="col s1">
-                  <p class="customNextBtn"> > </p>
+                  <p class="customNextBtn"> ► </p>
                 </div>
               </div>
               <div class="col s12">
-                <div class="chart-gauge"></div>
+                <div class="chart-gauge2"></div>
                 <p>
                  <span class="linecustom">10,8,9,3,5,8,5,7</span>
                 </p>
@@ -264,25 +264,13 @@ filter: contrast(100%) brightness(70%);
               </div>
             </div>
 
-            <div class="col s12">
-              <div class="chart-gauge2"></div>
-              <p>
-               <span class="linecustom">10,8,9,3,5,8,5,7</span>
-              </p>
-              <a href="" class="boton_redondo">Ver más</a>
-            </div>
-          </div>
           <div class="col s12 m12 l4">
             <div class="col s12">
               <h5>Guadalajara</h5>
             </div>
-            <div class="col s12 cont_carrucel">
-              <div class="col s1 offset-s1">
-                <p class="customPrevBtn"> < </p>
-              </div>
               <div class="col s12 cont_carrucel">
                 <div class="col s1 offset-s1">
-                  <p class="customPrevBtn"> < </p>
+                  <p class="customPrevBtn"> ◄ </p>
                 </div>
                 <div class="col s8">
                   <div class="owl-carousel owl-theme">
@@ -293,11 +281,11 @@ filter: contrast(100%) brightness(70%);
                   </div>
                 </div>
                 <div class="col s1">
-                  <p class="customNextBtn"> > </p>
+                  <p class="customNextBtn"> ► </p>
                 </div>
               </div>
               <div class="col s12">
-                <div class="chart-gauge"></div>
+                <div class="chart-gauge3"></div>
                 <p>
                  <span class="linecustom">10,8,9,3,5,8,5,7</span>
                 </p>
@@ -305,17 +293,8 @@ filter: contrast(100%) brightness(70%);
               </div>
             </div>
 
-            <div class="col s12">
-              <div class="chart-gauge3"></div>
-              <p>
-               <span class="linecustom">10,8,9,3,5,8,5,7</span>
-              </p>
-              <a href="" class="boton_redondo">Ver más</a>
-            </div>
-          </div>
-
         </div>
-
+      </div>
       </div>
     </div>
 
@@ -520,7 +499,7 @@ filter: contrast(100%) brightness(70%);
 	<script src="libs/chartjs/utils.js"></script>
 
   <!-- local-->
-  <script src="js/scripts.js" charset="utf-8"></script>
+  <script src="js/scripts.js" type="text/javascript" charset="utf-8"></script>
 <style media="screen">
 
 canvas{
@@ -603,20 +582,36 @@ canvas{
         var temporale = [];
         var avg = 0;
         var totalt = 0;
+        var d = new Date();
+        var anio = d.getFullYear();
+        var meis = ["01","02","03","04","05","06","07","08","09","10","11","12"];
+        var mes = meis[d.getMonth()];
+        var deis = ["00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"];
+        var dia = deis[d.getDate()];
+
+          contaminantes('Guadalajara');
+
+          estados();
+
+          ciudadesTodas('Guanajuato');
+
+          estaciones('Salamanca');
 
         $.ajax({
           type: 'GET',
-          url: "https://api.datos.gob.mx/v1/sinaica?city=Pachuca&fecha=2017-06-29",
+          url: "https://api.datos.gob.mx/v1/sinaica?fecha="+anio+"-"+mes+"-"+dia+"&pageSize=2000&parametro=PM10",
           data: {},
           success: function( data, textStatus, jqxhr ) {
 
-            console.log('DATA');
-            console.log(data.results);
+            //console.log('DATA');
+            //console.log(data);
 
-            //for (var i = 0; i < data.results.length; i++) {
+            // for (var i = 0; i < data.results.length; i++) {
+            //
+            // }
 
               //estaciones.push(data.results.stations[i].id);
-              if(data.results[0]._id != "cve"){
+              if(data.results[0] != "cve"){
                 var contaminante = data.results[0].parametro;
 
                   if (contaminante == 'PM10'){
@@ -640,6 +635,8 @@ canvas{
             console.log(avg);
 
             $('.contador').html(avg.toFixed(2));
+
+            contaminantes('Salamanca');
 
           },
           xhrFields: {
