@@ -200,7 +200,6 @@ filter: contrast(100%) brightness(70%);
               <div class="base_botones">
                 <a href="#" id="btn_ciudades" class="boton boton_activo">Top 3 Ciudades</a>
                 <a href="#" id="btn_estados" class="boton boton_inactivo">32 Estados</a>
-                <a href="#" id="boton" class="boton boton_inactivo">repintar</a>
                 <select class="" name="" id="contaminantes">
                   <option value="PM10">PM 10</option>
                   <option value="PM2.5">PM 2.5</option>
@@ -686,14 +685,9 @@ canvas{
 <script type="text/javascript">
 $(document).ready(function(){
 
-  $('.chart-gauge').gaugeIt({selector:'.chart-gauge'});
-  $('.chart-gauge2').gaugeIt({selector:'.chart-gauge2',value:32});
-  $('.chart-gauge3').gaugeIt({selector:'.chart-gauge3',value:15});
-
-  $('#boton').click(function(){
-    $('.chart-gauge3').html('');
-    $('.chart-gauge3').gaugeIt({selector:'.chart-gauge3',value:973.12});
-  });
+  // $('.chart-gauge').gaugeIt({selector:'.chart-gauge'});
+  // $('.chart-gauge2').gaugeIt({selector:'.chart-gauge2',value:32});
+  // $('.chart-gauge3').gaugeIt({selector:'.chart-gauge3',value:15});
 
   $('#contaminantes').change(function(){
     var contaminante = $( this ).val();
