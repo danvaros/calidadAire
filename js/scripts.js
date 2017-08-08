@@ -46,6 +46,10 @@ $(document).ready(function(){
   //inicializacion selects
   $('select').material_select();
 
+
+
+  //pruebas con api
+  //getTop3ciudades('PM10');
 });
 
 //funcion para quitar repetidos
@@ -105,7 +109,6 @@ Array.prototype.unique=function(a){
     });
   }
 
-
   function estados(){
     var datedate = anio+"-"+mes+"-"+dia;
     console.log(datedate);
@@ -161,10 +164,7 @@ Array.prototype.unique=function(a){
     });
   }
 
-  function ciudadesEstado(estado, ciudad){
-
-  }
-
+  function ciudadesEstado(estado, ciudad){}
 
   function estaciones(ciudad){
     var datedate = anio+"-"+mes+"-"+dia;
@@ -222,6 +222,89 @@ Array.prototype.unique=function(a){
     });
   }
 
-  function historico(ciudad, fecha){
+  function historico(ciudad, fecha){}
 
+  function getTop3ciudades(contaminante){
+    var datedate = anio+"-"+mes+"-"+dia;
+    console.log(datedate);
+    $.ajax({
+      type: 'GET',
+      url: "https://api.datos.gob.mx/v1/sinaica?fecha="+datedate+"&pageSize=12000&parametro="+contaminante,
+      data: {},
+      success: function( data, textStatus, jqxhr ) {
+        console.log(data);
+        var top1=top2=top3=0;
+        var ciudades = [];
+
+
+        console.log(ciudades);
+
+        for (var i = 0; i < 30; i++)
+        {
+          var objeto = data.results[i];
+          var bandera =  false;
+
+          if(ciudades.length != 0)
+          {
+            for (var j = 0; j < ciudades.length; j++)
+            {
+              if(ciudades[j].ciudad == objeto.city )
+              {
+                bandera = true;
+                if(ciudades[j].valor < objeto.valororig){
+                  ciudades[j].valor = objeto.valororig;
+                  ciudades[j].ciudad = objeto.city;
+                }
+              }
+            }
+
+            if(!bandera)
+            {
+              ciudades.push({"ciudad":objeto.city,"valor":objeto.valororig})
+            }
+          }
+          else
+          {
+            ciudades.push({"ciudad":objeto.city,"valor":objeto.valororig})
+          }
+        }
+
+        //ordenamos el arrglo para tomar los valores mas altos
+        ciudades.sort(function (a, b) {
+          if (a.valor < b.valor) {
+            return 1;
+          }
+          if (a.valor > b.valor) {
+            return -1;
+          }
+          // a must be equal to b
+          return 0;
+        });
+
+        console.log('ordenado');
+        console.log(ciudades);
+        var valor = ciudades[0].valor;
+        var valor2 = ciudades[1].valor;
+        var valor3 = ciudades[2].valor;
+        console.log(valor);
+        console.log(valor2);
+        console.log(valor3);
+        $('.chart-gauge').html('');
+        $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:valor});
+        $('.chart-gauge2').html('');
+        $('.chart-gauge2').gaugeIt({selector:'.chart-gauge2',value:valor2});
+        $('.chart-gauge3').html('');
+        $('.chart-gauge3').gaugeIt({selector:'.chart-gauge3',value:valor3});
+
+        $('#label1').html(ciudades[0].ciudad);
+        $('#label2').html(ciudades[1].ciudad);
+        $('#label3').html(ciudades[2].ciudad);
+        
+      },
+      xhrFields: {
+        withCredentials: false
+      },
+      crossDomain: true,
+      async:false
+    });
   }
