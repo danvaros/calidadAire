@@ -49,7 +49,12 @@ $(document).ready(function(){
 
 
   //pruebas con api
-  //getTop3ciudades('PM10');
+  getTop3ciudades('PM10');
+
+  //adecuaciones de menu
+  $('.navbar').css('height','30px');
+  $('.navbar-default').css('background','#000');
+
 });
 
 //funcion para quitar repetidos
@@ -299,7 +304,7 @@ Array.prototype.unique=function(a){
         $('#label1').html(ciudades[0].ciudad);
         $('#label2').html(ciudades[1].ciudad);
         $('#label3').html(ciudades[2].ciudad);
-        
+
       },
       xhrFields: {
         withCredentials: false
