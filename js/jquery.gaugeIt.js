@@ -44,7 +44,7 @@
             left: 30
           };
 
-console.log(el[0][0].offsetWidth);
+          console.log(el[0][0].offsetWidth);
 
           width = el[0][0].offsetWidth - margin.left - margin.right;
           widtho = el[0][0].offsetWidth - margin.left + 25 - margin.right + 25;
@@ -278,19 +278,15 @@ console.log(el[0][0].offsetWidth);
 
             valueText.text(formatValue(progress))
               .attr('transform', "translate("+textX+","+textY+")")
-
               // valueTexto.text('.')
               //   .attr('transform', "translate("+textX+","+textY+")")
-
             return d3.select(this).attr('d', recalcPointerPos.call(self, progress));
           };
         });
 
       };
 
-
       return Needle;
-
       })();
 
       needle = new Needle(chart);

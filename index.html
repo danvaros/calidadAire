@@ -195,12 +195,18 @@ filter: contrast(100%) brightness(70%);
                </div>
             </div>
           </div>
-
           <div class="row center">
             <div class="col s12 margen_arriba_g">
               <div class="base_botones">
                 <a href="#" id="btn_ciudades" class="boton boton_activo">Top 3 Ciudades</a>
                 <a href="#" id="btn_estados" class="boton boton_inactivo">32 Estados</a>
+                <a href="#" id="boton" class="boton boton_inactivo">repintar</a>
+                <select class="" name="" id="contaminantes">
+                  <option value="PM10">PM 10</option>
+                  <option value="PM2.5">PM 2.5</option>
+                  <option value="SO2">SO2</option>
+                  <option value="NO2">NO2</option>
+                </select>
               </div>
             </div>
           </div>
@@ -208,7 +214,7 @@ filter: contrast(100%) brightness(70%);
           <div class="row center velocimetros">
             <div class="col s12 m12 l4">
               <div class="col s12 ">
-                <h5>Ciudad de México</h5>
+                <h5 id="label1">Ciudad de México</h5>
               </div>
               <div class="col s12 cont_carrucel">
                 <div class="col s1 offset-s1">
@@ -237,7 +243,7 @@ filter: contrast(100%) brightness(70%);
 
             <div class="col s12 m12 l4">
               <div class="col s12">
-                <h5>Puebla</h5>
+                <h5 id="label2">Puebla</h5>
               </div>
               <div class="col s12 cont_carrucel">
                 <div class="col s1 offset-s1">
@@ -266,7 +272,7 @@ filter: contrast(100%) brightness(70%);
 
           <div class="col s12 m12 l4">
             <div class="col s12">
-              <h5>Guadalajara</h5>
+              <h5 id="label3">Guadalajara</h5>
             </div>
               <div class="col s12 cont_carrucel">
                 <div class="col s1 offset-s1">
@@ -675,8 +681,6 @@ canvas{
 
 // +++++++++++++++++++++++++++++++++ fin mapa +++++++++++++++++++++++++
 
-
-
   </script>
 <script src="js/jquery.gaugeIt.js" charset="utf-8"></script>
 <script type="text/javascript">
@@ -686,6 +690,15 @@ $(document).ready(function(){
   $('.chart-gauge2').gaugeIt({selector:'.chart-gauge2',value:32});
   $('.chart-gauge3').gaugeIt({selector:'.chart-gauge3',value:15});
 
+  $('#boton').click(function(){
+    $('.chart-gauge3').html('');
+    $('.chart-gauge3').gaugeIt({selector:'.chart-gauge3',value:973.12});
+  });
+
+  $('#contaminantes').change(function(){
+    var contaminante = $( this ).val();
+    getTop3ciudades(contaminante);
+  });
 
 });
 </script>
