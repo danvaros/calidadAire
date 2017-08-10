@@ -306,125 +306,140 @@
       </div>
     </div>
 
-    <div class="row detalle">
-      <div class="row">
-        <div class="col s4">
-          <p class="titulo"><strong id="titulo_detalle">Ciudad Fernández</strong></p>
-          <p class="subtitulo">Calidad de aire: Mala22</p>
-        </div>
-        <div class="col s3">
+    <!-- Modal Structure -->
+    <div id="modal1" class="modal">
+      <div class="modal-content">
+        <!-- esto sera el modal -->
+        <div class="row detalle">
           <div class="row">
-            <div class="col s6">
-              <img src="imagenes/fecha.png">
+            <div class="col s12 m6 l5">
+              <p class="titulo"><strong id="titulo_detalle">Ciudad Fernández</strong></p>
+              <p class="subtitulo">Calidad de aire: Mala22</p>
             </div>
-            <div class="col s6">
-              <p><b >Fecha</b></p>
-              <p id="fecha_detalle">24/05/17</p>
+            <div class="col s12 m6 l3">
+              <div class="row">
+                <div class="col s6">
+                  <img src="imagenes/fecha.png">
+                </div>
+                <div class="col s6">
+                  <p><b >Fecha</b></p>
+                  <p id="fecha_detalle">24/05/17</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col s6">
+                  <img src="imagenes/temperatura.png">
+                </div>
+                <div class="col s6">
+                  <p><b>Temperatura</b></p>
+                  <p>20º C</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col s6">
+                  <img src="imagenes/contaminante.png">
+                </div>
+                <div class="col s6">
+                  <p><b >Contaminante:</b></p>
+                  <p id="contaminante_detalle">PM10, 104</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col s6">
+                  <img src="imagenes/estacion.png">
+                </div>
+                <div class="col s6">
+                  <p><b>Estación:</b></p>
+                  <p id="estacion_detalle">XAL-Xalostoc</p>
+                </div>
+              </div>
+            </div>
+            <div class="col s12 m12 l4">
+              <div id="map_detalle"></div>
             </div>
           </div>
           <div class="row">
-            <div class="col s6">
-              <img src="imagenes/temperatura.png">
+            <div class="col s12 ">
+              <p class="subtitulo_chico">Parámetros de la red</p>
             </div>
-            <div class="col s6">
-              <p><b>Temperatura</b></p>
-              <p>20º C</p>
+            <div class="col s5ths">
+              <p class="etiqueta">CO</p>
+              <p class="contenido">2652.07</p>
+            </div>
+            <div class="col s5ths">
+              <p class="etiqueta">NO</p>
+              <p class="contenido">456.07</p>
+            </div>
+            <div class="col s5ths">
+              <p class="etiqueta">N02</p>
+              <p class="contenido">2652.07</p>
+            </div>
+            <div class="col s5ths">
+              <p class="etiqueta">NOx</p>
+              <p class="contenido">456.07</p>
+            </div>
+            <div class="col s5ths">
+              <p class="etiqueta">O3</p>
+              <p class="contenido">2652.07</p>
+            </div>
+            <div class="col s5ths">
+              <p class="etiqueta">VV</p>
+              <p class="contenido">456.07</p>
+            </div>
+            <div class="col s5ths">
+              <p class="etiqueta">VV</p>
+              <p class="contenido">456.07</p>
+            </div>
+            <div class="col s5ths">
+              <p class="etiqueta">PM10</p>
+              <p class="contenido">2652.07</p>
+            </div>
+            <div class="col s5ths">
+              <p class="etiqueta">PM2.5</p>
+              <p class="contenido">456.07</p>
+            </div>
+            <div class="col s5ths">
+              <p class="etiqueta">S02</p>
+              <p class="contenido">2652.07</p>
+            </div>
+            <div class="col s5ths">
+              <p class="etiqueta">DV</p>
+              <p class="contenido">456.07</p>
+            </div>
+            <div class="col s5ths">
+              <p class="etiqueta">HR</p>
+              <p class="contenido">456.07</p>
+            </div>
+            <div class="col s5ths">
+              <p class="etiqueta">PB</p>
+              <p class="contenido">2652.07</p>
+            </div>
+            <div class="col s5ths">
+              <p class="etiqueta">PP</p>
+              <p class="contenido">456.07</p>
+            </div>
+            <div class="col s5ths">
+              <p class="etiqueta">RS</p>
+              <p class="contenido">2652.07</p>
             </div>
           </div>
+
           <div class="row">
-            <div class="col s6">
-              <img src="imagenes/contaminante.png">
+            <div class="col s12 right-align botonera">
+              <a href="#" class="parametro">boton 1</a>
+              <a href="#" class="parametro">boton 1</a>
+              <a href="#" class="parametro">boton 1</a>
+              <a href="#" class="parametro active">boton 1</a>
             </div>
-            <div class="col s6">
-              <p><b >Contaminante:</b></p>
-              <p id="contaminante_detalle">PM10, 104</p>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col s6">
-              <img src="imagenes/estacion.png">
-            </div>
-            <div class="col s6">
-              <p><b>Estación:</b></p>
-              <p id="estacion_detalle">XAL-Xalostoc</p>
+            <div class="col s12">
+              <canvas id="myChart"></canvas>
             </div>
           </div>
-        </div>
-        <div class="col s4">
-          <div id="map_detalle"></div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col s12 ">
-          <p class="subtitulo_chico">Parámetros de la red</p>
-        </div>
-        <div class="col s5ths">
-          <p class="etiqueta">CO</p>
-          <p class="contenido">2652.07</p>
-        </div>
-        <div class="col s5ths">
-          <p class="etiqueta">NO</p>
-          <p class="contenido">456.07</p>
-        </div>
-        <div class="col s5ths">
-          <p class="etiqueta">N02</p>
-          <p class="contenido">2652.07</p>
-        </div>
-        <div class="col s5ths">
-          <p class="etiqueta">NOx</p>
-          <p class="contenido">456.07</p>
-        </div>
-        <div class="col s5ths">
-          <p class="etiqueta">O3</p>
-          <p class="contenido">2652.07</p>
-        </div>
-        <div class="col s5ths">
-          <p class="etiqueta">VV</p>
-          <p class="contenido">456.07</p>
-        </div>
-        <div class="col s5ths">
-          <p class="etiqueta">VV</p>
-          <p class="contenido">456.07</p>
-        </div>
-        <div class="col s5ths">
-          <p class="etiqueta">PM10</p>
-          <p class="contenido">2652.07</p>
-        </div>
-        <div class="col s5ths">
-          <p class="etiqueta">PM2.5</p>
-          <p class="contenido">456.07</p>
-        </div>
-        <div class="col s5ths">
-          <p class="etiqueta">S02</p>
-          <p class="contenido">2652.07</p>
-        </div>
-        <div class="col s5ths">
-          <p class="etiqueta">DV</p>
-          <p class="contenido">456.07</p>
-        </div>
-        <div class="col s5ths">
-          <p class="etiqueta">HR</p>
-          <p class="contenido">456.07</p>
-        </div>
-        <div class="col s5ths">
-          <p class="etiqueta">PB</p>
-          <p class="contenido">2652.07</p>
-        </div>
-        <div class="col s5ths">
-          <p class="etiqueta">PP</p>
-          <p class="contenido">456.07</p>
-        </div>
-        <div class="col s5ths">
-          <p class="etiqueta">RS</p>
-          <p class="contenido">2652.07</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col s12">
-          <canvas id="myChart"></canvas>
         </div>
       </div>
     </div>
+
+
   </main>
   <dgm-footer></dgm-footer>
 
@@ -478,6 +493,7 @@ canvas{
 }
 </style>
 <script>
+var chart;
 $(function() {
   /** This code runs when everything has been loaded on the page */
   /* Inline sparklines take their values from the contents of the tag */
@@ -497,7 +513,7 @@ $(function() {
 
   var ctx = document.getElementById('myChart').getContext('2d');
   var color = Chart.helpers.color;
-  var chart = new Chart(ctx, {
+  chart = new Chart(ctx, {
     // The type of chart we want to create
     type: 'line',
 

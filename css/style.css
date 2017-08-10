@@ -146,3 +146,26 @@ footer.page-footer {
 .select-wrapper input.select-dropdown {
     border: 1px solid #fff !important;
 }
+
+
+.botonera{
+  margin-top: 50px;
+  margin-bottom: 10px;
+}
+
+.botonera a{
+  margin: 0px;
+  margin-left: -5px;
+  border: 1px solid #ccc;
+  padding: 10px 20px;
+}
+
+.botonera a.active{
+  background-color:#333;
+  color:#ccc;
+}
+
+.botonera a:hover{
+  background-color:#555;
+  color:#bbb;
+}
