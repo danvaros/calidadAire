@@ -73,12 +73,130 @@ $(document).ready(function(){
     event.preventDefault();
     crear_detalle_top(1);
   });
-});
 
-//funcion para quitar repetidos
-Array.prototype.unique=function(a){
-  return function(){return this.filter(a)}}(function(a,b,c){return c.indexOf(a,b+1)<0
-});
+  $('.modal').modal();
+
+  $('.parametro').click(function(){
+    event.preventDefault();
+    $('.parametro').each(function(index){
+      $( this ).removeClass('active');
+    });
+
+    $( this ).addClass('active');
+
+    var tam = $( this ).text();
+    if(tam != valores.length){
+      var valores_reducido = [];
+      var etiquetas_reducido = [];
+      for (var i = 0; i < tam; i++) {
+        valores_reducido[i] =  valores[i];
+        etiquetas_reducido[i] =  etiquetas[i];
+      }
+      actualizar_grafica_detalle(valores_reducido,etiquetas_reducido);
+    }else{
+      actualizar_grafica_detalle(valores,etiquetas);
+    }
+  });
+
+});// fin de docuemnt ready
+
+  //funcion para quitar repetidos
+  Array.prototype.unique=function(a){
+    return function(){return this.filter(a)}}(function(a,b,c){return c.indexOf(a,b+1)<0
+  });
+
+  function removeData(chart) {
+    chart.data.labels.pop();
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.pop();
+    });
+    chart.update();
+  }
+
+  function addData(chart, label, data) {
+    chart.data.labels.push(label);
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.push(data);
+    });
+    chart.update();
+  }
+
+  function actualizar_grafica_detalle(valores,etiquetas){
+    chart.data.datasets[0].data =  valores;
+    chart.data.labels =  etiquetas;
+    chart.update();
+  }
+
+  function poner_botones(valores){
+    var parametro =  valores.length/4
+
+    $('.parametro').each(function(index){
+      $( this ).text(Math.round(parametro*(index+1)));
+    });
+  }
+
+  var valores = [];
+  var etiquetas = [];
+
+  function put_his_estacion_val_max(estacion_id,ciudad){
+    //llamada para crear la grafica
+    //https://api.datos.gob.mx/v1/sinaica?city=Guadalajara&pageSize=22245
+    $.ajax({
+      type: 'GET',
+      url:"https://api.datos.gob.mx/v1/sinaica?city="+ciudad+"&pageSize=22245",
+      data: {},
+      success: function( data, textStatus, jqxhr ) {
+        var estacionesid = estacion_id;
+        var his_estacion =  [];
+
+        //sacar valores solo de la estacion y ademas solo los mas altos
+        for (var i = 0; i < data.results.length; i++)
+        {
+          var objeto = data.results[i];
+          var bandera =  false;
+          if(objeto.estacionesid == estacionesid)
+          {
+            if(his_estacion.length != 0)
+            {
+              for (var j = 0; j < his_estacion.length; j++)
+              {
+                if(his_estacion[j].fecha == objeto.fecha )
+                {
+                  bandera = true;
+                  if(his_estacion[j].valororig < objeto.valororig){
+                    his_estacion[j] = objeto;
+                  }
+                  break;
+                }
+              }
+              if(!bandera)
+              {
+                his_estacion.push(objeto);
+              }
+            }
+            else
+            {
+              his_estacion.push(objeto);
+            }
+          }
+        }
+        //llamar para crear la grafica
+
+        for (var i = 0; i < his_estacion.length; i++) {
+          etiquetas[i]  = his_estacion[i].fecha;
+          valores[i]  = his_estacion[i].valororig;
+        }
+        actualizar_grafica_detalle(valores,etiquetas);
+        poner_botones(valores);
+        $('#modal1').modal('open');
+      },
+      xhrFields: {
+        withCredentials: false
+      },
+      crossDomain: true,
+      async:true
+    });
+  }
 
   function crear_detalle_top(indice){
       //top_ciudades[indice-1];
@@ -93,46 +211,14 @@ Array.prototype.unique=function(a){
             break;
           }
       }
-      console.log('estacion');
-      console.log(estacion);
+
       $('#estacion_detalle').html(estacion.nombre);
 
       var marker = L.marker([estacion.lat, estacion.long]).addTo(map_detalle);
       map_detalle.setView([estacion.lat, estacion.long], 16);
 
-
-      $.ajax({
-        type: 'GET',
-        url: "https://api.datos.gob.mx/v1/sinaica?fecha="+anio+"-"+(mes+1)+"-"+dia+"&pageSize=2000&parametro=PM10",
-        data: {},
-        success: function( data, textStatus, jqxhr ) {
-
-          // console.log('DATA');
-          console.log(data);
-
-          for (var i = 0; i < data.results[0].length; i++) {
-
-          }
-
-            //estaciones.push(data.results.stations[i].id);
-            if(data.results[0]._id != "cve"){
-              var contaminante = data.results[0].parametro;
-
-                if (contaminante == 'PM10'){
-                  estaciones.push(parseFloat(data.results[0].valororig));
-                }
-
-            }
-        },
-        xhrFields: {
-          withCredentials: false
-        },
-        crossDomain: true,
-        async:false
-      });
-
+      put_his_estacion_val_max(top_ciudades[indice-1].estacionesid, top_ciudades[indice-1].city);
   }
-
 
   function estado(estado){
 
@@ -158,23 +244,6 @@ Array.prototype.unique=function(a){
               }
 
           }
-
-        //}
-
-        // for(var k = 0 ; k < estaciones.length; k++) {
-        //     totalt += estaciones[k];
-        // }
-        // console.log('PM10');
-        // console.log(contaminante);
-        // console.log('Total');
-        // console.log(data.results[0].valororig);
-        //console.log(estaciones.length);
-        //avg = totalt / estaciones.length;
-        //avg = data.results[0].valororig;
-        //console.log(avg);
-
-        //$('.contador').html(avg.toFixed(2));
-
       },
       xhrFields: {
         withCredentials: false
@@ -373,6 +442,6 @@ Array.prototype.unique=function(a){
         withCredentials: false
       },
       crossDomain: true,
-      async:false
+      async:true
     });
   }
