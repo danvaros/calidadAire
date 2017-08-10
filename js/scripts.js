@@ -1,3 +1,6 @@
+var top_ciudades = [];
+
+
 $(document).ready(function(){
   // +++++++++++++++++++++++++++++++++ botonera inicial +++++++++++++++++++++++++
   var estados = false;
@@ -55,6 +58,21 @@ $(document).ready(function(){
   $('.navbar').css('height','30px');
   $('.navbar-default').css('background','#000');
 
+
+
+  //llamadas ver
+  $('#ver_top3').click(function(){
+    event.preventDefault();
+    crear_detalle_top(3);
+  });
+  $('#ver_top2').click(function(){
+    event.preventDefault();
+    crear_detalle_top(2);
+  });
+  $('#ver_top1').click(function(){
+    event.preventDefault();
+    crear_detalle_top(1);
+  });
 });
 
 //funcion para quitar repetidos
@@ -62,10 +80,62 @@ Array.prototype.unique=function(a){
   return function(){return this.filter(a)}}(function(a,b,c){return c.indexOf(a,b+1)<0
 });
 
+  function crear_detalle_top(indice){
+      //top_ciudades[indice-1];
+      var estacion = [];
+      $('#titulo_detalle').html(top_ciudades[indice-1].city);
+      $('#fecha_detalle').html(top_ciudades[indice-1].fecha);
+      $('#contaminante_detalle').html(top_ciudades[indice-1].parametro);
 
+      for (var i = 0; i < results.length; i++) {
+          if(results[i].id == top_ciudades[indice-1].estacionesid){
+            estacion  =  results[i];
+            break;
+          }
+      }
+      console.log('estacion');
+      console.log(estacion);
+      $('#estacion_detalle').html(estacion.nombre);
+
+      var marker = L.marker([estacion.lat, estacion.long]).addTo(map_detalle);
+      map_detalle.setView([estacion.lat, estacion.long], 16);
+
+
+      $.ajax({
+        type: 'GET',
+        url: "https://api.datos.gob.mx/v1/sinaica?fecha="+anio+"-"+(mes+1)+"-"+dia+"&pageSize=2000&parametro=PM10",
+        data: {},
+        success: function( data, textStatus, jqxhr ) {
+
+          // console.log('DATA');
+          console.log(data);
+
+          for (var i = 0; i < data.results[0].length; i++) {
+
+          }
+
+            //estaciones.push(data.results.stations[i].id);
+            if(data.results[0]._id != "cve"){
+              var contaminante = data.results[0].parametro;
+
+                if (contaminante == 'PM10'){
+                  estaciones.push(parseFloat(data.results[0].valororig));
+                }
+
+            }
+        },
+        xhrFields: {
+          withCredentials: false
+        },
+        crossDomain: true,
+        async:false
+      });
+
+  }
 
 
   function estado(estado){
+
     $.ajax({
       type: 'GET',
       url: "https://api.datos.gob.mx/v1/sinaica?fecha="+anio+"-"+(mes+1)+"-"+dia+"&pageSize=2000&parametro=PM10",
@@ -73,7 +143,7 @@ Array.prototype.unique=function(a){
       success: function( data, textStatus, jqxhr ) {
 
         // console.log('DATA');
-        // console.log(data);
+        console.log(data);
 
         for (var i = 0; i < data.results[0].length; i++) {
 
@@ -237,14 +307,8 @@ Array.prototype.unique=function(a){
       url: "https://api.datos.gob.mx/v1/sinaica?fecha="+datedate+"&pageSize=12000&parametro="+contaminante,
       data: {},
       success: function( data, textStatus, jqxhr ) {
-        console.log(data);
-        var top1=top2=top3=0;
         var ciudades = [];
-
-
-        console.log(ciudades);
-
-        for (var i = 0; i < 30; i++)
+        for (var i = 0; i < data.results.length; i++)
         {
           var objeto = data.results[i];
           var bandera =  false;
@@ -253,33 +317,31 @@ Array.prototype.unique=function(a){
           {
             for (var j = 0; j < ciudades.length; j++)
             {
-              if(ciudades[j].ciudad == objeto.city )
+              if(ciudades[j].city == objeto.city )
               {
                 bandera = true;
-                if(ciudades[j].valor < objeto.valororig){
-                  ciudades[j].valor = objeto.valororig;
-                  ciudades[j].ciudad = objeto.city;
+                if(ciudades[j].valororig < objeto.valororig){
+                  ciudades[j] = objeto;
                 }
               }
-            }
-
+             }
             if(!bandera)
             {
-              ciudades.push({"ciudad":objeto.city,"valor":objeto.valororig})
+              ciudades.push(objeto);
             }
           }
           else
           {
-            ciudades.push({"ciudad":objeto.city,"valor":objeto.valororig})
+            ciudades.push(objeto);
           }
         }
 
         //ordenamos el arrglo para tomar los valores mas altos
         ciudades.sort(function (a, b) {
-          if (a.valor < b.valor) {
+          if (a.valororig < b.valororig) {
             return 1;
           }
-          if (a.valor > b.valor) {
+          if (a.valororig > b.valororig) {
             return -1;
           }
           // a must be equal to b
@@ -288,9 +350,9 @@ Array.prototype.unique=function(a){
 
         console.log('ordenado');
         console.log(ciudades);
-        var valor = ciudades[0].valor;
-        var valor2 = ciudades[1].valor;
-        var valor3 = ciudades[2].valor;
+        var valor = ciudades[0].valororig;
+        var valor2 = ciudades[1].valororig;
+        var valor3 = ciudades[2].valororig;
         console.log(valor);
         console.log(valor2);
         console.log(valor3);
@@ -301,10 +363,11 @@ Array.prototype.unique=function(a){
         $('.chart-gauge3').html('');
         $('.chart-gauge3').gaugeIt({selector:'.chart-gauge3',value:valor3});
 
-        $('#label1').html(ciudades[0].ciudad);
-        $('#label2').html(ciudades[1].ciudad);
-        $('#label3').html(ciudades[2].ciudad);
+        $('#label1').html(ciudades[0].city);
+        $('#label2').html(ciudades[1].city);
+        $('#label3').html(ciudades[2].city);
 
+        top_ciudades = ciudades;
       },
       xhrFields: {
         withCredentials: false
