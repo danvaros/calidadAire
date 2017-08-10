@@ -138,7 +138,7 @@ $(document).ready(function(){
   var valores = [];
   var etiquetas = [];
 
-  function put_his_estacion_val_max(estacion_id,ciudad){
+  function put_his_estacion_val_max(estacion_id,ciudad,estacion){
     //llamada para crear la grafica
     //https://api.datos.gob.mx/v1/sinaica?city=Guadalajara&pageSize=22245
     $.ajax({
@@ -189,6 +189,8 @@ $(document).ready(function(){
         actualizar_grafica_detalle(valores,etiquetas);
         poner_botones(valores);
         $('#modal1').modal('open');
+        var marker = L.marker([estacion.lat, estacion.long]).addTo(map_detalle);
+        map_detalle.setView([estacion.lat, estacion.long], 16);
       },
       xhrFields: {
         withCredentials: false
@@ -214,10 +216,7 @@ $(document).ready(function(){
 
       $('#estacion_detalle').html(estacion.nombre);
 
-      var marker = L.marker([estacion.lat, estacion.long]).addTo(map_detalle);
-      map_detalle.setView([estacion.lat, estacion.long], 16);
-
-      put_his_estacion_val_max(top_ciudades[indice-1].estacionesid, top_ciudades[indice-1].city);
+      put_his_estacion_val_max(top_ciudades[indice-1].estacionesid, top_ciudades[indice-1].city,estacion);
   }
 
   function estado(estado){
