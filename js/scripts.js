@@ -1,6 +1,5 @@
 var top_ciudades = [];
 
-
 $(document).ready(function(){
   // +++++++++++++++++++++++++++++++++ botonera inicial +++++++++++++++++++++++++
   var estados = false;
@@ -98,6 +97,21 @@ $(document).ready(function(){
     }
   });
 
+var marker_mymap;
+  for (var i = 0; i < 30; i++) {
+    marker_mymap  = L.marker([results[i].lat, results[i].long]).addTo(mymap);
+    marker_mymap.bindPopup('<b>Estación #'+results[i].id+'</b><br>Nombre :'+ results[i].nombre +'<br>Codigo:'+results[i].codigo+'<br><div style="    margin-bottom: 25px; margin-top: 25px;" class="botonera"><a href="#modal1">Detalle Estación</a></div>').openPopup();
+  }
+
+
+  $('#estados').change(function(){
+      var seleccionado = $(this).val();
+      jQuery.each( coor_estado, function( i, val ) {
+        if(seleccionado == val.estado){
+            mymap.setView([val.lat, val.long], val.zoom);
+        }
+      });
+  });
 });// fin de docuemnt ready
 
   //funcion para quitar repetidos
