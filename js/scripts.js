@@ -1,6 +1,5 @@
 var top_ciudades = [];
 
-
 $(document).ready(function(){
   // +++++++++++++++++++++++++++++++++ botonera inicial +++++++++++++++++++++++++
   var estados = false;
@@ -98,6 +97,21 @@ $(document).ready(function(){
     }
   });
 
+var marker_mymap;
+  for (var i = 0; i < 30; i++) {
+    marker_mymap  = L.marker([results[i].lat, results[i].long]).addTo(mymap);
+    marker_mymap.bindPopup('<b>Estación #'+results[i].id+'</b><br>Nombre :'+ results[i].nombre +'<br>Codigo:'+results[i].codigo+'<br><div style="    margin-bottom: 25px; margin-top: 25px;" class="botonera"><a href="#modal1">Detalle Estación</a></div>').openPopup();
+  }
+
+
+  $('#estados').change(function(){
+      var seleccionado = $(this).val();
+      jQuery.each( coor_estado, function( i, val ) {
+        if(seleccionado == val.estado){
+            mymap.setView([val.lat, val.long], val.zoom);
+        }
+      });
+  });
 });// fin de docuemnt ready
 
   //funcion para quitar repetidos
@@ -138,7 +152,7 @@ $(document).ready(function(){
   var valores = [];
   var etiquetas = [];
 
-  function put_his_estacion_val_max(estacion_id,ciudad){
+  function put_his_estacion_val_max(estacion_id,ciudad,estacion){
     //llamada para crear la grafica
     //https://api.datos.gob.mx/v1/sinaica?city=Guadalajara&pageSize=22245
     $.ajax({
@@ -189,6 +203,8 @@ $(document).ready(function(){
         actualizar_grafica_detalle(valores,etiquetas);
         poner_botones(valores);
         $('#modal1').modal('open');
+        var marker = L.marker([estacion.lat, estacion.long]).addTo(map_detalle);
+        map_detalle.setView([estacion.lat, estacion.long], 16);
       },
       xhrFields: {
         withCredentials: false
@@ -214,10 +230,7 @@ $(document).ready(function(){
 
       $('#estacion_detalle').html(estacion.nombre);
 
-      var marker = L.marker([estacion.lat, estacion.long]).addTo(map_detalle);
-      map_detalle.setView([estacion.lat, estacion.long], 16);
-
-      put_his_estacion_val_max(top_ciudades[indice-1].estacionesid, top_ciudades[indice-1].city);
+      put_his_estacion_val_max(top_ciudades[indice-1].estacionesid, top_ciudades[indice-1].city,estacion);
   }
 
   function estado(estado){
