@@ -70,13 +70,13 @@ footer.page-footer {
 
 .boton{
   padding: 5px 0px 5px 0px;
-
   font-size: 17px;
   display: inline-block;
   width: 180px;
   background-color: transparent;
   border: 1px solid #fff;
   margin-left: -5px;
+  margin-right: : -5px;
   color:#fff;
   font-weight: 200;
 }
@@ -140,4 +140,32 @@ footer.page-footer {
 }
 .customPrevBtn{
   cursor: pointer;
+}
+
+
+.select-wrapper input.select-dropdown {
+    border: 1px solid #fff !important;
+}
+
+
+.botonera{
+  margin-top: 50px;
+  margin-bottom: 10px;
+}
+
+.botonera a{
+  margin: 0px;
+  margin-left: -5px;
+  border: 1px solid #ccc;
+  padding: 10px 20px;
+}
+
+.botonera a.active{
+  background-color:#333;
+  color:#ccc;
+}
+
+.botonera a:hover{
+  background-color:#555;
+  color:#bbb;
 }
