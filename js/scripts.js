@@ -108,7 +108,7 @@ var marker_mymap;
       var seleccionado = $(this).val();
       jQuery.each( coor_estado, function( i, val ) {
         if(seleccionado == val.estado){
-            mymap.setView([val.lat, val.long], val.zoom);
+            mymap.setView([val.lat, val.long], (val.zoom-1));
         }
       });
   });
@@ -145,13 +145,12 @@ var marker_mymap;
     var parametro =  valores.length/4
 
     $('.parametro').each(function(index){
-      $( this ).text(Math.round(parametro*(index+1)));
+      $( this ).text(Math.round(parametro*(index+1))+' días');
     });
   }
 
   var valores = [];
   var etiquetas = [];
-
   function put_his_estacion_val_max(estacion_id,ciudad,estacion){
     //llamada para crear la grafica
     //https://api.datos.gob.mx/v1/sinaica?city=Guadalajara&pageSize=22245
@@ -449,6 +448,15 @@ var marker_mymap;
         $('#label2').html(ciudades[1].city);
         $('#label3').html(ciudades[2].city);
 
+        var myvalues3 = [16,18,15,17];
+        var options =  {
+          height: '2em', width: '8em', lineColor: '#fff', fillColor: '#a4b6da',
+          minSpotColor: false, maxSpotColor: false, spotColor: '#fff', spotRadius: 3
+        }
+
+        $('#linecustom3').sparkline(myvalues3,options);
+
+
         top_ciudades = ciudades;
       },
       xhrFields: {
@@ -458,4 +466,67 @@ var marker_mymap;
       async:true
     });
 
+  }
+
+
+
+  function get_val_max_estación(estacion_id,ciudad,estacion){
+    //llamada para crear la grafica
+    //https://api.datos.gob.mx/v1/sinaica?city=Guadalajara&pageSize=22245
+    $.ajax({
+      type: 'GET',
+      url:"https://api.datos.gob.mx/v1/sinaica?city="+ciudad+"&pageSize=22245",
+      data: {},
+      success: function( data, textStatus, jqxhr ) {
+        var estacionesid = estacion_id;
+        var his_estacion =  [];
+
+        //sacar valores solo de la estacion y ademas solo los mas altos
+        for (var i = 0; i < data.results.length; i++)
+        {
+          var objeto = data.results[i];
+          var bandera =  false;
+          if(objeto.estacionesid == estacionesid)
+          {
+            if(his_estacion.length != 0)
+            {
+              for (var j = 0; j < his_estacion.length; j++)
+              {
+                if(his_estacion[j].fecha == objeto.fecha )
+                {
+                  bandera = true;
+                  if(his_estacion[j].valororig < objeto.valororig){
+                    his_estacion[j] = objeto;
+                  }
+                  break;
+                }
+              }
+              if(!bandera)
+              {
+                his_estacion.push(objeto);
+              }
+            }
+            else
+            {
+              his_estacion.push(objeto);
+            }
+          }
+        }
+        //llamar para crear la grafica
+        for (var i = 0; i < his_estacion.length; i++) {
+          etiquetas[i]  = his_estacion[i].fecha;
+          valores[i]  = his_estacion[i].valororig;
+        }
+        actualizar_grafica_detalle(valores,etiquetas);
+        poner_botones(valores);
+        $('#modal1').modal('open');
+        var marker = L.marker([estacion.lat, estacion.long]).addTo(map_detalle);
+        map_detalle.setView([estacion.lat, estacion.long], 16);
+      },
+      xhrFields: {
+        withCredentials: false
+      },
+      crossDomain: true,
+      async:true
+    });
   }
