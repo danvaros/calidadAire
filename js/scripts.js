@@ -439,9 +439,9 @@ var marker_mymap;
         console.log(valor2);
         console.log(valor3);
         $('.chart-gauge').html('');
-        $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:valor,gaugeMaxValue:50});
+        $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:valor,gaugeMaxValue:1000});
         $('.chart-gauge2').html('');
-        $('.chart-gauge2').gaugeIt({selector:'.chart-gauge2',value:valor2,gaugeMaxValue:1000});
+        $('.chart-gauge2').gaugeIt({selector:'.chart-gauge2',value:valor2});
         $('.chart-gauge3').html('');
         $('.chart-gauge3').gaugeIt({selector:'.chart-gauge3',value:valor3});
 

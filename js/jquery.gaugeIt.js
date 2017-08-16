@@ -1,7 +1,7 @@
 // jquery.gaugeIt.js
 // Medidor con animación
 
-(function($,window,document){
+(function($){
   $.fn.extend({
     gaugeIt:function(options){
       defaults = {
@@ -16,7 +16,7 @@
 
         this.each(function() {
 
-          var percentValue = options.value / options.gaugeMaxValue;
+          var percentValue = options.value;// / options.gaugeMaxValue;
           var needleClient;
           var needleClient2;
 
@@ -74,7 +74,7 @@
 
           // Create SVG element
           //svg = el.append('svg').attr('width', width + margin.left + margin.right).attr('height', height + margin.top + margin.bottom);
-          svg = el.append('svg').attr('width', width + margin.left + margin.right).attr('height', width/1.5);
+          svg = el.append('svg').attr('width', width + margin.left + margin.right).attr('height', width/1.2);
 
           // Add layer for the panel
           chort = svg.append('defs').append('linearGradient').attr('id','grad1').attr('x1','0%').attr('y1','100%').attr('x2','100%').attr('y2','0%');
@@ -100,10 +100,10 @@
 
         valueText = chart.append("text")
               .attr('id', "Value")
-              .attr("font-size",16)
+              .attr("font-size",22)
               .attr("text-anchor","middle")
               .attr("dy",".5em")
-              .style("fill", '#000000');
+              .style("fill", '#ffffff');
               //formatValue = d3.format('1%');
               formatValue = d3.format(".2f");
 
@@ -277,7 +277,10 @@
             var textY = - (self.len + 45) * Math.sin(thetaRad);
 
             valueText.text(formatValue(progress))
-              .attr('transform', "translate("+textX+","+textY+")")
+            .attr("x","0")
+            .attr("y","30")
+            //.attr('transform', "translate("+textX+","+textY+")")
+
               // valueTexto.text('.')
               //   .attr('transform', "translate("+textX+","+textY+")")
             return d3.select(this).attr('d', recalcPointerPos.call(self, progress));
