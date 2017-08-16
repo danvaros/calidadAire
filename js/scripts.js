@@ -321,11 +321,8 @@ var marker_mymap;
     });
   }
 
-<<<<<<< HEAD
-=======
   function ciudadesEstado(estado, ciudad){}
 
->>>>>>> master
   function estaciones(ciudad){
     var datedate = anio+"-"+mes+"-"+dia;
     console.log(datedate);
@@ -382,10 +379,6 @@ var marker_mymap;
     });
   }
 
-<<<<<<< HEAD
-  function historico(ciudad, fecha){
-    // Debe mostrar el historial del día por contaminante en cada ciudad
-=======
   function historico(ciudad, fecha){}
 
   function getTop3ciudades(contaminante){
@@ -464,5 +457,5 @@ var marker_mymap;
       crossDomain: true,
       async:true
     });
->>>>>>> master
+
   }
