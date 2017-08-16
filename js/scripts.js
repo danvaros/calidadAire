@@ -438,7 +438,7 @@ var marker_mymap;
         console.log(valor2);
         console.log(valor3);
         $('.chart-gauge').html('');
-        $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:valor});
+        $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:valor,gaugeMaxValue:1000});
         $('.chart-gauge2').html('');
         $('.chart-gauge2').gaugeIt({selector:'.chart-gauge2',value:valor2});
         $('.chart-gauge3').html('');
@@ -465,6 +465,7 @@ var marker_mymap;
       crossDomain: true,
       async:true
     });
+
   }
 
 
