@@ -9,14 +9,15 @@
           selector: this,
           value: 25,
           gaugeMaxValue: 100,
-          barWidth: 3
+          barWidth: 3,
+          range:100
       }
 
       var options = $.extend({}, defaults, options);
 
         this.each(function() {
 
-          var percentValue = options.value;// / options.gaugeMaxValue;
+          var percentValue = options.value / options.gaugeMaxValue;
           var needleClient;
           var needleClient2;
 
@@ -269,14 +270,17 @@
           return function(percentOfPercent) {
             var progress = percentOfPercent * perc;
             //var progress = perc;
-
+            console.log('Progress');
+            console.log(progress);
             repaintGauge(progress);
 
             var thetaRad = percToRad(progress / 2);
             var textX = - (self.len + 45) * Math.cos(thetaRad);
             var textY = - (self.len + 45) * Math.sin(thetaRad);
 
-            valueText.text(formatValue(progress))
+
+            var percent100 = formatValue(progress) * options.gaugeMaxValue;
+            valueText.text(percent100)
             .attr("x","0")
             .attr("y","30")
             //.attr('transform', "translate("+textX+","+textY+")")
@@ -295,6 +299,7 @@
       needle = new Needle(chart);
       needle.render();
       needle.moveTo(percent);
+      //needle.moveTo(value);
 
         });
 
