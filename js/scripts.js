@@ -448,9 +448,13 @@ var marker_mymap;
         $('#label2').html(ciudades[1].city);
         $('#label3').html(ciudades[2].city);
 
+        $('#estacion1').html(ciudades[0].estacionesid);
+        $('#estacion2').html(ciudades[1].estacionesid);
+        $('#estacion3').html(ciudades[2].estacionesid);
+
         var myvalues3 = [16,18,15,17];
         var options =  {
-          height: '2em', width: '8em', lineColor: '#fff', fillColor: '#a4b6da',
+          height: '1.4em', width: '8em', lineColor: '#fff', fillColor: '#a4b6da',
           minSpotColor: false, maxSpotColor: false, spotColor: '#fff', spotRadius: 3
         }
 
