@@ -438,12 +438,34 @@ var marker_mymap;
         console.log(valor);
         console.log(valor2);
         console.log(valor3);
+
+        var tipoCon;
+        switch(contaminante){
+          case "NO2":
+            tipoCon = 0.125;
+          break;
+          case "O3":
+            tipoCon = 0.120;
+          break;
+          case "PM10":
+              tipoCon = 1000;
+          break;
+          case "PM2.5":
+            tipoCon = 1000;
+          break;
+          case "SO2":
+            tipoCon = 0.20;
+          break;
+        }
+
+
+
         $('.chart-gauge').html('');
-        $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:valor,gaugeMaxValue:1000});
+        $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:valor,gaugeMaxValue:tipoCon});
         $('.chart-gauge2').html('');
-        $('.chart-gauge2').gaugeIt({selector:'.chart-gauge2',value:valor2});
+        $('.chart-gauge2').gaugeIt({selector:'.chart-gauge2',value:valor2,gaugeMaxValue:tipoCon});
         $('.chart-gauge3').html('');
-        $('.chart-gauge3').gaugeIt({selector:'.chart-gauge3',value:valor3});
+        $('.chart-gauge3').gaugeIt({selector:'.chart-gauge3',value:valor3,gaugeMaxValue:tipoCon});
 
         $('#label1').html(ciudades[0].city);
         $('#label2').html(ciudades[1].city);
