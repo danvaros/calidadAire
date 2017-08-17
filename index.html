@@ -153,7 +153,7 @@
               <h2 class="header center white-text text-lighten-2">Calidad de Aire MX</h2>
             </div>
             <div class="col s10 m10 l10  offset-s1 offset-m1 offset-l1">
-              <h5 class="header col s12 white-text text-lighten-2" style="   font-size: 32px;font-weight: 100;letter-spacing: 1px; line-height: inherit;">*Concentraciones de PM10 medidas en microgramos de partículas por metro cúbico de aire (µg/m3)</h5>
+              <h5 class="header col s12 white-text text-lighten-2" style="   font-size: 32px;font-weight: 100;letter-spacing: 1px; line-height: inherit;">*Concentraciones de <span id="contaminante_titulo">PM10</span> medidas en microgramos de partículas por metro cúbico de aire (µg/m3)</h5>
             </div>
           </div>
 
@@ -187,7 +187,7 @@
           </div>
 
           <div class="row center velocimetros">
-            <div class="col s12 m12 l4">
+            <div class="col s12 m12 l12 xl4">
               <div class="col s12 ">
                 <h5 id="label1">Ciudad de México</h5>
                 <span id="estacion1">.</span>
@@ -217,7 +217,7 @@
               </div>
             </div>
 
-            <div class="col s12 m12 l4">
+            <div class="col s12 m12 l12 xl4">
               <div class="col s12">
                 <h5 id="label2">Puebla</h5>
                 <span id="estacion2">.</span>
@@ -247,7 +247,7 @@
               </div>
             </div>
 
-            <div class="col s12 m12 l4">
+            <div class="col s12 m12 l12 xl4">
               <div class="col s12">
                 <h5 id="label3">Guadalajara</h5>
                 <span id="estacion3">.</span>
@@ -285,7 +285,7 @@
     <div class="row seccion_mapa">
       <div class="col s12 botonera_mapa">
         <div class="input-field col s6 m2 l2">
-          <select  name="estados" id="estados" class="browser-default">
+          <select  name="estados" id="estados" class="browser-default sombra">
             <option value="Aguascalientes">Aguascalientes</option>
             <option value="Baja California">Baja California</option>
             <option value="Baja California Sur">Baja California Sur</option>
@@ -321,7 +321,7 @@
           </select>
         </div>
         <div class="input-field col s6 m2 l2">
-          <select  name="municipios" id="municipios" class="browser-default">
+          <select  name="municipios" id="municipios" class="browser-default sombra">
             <option value="0" disabled selected>Municipios</option>
             <option value="0">Municipios 1</option>
             <option value="0">Municipios 2</option>
@@ -600,54 +600,54 @@ var mes = meis[d.getMonth()];
 var deis = ["00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"];
 var dia = deis[d.getDate()];
 
-contaminantes('Guadalajara');
-
-estados();
-
-ciudadesTodas('Guanajuato');
+// contaminantes('Guadalajara');
+//
+// estados();
+//
+// ciudadesTodas('Guanajuato');
 
 //estaciones('Salamanca');
-
-$.ajax({
-  type: 'GET',
-  url: "https://api.datos.gob.mx/v1/sinaica?fecha="+anio+"-"+mes+"-"+dia+"&pageSize=2000&parametro=PM10",
-  data: {},
-  success: function( data, textStatus, jqxhr ) {
-
-    //estaciones.push(data.results.stations[i].id);
-    if(data.results[0] != "cve"){
-      var contaminante = data.results[0].parametro;
-
-      if (contaminante == 'PM10'){
-        estaciones.push(parseFloat(data.results[0].valororig));
-      }
-    }
-
-    //}
-
-    // for(var k = 0 ; k < estaciones.length; k++) {
-    //     totalt += estaciones[k];
-    // }
-    console.log('PM10');
-    console.log(contaminante);
-    console.log('Total');
-    console.log(data.results[0].valororig);
-    //console.log(estaciones.length);
-    //avg = totalt / estaciones.length;
-    avg = data.results[0].valororig;
-    console.log(avg);
-
-    $('.contador').html(avg.toFixed(2));
-
-    contaminantes('Salamanca');
-
-  },
-  xhrFields: {
-    withCredentials: false
-  },
-  crossDomain: true,
-  async:false
-});
+//
+// $.ajax({
+//   type: 'GET',
+//   url: "https://api.datos.gob.mx/v1/sinaica?fecha="+anio+"-"+mes+"-"+dia+"&pageSize=2000&parametro=PM10",
+//   data: {},
+//   success: function( data, textStatus, jqxhr ) {
+//
+//     //estaciones.push(data.results.stations[i].id);
+//     if(data.results[0] != "cve"){
+//       var contaminante = data.results[0].parametro;
+//
+//       if (contaminante == 'PM10'){
+//         estaciones.push(parseFloat(data.results[0].valororig));
+//       }
+//     }
+//
+//     //}
+//
+//     // for(var k = 0 ; k < estaciones.length; k++) {
+//     //     totalt += estaciones[k];
+//     // }
+//     console.log('PM10');
+//     console.log(contaminante);
+//     console.log('Total');
+//     console.log(data.results[0].valororig);
+//     //console.log(estaciones.length);
+//     //avg = totalt / estaciones.length;
+//     avg = data.results[0].valororig;
+//     console.log(avg);
+//
+//     $('.contador').html(avg.toFixed(2));
+//
+//     contaminantes('Salamanca');
+//
+//   },
+//   xhrFields: {
+//     withCredentials: false
+//   },
+//   crossDomain: true,
+//   async:false
+// });
 // +++++++++++++++++++++++++++++++++ mapa ++++++++++++++++++++++++++++
 var mymap = L.map('mapid').setView([16.8889,-100], 5);
 mymap.panTo(new L.LatLng(24.8, -100));
@@ -710,6 +710,7 @@ $(document).ready(function(){
 
   $('#contaminantes').change(function(){
     var contaminante = $( this ).val();
+    $('#contaminante_titulo').text(contaminante);
     getTop3ciudades(contaminante);
   });
 

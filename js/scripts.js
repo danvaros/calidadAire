@@ -64,10 +64,12 @@ $(document).ready(function(){
     event.preventDefault();
     crear_detalle_top(3);
   });
+
   $('#ver_top2').click(function(){
     event.preventDefault();
     crear_detalle_top(2);
   });
+
   $('#ver_top1').click(function(){
     event.preventDefault();
     crear_detalle_top(1);
@@ -83,7 +85,7 @@ $(document).ready(function(){
 
     $( this ).addClass('active');
 
-    var tam = $( this ).text();
+    var tam = $( this ).val();
     if(tam != valores.length){
       var valores_reducido = [];
       var etiquetas_reducido = [];
@@ -146,20 +148,21 @@ var marker_mymap;
 
     $('.parametro').each(function(index){
       $( this ).text(Math.round(parametro*(index+1))+' días');
+      $( this ).val(Math.round(parametro*(index+1)));
     });
   }
 
   var valores = [];
   var etiquetas = [];
-  function put_his_estacion_val_max(estacion_id,ciudad,estacion){
+  function put_his_estacion_val_max(lectura,estacion){
     //llamada para crear la grafica
     //https://api.datos.gob.mx/v1/sinaica?city=Guadalajara&pageSize=22245
     $.ajax({
       type: 'GET',
-      url:"https://api.datos.gob.mx/v1/sinaica?city="+ciudad+"&pageSize=22245",
+      url:"https://api.datos.gob.mx/v1/sinaica?city="+lectura.city+'&parametro='+lectura.parametro+"&pageSize=22245",
       data: {},
       success: function( data, textStatus, jqxhr ) {
-        var estacionesid = estacion_id;
+        var estacionesid = lectura.estacionesid;
         var his_estacion =  [];
 
         //sacar valores solo de la estacion y ademas solo los mas altos
@@ -226,10 +229,12 @@ var marker_mymap;
             break;
           }
       }
-
+      console.log('---------------- estacion id --------------');
+      console.log(top_ciudades[indice-1]);
+      console.log(estacion);
       $('#estacion_detalle').html(estacion.nombre);
 
-      put_his_estacion_val_max(top_ciudades[indice-1].estacionesid, top_ciudades[indice-1].city,estacion);
+      put_his_estacion_val_max(top_ciudades[indice-1],estacion);
   }
 
   function estado(estado){
@@ -351,7 +356,6 @@ var marker_mymap;
   }
 
   function contaminantes(ciudad){
-
     var datedate = anio+"-"+mes+"-"+dia;
     console.log(datedate);
 
@@ -431,57 +435,78 @@ var marker_mymap;
 
         console.log('ordenado');
         console.log(ciudades);
-        var valor = ciudades[0].valororig;
-        var valor2 = ciudades[1].valororig;
-        var valor3 = ciudades[2].valororig;
-        console.log(valor);
-        console.log(valor2);
-        console.log(valor3);
+        if(ciudades.length > 0){
+          var valor = ciudades[0].valororig;
+          var valor2 = ciudades[1].valororig;
+          var valor3 = ciudades[2].valororig;
+          console.log(valor);
+          console.log(valor2);
+          console.log(valor3);
 
-        var tipoCon;
-        switch(contaminante){
-          case "NO2":
-            tipoCon = 0.125;
-          break;
-          case "O3":
-            tipoCon = 0.120;
-          break;
-          case "PM10":
+          var tipoCon;
+          switch(contaminante){
+            case "NO2":
+              tipoCon = 0.125;
+            break;
+            case "O3":
+              tipoCon = 0.120;
+            break;
+            case "PM10":
+                tipoCon = 1000;
+            break;
+            case "PM2.5":
               tipoCon = 1000;
-          break;
-          case "PM2.5":
-            tipoCon = 1000;
-          break;
-          case "SO2":
-            tipoCon = 0.20;
-          break;
+            break;
+            case "SO2":
+              tipoCon = 0.20;
+            break;
+          }
+
+
+
+          $('.chart-gauge').html('');
+          $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:valor,gaugeMaxValue:tipoCon});
+          $('.chart-gauge2').html('');
+          $('.chart-gauge2').gaugeIt({selector:'.chart-gauge2',value:valor2,gaugeMaxValue:tipoCon});
+          $('.chart-gauge3').html('');
+          $('.chart-gauge3').gaugeIt({selector:'.chart-gauge3',value:valor3,gaugeMaxValue:tipoCon});
+
+          $('#label1').html(ciudades[0].city);
+          $('#label2').html(ciudades[1].city);
+          $('#label3').html(ciudades[2].city);
+
+          for (var i = 0; i < results.length; i++) {
+              if(results[i].id == ciudades[1].estacionesid){
+                estacion  =  results[i];
+                $('#estacion1').html('Estación: '+estacion.nombre);
+                break;
+              }
+          }
+
+          for (var i = 0; i < results.length; i++) {
+              if(results[i].id == ciudades[2].estacionesid){
+                estacion  =  results[i];
+                $('#estacion2').html('Estación: '+estacion.nombre);
+                break;
+              }
+          }
+
+          for (var i = 0; i < results.length; i++) {
+              if(results[i].id == ciudades[3].estacionesid){
+                estacion  =  results[i];
+                $('#estacion3').html('Estación: '+estacion.nombre);
+                break;
+              }
+          }
+
+          var myvalues3 = [16,18,15,17];
+          var options =  {
+            height: '1.4em', width: '8em', lineColor: '#fff', fillColor: '#a4b6da',
+            minSpotColor: false, maxSpotColor: false, spotColor: '#fff', spotRadius: 3
+          }
+
+          $('#linecustom3').sparkline(myvalues3,options);
         }
-
-
-
-        $('.chart-gauge').html('');
-        $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:valor,gaugeMaxValue:tipoCon});
-        $('.chart-gauge2').html('');
-        $('.chart-gauge2').gaugeIt({selector:'.chart-gauge2',value:valor2,gaugeMaxValue:tipoCon});
-        $('.chart-gauge3').html('');
-        $('.chart-gauge3').gaugeIt({selector:'.chart-gauge3',value:valor3,gaugeMaxValue:tipoCon});
-
-        $('#label1').html(ciudades[0].city);
-        $('#label2').html(ciudades[1].city);
-        $('#label3').html(ciudades[2].city);
-
-        $('#estacion1').html(ciudades[0].estacionesid);
-        $('#estacion2').html(ciudades[1].estacionesid);
-        $('#estacion3').html(ciudades[2].estacionesid);
-
-        var myvalues3 = [16,18,15,17];
-        var options =  {
-          height: '1.4em', width: '8em', lineColor: '#fff', fillColor: '#a4b6da',
-          minSpotColor: false, maxSpotColor: false, spotColor: '#fff', spotRadius: 3
-        }
-
-        $('#linecustom3').sparkline(myvalues3,options);
-
 
         top_ciudades = ciudades;
       },
@@ -494,65 +519,63 @@ var marker_mymap;
 
   }
 
-
-
-  function get_val_max_estación(estacion_id,ciudad,estacion){
-    //llamada para crear la grafica
-    //https://api.datos.gob.mx/v1/sinaica?city=Guadalajara&pageSize=22245
-    $.ajax({
-      type: 'GET',
-      url:"https://api.datos.gob.mx/v1/sinaica?city="+ciudad+"&pageSize=22245",
-      data: {},
-      success: function( data, textStatus, jqxhr ) {
-        var estacionesid = estacion_id;
-        var his_estacion =  [];
-
-        //sacar valores solo de la estacion y ademas solo los mas altos
-        for (var i = 0; i < data.results.length; i++)
-        {
-          var objeto = data.results[i];
-          var bandera =  false;
-          if(objeto.estacionesid == estacionesid)
-          {
-            if(his_estacion.length != 0)
-            {
-              for (var j = 0; j < his_estacion.length; j++)
-              {
-                if(his_estacion[j].fecha == objeto.fecha )
-                {
-                  bandera = true;
-                  if(his_estacion[j].valororig < objeto.valororig){
-                    his_estacion[j] = objeto;
-                  }
-                  break;
-                }
-              }
-              if(!bandera)
-              {
-                his_estacion.push(objeto);
-              }
-            }
-            else
-            {
-              his_estacion.push(objeto);
-            }
-          }
-        }
-        //llamar para crear la grafica
-        for (var i = 0; i < his_estacion.length; i++) {
-          etiquetas[i]  = his_estacion[i].fecha;
-          valores[i]  = his_estacion[i].valororig;
-        }
-        actualizar_grafica_detalle(valores,etiquetas);
-        poner_botones(valores);
-        $('#modal1').modal('open');
-        var marker = L.marker([estacion.lat, estacion.long]).addTo(map_detalle);
-        map_detalle.setView([estacion.lat, estacion.long], 16);
-      },
-      xhrFields: {
-        withCredentials: false
-      },
-      crossDomain: true,
-      async:true
-    });
-  }
+  // function get_val_max_estación(estacion_id,ciudad,estacion){
+  //   //llamada para crear la grafica
+  //   //https://api.datos.gob.mx/v1/sinaica?city=Guadalajara&pageSize=22245
+  //   $.ajax({
+  //     type: 'GET',
+  //     url:"https://api.datos.gob.mx/v1/sinaica?city="+ciudad+"&pageSize=22245",
+  //     data: {},
+  //     success: function( data, textStatus, jqxhr ) {
+  //       var estacionesid = estacion_id;
+  //       var his_estacion =  [];
+  //
+  //       //sacar valores solo de la estacion y ademas solo los mas altos
+  //       for (var i = 0; i < data.results.length; i++)
+  //       {
+  //         var objeto = data.results[i];
+  //         var bandera =  false;
+  //         if(objeto.estacionesid == estacionesid)
+  //         {
+  //           if(his_estacion.length != 0)
+  //           {
+  //             for (var j = 0; j < his_estacion.length; j++)
+  //             {
+  //               if(his_estacion[j].fecha == objeto.fecha )
+  //               {
+  //                 bandera = true;
+  //                 if(his_estacion[j].valororig < objeto.valororig){
+  //                   his_estacion[j] = objeto;
+  //                 }
+  //                 break;
+  //               }
+  //             }
+  //             if(!bandera)
+  //             {
+  //               his_estacion.push(objeto);
+  //             }
+  //           }
+  //           else
+  //           {
+  //             his_estacion.push(objeto);
+  //           }
+  //         }
+  //       }
+  //       //llamar para crear la grafica
+  //       for (var i = 0; i < his_estacion.length; i++) {
+  //         etiquetas[i]  = his_estacion[i].fecha;
+  //         valores[i]  = his_estacion[i].valororig;
+  //       }
+  //       actualizar_grafica_detalle(valores,etiquetas);
+  //       poner_botones(valores);
+  //       $('#modal1').modal('open');
+  //       var marker = L.marker([estacion.lat, estacion.long]).addTo(map_detalle);
+  //       map_detalle.setView([estacion.lat, estacion.long], 16);
+  //     },
+  //     xhrFields: {
+  //       withCredentials: false
+  //     },
+  //     crossDomain: true,
+  //     async:true
+  //   });
+  // }

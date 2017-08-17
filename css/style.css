@@ -137,3 +137,26 @@ footer.page-footer {
   max-height: 90%;
   width: 90%;
 }
+
+.sombra{
+  -webkit-box-shadow: 7px 9px 18px -2px rgba(0,0,0,0.71);
+  -moz-box-shadow: 7px 9px 18px -2px rgba(0,0,0,0.71);
+  box-shadow: 7px 9px 18px -2px rgba(0,0,0,0.71);
+}
+
+.container{
+  color:#fff;
+}
+
+.velocimetros > div{
+  margin: 50px 0px;
+}
+
+.boton_redondo{
+  color: #fff !important;
+  background: rgba(51, 51, 51, 0.5);
+  padding: 10px 15px;
+  border-radius: 19px;
+  margin: 50px 0px;
+}
+/*hacer le over del boton o no por que es mobile*/
