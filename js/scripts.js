@@ -100,8 +100,28 @@ $(document).ready(function(){
   });
 
 var marker_mymap;
+var greenIcon = L.icon({
+    iconUrl: 'imagenes/punto.png',
+    //shadowUrl: 'imagenes/leaf-shadow.png',
+
+
+    // iconSize:     [20, 50], // size of the icon
+    // shadowSize:   [30, 38], // size of the shadow
+    // iconAnchor:   [12, 49], // point of the icon which will correspond to marker's location
+    // shadowAnchor: [4, 36],  // the same for the shadow
+    // popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+
+
+    // iconSize:     [20, 50], // size of the icon
+    // shadowSize:   [30, 38], // size of the shadow
+    // iconAnchor:   [12, 49], // point of the icon which will correspond to marker's location
+    // shadowAnchor: [4, 36],  // the same for the shadow
+    // popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
+
   for (var i = 0; i < 30; i++) {
-    marker_mymap  = L.marker([results[i].lat, results[i].long]).addTo(mymap);
+
+    marker_mymap  = L.marker([results[i].lat, results[i].long],{icon: greenIcon}).addTo(mymap);
     marker_mymap.bindPopup('<b>Estación #'+results[i].id+'</b><br>Nombre :'+ results[i].nombre +'<br>Codigo:'+results[i].codigo+'<br><div style="    margin-bottom: 25px; margin-top: 25px;" class="botonera"><a href="#modal1">Detalle Estación</a></div>').openPopup();
   }
 
@@ -436,13 +456,18 @@ var marker_mymap;
         console.log('ordenado');
         console.log(ciudades);
         if(ciudades.length > 0){
-          var valor = ciudades[0].valororig;
+          var valor =  ciudades[0].valororig;
           var valor2 = ciudades[1].valororig;
           var valor3 = ciudades[2].valororig;
+
+          //validamos si tenesmos que tratar el valor
+          if (valor > Math.floor(valor)) valor = valor.toFixed(3);
+          if (valor2 > Math.floor(valor2)) valor2 = valor2.toFixed(3);
+          if (valor3 > Math.floor(valor3)) valor3 = valor3.toFixed(3);
           console.log(valor);
           console.log(valor2);
           console.log(valor3);
-
+          
           var tipoCon;
           switch(contaminante){
             case "NO2":
