@@ -153,7 +153,7 @@
               <h2 class="header center white-text text-lighten-2">Calidad de Aire MX</h2>
             </div>
             <div class="col s10 m10 l10  offset-s1 offset-m1 offset-l1">
-              <h5 class="header col s12 white-text text-lighten-2" style="   font-size: 32px;font-weight: 100;letter-spacing: 1px; line-height: inherit;">*Concentraciones de <span id="contaminante_titulo">PM10</span> medidas en microgramos de partículas por metro cúbico de aire (µg/m3)</h5>
+              <h5 class="header col s12 white-text text-lighten-2" style="   font-size: 32px;font-weight: 100;letter-spacing: 1px; line-height: 35px;"><span id="contaminante_titulo">Partículas menores de 10 micrómetros (PM10).</span></h5>
             </div>
           </div>
 
@@ -175,7 +175,7 @@
               <div class="base_botones">
                 <a href="#" id="btn_ciudades" class="boton boton_activo">Top 3 Ciudades</a>
                 <a href="#" id="btn_estados" class="boton boton_inactivo">32 Estados</a>
-                <select style="color: #333;" class="browser-default" name="" id="contaminantes">
+                <select style="color: #333; background-color: rgba(243, 236, 236, .2); border: 0px;" class="browser-default" name="" id="contaminantes">
                   <option value="PM10">PM 10</option>
                   <option value="PM2.5">PM 2.5</option>
                   <option value="SO2">SO2</option>
@@ -320,14 +320,14 @@
             <option value="Zacatecas">Zacatecas</option>
           </select>
         </div>
-        <div class="input-field col s6 m2 l2">
+        <!-- <div class="input-field col s6 m2 l2">
           <select  name="municipios" id="municipios" class="browser-default sombra">
             <option value="0" disabled selected>Municipios</option>
             <option value="0">Municipios 1</option>
             <option value="0">Municipios 2</option>
             <option value="0">Municipios 3</option>
           </select>
-        </div>
+        </div> -->
         <!-- <div class="input-field col s6 m2 l2">
           <form action="#">
             <p class="range-field">
@@ -710,7 +710,14 @@ $(document).ready(function(){
 
   $('#contaminantes').change(function(){
     var contaminante = $( this ).val();
-    $('#contaminante_titulo').text(contaminante);
+    //$('#contaminante_titulo').text(contaminante);
+    console.log(contaminante);
+    if(contaminante == 'PM10') $('#contaminante_titulo').text('Partículas menores de 10 micrómetros (PM10).');
+    else if(contaminante == 'PM2.5')$('#contaminante_titulo').text('Partículas menores de 2.5 micrómetros (PM2.5).');
+    else if(contaminante == 'O3') $('#contaminante_titulo').text('Ozono (O3).');
+    else if(contaminante == 'SO2') $('#contaminante_titulo').text('Dióxido de azufre (SO2).');
+    else if(contaminante == 'NO2') $('#contaminante_titulo').text('Dióxido de nitrógeno (NO2).');
+
     getTop3ciudades(contaminante);
   });
 

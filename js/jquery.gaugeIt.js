@@ -45,8 +45,6 @@
             left: 30
           };
 
-          console.log(el[0][0].offsetWidth);
-
           width = el[0][0].offsetWidth - margin.left - margin.right;
           widtho = el[0][0].offsetWidth - margin.left + 25 - margin.right + 25;
           height = width;
@@ -75,7 +73,12 @@
 
           // Create SVG element
           //svg = el.append('svg').attr('width', width + margin.left + margin.right).attr('height', height + margin.top + margin.bottom);
-          svg = el.append('svg').attr('width', width + margin.left + margin.right).attr('height', width/1.2);
+          if (width < 245) {
+                svg = el.append('svg').attr('width', width + margin.left + margin.right).attr('height', width/1);
+          }else {
+            svg = el.append('svg').attr('width', width + margin.left + margin.right).attr('height', width/1.1);
+          }
+
 
           // Add layer for the panel
           chort = svg.append('defs').append('linearGradient').attr('id','grad1').attr('x1','0%').attr('y1','100%').attr('x2','100%').attr('y2','0%');
@@ -261,7 +264,13 @@
           return function(percentOfPercent) {
             var progress = (1 - percentOfPercent) * oldValue;
 
+            if(progress > options.gaugeMaxValue){
+              console.log('Mayor');
+              progress =  options.gaugeMaxValue;
+            }
+
             repaintGauge(progress);
+
             return d3.select(this).attr('d', recalcPointerPos.call(self, progress));
           };
         });
@@ -270,8 +279,9 @@
           return function(percentOfPercent) {
             var progress = percentOfPercent * perc;
             //var progress = perc;
-            console.log('Progress');
-            console.log(progress);
+            //console.log('Progress');
+            //console.log(progress);
+
             repaintGauge(progress);
 
             var thetaRad = percToRad(progress / 2);
@@ -280,9 +290,12 @@
 
 
             var percent100 = formatValue(progress) * options.gaugeMaxValue;
-            valueText.text(percent100)
+
+            valueText.text(options.value)
             .attr("x","0")
             .attr("y","30")
+
+            //valueText.text(percent100)
             //.attr('transform', "translate("+textX+","+textY+")")
 
               // valueTexto.text('.')
@@ -298,7 +311,16 @@
 
       needle = new Needle(chart);
       needle.render();
-      needle.moveTo(percent);
+
+
+      if(options.value > options.gaugeMaxValue){
+        needle.moveTo(1);
+      }else {
+        needle.moveTo(percent);
+      }
+
+
+
       //needle.moveTo(value);
 
         });
