@@ -128,8 +128,21 @@ var greenIcon = L.icon({
 //trabajremos en esta parte
   for (var i = 0; i < estaciones_json.length; i++) {
     marker_mymap  = L.marker([estaciones_json[i].lat, estaciones_json[i].long],{icon: greenIcon}).addTo(mymap);
-    marker_mymap.bindPopup('<b>Estación #'+estaciones_json[i].id+'</b><br>Nombre :'+ estaciones_json[i].nombre +'<br>Codigo:'+estaciones_json[i].codigo+'<br><div style="margin-bottom: 25px; margin-top: 25px;" class="botonera"><a href="#modal1">Detalle Estación</a></div>').openPopup();
+    marker_mymap.bindPopup('<b>Estación #'+estaciones_json[i].id+'</b><br>Nombre :'+ estaciones_json[i].nombre +'<br>Codigo:'+estaciones_json[i].codigo+'<br><div style="margin-bottom: 25px; margin-top: 25px;" class="botonera"><a class="modal_mapa" data-id="'+ estaciones_json[i].id +'">Detalle Estación</a></div>').openPopup();
   }
+
+  $(document).on('click', '.modal_mapa', function() {
+    console.log($(this).data().id);
+    //sacar lista de estaciones obscuras
+    //sacar la estacion en particular solo id
+    //cruzar el id con estaciones obscuras
+    //llamar a la funcion que muetra el modal
+    //replicar put detalle
+    //llamar pon historial
+    
+
+    $('#modal1').modal('open');
+  });
 
   $('#estados').change(function(){
       var seleccionado = $(this).val();
