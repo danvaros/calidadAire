@@ -607,11 +607,11 @@ var greenIcon = L.icon({
     });
   }
 
-
+// fillColor: '#a4b6da'
   function put_grafica_inline(valores,contenedor){
     var options =  {
-      height: '1.4em', width: '8em', lineColor: '#fff', fillColor: '#a4b6da',
-      minSpotColor: false, maxSpotColor: false, spotColor: '#fff', spotRadius: 3
+      height: '1.4em', width: '8em', lineColor: '#fff',fillColor: false,
+      minSpotColor: false, maxSpotColor: false, spotColor: false, spotRadius: 3
     }
 
     contenedor.sparkline(valores,options);
