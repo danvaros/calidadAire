@@ -687,6 +687,7 @@ mymap.scrollWheelZoom.disable();
 <script src="js/jquery.gaugeIt.js" charset="utf-8"></script>
 <!-- <script src="js/estaciones.js" type="text/javascript" charset="utf-8"></script> -->
 <script src="js/estaciones_json.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/estaciones_b.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 var estacion = [ {
   "results":
@@ -705,6 +706,7 @@ $(document).ready(function()
 {
   //llamada inicial
   getTop3ciudades('PM10');
+  get_estaciones();
 
   $('#contaminantes').change(function(){
     var contaminante = $( this ).val();
