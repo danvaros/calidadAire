@@ -336,6 +336,9 @@
           </form>
         </div> -->
       </div>
+      <!-- <div class="col s6 pull-s6">
+        <h3 class="aling-right">Estaciones de medición de contaminantes</h3>
+      </div> -->
       <div class="col s12">
         <div id="mapid"></div>
       </div>
@@ -398,34 +401,6 @@
               <p class="subtitulo_chico">Parámetros de la red</p>
             </div>
             <div class="col s5ths">
-              <p class="etiqueta">CO</p>
-              <p class="contenido">2652.07</p>
-            </div>
-            <div class="col s5ths">
-              <p class="etiqueta">NO</p>
-              <p class="contenido">456.07</p>
-            </div>
-            <div class="col s5ths">
-              <p class="etiqueta">N02</p>
-              <p class="contenido">2652.07</p>
-            </div>
-            <div class="col s5ths">
-              <p class="etiqueta">NOx</p>
-              <p class="contenido">456.07</p>
-            </div>
-            <div class="col s5ths">
-              <p class="etiqueta">O3</p>
-              <p class="contenido">2652.07</p>
-            </div>
-            <div class="col s5ths">
-              <p class="etiqueta">VV</p>
-              <p class="contenido">456.07</p>
-            </div>
-            <div class="col s5ths">
-              <p class="etiqueta">VV</p>
-              <p class="contenido">456.07</p>
-            </div>
-            <div class="col s5ths">
               <p class="etiqueta">PM10</p>
               <p class="contenido">2652.07</p>
             </div>
@@ -434,27 +409,15 @@
               <p class="contenido">456.07</p>
             </div>
             <div class="col s5ths">
-              <p class="etiqueta">S02</p>
+              <p class="etiqueta">NO2</p>
               <p class="contenido">2652.07</p>
             </div>
             <div class="col s5ths">
-              <p class="etiqueta">DV</p>
+              <p class="etiqueta">SO2</p>
               <p class="contenido">456.07</p>
             </div>
             <div class="col s5ths">
-              <p class="etiqueta">HR</p>
-              <p class="contenido">456.07</p>
-            </div>
-            <div class="col s5ths">
-              <p class="etiqueta">PB</p>
-              <p class="contenido">2652.07</p>
-            </div>
-            <div class="col s5ths">
-              <p class="etiqueta">PP</p>
-              <p class="contenido">456.07</p>
-            </div>
-            <div class="col s5ths">
-              <p class="etiqueta">RS</p>
+              <p class="etiqueta">O3</p>
               <p class="contenido">2652.07</p>
             </div>
           </div>
@@ -528,6 +491,8 @@ canvas{
 </style>
 <script>
 var chart;
+var ctx ;
+var color;
 $(function() {
   /** This code runs when everything has been loaded on the page */
   /* Inline sparklines take their values from the contents of the tag */
@@ -549,8 +514,8 @@ $(function() {
   $('#linecustom2').sparkline(myvalues2,options);
   $('#linecustom3').sparkline(myvalues,options);
 
-  var ctx = document.getElementById('myChart').getContext('2d');
-  var color = Chart.helpers.color;
+ ctx = document.getElementById('myChart').getContext('2d');
+ color = Chart.helpers.color;
   chart = new Chart(ctx, {
     // The type of chart we want to create
     type: 'line',
@@ -671,10 +636,6 @@ if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)){
 
 mymap.scrollWheelZoom.disable();
 map_detalle.scrollWheelZoom.disable();
-
-
-
-
 
 if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)){
   mymap.dragging.disable();
