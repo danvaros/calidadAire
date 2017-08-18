@@ -103,7 +103,8 @@ $(document).ready(function(){
     if(tam != valores.length){
       var valores_reducido = [];
       var etiquetas_reducido = [];
-      for (var i = 0; i < tam; i++) {
+      console.log(valores);
+      for (var i = 0; i < tam; i++){
         valores_reducido[i] =  valores[i];
         etiquetas_reducido[i] =  etiquetas[i];
       }
@@ -251,6 +252,38 @@ var greenIcon = L.icon({
   function actualizar_grafica_detalle(valores,etiquetas){
     chart.data.datasets[0].data =  valores;
     chart.data.labels =  etiquetas;
+    chart.update();
+
+
+    // chart = new Chart(ctx, {
+    //   // The type of chart we want to create
+    //   type: 'line',
+    //   // The data for our dataset
+    //   data: {
+    //     labels: etiquetas,
+    //     datasets: [{
+    //       label: "Contaminantes",
+    //       // backgroundColor: 'rgb(255, 99, 132)',
+    //       // borderColor: 'rgb(0, 156, 242)',
+    //
+    //       backgroundColor: color(window.chartColors.blue).alpha(0.2).rgbString(),
+    //       borderColor: window.chartColors.blue,
+    //       pointBackgroundColor: window.chartColors.blue,
+    //       data: valores,
+    //     }]
+    //   },
+    //
+    //   // Configuration options go here
+    //   options: {
+    //      legend: {
+    //         display: false
+    //      },
+    //      tooltips: {
+    //         enabled: true
+    //      }
+    //   },
+    // });
+
     chart.update();
   }
 
@@ -460,15 +493,15 @@ var greenIcon = L.icon({
           $('#label3').html(ciudades[2].city);
 
           for (var i = 0; i < estaciones_json.length; i++) {
-              if(estaciones_json[i].id == ciudades[1].estacionesid){
+              if(estaciones_json[i].id == ciudades[0].estacionesid){
                 estacion  =  estaciones_json[i];
-                $('#estacion1').html('Estación: '+estacion.nombre);
+                $('#estacion1').html('Estación: '+ estacion.nombre);
                 break;
               }
           }
 
           for (var i = 0; i < estaciones_json.length; i++) {
-              if(estaciones_json[i].id == ciudades[2].estacionesid){
+              if(estaciones_json[i].id == ciudades[1].estacionesid){
                 estacion  =  estaciones_json[i];
                 $('#estacion2').html('Estación: '+estacion.nombre);
                 break;
@@ -476,7 +509,7 @@ var greenIcon = L.icon({
           }
 
           for (var i = 0; i < estaciones_json.length; i++) {
-              if(estaciones_json[i].id == ciudades[3].estacionesid){
+              if(estaciones_json[i].id == ciudades[2].estacionesid){
                 estacion  =  estaciones_json[i];
                 $('#estacion3').html('Estación: '+estacion.nombre);
                 break;
@@ -556,13 +589,13 @@ var greenIcon = L.icon({
           }
           array28.push(r);
         }
-        var valores2 =  [];
+        var valores2 = [];
         var etiquetas2 =  [];
         for (var i = array28.length-1; i >= 0; i--) {
           etiquetas2[(array28.length-1)-i]  = array28[i].fecha;
           valores2[(array28.length-1)-i]  = array28[i].valororig;
         }
-
+        valores2[0] = 0;
         put_grafica_inline(valores2,contenedor);
 
       },
