@@ -125,9 +125,10 @@ var greenIcon = L.icon({
     // popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
 });
 
+//trabajremos en esta parte
   for (var i = 0; i < estaciones_json.length; i++) {
     marker_mymap  = L.marker([estaciones_json[i].lat, estaciones_json[i].long],{icon: greenIcon}).addTo(mymap);
-    marker_mymap.bindPopup('<b>Estación #'+estaciones_json[i].id+'</b><br>Nombre :'+ estaciones_json[i].nombre +'<br>Codigo:'+estaciones_json[i].codigo+'<br><div style="    margin-bottom: 25px; margin-top: 25px;" class="botonera"><a href="#modal1">Detalle Estación</a></div>').openPopup();
+    marker_mymap.bindPopup('<b>Estación #'+estaciones_json[i].id+'</b><br>Nombre :'+ estaciones_json[i].nombre +'<br>Codigo:'+estaciones_json[i].codigo+'<br><div style="margin-bottom: 25px; margin-top: 25px;" class="botonera"><a href="#modal1">Detalle Estación</a></div>').openPopup();
   }
 
   $('#estados').change(function(){
