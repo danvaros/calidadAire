@@ -132,16 +132,73 @@ var greenIcon = L.icon({
   }
 
   $(document).on('click', '.modal_mapa', function() {
-    console.log($(this).data().id);
-    //sacar lista de estaciones obscuras
     //sacar la estacion en particular solo id
-    //cruzar el id con estaciones obscuras
-    //llamar a la funcion que muetra el modal
-    //replicar put detalle
-    //llamar pon historial
-    
+    var id_estacion = $(this).data().id;
+    var ciudad;
 
-    $('#modal1').modal('open');
+    for (var i = 0; i < estaciones_global.length; i++) {
+      if(id_estacion ==  estaciones_global[i].estacionesid){
+       ciudad  =  estaciones_global[i].city;
+       break;
+      }
+    }
+
+    console.log(id_estacion);
+    console.log(ciudad);
+
+    //cruzar el id con estaciones obscuras
+    var estacion = [];
+    for (var i = 0; i < estaciones_json.length; i++) {
+        if(estaciones_json[i].id == id_estacion){
+          estacion  = estaciones_json[i];
+          break;
+        }
+    }
+
+    var hoy =  convertDate(new Date());
+    console.log("https://api.datos.gob.mx/v1/sinaica?parametro=PM10&city="+ciudad +"&fecha="+hoy+"&pageSize=12000");
+
+    $.ajax({
+      type: 'GET',
+      url: "https://api.datos.gob.mx/v1/sinaica?parametro=PM10&city="+ciudad +"&fecha="+hoy+"&pageSize=12000",
+      data: {},
+      success: function( data, textStatus, jqxhr ) {
+        var lectura_alta = [];
+        if(data.results.length > 0)
+        {
+          for (var i = 0; i < data.results.length; i++) {
+            if(lectura_alta[i]>0 && data.results[i].valororig >lectura_alta[0].valororig ){
+              lectura_alta[0] = data.results[i];
+              console.log(lectura_alta);
+            }else{
+              lectura_alta[0] = data.results[i];
+              console.log(lectura_alta);
+            }
+          }
+
+
+          $('#titulo_detalle').html(lectura_alta[0].city);
+          $('#fecha_detalle').html(lectura_alta[0].fecha);
+          $('#contaminante_detalle').html(lectura_alta[0].parametro);
+          $('#estacion_detalle').html(estacion.nombre);
+
+          //llamar pon historial
+          put_his_estacion_val_max(lectura_alta[0],estacion);
+        }else{
+          alert('La estación no tiene mediciones este día');
+        }
+
+      },
+      xhrFields: {
+        withCredentials: false
+      },
+      crossDomain: true,
+      async:false
+    });
+
+
+
+
   });
 
   $('#estados').change(function(){
@@ -519,7 +576,6 @@ var greenIcon = L.icon({
 
 
   function put_grafica_inline(valores,contenedor){
-
     var options =  {
       height: '1.4em', width: '8em', lineColor: '#fff', fillColor: '#a4b6da',
       minSpotColor: false, maxSpotColor: false, spotColor: '#fff', spotRadius: 3
@@ -527,3 +583,31 @@ var greenIcon = L.icon({
 
     contenedor.sparkline(valores,options);
   }
+
+  var estaciones_global =  [];
+  function get_estaciones(){
+      var datedate = anio+"-"+mes+"-"+dia;
+      console.log(datedate);
+
+      $.ajax({
+        type: 'GET',
+        url: "https://api.datos.gob.mx/v1/sinaica?fecha="+datedate+"&pageSize=12000",
+        data: {},
+        success: function( data, textStatus, jqxhr ) {
+          var estations = [];
+
+          for (var i = 0; i < data.results.length; i++) {
+            estations.push(data.results[i]);
+          }
+          //estaciones.push(data.results.parametro);
+
+          console.log(estations.unique());
+          estaciones_global = estations;
+        },
+        xhrFields: {
+          withCredentials: false
+        },
+        crossDomain: true,
+        async:false
+      });
+    }
