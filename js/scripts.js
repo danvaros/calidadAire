@@ -130,7 +130,6 @@ var greenIcon = L.icon({
     marker_mymap.bindPopup('<b>Estación #'+estaciones_json[i].id+'</b><br>Nombre :'+ estaciones_json[i].nombre +'<br>Codigo:'+estaciones_json[i].codigo+'<br><div style="    margin-bottom: 25px; margin-top: 25px;" class="botonera"><a href="#modal1">Detalle Estación</a></div>').openPopup();
   }
 
-
   $('#estados').change(function(){
       var seleccionado = $(this).val();
       jQuery.each( coor_estado, function( i, val ) {
@@ -201,11 +200,6 @@ var greenIcon = L.icon({
     //"https://api.datos.gob.mx/v1/sinaica?city="+lectura.city+"&date-insert=[range:"+menos28+"T00:00:00%7C"+hoy+"T00:00:00]&pageSize=22245"
     var hoy = convertDate(new Date());
     var menos28 = convertDate(sumarDias(new Date(), -28));
-    console.log(menos28);
-    console.log(hoy);
-    console.log(lectura.city);
-
-    console.log("https://api.datos.gob.mx/v1/sinaica?parametro="+lectura.parametro+"&city="+lectura.city+"&date-insert=[range:"+menos28+"T00:00:00%7C"+hoy+"T00:00:00]&pageSize=22245");
 
     $.ajax({
       type: 'GET',
@@ -297,153 +291,6 @@ var greenIcon = L.icon({
 
       put_his_estacion_val_max(top_ciudades[indice-1],estacion);
   }
-
-  function estado(estado){
-
-    $.ajax({
-      type: 'GET',
-      url: "https://api.datos.gob.mx/v1/sinaica?fecha="+anio+"-"+(mes+1)+"-"+dia+"&pageSize=2000&parametro=PM10",
-      data: {},
-      success: function( data, textStatus, jqxhr ) {
-
-        // console.log('DATA');
-        console.log(data);
-
-        for (var i = 0; i < data.results[0].length; i++) {
-
-        }
-
-          //estaciones.push(data.results.stations[i].id);
-          if(data.results[0]._id != "cve"){
-            var contaminante = data.results[0].parametro;
-
-              if (contaminante == 'PM10'){
-                estaciones.push(parseFloat(data.results[0].valororig));
-              }
-
-          }
-      },
-      xhrFields: {
-        withCredentials: false
-      },
-      crossDomain: true,
-      async:false
-    });
-  }
-
-  function estados(){
-    var datedate = anio+"-"+mes+"-"+dia;
-    console.log(datedate);
-
-    $.ajax({
-      type: 'GET',
-      url: "https://api.datos.gob.mx/v1/sinaica?fecha="+datedate+"&pageSize=12000",
-      data: {},
-      success: function( data, textStatus, jqxhr ) {
-        var estados = [];
-
-        for (var i = 0; i < data.results.length; i++) {
-          estados.push(data.results[i].state);
-        }
-        //estaciones.push(data.results.parametro);
-
-        console.log(estados.unique());
-
-      },
-      xhrFields: {
-        withCredentials: false
-      },
-      crossDomain: true,
-      async:false
-    });
-
-  }
-
-  function ciudadesTodas(estado){
-    var datedate = anio+"-"+mes+"-"+dia;
-    console.log(datedate);
-
-    $.ajax({
-      type: 'GET',
-      url: "https://api.datos.gob.mx/v1/sinaica?fecha="+datedate+"&pageSize=12000&state="+estado,
-      data: {},
-      success: function( data, textStatus, jqxhr ) {
-        var estados = [];
-
-        for (var i = 0; i < data.results.length; i++) {
-          estados.push(data.results[i].city);
-        }
-        //estaciones.push(data.results.parametro);
-
-        console.log(estados.unique());
-
-      },
-      xhrFields: {
-        withCredentials: false
-      },
-      crossDomain: true,
-      async:false
-    });
-  }
-
-  function ciudadesEstado(estado, ciudad){}
-
-  function estaciones(ciudad){
-    var datedate = anio+"-"+mes+"-"+dia;
-    console.log(datedate);
-
-    $.ajax({
-      type: 'GET',
-      url: "https://api.datos.gob.mx/v1/sinaica?fecha="+datedate+"&pageSize=12000&city="+ciudad,
-      data: {},
-      success: function( data, textStatus, jqxhr ) {
-        var estations = [];
-
-        for (var i = 0; i < data.results.length; i++) {
-          estations.push(data.results[i].estacionesid);
-        }
-        //estaciones.push(data.results.parametro);
-
-        console.log(estations.unique());
-
-      },
-      xhrFields: {
-        withCredentials: false
-      },
-      crossDomain: true,
-      async:false
-    });
-
-  }
-
-  function contaminantes(ciudad){
-    var datedate = anio+"-"+mes+"-"+dia;
-    console.log(datedate);
-
-    $.ajax({
-      type: 'GET',
-      url: "https://api.datos.gob.mx/v1/sinaica?fecha="+datedate+"&pageSize=12000&city="+ciudad,
-      data: {},
-      success: function( data, textStatus, jqxhr ) {
-        var estaciones = [];
-
-        for (var i = 0; i < data.results.length; i++) {
-          estaciones.push(data.results[i].parametro);
-        }
-        //estaciones.push(data.results.parametro);
-
-        console.log(estaciones.unique());
-
-      },
-      xhrFields: {
-        withCredentials: false
-      },
-      crossDomain: true,
-      async:false
-    });
-  }
-
-  function historico(ciudad, fecha){}
 
   function getTop3ciudades(contaminante){
     var datedate = anio+"-"+mes+"-"+dia;
@@ -565,13 +412,10 @@ var greenIcon = L.icon({
               }
           }
 
-          var myvalues3 = [16,18,15,17];
-          var options =  {
-            height: '1.4em', width: '8em', lineColor: '#fff', fillColor: '#a4b6da',
-            minSpotColor: false, maxSpotColor: false, spotColor: '#fff', spotRadius: 3
-          }
+          get_historico(ciudades[0],$('#linecustom1'));
+          get_historico(ciudades[1],$('#linecustom2'));
+          get_historico(ciudades[2],$('#linecustom3'));
 
-          $('#linecustom3').sparkline(myvalues3,options);
         }
 
         top_ciudades = ciudades;
@@ -582,4 +426,90 @@ var greenIcon = L.icon({
       crossDomain: true,
       async:true
     });
+  }
+
+  function get_historico(lectura,contenedor){
+    var hoy = convertDate(new Date());
+    var menos28 = convertDate(sumarDias(new Date(), -28));
+
+    $.ajax({
+      type: 'GET',
+      url:"https://api.datos.gob.mx/v1/sinaica?parametro="+lectura.parametro+"&city="+lectura.city+"&date-insert=[range:"+menos28+"T00:00:00%7C"+hoy+"T23:59:59]&pageSize=22245",
+      data: {},
+      success: function( data, textStatus, jqxhr ) {
+        var estacionesid = lectura.estacionesid;
+        var his_estacion =  [];
+        console.log(data);
+        //sacar valores solo de la estacion y ademas solo los mas altos
+        for (var i = 0; i < data.results.length; i++)
+        {
+          var objeto = data.results[i];
+          var bandera =  false;
+          if(objeto.estacionesid == estacionesid)
+          {
+            if(his_estacion.length != 0)
+            {
+              for (var j = 0; j < his_estacion.length; j++)
+              {
+                if(his_estacion[j].fecha == objeto.fecha )
+                {
+                  bandera = true;
+                  if(his_estacion[j].valororig < objeto.valororig){
+                    his_estacion[j] = objeto;
+                  }
+                  break;
+                }
+              }
+              if(!bandera)
+              {
+                his_estacion.push(objeto);
+              }
+            }
+            else
+            {
+              his_estacion.push(objeto);
+            }
+          }
+        }
+        // creacion del arreglo que contiene los 28 dias
+        var array28 =  [];
+
+        for (var i = 0; i < 28; i++) {
+          var f = convertDate(sumarDias(new Date(), -i));
+          var r = {fecha:f, valororig:null};
+          for (var j = 0; j < his_estacion.length; j++) {
+            if(r.fecha == his_estacion[j].fecha){
+              console.log('entro');
+              r.valororig = his_estacion[j].valororig;
+            }
+          }
+          array28.push(r);
+        }
+        var valores2 =  [];
+        var etiquetas2 =  [];
+        for (var i = array28.length-1; i >= 0; i--) {
+          etiquetas2[(array28.length-1)-i]  = array28[i].fecha;
+          valores2[(array28.length-1)-i]  = array28[i].valororig;
+        }
+
+        put_grafica_inline(valores2,contenedor);
+
+      },
+      xhrFields: {
+        withCredentials: false
+      },
+      crossDomain: true,
+      async:true
+    });
+  }
+
+
+  function put_grafica_inline(valores,contenedor){
+
+    var options =  {
+      height: '1.4em', width: '8em', lineColor: '#fff', fillColor: '#a4b6da',
+      minSpotColor: false, maxSpotColor: false, spotColor: '#fff', spotRadius: 3
+    }
+
+    contenedor.sparkline(valores,options);
   }
