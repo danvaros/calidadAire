@@ -1,7 +1,28 @@
 var top_ciudades = [];
 
 $(document).ready(function(){
-  // +++++++++++++++++++++++++++++++++ botonera inicial +++++++++++++++++++++++++
+  //var estaciones  =  [];
+
+  // //results.length
+  // for (var i = 0; i < results.length; i++)
+  // {
+  //   var bandera = true;
+  //   for (var j = 0; j < estaciones.length; j++) {
+  //     if(estaciones[j].id == results[i].id){
+  //       bandera = false;
+  //       break;
+  //     }
+  //   }
+  //   if(bandera){
+  //     estaciones.push(results[i]);
+  //   }
+  // }
+  // console.log('----------- estaciones ----------');
+  // console.log(estaciones);
+  // $('#estaciones_json').text(estaciones);
+
+
+  // +++++++++++++++++ botonera inicial +++++++++++++++++++++++++
   var estados = false;
   $('#btn_ciudades').click(function(){
     if(estados){
@@ -18,7 +39,7 @@ $(document).ready(function(){
       estados = true;
     }
   });
-  // +++++++++++++++++++++++++++++++++ fin botonera inicial +++++++++++++++++++++++++
+  // +++++++ fin botonera inicial +++++++++++++++++++++++++
 
   //inicializacion de owlCarousel
   $(".owl-carousel").owlCarousel({
@@ -48,16 +69,9 @@ $(document).ready(function(){
   //inicializacion selects
   $('select').material_select();
 
-
-
-  //pruebas con api
-  getTop3ciudades('PM10');
-
   //adecuaciones de menu
   $('.navbar').css('height','30px');
   $('.navbar-default').css('background','#000');
-
-
 
   //llamadas ver
   $('#ver_top3').click(function(){
@@ -104,14 +118,6 @@ var greenIcon = L.icon({
     iconUrl: 'imagenes/punto.png',
     //shadowUrl: 'imagenes/leaf-shadow.png',
 
-
-    // iconSize:     [20, 50], // size of the icon
-    // shadowSize:   [30, 38], // size of the shadow
-    // iconAnchor:   [12, 49], // point of the icon which will correspond to marker's location
-    // shadowAnchor: [4, 36],  // the same for the shadow
-    // popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-
-
     // iconSize:     [20, 50], // size of the icon
     // shadowSize:   [30, 38], // size of the shadow
     // iconAnchor:   [12, 49], // point of the icon which will correspond to marker's location
@@ -119,10 +125,9 @@ var greenIcon = L.icon({
     // popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
 });
 
-  for (var i = 0; i < 30; i++) {
-
-    marker_mymap  = L.marker([results[i].lat, results[i].long],{icon: greenIcon}).addTo(mymap);
-    marker_mymap.bindPopup('<b>Estación #'+results[i].id+'</b><br>Nombre :'+ results[i].nombre +'<br>Codigo:'+results[i].codigo+'<br><div style="    margin-bottom: 25px; margin-top: 25px;" class="botonera"><a href="#modal1">Detalle Estación</a></div>').openPopup();
+  for (var i = 0; i < estaciones_json.length; i++) {
+    marker_mymap  = L.marker([estaciones_json[i].lat, estaciones_json[i].long],{icon: greenIcon}).addTo(mymap);
+    marker_mymap.bindPopup('<b>Estación #'+estaciones_json[i].id+'</b><br>Nombre :'+ estaciones_json[i].nombre +'<br>Codigo:'+estaciones_json[i].codigo+'<br><div style="    margin-bottom: 25px; margin-top: 25px;" class="botonera"><a href="#modal1">Detalle Estación</a></div>').openPopup();
   }
 
 
@@ -140,6 +145,22 @@ var greenIcon = L.icon({
   Array.prototype.unique=function(a){
     return function(){return this.filter(a)}}(function(a,b,c){return c.indexOf(a,b+1)<0
   });
+
+  function convertDate(date) {
+    var yyyy = date.getFullYear().toString();
+    var mm = (date.getMonth()+1).toString();
+    var dd  = date.getDate().toString();
+
+    var mmChars = mm.split('');
+    var ddChars = dd.split('');
+
+    return yyyy + '-' + (mmChars[1]?mm:"0"+mmChars[0]) + '-' + (ddChars[1]?dd:"0"+ddChars[0]);
+  }
+
+  function sumarDias(fecha, dias){
+    fecha.setDate(fecha.getDate() + dias);
+    return fecha;
+  }
 
   function removeData(chart) {
     chart.data.labels.pop();
@@ -177,14 +198,23 @@ var greenIcon = L.icon({
   function put_his_estacion_val_max(lectura,estacion){
     //llamada para crear la grafica
     //https://api.datos.gob.mx/v1/sinaica?city=Guadalajara&pageSize=22245
+    //"https://api.datos.gob.mx/v1/sinaica?city="+lectura.city+"&date-insert=[range:"+menos28+"T00:00:00%7C"+hoy+"T00:00:00]&pageSize=22245"
+    var hoy = convertDate(new Date());
+    var menos28 = convertDate(sumarDias(new Date(), -28));
+    console.log(menos28);
+    console.log(hoy);
+    console.log(lectura.city);
+
+    console.log("https://api.datos.gob.mx/v1/sinaica?parametro="+lectura.parametro+"&city="+lectura.city+"&date-insert=[range:"+menos28+"T00:00:00%7C"+hoy+"T00:00:00]&pageSize=22245");
+
     $.ajax({
       type: 'GET',
-      url:"https://api.datos.gob.mx/v1/sinaica?city="+lectura.city+'&parametro='+lectura.parametro+"&pageSize=22245",
+      url:"https://api.datos.gob.mx/v1/sinaica?parametro="+lectura.parametro+"&city="+lectura.city+"&date-insert=[range:"+menos28+"T00:00:00%7C"+hoy+"T23:59:59]&pageSize=22245",
       data: {},
       success: function( data, textStatus, jqxhr ) {
         var estacionesid = lectura.estacionesid;
         var his_estacion =  [];
-
+        console.log(data);
         //sacar valores solo de la estacion y ademas solo los mas altos
         for (var i = 0; i < data.results.length; i++)
         {
@@ -216,12 +246,27 @@ var greenIcon = L.icon({
             }
           }
         }
-        //llamar para crear la grafica
+        // creacion del arreglo que contiene los 28 dias
+        var array28 =  [];
 
-        for (var i = 0; i < his_estacion.length; i++) {
-          etiquetas[i]  = his_estacion[i].fecha;
-          valores[i]  = his_estacion[i].valororig;
+        for (var i = 0; i < 28; i++) {
+          var f = convertDate(sumarDias(new Date(), -i));
+          var r = {fecha:f, valororig:null};
+          for (var j = 0; j < his_estacion.length; j++) {
+            if(r.fecha == his_estacion[j].fecha){
+              console.log('entro');
+              r.valororig = his_estacion[j].valororig;
+            }
+          }
+          array28.push(r);
         }
+
+        for (var i = array28.length-1; i >= 0; i--) {
+          etiquetas[(array28.length-1)-i]  = array28[i].fecha;
+          valores[(array28.length-1)-i]  = array28[i].valororig;
+        }
+
+        console.log(array28);
         actualizar_grafica_detalle(valores,etiquetas);
         poner_botones(valores);
         $('#modal1').modal('open');
@@ -237,21 +282,17 @@ var greenIcon = L.icon({
   }
 
   function crear_detalle_top(indice){
-      //top_ciudades[indice-1];
       var estacion = [];
-      $('#titulo_detalle').html(top_ciudades[indice-1].city);
-      $('#fecha_detalle').html(top_ciudades[indice-1].fecha);
-      $('#contaminante_detalle').html(top_ciudades[indice-1].parametro);
-
-      for (var i = 0; i < results.length; i++) {
-          if(results[i].id == top_ciudades[indice-1].estacionesid){
-            estacion  =  results[i];
+      for (var i = 0; i < estaciones_json.length; i++) {
+          if(estaciones_json[i].id == top_ciudades[indice-1].estacionesid){
+            estacion  = estaciones_json[i];
             break;
           }
       }
-      console.log('---------------- estacion id --------------');
-      console.log(top_ciudades[indice-1]);
-      console.log(estacion);
+
+      $('#titulo_detalle').html(top_ciudades[indice-1].city);
+      $('#fecha_detalle').html(top_ciudades[indice-1].fecha);
+      $('#contaminante_detalle').html(top_ciudades[indice-1].parametro);
       $('#estacion_detalle').html(estacion.nombre);
 
       put_his_estacion_val_max(top_ciudades[indice-1],estacion);
@@ -406,7 +447,7 @@ var greenIcon = L.icon({
 
   function getTop3ciudades(contaminante){
     var datedate = anio+"-"+mes+"-"+dia;
-    console.log(datedate);
+
     $.ajax({
       type: 'GET',
       url: "https://api.datos.gob.mx/v1/sinaica?fecha="+datedate+"&pageSize=12000&parametro="+contaminante,
@@ -459,15 +500,15 @@ var greenIcon = L.icon({
           var valor =  ciudades[0].valororig;
           var valor2 = ciudades[1].valororig;
           var valor3 = ciudades[2].valororig;
-
-          //validamos si tenesmos que tratar el valor
-          if (valor > Math.floor(valor)) valor = valor.toFixed(3);
-          if (valor2 > Math.floor(valor2)) valor2 = valor2.toFixed(3);
-          if (valor3 > Math.floor(valor3)) valor3 = valor3.toFixed(3);
           console.log(valor);
           console.log(valor2);
           console.log(valor3);
-          
+          //validamos si tenesmos que tratar el valor
+          if (valor > Math.floor(valor)) valor = valor.toFixed(2);
+          if (valor2 > Math.floor(valor2)) valor2 = valor2.toFixed(2);
+          if (valor3 > Math.floor(valor3)) valor3 = valor3.toFixed(2);
+
+
           var tipoCon;
           switch(contaminante){
             case "NO2":
@@ -500,25 +541,25 @@ var greenIcon = L.icon({
           $('#label2').html(ciudades[1].city);
           $('#label3').html(ciudades[2].city);
 
-          for (var i = 0; i < results.length; i++) {
-              if(results[i].id == ciudades[1].estacionesid){
-                estacion  =  results[i];
+          for (var i = 0; i < estaciones_json.length; i++) {
+              if(estaciones_json[i].id == ciudades[1].estacionesid){
+                estacion  =  estaciones_json[i];
                 $('#estacion1').html('Estación: '+estacion.nombre);
                 break;
               }
           }
 
-          for (var i = 0; i < results.length; i++) {
-              if(results[i].id == ciudades[2].estacionesid){
-                estacion  =  results[i];
+          for (var i = 0; i < estaciones_json.length; i++) {
+              if(estaciones_json[i].id == ciudades[2].estacionesid){
+                estacion  =  estaciones_json[i];
                 $('#estacion2').html('Estación: '+estacion.nombre);
                 break;
               }
           }
 
-          for (var i = 0; i < results.length; i++) {
-              if(results[i].id == ciudades[3].estacionesid){
-                estacion  =  results[i];
+          for (var i = 0; i < estaciones_json.length; i++) {
+              if(estaciones_json[i].id == ciudades[3].estacionesid){
+                estacion  =  estaciones_json[i];
                 $('#estacion3').html('Estación: '+estacion.nombre);
                 break;
               }
@@ -541,66 +582,4 @@ var greenIcon = L.icon({
       crossDomain: true,
       async:true
     });
-
   }
-
-  // function get_val_max_estación(estacion_id,ciudad,estacion){
-  //   //llamada para crear la grafica
-  //   //https://api.datos.gob.mx/v1/sinaica?city=Guadalajara&pageSize=22245
-  //   $.ajax({
-  //     type: 'GET',
-  //     url:"https://api.datos.gob.mx/v1/sinaica?city="+ciudad+"&pageSize=22245",
-  //     data: {},
-  //     success: function( data, textStatus, jqxhr ) {
-  //       var estacionesid = estacion_id;
-  //       var his_estacion =  [];
-  //
-  //       //sacar valores solo de la estacion y ademas solo los mas altos
-  //       for (var i = 0; i < data.results.length; i++)
-  //       {
-  //         var objeto = data.results[i];
-  //         var bandera =  false;
-  //         if(objeto.estacionesid == estacionesid)
-  //         {
-  //           if(his_estacion.length != 0)
-  //           {
-  //             for (var j = 0; j < his_estacion.length; j++)
-  //             {
-  //               if(his_estacion[j].fecha == objeto.fecha )
-  //               {
-  //                 bandera = true;
-  //                 if(his_estacion[j].valororig < objeto.valororig){
-  //                   his_estacion[j] = objeto;
-  //                 }
-  //                 break;
-  //               }
-  //             }
-  //             if(!bandera)
-  //             {
-  //               his_estacion.push(objeto);
-  //             }
-  //           }
-  //           else
-  //           {
-  //             his_estacion.push(objeto);
-  //           }
-  //         }
-  //       }
-  //       //llamar para crear la grafica
-  //       for (var i = 0; i < his_estacion.length; i++) {
-  //         etiquetas[i]  = his_estacion[i].fecha;
-  //         valores[i]  = his_estacion[i].valororig;
-  //       }
-  //       actualizar_grafica_detalle(valores,etiquetas);
-  //       poner_botones(valores);
-  //       $('#modal1').modal('open');
-  //       var marker = L.marker([estacion.lat, estacion.long]).addTo(map_detalle);
-  //       map_detalle.setView([estacion.lat, estacion.long], 16);
-  //     },
-  //     xhrFields: {
-  //       withCredentials: false
-  //     },
-  //     crossDomain: true,
-  //     async:true
-  //   });
-  // }
