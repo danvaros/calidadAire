@@ -196,10 +196,6 @@ var greenIcon = L.icon({
       crossDomain: true,
       async:false
     });
-
-
-
-
   });
 
   $('#estados').change(function(){
@@ -252,38 +248,6 @@ var greenIcon = L.icon({
   function actualizar_grafica_detalle(valores,etiquetas){
     chart.data.datasets[0].data =  valores;
     chart.data.labels =  etiquetas;
-    chart.update();
-
-
-    // chart = new Chart(ctx, {
-    //   // The type of chart we want to create
-    //   type: 'line',
-    //   // The data for our dataset
-    //   data: {
-    //     labels: etiquetas,
-    //     datasets: [{
-    //       label: "Contaminantes",
-    //       // backgroundColor: 'rgb(255, 99, 132)',
-    //       // borderColor: 'rgb(0, 156, 242)',
-    //
-    //       backgroundColor: color(window.chartColors.blue).alpha(0.2).rgbString(),
-    //       borderColor: window.chartColors.blue,
-    //       pointBackgroundColor: window.chartColors.blue,
-    //       data: valores,
-    //     }]
-    //   },
-    //
-    //   // Configuration options go here
-    //   options: {
-    //      legend: {
-    //         display: false
-    //      },
-    //      tooltips: {
-    //         enabled: true
-    //      }
-    //   },
-    // });
-
     chart.update();
   }
 
@@ -360,8 +324,11 @@ var greenIcon = L.icon({
         }
 
         for (var i = array28.length-1; i >= 0; i--) {
+          v = array28[i].valororig;
+          if(v > Math.floor(v)) v = v.toFixed(3);
+
+          valores[(array28.length-1)-i]  = v;
           etiquetas[(array28.length-1)-i]  = array28[i].fecha;
-          valores[(array28.length-1)-i]  = array28[i].valororig;
         }
 
         console.log(array28);

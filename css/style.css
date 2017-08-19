@@ -56,9 +56,6 @@ footer.page-footer {
   margin: 0;
 }
 /*---------------------------------- estilos header -----------------*/
-.margen_arriba_g{
-  margin-top: 70px;
-}
 .base_botones{
   /*background-color: #fff;*/
   display: inline-block;
@@ -164,4 +161,11 @@ footer.page-footer {
 
 .chart-gauge2 .chart-gauge1 .chart-gauge3{
     margin: 50px 0px;
+}
+
+
+@media (max-width: 600px) {
+  .botonera a {
+      padding: 10px 4px;
+  }
 }
