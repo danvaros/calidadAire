@@ -11,10 +11,6 @@ nav .brand-logo {
   color: #fff;
 }
 
-.cabezera{
-  color:#fff;
-}
-
 p {
   line-height: 2rem;
 }
@@ -60,13 +56,12 @@ footer.page-footer {
   margin: 0;
 }
 /*---------------------------------- estilos header -----------------*/
-.margen_arriba_g{
-  margin-top: 70px;
-}
 .base_botones{
   /*background-color: #fff;*/
   display: inline-block;
 }
+
+
 
 .boton{
   padding: 5px 0px 5px 0px;
@@ -89,50 +84,8 @@ footer.page-footer {
   font-weight: 400;
 }
 
-.cont_carrucel{
-  border-bottom: 2px solid #fff;
-  border-top: 2px solid #fff;
-}
+.boton_inactivo{
 
-.velocimetros{
-  margin-top: 4em;
-  padding-bottom: 8em;
-}
-
-.detalle{
-    margin: 30px;
-}
-
-.titulo{
-  font-size: 30px;
-  font-weight: 600;
-}
-
-.subtitulo{
-  font-size: 30px;
-  font-weight: 200;
-}
-.subtitulo_chico{
-  font-size: 20px;
-  font-weight: 200;
-}
-.etiqueta{
-  margin: 0px 10px;
-}
-
-.contenido{
-  font-weight: 100;
-  margin: 0px 10px;
-  color: #4EBBE3;
-  font-size: 20px;
-}
-
-.boton_redondo{
-  color: #fff;
-  font-weight: 100;
-  background-color: rgba(255, 255, 255, .2);
-  padding: 5px 30px;
-  border-radius: 16px;
 }
 
 .customNextBtn{
@@ -146,7 +99,6 @@ footer.page-footer {
 .select-wrapper input.select-dropdown {
     border: 1px solid #fff !important;
 }
-
 
 .botonera{
   margin-top: 50px;
@@ -168,4 +120,52 @@ footer.page-footer {
 .botonera a:hover{
   background-color:#555;
   color:#bbb;
+}
+
+
+.botonera_mapa{
+  position: relative;
+  top: 15px;
+  z-index: 999;
+  left: 50px !important;
+}
+
+.modal {
+  max-height: 90%;
+  width: 90%;
+}
+
+.sombra{
+  -webkit-box-shadow: 7px 9px 18px -2px rgba(0,0,0,0.71);
+  -moz-box-shadow: 7px 9px 18px -2px rgba(0,0,0,0.71);
+  box-shadow: 7px 9px 18px -2px rgba(0,0,0,0.71);
+}
+
+.container{
+  color:#fff;
+}
+
+.velocimetros > div{
+  margin: 50px 0px;
+}
+
+.boton_redondo{
+  color: #fff !important;
+  background: rgba(51, 51, 51, 0.5);
+  padding: 10px 15px;
+  border-radius: 19px;
+  margin: 50px 0px;
+}
+/*hacer le over del boton o no por que es mobile*/
+
+
+.chart-gauge2 .chart-gauge1 .chart-gauge3{
+    margin: 50px 0px;
+}
+
+
+@media (max-width: 600px) {
+  .botonera a {
+      padding: 10px 4px;
+  }
 }
