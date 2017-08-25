@@ -2,6 +2,9 @@ var top_ciudades = [];
 var ant = 28;
 var ant_val_arr = [];
 var ant_lab_arr = [];
+var meses_abr = ["Ene", "Feb", "Mar", "Abr", "May", "Jun",
+  "Jul", "Agos", "Sep", "Oct", "Nov", "Dic"
+];
 
 $(document).ready(function(){
   //var estaciones  =  [];
@@ -369,8 +372,11 @@ var greenIcon = L.icon({
           v = array28[i].valororig;
           if(v > Math.floor(v)) v = v.toFixed(3);
 
+          var today = new Date(array28[i].fecha);
+          var dd = today.getDate();
+          var mm = today.getMonth(); //January is 0!
           valores[(array28.length-1)-i]  = v;
-          etiquetas[(array28.length-1)-i]  = array28[i].fecha;
+          etiquetas[(array28.length-1)-i]  = dd+'-'+meses_abr[mm];
         }
 
         console.log(array28);
@@ -410,7 +416,7 @@ var greenIcon = L.icon({
     console.log(lectura);
     console.log(estacion);
   }
-  
+
   function getTop3ciudades(contaminante){
     var datedate = anio+"-"+mes+"-"+dia;
 
