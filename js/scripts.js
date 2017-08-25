@@ -1,4 +1,7 @@
 var top_ciudades = [];
+var ant = 28;
+var ant_val_arr = [];
+var ant_lab_arr = [];
 
 $(document).ready(function(){
   //var estaciones  =  [];
@@ -77,16 +80,25 @@ $(document).ready(function(){
   $('#ver_top3').click(function(){
     event.preventDefault();
     crear_detalle_top(3);
+    ant_val_arr = [];
+    ant_lab_arr = [];
+    ant = 28;
   });
 
   $('#ver_top2').click(function(){
     event.preventDefault();
     crear_detalle_top(2);
+    ant_val_arr = [];
+    ant_lab_arr = [];
+    ant = 28;
   });
 
   $('#ver_top1').click(function(){
     event.preventDefault();
     crear_detalle_top(1);
+    ant_val_arr = [];
+    ant_lab_arr = [];
+    ant = 28;
   });
 
   $('.modal').modal();
@@ -97,21 +109,51 @@ $(document).ready(function(){
       $( this ).removeClass('active');
     });
 
-    $( this ).addClass('active');
 
-    var tam = $( this ).val();
-    if(tam != valores.length){
-      var valores_reducido = [];
-      var etiquetas_reducido = [];
-      console.log(valores);
-      for (var i = 0; i < tam; i++){
-        valores_reducido[i] =  valores[i];
-        etiquetas_reducido[i] =  etiquetas[i];
+    $( this ).addClass('active');
+    var boton = parseInt($( this ).val());
+    if(ant > boton){
+      var tam =  ant - boton;
+      for (var i = 0; i < tam; i++) {
+        ant_val_arr.push(chart.data.datasets[0].data.splice(0, 1));
+        ant_lab_arr.push(chart.data.labels.splice(0, 1));
       }
-      actualizar_grafica_detalle(valores_reducido,etiquetas_reducido);
-    }else{
-      actualizar_grafica_detalle(valores,etiquetas);
+    }else if(ant < boton){
+      var tam = boton - ant;
+      for (var i = 0; i < tam; i++) {
+        chart.data.datasets[0].data.unshift(ant_val_arr.pop()[0]);
+        chart.data.labels.unshift(ant_lab_arr.pop()[0]);
+      }
     }
+
+    ant = boton;
+    chart.update();
+
+    console.log(ant_lab_arr);
+    console.log(ant_val_arr);
+    // if($( this ).val() == 28){
+    //   chart.data.labels.splice(0, 1);
+    //   chart.data.datasets[0].data.splice(0, 1);
+    //   console.log('disminuir');
+    // }else{
+    //   console.log('aumentar');
+    //   chart.data.labels.unshift('24-08-2017');
+    //   chart.data.datasets[0].data.unshift(10);
+    // }
+
+    // var tam = 28 - $( this ).val();
+    // if(tam != valores.length){
+    //   var valores_reducido = [];
+    //   var etiquetas_reducido = [];
+    //   console.log(valores);
+    //   for (var i = tam; i < valores.length; i++){
+    //     valores_reducido[i] =  valores[i];
+    //     etiquetas_reducido[i] =  etiquetas[i];
+    //   }
+    //   actualizar_grafica_detalle(valores_reducido,etiquetas_reducido);
+    // }else{
+    //   actualizar_grafica_detalle(valores,etiquetas);
+    // }
   });
 
 var marker_mymap;
@@ -196,10 +238,6 @@ var greenIcon = L.icon({
       crossDomain: true,
       async:false
     });
-
-
-
-
   });
 
   $('#estados').change(function(){
@@ -252,38 +290,6 @@ var greenIcon = L.icon({
   function actualizar_grafica_detalle(valores,etiquetas){
     chart.data.datasets[0].data =  valores;
     chart.data.labels =  etiquetas;
-    chart.update();
-
-
-    // chart = new Chart(ctx, {
-    //   // The type of chart we want to create
-    //   type: 'line',
-    //   // The data for our dataset
-    //   data: {
-    //     labels: etiquetas,
-    //     datasets: [{
-    //       label: "Contaminantes",
-    //       // backgroundColor: 'rgb(255, 99, 132)',
-    //       // borderColor: 'rgb(0, 156, 242)',
-    //
-    //       backgroundColor: color(window.chartColors.blue).alpha(0.2).rgbString(),
-    //       borderColor: window.chartColors.blue,
-    //       pointBackgroundColor: window.chartColors.blue,
-    //       data: valores,
-    //     }]
-    //   },
-    //
-    //   // Configuration options go here
-    //   options: {
-    //      legend: {
-    //         display: false
-    //      },
-    //      tooltips: {
-    //         enabled: true
-    //      }
-    //   },
-    // });
-
     chart.update();
   }
 
@@ -360,8 +366,11 @@ var greenIcon = L.icon({
         }
 
         for (var i = array28.length-1; i >= 0; i--) {
+          v = array28[i].valororig;
+          if(v > Math.floor(v)) v = v.toFixed(3);
+
+          valores[(array28.length-1)-i]  = v;
           etiquetas[(array28.length-1)-i]  = array28[i].fecha;
-          valores[(array28.length-1)-i]  = array28[i].valororig;
         }
 
         console.log(array28);
@@ -394,8 +403,14 @@ var greenIcon = L.icon({
       $('#estacion_detalle').html(estacion.nombre);
 
       put_his_estacion_val_max(top_ciudades[indice-1],estacion);
+      put_contaminantes(top_ciudades[indice-1],estacion);
   }
 
+  function put_contaminantes(lectura,estacion){
+    console.log(lectura);
+    console.log(estacion);
+  }
+  
   function getTop3ciudades(contaminante){
     var datedate = anio+"-"+mes+"-"+dia;
 
