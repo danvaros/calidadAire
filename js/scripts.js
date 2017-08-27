@@ -3,7 +3,7 @@ var ant = 28;
 var ant_val_arr = [];
 var ant_lab_arr = [];
 var meses_abr = ["Ene", "Feb", "Mar", "Abr", "May", "Jun",
-  "Jul", "Agos", "Sep", "Oct", "Nov", "Dic"
+  "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"
 ];
 
 $(document).ready(function(){
@@ -227,6 +227,7 @@ var greenIcon = L.icon({
           $('#fecha_detalle').html(lectura_alta[0].fecha);
           $('#contaminante_detalle').html(lectura_alta[0].parametro);
           $('#estacion_detalle').html(estacion.nombre);
+          $('#contaminante_grafica').html(lectura_alta[0].parametro);
 
           //llamar pon historial
           put_his_estacion_val_max(lectura_alta[0],estacion);
@@ -407,6 +408,7 @@ var greenIcon = L.icon({
       $('#fecha_detalle').html(top_ciudades[indice-1].fecha);
       $('#contaminante_detalle').html(top_ciudades[indice-1].parametro);
       $('#estacion_detalle').html(estacion.nombre);
+      $('#contaminante_grafica').html(estacion.nombre);
 
       put_his_estacion_val_max(top_ciudades[indice-1],estacion);
       put_contaminantes(top_ciudades[indice-1],estacion);
