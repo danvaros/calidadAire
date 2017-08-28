@@ -227,6 +227,7 @@ var greenIcon = L.icon({
           $('#fecha_detalle').html(lectura_alta[0].fecha);
           $('#contaminante_detalle').html(lectura_alta[0].parametro);
           $('#estacion_detalle').html(estacion.nombre);
+          $('#contaminante_grafica').html(lectura_alta[0].parametro);
 
           //llamar pon historial
           put_his_estacion_val_max(lectura_alta[0],estacion);
@@ -407,7 +408,7 @@ var greenIcon = L.icon({
       $('#fecha_detalle').html(top_ciudades[indice-1].fecha);
       $('#contaminante_detalle').html(top_ciudades[indice-1].parametro);
       $('#estacion_detalle').html(estacion.nombre);
-      $('#titulo_grafica').html(top_ciudades[indice-1].parametro);
+      $('#contaminante_grafica').html(top_ciudades[indice-1].parametro);
 
       put_his_estacion_val_max(top_ciudades[indice-1],estacion);
       put_contaminantes(top_ciudades[indice-1],estacion);
