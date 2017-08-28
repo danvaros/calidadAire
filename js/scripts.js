@@ -408,7 +408,7 @@ var greenIcon = L.icon({
       $('#fecha_detalle').html(top_ciudades[indice-1].fecha);
       $('#contaminante_detalle').html(top_ciudades[indice-1].parametro);
       $('#estacion_detalle').html(estacion.nombre);
-      $('#contaminante_grafica').html(estacion.nombre);
+      $('#contaminante_grafica').html(top_ciudades[indice-1].parametro);
 
       put_his_estacion_val_max(top_ciudades[indice-1],estacion);
       put_contaminantes(top_ciudades[indice-1],estacion);
