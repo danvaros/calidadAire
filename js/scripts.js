@@ -417,6 +417,16 @@ var greenIcon = L.icon({
   function put_contaminantes(lectura,estacion){
     console.log(lectura);
     console.log(estacion);
+    var valPM10 = $('#valPM10');
+    getMasAlto('PM10',lectura.city,estacion.id,valPM10);
+    var valPM25 = $('#valPM25');
+    getMasAlto('PM2.5',lectura.city,estacion.id,valPM25);
+    var valN02 = $('#valN02');
+    getMasAlto('NO2',lectura.city,estacion.id,valN02);
+    var valS02 = $('#valS02');
+    getMasAlto('SO2',lectura.city,estacion.id,valS02);
+    var valO3 = $('#valO3');
+    getMasAlto('O3',lectura.city,estacion.id,valO3);
   }
 
   function getTop3ciudades(contaminante){
@@ -486,23 +496,24 @@ var greenIcon = L.icon({
           var tipoCon;
           switch(contaminante){
             case "NO2":
-              tipoCon = 0.125;
+              tipoCon = 0.315;
             break;
             case "O3":
-              tipoCon = 0.120;
+              tipoCon = 0.181;
             break;
             case "PM10":
-                tipoCon = 1000;
+                tipoCon = 158;
             break;
             case "PM2.5":
-              tipoCon = 1000;
+              tipoCon = 158;
             break;
             case "SO2":
-              tipoCon = 0.20;
+              tipoCon = 0.32;
+            break;
+            case "CO":
+              tipoCon = 16.5;
             break;
           }
-
-
 
           $('.chart-gauge').html('');
           $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:valor,gaugeMaxValue:tipoCon});
@@ -665,5 +676,36 @@ var greenIcon = L.icon({
         },
         crossDomain: true,
         async:false
+      });
+    }
+
+
+
+  function getMasAlto(contaminante,ciudad,idEstacion,contenedor){
+      var datedate = anio+"-"+mes+"-"+dia;
+
+      $.ajax({
+        type: 'GET',
+        url: "https://api.datos.gob.mx/v1/sinaica?city="+ciudad+"&fecha="+datedate+"&pageSize=12000&parametro="+contaminante,
+        data: {},
+        success: function( data, textStatus, jqxhr ) {
+          console.log(data);
+          var masAlto =  data.results[0];
+
+          for (var i = 0; i < data.results.length; i++)
+          {
+            if(data.results[i].estacionesid == idEstacion){
+              if( data.results[i].valororig > masAlto.valororig ){
+                masAlto =  data.results[i];
+              }
+            }
+          }
+          contenedor.html(''+masAlto.valororig.toFixed(3));
+        },
+        xhrFields: {
+          withCredentials: false
+        },
+        crossDomain: true,
+        async:true
       });
     }
