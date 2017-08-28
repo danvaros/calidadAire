@@ -644,7 +644,7 @@ var greenIcon = L.icon({
 // fillColor: '#a4b6da'
   function put_grafica_inline(valores,contenedor){
     var options =  {
-      height: '1.4em', width: '8em', lineColor: '#fff',fillColor: false,
+      height: '3em', width: '8em', lineColor: '#fff',fillColor: false,
       minSpotColor: false, maxSpotColor: false, spotColor: false, spotRadius: 3
     }
 
