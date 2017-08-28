@@ -403,23 +403,23 @@
             </div>
             <div class="col s5ths">
               <p class="etiqueta">PM10</p>
-              <p class="contenido">2652.07</p>
+              <p id="valPM10">2652.07</p>
             </div>
             <div class="col s5ths">
               <p class="etiqueta">PM2.5</p>
-              <p class="contenido">456.07</p>
+              <p id="valPM25">456.07</p>
             </div>
             <div class="col s5ths">
               <p class="etiqueta">NO2</p>
-              <p class="contenido">2652.07</p>
+              <p id="valN02">2652.07</p>
             </div>
             <div class="col s5ths">
               <p class="etiqueta">SO2</p>
-              <p class="contenido">456.07</p>
+              <p id="valS02">456.07</p>
             </div>
             <div class="col s5ths">
               <p class="etiqueta">O3</p>
-              <p class="contenido">2652.07</p>
+              <p id="valO3">2652.07</p>
             </div>
           </div>
           <div class="col  s12 m6 l6">
@@ -509,7 +509,7 @@ $(function() {
 
 
   var options =  {
-    height: '2em', width: '8em', lineColor: '#fff', fillColor: '#a4b6da',
+    height: '4em', width: '8em', lineColor: '#fff', fillColor: '#a4b6da',
     minSpotColor: false, maxSpotColor: false, spotColor: '#fff', spotRadius: 3
   }
   // Customized line chart
@@ -669,7 +669,8 @@ var estacion = [ {
 $(document).ready(function()
 {
   //llamada inicial
-  getTop3ciudades('PM10');
+  //getTop3ciudades('PM10');
+  getTop3ciudadesV2('PM10');
   get_estaciones();
 
   $('#contaminantes').change(function(){

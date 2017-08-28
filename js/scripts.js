@@ -408,7 +408,7 @@ var greenIcon = L.icon({
       $('#fecha_detalle').html(top_ciudades[indice-1].fecha);
       $('#contaminante_detalle').html(top_ciudades[indice-1].parametro);
       $('#estacion_detalle').html(estacion.nombre);
-      $('#contaminante_grafica').html(estacion.nombre);
+      $('#contaminante_grafica').html(top_ciudades[indice-1].parametro);
 
       put_his_estacion_val_max(top_ciudades[indice-1],estacion);
       put_contaminantes(top_ciudades[indice-1],estacion);
@@ -417,6 +417,16 @@ var greenIcon = L.icon({
   function put_contaminantes(lectura,estacion){
     console.log(lectura);
     console.log(estacion);
+    var valPM10 = $('#valPM10');
+    getMasAlto('PM10',lectura.city,estacion.id,valPM10);
+    var valPM25 = $('#valPM25');
+    getMasAlto('PM2.5',lectura.city,estacion.id,valPM25);
+    var valN02 = $('#valN02');
+    getMasAlto('NO2',lectura.city,estacion.id,valN02);
+    var valS02 = $('#valS02');
+    getMasAlto('SO2',lectura.city,estacion.id,valS02);
+    var valO3 = $('#valO3');
+    getMasAlto('O3',lectura.city,estacion.id,valO3);
   }
 
   function getTop3ciudades(contaminante){
@@ -456,7 +466,7 @@ var greenIcon = L.icon({
           }
         }
 
-        //ordenamos el arrglo para tomar los valores mas altos
+        //ordenamos el arreglo para tomar los valores mas altos
         ciudades.sort(function (a, b) {
           if (a.valororig < b.valororig) {
             return 1;
@@ -486,23 +496,24 @@ var greenIcon = L.icon({
           var tipoCon;
           switch(contaminante){
             case "NO2":
-              tipoCon = 0.125;
+              tipoCon = 0.315;
             break;
             case "O3":
-              tipoCon = 0.120;
+              tipoCon = 0.181;
             break;
             case "PM10":
-                tipoCon = 1000;
+                tipoCon = 158;
             break;
             case "PM2.5":
-              tipoCon = 1000;
+              tipoCon = 158;
             break;
             case "SO2":
-              tipoCon = 0.20;
+              tipoCon = 0.32;
+            break;
+            case "CO":
+              tipoCon = 16.5;
             break;
           }
-
-
 
           $('.chart-gauge').html('');
           $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:valor,gaugeMaxValue:tipoCon});
@@ -633,7 +644,7 @@ var greenIcon = L.icon({
 // fillColor: '#a4b6da'
   function put_grafica_inline(valores,contenedor){
     var options =  {
-      height: '1.4em', width: '8em', lineColor: '#fff',fillColor: false,
+      height: '3em', width: '8em', lineColor: '#fff',fillColor: false,
       minSpotColor: false, maxSpotColor: false, spotColor: false, spotRadius: 3
     }
 
@@ -665,5 +676,221 @@ var greenIcon = L.icon({
         },
         crossDomain: true,
         async:false
+      });
+    }
+
+  function getMasAlto(contaminante,ciudad,idEstacion,contenedor){
+      var datedate = anio+"-"+mes+"-"+dia;
+
+      $.ajax({
+        type: 'GET',
+        url: "https://api.datos.gob.mx/v1/sinaica?city="+ciudad+"&fecha="+datedate+"&pageSize=12000&parametro="+contaminante,
+        data: {},
+        success: function( data, textStatus, jqxhr ) {
+          console.log(data);
+          var masAlto =  data.results[0];
+
+          for (var i = 0; i < data.results.length; i++)
+          {
+            if(data.results[i].estacionesid == idEstacion){
+              if( data.results[i].valororig > masAlto.valororig ){
+                masAlto =  data.results[i];
+              }
+            }
+          }
+          contenedor.html(''+masAlto.valororig.toFixed(3));
+        },
+        xhrFields: {
+          withCredentials: false
+        },
+        crossDomain: true,
+        async:true
+      });
+    }
+
+  function getFormatDateAPI(d){
+    var fecha = d.getFullYear()+'-'+ meis[d.getMonth()] +'-'+ d.getDate()+'T'+ d.getHours()+':'+( (d.getMinutes()<10?'0':'') + d.getMinutes() )+':00';
+    return fecha;
+  }
+
+  //funcucion que consigue agrupar los datos de una estacion
+  function getUniqueEstation(json){
+    var arrEstaciones = [];
+    for (var i = 0; i < json.length; i++) {
+      if(!arrEstaciones[json[i].estacionesid])
+        arrEstaciones[json[i].estacionesid] = [];
+      arrEstaciones[json[i].estacionesid].push(json[i]);
+    }
+    return arrEstaciones;
+  }
+
+  var arrEstaciones;
+  function getTop3ciudadesV2(contaminante){
+
+    const dActual = new Date();
+    var dPasada = new Date();
+    dPasada.setHours(dActual.getHours() - 24);
+
+    console.log(dActual);
+    console.log(dPasada);
+    console.log(getFormatDateAPI(dActual));
+
+    var ruta = "https://api.datos.gob.mx/v1/sinaica?parametro="+ contaminante +"&date-insert=[range:"+getFormatDateAPI(dPasada)+"%7C"+getFormatDateAPI(dActual)+"]";
+
+      console.log(ruta);
+
+      $.ajax({
+        type: 'GET',
+        url: ruta+'&pageSize=1',
+        data: {},
+        success: function( data, textStatus, jqxhr ) {
+
+          //sacamos el numero de total de registros
+          var size =  data.pagination.total;
+
+          $.ajax({
+            type: 'GET',
+            url: ruta+'&pageSize=' + size,
+            data: {},
+            success: function( data, textStatus, jqxhr ) {
+
+              arrEstaciones = getUniqueEstation(data.results);
+
+              arrEstaciones.forEach(function(item, index){
+                var promedio = 0;
+                var sum = 0;
+                //validadando que tenga mas de 12 registros para hacer la evaluacion de 24 horas
+                if(item.length >= 12){
+                  item.forEach(function(item2, index2){
+                    //validacion que no supere el limite establecido
+                    if(item2.valororig < 158)
+                      sum = sum + item2.valororig;
+                  });
+                  promedio = sum / item.length;
+                  //agregamos la suma y el pormedio al json de las estacion
+                  item.suma  =  sum;
+                  item.promedio =  promedio;
+                }else{
+                  item.suma  =  0;
+                  item.promedio =  0;
+                }
+
+              });
+
+
+
+              arrEstaciones.sort(function (a, b) {
+                if (a.promedio < b.promedio) {
+                  return 1;
+                }
+                if (a.promedio > b.promedio) {
+                  return -1;
+                }
+                // a must be equal to b
+                return 0;
+              });
+
+              console.log(arrEstaciones);
+
+              if(arrEstaciones.length > 0){
+                var valor =  arrEstaciones['0'].promedio;
+                var valor2 = arrEstaciones['1'].promedio;
+                var valor3 = arrEstaciones['2'].promedio;
+                console.log(valor);
+                console.log(valor2);
+                console.log(valor3);
+
+                //validamos si tenesmos que tratar el valor
+                if (valor > Math.floor(valor)) valor = valor.toFixed(2);
+                if (valor2 > Math.floor(valor2)) valor2 = valor2.toFixed(2);
+                if (valor3 > Math.floor(valor3)) valor3 = valor3.toFixed(2);
+
+                var tipoCon;
+                switch(contaminante){
+                  case "NO2":
+                    tipoCon = 0.315;
+                  break;
+                  case "O3":
+                    tipoCon = 0.181;
+                  break;
+                  case "PM10":
+                      tipoCon = 158;
+                  break;
+                  case "PM2.5":
+                    tipoCon = 158;
+                  break;
+                  case "SO2":
+                    tipoCon = 0.32;
+                  break;
+                  case "CO":
+                    tipoCon = 16.5;
+                  break;
+                }
+
+                $('.chart-gauge').html('');
+                $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:valor,gaugeMaxValue:tipoCon});
+                $('.chart-gauge2').html('');
+                $('.chart-gauge2').gaugeIt({selector:'.chart-gauge2',value:valor2,gaugeMaxValue:tipoCon});
+                $('.chart-gauge3').html('');
+                $('.chart-gauge3').gaugeIt({selector:'.chart-gauge3',value:valor3,gaugeMaxValue:tipoCon});
+
+                $('#label1').html(arrEstaciones['0'][0].city);
+                $('#label2').html(arrEstaciones['1'][0].city);
+                $('#label3').html(arrEstaciones['2'][0].city);
+
+                for (var i = 0; i < estaciones_json.length; i++) {
+                    if(estaciones_json[i].id == arrEstaciones[0][0].estacionesid){
+                      estacion  =  estaciones_json[i];
+                      $('#estacion1').html('Estación: '+ estacion.nombre);
+                      break;
+                    }
+                }
+
+
+                for (var i = 0; i < estaciones_json.length; i++) {
+                    if(estaciones_json[i].id == arrEstaciones[1][0].estacionesid){
+                      estacion  =  estaciones_json[i];
+                      $('#estacion2').html('Estación: '+estacion.nombre);
+                      break;
+                    }
+                }
+
+                for (var i = 0; i < estaciones_json.length; i++) {
+                    if(estaciones_json[i].id == arrEstaciones[2][0].estacionesid){
+                      estacion  =  estaciones_json[i];
+                      $('#estacion3').html('Estación: '+estacion.nombre);
+                      break;
+                    }
+                }
+
+
+                  get_historico(arrEstaciones[0][0],$('#linecustom1'));
+                  get_historico(arrEstaciones[1][0],$('#linecustom2'));
+                  get_historico(arrEstaciones[2][0],$('#linecustom3'));
+
+
+                var ciudades = [];
+                ciudades.push(arrEstaciones[0][0]);
+                ciudades.push(arrEstaciones[1][0]);
+                ciudades.push(arrEstaciones[2][0]);
+
+                top_ciudades = ciudades;
+
+
+              }
+
+            },
+            xhrFields: {
+              withCredentials: false
+            },
+            crossDomain: true,
+            async:true
+          });
+        },
+        xhrFields: {
+          withCredentials: false
+        },
+        crossDomain: true,
+        async:true
       });
     }
