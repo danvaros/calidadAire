@@ -647,7 +647,8 @@ var greenIcon = L.icon({
       height: '3em', width: '8em', lineColor: '#fff',fillColor: false,
       minSpotColor: false, maxSpotColor: false, spotColor: false, spotRadius: 3
     }
-
+    
+    contenedor.show();
     contenedor.sparkline(valores,options);
   }
 
@@ -725,11 +726,25 @@ var greenIcon = L.icon({
   }
 
   var arrEstaciones;
-  function getTop3ciudadesV2(contaminante){
+  function getTop3ciudadesV2(contaminante,tipo,maximo){
+
+    $('#linecustom1').hide();
+    $('#linecustom2').hide();
+    $('#linecustom3').hide();
 
     const dActual = new Date();
     var dPasada = new Date();
-    dPasada.setHours(dActual.getHours() - 24);
+    var reMin = 1;
+
+    if('8h' ==  tipo){
+      dPasada.setHours(dActual.getHours() - 8);
+      reMin = 4;
+    }else if('24h' == tipo){
+      dPasada.setHours(dActual.getHours() - 24);
+      reMin = 12;
+    }else{
+      dPasada.setHours(dActual.getHours() - 2);
+    }
 
     console.log(dActual);
     console.log(dPasada);
@@ -760,10 +775,10 @@ var greenIcon = L.icon({
                 var promedio = 0;
                 var sum = 0;
                 //validadando que tenga mas de 12 registros para hacer la evaluacion de 24 horas
-                if(item.length >= 12){
+                if(item.length >= reMin){
                   item.forEach(function(item2, index2){
                     //validacion que no supere el limite establecido
-                    if(item2.valororig < 158)
+                    if(item2.valororig < maximo)
                       sum = sum + item2.valororig;
                   });
                   promedio = sum / item.length;
@@ -867,6 +882,7 @@ var greenIcon = L.icon({
                   get_historico(arrEstaciones[0][0],$('#linecustom1'));
                   get_historico(arrEstaciones[1][0],$('#linecustom2'));
                   get_historico(arrEstaciones[2][0],$('#linecustom3'));
+
 
 
                 var ciudades = [];

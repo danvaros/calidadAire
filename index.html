@@ -178,9 +178,13 @@
                 <select style="color: #333; background-color: rgba(243, 236, 236, .2); border: 0px;" class="browser-default" name="" id="contaminantes">
                   <option value="PM10">PM 10</option>
                   <option value="PM2.5">PM 2.5</option>
-                  <option value="SO2">SO2</option>
-                  <option value="O3">O3</option>
+                  <option value="SO2">SO2 Promedio 24 horas</option>
+                  <option value="SO2">SO2 Promedio 8 horas</option>
+                  <option value="SO2">SO2 Dato horario</option>
+                  <option value="O3">Ozono (O3) Promedio 8 horas</option>
+                  <option value="O3D">Ozono (O3) Dato horario</option>
                   <option value="NO2">NO2</option>
+                  <option value="CO">CO</option>
                 </select>
               </div>
             </div>
@@ -211,7 +215,7 @@
               <div class="col s12 center">
 
                 <div class="chart-gauge"></div>
-                <p>
+                <p style="margin-bottom: 20px;">
                   <span id="linecustom1">10,8,9,3,5,8,5,7</span>
                 </p>
                 <a href="#" class="boton_redondo" id="ver_top1">Ver más</a>
@@ -241,7 +245,7 @@
               </div>
               <div class="col s12">
                 <div class="chart-gauge2"></div>
-                <p>
+                <p style="margin-bottom: 20px;">
                   <span id="linecustom2">10,8,9,3,5,8,5,7</span>
                 </p>
                 <a href="" class="boton_redondo" id="ver_top2">Ver más</a>
@@ -271,7 +275,7 @@
               </div>
               <div class="col s12">
                 <div class="chart-gauge3"></div>
-                <p>
+                <p style="margin-bottom: 20px;">
                   <span id="linecustom3">10,8,9,3,5,8,5,7</span>
                 </p>
                 <a href="" class="boton_redondo" id="ver_top3">Ver más</a>
@@ -670,20 +674,58 @@ $(document).ready(function()
 {
   //llamada inicial
   //getTop3ciudades('PM10');
-  getTop3ciudadesV2('PM10');
+  getTop3ciudadesV2('PM10','24h',158);
   get_estaciones();
 
   $('#contaminantes').change(function(){
     var contaminante = $( this ).val();
+    var tipo = '24h';
+
+    var maximo;
+
     //$('#contaminante_titulo').text(contaminante);
     console.log(contaminante);
-    if(contaminante == 'PM10') $('#contaminante_titulo').text('Partículas menores de 10 micrómetros (PM10).');
-    else if(contaminante == 'PM2.5')$('#contaminante_titulo').text('Partículas menores de 2.5 micrómetros (PM2.5).');
-    else if(contaminante == 'O3') $('#contaminante_titulo').text('Ozono (O3).');
-    else if(contaminante == 'SO2') $('#contaminante_titulo').text('Dióxido de azufre (SO2).');
-    else if(contaminante == 'NO2') $('#contaminante_titulo').text('Dióxido de nitrógeno (NO2).');
+    if(contaminante == 'PM10'){
+      $('#contaminante_titulo').text('Partículas menores de 10 micrómetros (PM10).');
+      maximo =  158;
+    }
+    else if(contaminante == 'PM2.5'){
+      $('#contaminante_titulo').text('Partículas menores de 2.5 micrómetros (PM2.5).');
+      maximo =  158;
+    }
+    else if(contaminante == 'O3'){
+      $('#contaminante_titulo').text('Ozono (O3).');
+      maximo =  0.181;
+    }
+    else if(contaminante == 'O3D'){
+      contaminante = 'O3';
+      tipo = 'D';
+      $('#contaminante_titulo').text('Ozono (O3).');
+      maximo =  0.181;
+    }
+    else if(contaminante == 'SO2'){
+      $('#contaminante_titulo').text('Dióxido de azufre (SO2).');
+      maximo =   0.32;
+    }
+    else if(contaminante == 'SO28'){
+      contaminante = 'SO2';
+      tipo = '8h';
+      $('#contaminante_titulo').text('Dióxido de azufre (SO2).');
+      maximo =   0.32;
+    } else if(contaminante == 'SO2D'){
+      contaminante = 'SO2';
+      tipo = 'D';
+      $('#contaminante_titulo').text('Dióxido de azufre (SO2).');
+      maximo =   0.32;
+    }
+    else if(contaminante == 'NO2'){
+      $('#contaminante_titulo').text('Dióxido de nitrógeno (NO2).');
+      maximo =  0.315;
+    }
 
-    getTop3ciudades(contaminante);
+
+    //getTop3ciudades(contaminante);
+    getTop3ciudadesV2(contaminante,tipo,maximo);
   });
 
 });
