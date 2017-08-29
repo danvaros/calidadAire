@@ -179,8 +179,8 @@
                   <option value="PM10">PM 10</option>
                   <option value="PM2.5">PM 2.5</option>
                   <option value="SO2">SO2 Promedio 24 horas</option>
-                  <option value="SO2">SO2 Promedio 8 horas</option>
-                  <option value="SO2">SO2 Dato horario</option>
+                  <option value="SO28">SO2 Promedio 8 horas</option>
+                  <option value="SO2D">SO2 Dato horario</option>
                   <option value="O3">Ozono (O3) Promedio 8 horas</option>
                   <option value="O3D">Ozono (O3) Dato horario</option>
                   <option value="NO2">NO2</option>
@@ -696,6 +696,7 @@ $(document).ready(function()
     else if(contaminante == 'O3'){
       $('#contaminante_titulo').text('Ozono (O3).');
       maximo =  0.181;
+      tipo = '8h';
     }
     else if(contaminante == 'O3D'){
       contaminante = 'O3';
@@ -721,6 +722,7 @@ $(document).ready(function()
     else if(contaminante == 'NO2'){
       $('#contaminante_titulo').text('Dióxido de nitrógeno (NO2).');
       maximo =  0.315;
+      tipo = 'D';
     }
 
 

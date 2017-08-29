@@ -647,7 +647,7 @@ var greenIcon = L.icon({
       height: '3em', width: '8em', lineColor: '#fff',fillColor: false,
       minSpotColor: false, maxSpotColor: false, spotColor: false, spotRadius: 3
     }
-    
+
     contenedor.show();
     contenedor.sparkline(valores,options);
   }
@@ -710,7 +710,7 @@ var greenIcon = L.icon({
     }
 
   function getFormatDateAPI(d){
-    var fecha = d.getFullYear()+'-'+ meis[d.getMonth()] +'-'+ d.getDate()+'T'+ d.getHours()+':'+( (d.getMinutes()<10?'0':'') + d.getMinutes() )+':00';
+    var fecha = d.getFullYear()+'-'+ meis[d.getMonth()] +'-'+ d.getDate()+'T'+ ( (d.getHours() < 10?'0':'') + d.getHours() ) +':'+( (d.getMinutes()<10?'0':'') + d.getMinutes() )+':00';
     return fecha;
   }
 
@@ -791,8 +791,6 @@ var greenIcon = L.icon({
                 }
 
               });
-
-
 
               arrEstaciones.sort(function (a, b) {
                 if (a.promedio < b.promedio) {
