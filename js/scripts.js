@@ -644,10 +644,29 @@ var greenIcon = L.icon({
 // fillColor: '#a4b6da'
   function put_grafica_inline(valores,contenedor){
     var options =  {
-      height: '3em', width: '8em', lineColor: '#fff',fillColor: false,
-      minSpotColor: false, maxSpotColor: false, spotColor: false, spotRadius: 3
+      type: "line",
+      height: '3em',
+      width: '8em',
+      lineColor: '#fff',
+      fillColor: false,
+      minSpotColor: false,
+      maxSpotColor: false,
+      spotColor: false,
+      spotRadius: 3,
+      tooltipFormat: '{{offset:offset}} {{value}} <br> {{prefix}}{{y}}{{suffix}}' ,
+      tooltipValueLookups: {
+        'offset': {
+            0: '09-Ago',
+            1: '09-Ago',
+            2: '09-Ago',
+            3: '09-Ago',
+            4: '09-Ago',
+            5: '09-Ago',
+        }
+    },
     }
 
+    // valores = [100.00,100.00,100.00,80.00,80.00,66.67];
     contenedor.show();
     contenedor.sparkline(valores,options);
   }

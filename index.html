@@ -354,90 +354,95 @@
       <div class="modal-content">
         <!-- esto sera el modal -->
         <div class="row detalle">
-          <div class="row">
-            <div class="col s12 m12 l5">
-              <p class="titulo"><strong id="titulo_detalle">Ciudad Fernández</strong></p>
-              <p class="subtitulo">Calidad de aire: --</p>
-            </div>
-            <div class="col s12 m12 l3">
-              <div class="row">
-                <div class="col s6">
-                  <img src="imagenes/fecha.png">
-                </div>
-                <div class="col s6">
-                  <p><b >Fecha</b></p>
-                  <p id="fecha_detalle">24/05/17</p>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col s6">
-                  <img src="imagenes/temperatura.png">
-                </div>
-                <div class="col s6">
-                  <p><b>Temperatura</b></p>
-                  <p>--</p>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col s6">
-                  <img src="imagenes/contaminante.png">
-                </div>
-                <div class="col s6">
-                  <p><b >Contaminante:</b></p>
-                  <p id="contaminante_detalle">PM10, 104</p>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col s6">
-                  <img src="imagenes/estacion.png">
-                </div>
-                <div class="col s6">
-                  <p><b>Estación:</b></p>
-                  <p id="estacion_detalle">XAL-Xalostoc</p>
-                </div>
-              </div>
-            </div>
-            <div class="col s12 m12 l4">
-              <div id="map_detalle"></div>
+          <div class="row margenes_pop">
+            <div class="col s12 m12 l12 ">
+              <p class="titulo"><strong id="titulo_detalle">Ciudad Fernández</strong><span class="subtitulo">Calidad de aire: --</span></p>
             </div>
           </div>
-          <div class="row">
+          <div class="row  margenes_pop">
+            <div class="col s12 m6 l3">
+              <div class="col s4">
+                <img class="responsive-img" src="imagenes/fecha.png">
+              </div>
+              <div class="col s8">
+                <p><b >Fecha</b></p>
+                <p id="fecha_detalle">24/05/17</p>
+              </div>
+            </div>
+
+            <div class="col s12 m6 l3">
+              <div class="col s4 ">
+                <img class="responsive-img" src="imagenes/temperatura.png">
+              </div>
+              <div class="col s8">
+                <p><b>Temperatura</b></p>
+                <p>--</p>
+              </div>
+            </div>
+
+            <div class="col s12 m6 l3">
+              <div class="col s4">
+                <img class="responsive-img" src="imagenes/contaminante.png">
+              </div>
+              <div class="col s8">
+                <p><b >Contaminante:</b></p>
+                <p id="contaminante_detalle">PM10, 104</p>
+              </div>
+            </div>
+
+            <div class="col s12 m6 l3">
+              <div class="col s4">
+                <img class="responsive-img" src="imagenes/estacion.png">
+              </div>
+              <div class="col s8">
+                <p><b>Estación:</b></p>
+                <p id="estacion_detalle">XAL-Xalostoc</p>
+              </div>
+            </div>
+
+            <!-- <div class="col s12 m12 l4">
+              <div id="map_detalle"></div>
+            </div> -->
+          </div>
+          <div class="row margenes_pop">
             <div class="col s12 ">
               <p class="subtitulo_chico">Parámetros de la red</p>
             </div>
-            <div class="col s5ths">
+            <div class="col s12 m6 l5ths">
               <p class="etiqueta">PM10</p>
-              <p id="valPM10">2652.07</p>
+              <p id="valPM10" class="estaciones_5">2652.07</p>
             </div>
-            <div class="col s5ths">
+            <div class="col s12 m6 l5ths">
               <p class="etiqueta">PM2.5</p>
-              <p id="valPM25">456.07</p>
+              <p id="valPM25" class="estaciones_5">456.07</p>
             </div>
-            <div class="col s5ths">
+            <div class="col s12 m6 l5ths">
               <p class="etiqueta">NO2</p>
-              <p id="valN02">2652.07</p>
+              <p id="valN02" class="estaciones_5">2652.07</p>
             </div>
-            <div class="col s5ths">
+            <div class="col s12 m6 l5ths">
               <p class="etiqueta">SO2</p>
-              <p id="valS02">456.07</p>
+              <p id="valS02" class="estaciones_5">456.07</p>
             </div>
-            <div class="col s5ths">
+            <div class="col s12 m6 l5ths">
               <p class="etiqueta">O3</p>
-              <p id="valO3">2652.07</p>
+              <p id="valO3" class="estaciones_5">2652.07</p>
             </div>
           </div>
-          <div class="col  s12 m6 l6">
-            <h4>Valores máximos registrados del contaminante <span id="contaminante_grafica">XXX</span></h4>
-          </div>
-          <div class="row">
-            <div class="col s12 right-align botonera">
-              <a href="#" class="parametro">boton 1</a>
-              <a href="#" class="parametro">boton 1</a>
-              <a href="#" class="parametro">boton 1</a>
-              <a href="#" class="parametro active">boton 1</a>
+          <div class="row margenes_pop">
+            <div class="col  s12 m6 l6">
+              <p class="subtitulo_chico">Valores máximos registrados del contaminante <span id="contaminante_grafica">XXX</span></p>
             </div>
-            <div class="col s12">
-              <canvas id="myChart"></canvas>
+            <div class="row">
+              <div class="col s12 right-align botonera">
+                <a href="#" class="parametro">boton 1</a>
+                <a href="#" class="parametro">boton 1</a>
+                <a href="#" class="parametro">boton 1</a>
+                <a href="#" class="parametro active">boton 1</a>
+              </div>
+              <div class="col s12">
+                <canvas id="myChart"></canvas>
+              </div>
             </div>
           </div>
         </div>
@@ -621,7 +626,7 @@ var dia = deis[d.getDate()];
 // +++++++++++++++++++++++++++++++++ mapa ++++++++++++++++++++++++++++
 var mymap = L.map('mapid').setView([16.8889,-100], 5);
 mymap.panTo(new L.LatLng(24.8, -100));
-var map_detalle = L.map('map_detalle').setView([24.8,-100], 5);
+// var map_detalle = L.map('map_detalle').setView([24.8,-100], 5);
 
 var OpenStreetMap_BlackAndWhite = L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
   maxZoom: 18,
@@ -633,16 +638,16 @@ var OpenStreetMap_BlackAndWhite_detalle = L.tileLayer('http://{s}.tiles.wmflabs.
   attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 });
 OpenStreetMap_BlackAndWhite.addTo(mymap);
-OpenStreetMap_BlackAndWhite_detalle.addTo(map_detalle);
+// OpenStreetMap_BlackAndWhite_detalle.addTo(map_detalle);
 
 
 if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)){
   mymap.dragging.disable();
-  map_detalle.dragging.disable();
+  // map_detalle.dragging.disable();
 }
 
 mymap.scrollWheelZoom.disable();
-map_detalle.scrollWheelZoom.disable();
+// map_detalle.scrollWheelZoom.disable();
 
 if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)){
   mymap.dragging.disable();
@@ -672,6 +677,7 @@ var estacion = [ {
 
 $(document).ready(function()
 {
+  $('.cont_carrucel').hide();
   //llamada inicial
   //getTop3ciudades('PM10');
   getTop3ciudadesV2('PM10','24h',158);

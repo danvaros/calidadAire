@@ -108,18 +108,18 @@ footer.page-footer {
 .botonera a{
   margin: 0px;
   margin-left: -5px;
-  border: 1px solid #ccc;
+  border: 1px solid #6f6f6f;
   padding: 10px 20px;
 }
 
 .botonera a.active{
-  background-color:#333;
-  color:#ccc;
+  background-color:#4ebbe3;
+  color:#fff;
 }
 
 .botonera a:hover{
-  background-color:#555;
-  color:#bbb;
+  background-color:#4ebbe3;
+  color:#fff;
 }
 
 
@@ -163,7 +163,25 @@ footer.page-footer {
     margin: 50px 0px;
 }
 
+.jqstooltip{
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
 
+
+#titulo_detalle, .subtitulo_chico{
+  font-size: 21px;
+  font-weight: 800;
+}
+
+.estaciones_5{
+  font-size: 30px;
+  color: #4ebbe3;
+}
+
+.margenes_pop{
+  margin: 30px 30px;
+}
 @media (max-width: 600px) {
   .botonera a {
       padding: 10px 4px;
