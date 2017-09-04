@@ -625,12 +625,26 @@ var greenIcon = L.icon({
         }
         var valores2 = [];
         var etiquetas2 =  [];
+        // for (var i = array28.length-1; i >= 0; i--) {
+        //   etiquetas2[(array28.length-1)-i]  = array28[i].fecha;
+        //   valores2[(array28.length-1)-i]  = array28[i].valororig;
+        // }
+
+
         for (var i = array28.length-1; i >= 0; i--) {
-          etiquetas2[(array28.length-1)-i]  = array28[i].fecha;
-          valores2[(array28.length-1)-i]  = array28[i].valororig;
+          v = array28[i].valororig;
+          if(v > Math.floor(v)) v = v.toFixed(3);
+
+          var today = new Date(array28[i].fecha);
+          var dd = today.getDate();
+          var mm = today.getMonth(); //January is 0!
+          valores2[(array28.length-1)-i]  = v;
+          etiquetas2[(array28.length-1)-i]  = dd+'-'+meses_abr[mm];
         }
+
+
         valores2[0] = 0;
-        put_grafica_inline(valores2,contenedor);
+        put_grafica_inline(valores2,contenedor,etiquetas2);
 
       },
       xhrFields: {
@@ -642,7 +656,7 @@ var greenIcon = L.icon({
   }
 
 // fillColor: '#a4b6da'
-  function put_grafica_inline(valores,contenedor){
+  function put_grafica_inline(valores,contenedor,etiquetas2){
     var options =  {
       type: "line",
       height: '3em',
@@ -653,18 +667,23 @@ var greenIcon = L.icon({
       maxSpotColor: false,
       spotColor: false,
       spotRadius: 3,
+      highlightLineColor: '#fff',
+      highlightSpotColor: '#000',
       tooltipFormat: '{{offset:offset}} {{value}} <br> {{prefix}}{{y}}{{suffix}}' ,
       tooltipValueLookups: {
-        'offset': {
-            0: '09-Ago',
-            1: '09-Ago',
-            2: '09-Ago',
-            3: '09-Ago',
-            4: '09-Ago',
-            5: '09-Ago',
-        }
+        'offset': etiquetas2
+        // 'offset': {
+        //     0: '09-Ago',
+        //     1: '09-Ago',
+        //     2: '09-Ago',
+        //     3: '09-Ago',
+        //     4: '09-Ago',
+        //     5: '09-Ago',
+        // }
     },
     }
+
+    console.log(etiquetas2);
 
     // valores = [100.00,100.00,100.00,80.00,80.00,66.67];
     contenedor.show();
