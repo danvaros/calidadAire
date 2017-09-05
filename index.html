@@ -176,15 +176,15 @@
                 <a href="#" id="btn_ciudades" class="boton boton_activo">Top 3 Ciudades</a>
                 <a href="#" id="btn_estados" class="boton boton_inactivo">32 Estados</a>
                 <select style="color: #333; background-color: rgba(243, 236, 236, .2); border: 0px;" class="browser-default" name="" id="contaminantes">
-                  <option value="PM10">PM 10</option>
-                  <option value="PM2.5">PM 2.5</option>
-                  <option value="SO2">SO2 Promedio 24 horas</option>
-                  <option value="SO28">SO2 Promedio 8 horas</option>
-                  <option value="SO2D">SO2 Dato horario</option>
-                  <option value="O3">Ozono (O3) Promedio 8 horas</option>
-                  <option value="O3D">Ozono (O3) Dato horario</option>
-                  <option value="NO2">NO2</option>
-                  <option value="CO">CO</option>
+                  <option value="PM10">PM 10 µg/m&sup3;</option>
+                  <option value="PM2.5">PM 2.5 µg/m&sup3;</option>
+                  <option value="SO2">SO2 (ppm) Promedio 24 horas</option>
+                  <option value="SO28">SO2 (ppm) Promedio 8 horas</option>
+                  <option value="SO2D">SO2 (ppm) Dato horario</option>
+                  <option value="O3">Ozono (O3)(ppm) Promedio 8 horas</option>
+                  <option value="O3D">Ozono (O3)(ppm) Dato horario</option>
+                  <option value="NO2">NO2 (ppm)</option>
+                  <option value="CO">CO (ppm)</option>
                 </select>
               </div>
             </div>
@@ -409,23 +409,23 @@
               <p class="subtitulo_chico">Parámetros de la red</p>
             </div>
             <div class="col s12 m6 l5ths">
-              <p class="etiqueta">PM10</p>
+              <p class="etiqueta">PM10 (µg/m&sup3;)</p>
               <p id="valPM10" class="estaciones_5">2652.07</p>
             </div>
             <div class="col s12 m6 l5ths">
-              <p class="etiqueta">PM2.5</p>
+              <p class="etiqueta">PM2.5 (µg/m&sup3;)</p>
               <p id="valPM25" class="estaciones_5">456.07</p>
             </div>
             <div class="col s12 m6 l5ths">
-              <p class="etiqueta">NO2</p>
+              <p class="etiqueta">NO2 (ppm)</p>
               <p id="valN02" class="estaciones_5">2652.07</p>
             </div>
             <div class="col s12 m6 l5ths">
-              <p class="etiqueta">SO2</p>
+              <p class="etiqueta">SO2 (ppm)</p>
               <p id="valS02" class="estaciones_5">456.07</p>
             </div>
             <div class="col s12 m6 l5ths">
-              <p class="etiqueta">O3</p>
+              <p class="etiqueta">O3 (ppm)</p>
               <p id="valO3" class="estaciones_5">2652.07</p>
             </div>
           </div>
@@ -710,41 +710,41 @@ $(document).ready(function()
     //$('#contaminante_titulo').text(contaminante);
     console.log(contaminante);
     if(contaminante == 'PM10'){
-      $('#contaminante_titulo').text('Partículas menores de 10 micrómetros (PM10).');
+      $('#contaminante_titulo').html('Partículas menores de 10 micrómetros (PM10) (µg/m&sup3;).');
       maximo =  158;
     }
     else if(contaminante == 'PM2.5'){
-      $('#contaminante_titulo').text('Partículas menores de 2.5 micrómetros (PM2.5).');
+      $('#contaminante_titulo').html('Partículas menores de 2.5 micrómetros (PM2.5) (µg/m&sup3;).');
       maximo =  158;
     }
     else if(contaminante == 'O3'){
-      $('#contaminante_titulo').text('Ozono (O3).');
+      $('#contaminante_titulo').html('Ozono (O3) (ppm).');
       maximo =  0.181;
       tipo = '8h';
     }
     else if(contaminante == 'O3D'){
       contaminante = 'O3';
       tipo = 'D';
-      $('#contaminante_titulo').text('Ozono (O3).');
+      $('#contaminante_titulo').html('Ozono (O3) (ppm).');
       maximo =  0.181;
     }
     else if(contaminante == 'SO2'){
-      $('#contaminante_titulo').text('Dióxido de azufre (SO2).');
+      $('#contaminante_titulo').html('Dióxido de azufre (SO2) (ppm).');
       maximo =   0.32;
     }
     else if(contaminante == 'SO28'){
       contaminante = 'SO2';
       tipo = '8h';
-      $('#contaminante_titulo').text('Dióxido de azufre (SO2).');
+      $('#contaminante_titulo').html('Dióxido de azufre (SO2) (ppm).');
       maximo =   0.32;
     } else if(contaminante == 'SO2D'){
       contaminante = 'SO2';
       tipo = 'D';
-      $('#contaminante_titulo').text('Dióxido de azufre (SO2).');
+      $('#contaminante_titulo').html('Dióxido de azufre (SO2) (ppm).');
       maximo =   0.32;
     }
     else if(contaminante == 'NO2'){
-      $('#contaminante_titulo').text('Dióxido de nitrógeno (NO2).');
+      $('#contaminante_titulo').html('Dióxido de nitrógeno (NO2) (ppm).');
       maximo =  0.315;
       tipo = 'D';
     }
