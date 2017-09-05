@@ -746,12 +746,10 @@ var greenIcon = L.icon({
               }
             }
           }
-          if(contaminante ==  'PM10' || contaminante == 'PM2.5'){
+          if(contaminante ==  'PM10' || contaminante == 'PM2.5')
             contenedor.html(''+masAlto.valororig.toFixed(1));
-          }else{
+          else
             contenedor.html(''+masAlto.valororig.toFixed(3));
-          }
-
         },
         xhrFields: {
           withCredentials: false
