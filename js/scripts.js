@@ -75,12 +75,8 @@ $(document).ready(function(){
   //inicializacion selects
   $('select').material_select();
 
-  //adecuaciones de menu
-  $('.navbar').css('height','30px');
-  $('.navbar-default').css('background','#000');
-
   //llamadas ver
-  $('#ver_top3').click(function(){
+  $('#ver_top3').click(function(event){
     event.preventDefault();
     crear_detalle_top(3);
     ant_val_arr = [];
@@ -88,7 +84,7 @@ $(document).ready(function(){
     ant = 28;
   });
 
-  $('#ver_top2').click(function(){
+  $('#ver_top2').click(function(event){
     event.preventDefault();
     crear_detalle_top(2);
     ant_val_arr = [];
@@ -96,7 +92,7 @@ $(document).ready(function(){
     ant = 28;
   });
 
-  $('#ver_top1').click(function(){
+  $('#ver_top1').click(function(event){
     event.preventDefault();
     crear_detalle_top(1);
     ant_val_arr = [];
@@ -160,6 +156,8 @@ $(document).ready(function(){
   });
 
 var marker_mymap;
+var test
+var myFeatureGroup = L.featureGroup().addTo(mymap).on("click", groupClick);
 var greenIcon = L.icon({
     iconUrl: 'imagenes/punto.png',
     //shadowUrl: 'imagenes/leaf-shadow.png',
@@ -173,8 +171,15 @@ var greenIcon = L.icon({
 
 //trabajremos en esta parte
   for (var i = 0; i < estaciones_json.length; i++) {
-    marker_mymap  = L.marker([estaciones_json[i].lat, estaciones_json[i].long],{icon: greenIcon}).addTo(mymap);
-    marker_mymap.bindPopup('<b>Estación #'+estaciones_json[i].id+'</b><br>Nombre :'+ estaciones_json[i].nombre +'<br>Codigo:'+estaciones_json[i].codigo+'<br><div style="margin-bottom: 25px; margin-top: 25px;" class="botonera"><a class="modal_mapa" data-id="'+ estaciones_json[i].id +'">Detalle Estación</a></div>').openPopup();
+
+    marker_mymap  = L.marker([estaciones_json[i].lat, estaciones_json[i].long],{icon: greenIcon}).addTo(myFeatureGroup).bindPopup("Cargando...");;
+    marker_mymap.idestacion = estaciones_json[i].id;
+    marker_mymap.idarray = i;
+
+    //.addTo(mymap);
+
+
+    // marker_mymap.bindPopup('<b>Estación #'+estaciones_json[i].id+'</b><br>Nombre :'+ estaciones_json[i].nombre +'<br>Codigo:'+estaciones_json[i].codigo+'<br><div style="margin-bottom: 25px; margin-top: 25px;" class="botonera"><div class="lista_con"><ul><li>'+ pm10 +'</li></ul><div><a class="modal_mapa" data-id="'+ estaciones_json[i].id +'">Detalle Estación</a></div>').openPopup();
   }
 
   $(document).on('click', '.modal_mapa', function() {
@@ -384,8 +389,12 @@ var greenIcon = L.icon({
         actualizar_grafica_detalle(valores,etiquetas);
         poner_botones(valores);
         $('#modal1').modal('open');
-        var marker = L.marker([estacion.lat, estacion.long]).addTo(map_detalle);
-        map_detalle.setView([estacion.lat, estacion.long], 16);
+        //document.getElementById("modal1").modal('open');
+        //$( "#abremodal" ).trigger( "click" );
+        //$('#modal1').openModal();
+        //openModal
+        // var marker = L.marker([estacion.lat, estacion.long]).addTo(map_detalle);
+        // map_detalle.setView([estacion.lat, estacion.long], 16);
       },
       xhrFields: {
         withCredentials: false
@@ -737,7 +746,12 @@ var greenIcon = L.icon({
               }
             }
           }
-          contenedor.html(''+masAlto.valororig.toFixed(3));
+          if(contaminante ==  'PM10' || contaminante == 'PM2.5'){
+            contenedor.html(''+masAlto.valororig.toFixed(1));
+          }else{
+            contenedor.html(''+masAlto.valororig.toFixed(3));
+          }
+
         },
         xhrFields: {
           withCredentials: false
@@ -946,3 +960,77 @@ var greenIcon = L.icon({
         async:true
       });
     }
+
+    function get_dato_estacion_mas_actual(contaminante,estacion){
+      var resultado = -1;
+      const dActual = new Date();
+      var dPasada = new Date();
+
+      dPasada.setHours(dActual.getHours() - 8);
+
+      var ruta = "https://api.datos.gob.mx/v1/sinaica?parametro="+ contaminante +"&date-insert=[range:"+getFormatDateAPI(dPasada)+"%7C"+getFormatDateAPI(dActual)+"]";
+      $.ajax({
+        type: 'GET',
+        url: ruta+'&pageSize=1',
+        data: {},
+        success: function( data, textStatus, jqxhr ) {
+          var size =  data.pagination.total;
+          $.ajax({
+            type: 'GET',
+            url: ruta+'&pageSize=' + size,
+            data: {},
+            success: function( data, textStatus, jqxhr ) {
+              for (var i = 0; i < data.results.length; i++) {
+
+                if(data.results[i].estacionesid == estacion && data.results[i].validoorig == 1){
+                    resultado = data.results[i].valororig;
+                    console.log(resultado);
+                    break;
+                }
+              }
+             },
+              xhrFields: {
+                withCredentials: false
+              },
+              crossDomain: true,
+              async:false
+            });
+         },
+          xhrFields: {
+            withCredentials: false
+          },
+          crossDomain: true,
+          async:false
+        });
+        console.log(resultado);
+        return resultado;
+    }
+
+  function groupClick(event) {
+
+    var popup = event.layer._popup;
+    var estacion  = event.layer.idestacion;
+    var array  = event.layer.idarray;
+    console.log(event);
+    console.log(estacion);
+    var pm10 = get_dato_estacion_mas_actual('PM10',estacion);
+    var pm25 = get_dato_estacion_mas_actual('PM2.5',estacion);
+    var so2 = get_dato_estacion_mas_actual('SO2',estacion);
+    var no2 = get_dato_estacion_mas_actual('NO2',estacion);
+    var ozono = get_dato_estacion_mas_actual('O3',estacion);
+
+
+    var lista = '<ul>'+
+                  '<li>PM10:  '+ ((pm10 != -1)?  pm10 :'No tiene valor') +'</li>'+
+                  '<li>PM2.5: '+ ((pm25 != -1)?  pm25 :'No tiene valor') +'</li>'+
+                  '<li>SO2:   '+ ((so2 != -1)?   so2  :'No tiene valor') +'</li>'+
+                  '<li>NO2:   '+ ((no2  != -1)?  no2  :'No tiene valor') +'</li>'+
+                  '<li>O3:    '+ ((ozono != -1)? ozono:'No tiene valor') +'</li>'+
+                '</ul>';
+
+
+    var info = '<b>Estación #'+estaciones_json[array].id+'</b><br>Nombre :'+ estaciones_json[array].nombre +'<br>Codigo:'+estaciones_json[array].codigo+'<br><div style="margin-bottom: 25px; margin-top: 25px;" class="botonera"><div class="lista_con">'+lista+'<div><br><a class="modal_mapa" data-id="'+ estaciones_json[array].id +'">Detalle Estación</a></div>';
+
+    popup.setContent( 'cambiamos el pop up ' + info);
+    popup.update();
+  }

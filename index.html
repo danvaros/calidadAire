@@ -356,7 +356,7 @@
         <div class="row detalle">
           <div class="row margenes_pop">
             <div class="col s12 m12 l12 ">
-              <p class="titulo"><strong id="titulo_detalle">Ciudad Fernández</strong><span class="subtitulo">Calidad de aire: --</span></p>
+              <p class="titulo"><strong id="titulo_detalle">Ciudad Fernández</strong></p>
             </div>
           </div>
           <div class="row  margenes_pop">
@@ -440,7 +440,7 @@
                 <a href="#" class="parametro">boton 1</a>
                 <a href="#" class="parametro active">boton 1</a>
               </div>
-              <div class="col s12">
+              <div class="col s12 offset-m2 m8 offset-l3 l6 ">
                 <canvas id="myChart"></canvas>
               </div>
             </div>
@@ -449,6 +449,7 @@
       </div>
     </div>
 
+    <!-- <a id="abremodal" class="waves-effect waves-light btn modal-trigger" href="#modal1" style="display:none">Modal</a> -->
 
   </main>
   <dgm-footer></dgm-footer>
@@ -469,9 +470,11 @@ crossorigin=""></script>
 <script src="libs/chartjs/Chart.bundle.js"></script>
 <script src="libs/chartjs/utils.js"></script>
 
+
 <!-- local-->
 <script src="js/estados_mexico.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/scripts.js" type="text/javascript" charset="utf-8"></script>
+
 
 <style media="screen">
 
@@ -553,6 +556,15 @@ $(function() {
        },
        tooltips: {
           enabled: true
+       },
+       scales: {
+           xAxes: [{
+               ticks: {
+                   autoSkip: false,
+                   maxRotation: 90,
+                   minRotation: 90
+               }
+           }]
        }
     },
   });
@@ -677,6 +689,12 @@ var estacion = [ {
 
 $(document).ready(function()
 {
+
+  //adecuaciones de menu
+  $('.navbar').css('height','30px !important');
+  $('.navbar-default').css('background','#000 !important');
+
+
   $('.cont_carrucel').hide();
   //llamada inicial
   //getTop3ciudades('PM10');
