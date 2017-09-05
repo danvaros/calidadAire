@@ -884,7 +884,6 @@ var greenIcon = L.icon({
                   }
                 }
 
-                console.log(ciudades);
                 var valor =  ciudades['0'].promedio;
                 var valor2 = ciudades['1'].promedio;
                 var valor3 = ciudades['2'].promedio;
@@ -958,7 +957,11 @@ var greenIcon = L.icon({
                 get_historico(ciudades[1][0],$('#linecustom2'));
                 get_historico(ciudades[2][0],$('#linecustom3'));
 
-                top_ciudades = ciudades;
+                var ciudades2 = [];
+                            ciudades2.push(ciudades[0][0]);
+                            ciudades2.push(ciudades[1][0]);
+                            ciudades2.push(ciudades[2][0]);
+                top_ciudades = ciudades2;
               }
 
             },
