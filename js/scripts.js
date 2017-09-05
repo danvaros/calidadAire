@@ -1032,24 +1032,25 @@ var greenIcon = L.icon({
     var array  = event.layer.idarray;
     console.log(event);
     console.log(estacion);
-    var pm10 = get_dato_estacion_mas_actual('PM10',estacion);
-    var pm25 = get_dato_estacion_mas_actual('PM2.5',estacion);
-    var so2 = get_dato_estacion_mas_actual('SO2',estacion);
-    var no2 = get_dato_estacion_mas_actual('NO2',estacion);
-    var ozono = get_dato_estacion_mas_actual('O3',estacion);
+    // var pm10 = get_dato_estacion_mas_actual('PM10',estacion);
+    // var pm25 = get_dato_estacion_mas_actual('PM2.5',estacion);
+    // var so2 = get_dato_estacion_mas_actual('SO2',estacion);
+    // var no2 = get_dato_estacion_mas_actual('NO2',estacion);
+    // var ozono = get_dato_estacion_mas_actual('O3',estacion);
 
 
-    var lista = '<ul>'+
-                  '<li>PM10:  '+ ((pm10 != -1)?  pm10 :'No tiene valor') +'</li>'+
-                  '<li>PM2.5: '+ ((pm25 != -1)?  pm25 :'No tiene valor') +'</li>'+
-                  '<li>SO2:   '+ ((so2 != -1)?   so2  :'No tiene valor') +'</li>'+
-                  '<li>NO2:   '+ ((no2  != -1)?  no2  :'No tiene valor') +'</li>'+
-                  '<li>O3:    '+ ((ozono != -1)? ozono:'No tiene valor') +'</li>'+
-                '</ul>';
+    // var lista = '<ul>'+
+    //               '<li>PM10:  '+ ((pm10 != -1)?  pm10 :'No tiene valor') +'</li>'+
+    //               '<li>PM2.5: '+ ((pm25 != -1)?  pm25 :'No tiene valor') +'</li>'+
+    //               '<li>SO2:   '+ ((so2 != -1)?   so2  :'No tiene valor') +'</li>'+
+    //               '<li>NO2:   '+ ((no2  != -1)?  no2  :'No tiene valor') +'</li>'+
+    //               '<li>O3:    '+ ((ozono != -1)? ozono:'No tiene valor') +'</li>'+
+    //             '</ul>';
 
+    /*<div class="lista_con">'+lista+'<div><br>*/
 
-    var info = '<b>Estación #'+estaciones_json[array].id+'</b><br>Nombre :'+ estaciones_json[array].nombre +'<br>Codigo:'+estaciones_json[array].codigo+'<br><div style="margin-bottom: 25px; margin-top: 25px;" class="botonera"><div class="lista_con">'+lista+'<div><br><a class="modal_mapa" data-id="'+ estaciones_json[array].id +'">Detalle Estación</a></div>';
+    var info = '<b>Estación #'+estaciones_json[array].id+'</b><br>Nombre :'+ estaciones_json[array].nombre +'<br>Codigo:'+estaciones_json[array].codigo+'<br><div style="margin-bottom: 25px; margin-top: 25px;" class="botonera"><a class="modal_mapa" data-id="'+ estaciones_json[array].id +'">Detalle Estación</a></div>';
 
-    popup.setContent( 'cambiamos el pop up ' + info);
+    popup.setContent(info);
     popup.update();
   }
