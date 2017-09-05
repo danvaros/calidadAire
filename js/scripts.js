@@ -856,9 +856,38 @@ var greenIcon = L.icon({
               console.log(arrEstaciones);
 
               if(arrEstaciones.length > 0){
-                var valor =  arrEstaciones['0'].promedio;
-                var valor2 = arrEstaciones['1'].promedio;
-                var valor3 = arrEstaciones['2'].promedio;
+
+                var ciudades = [];
+                var contador =  0;
+                for (var i = 0; i < arrEstaciones.length; i++) {
+                  var repetido = false;
+                  if(contador == 3){
+                    break;
+                  }
+
+                  if(contador == 0){
+                    ciudades.push(arrEstaciones[i]);
+                    contador++;
+                  }
+                  else
+                  {
+                    for (var j = 0; j < ciudades.length; j++) {
+                      if(arrEstaciones[i][0].city == ciudades[j][0].city){
+                        repetido = true;
+                      }
+                    }
+
+                    if(!repetido){
+                      ciudades.push(arrEstaciones[i]);
+                      contador++;
+                    }
+                  }
+                }
+
+                console.log(ciudades);
+                var valor =  ciudades['0'].promedio;
+                var valor2 = ciudades['1'].promedio;
+                var valor3 = ciudades['2'].promedio;
                 console.log(valor);
                 console.log(valor2);
                 console.log(valor3);
@@ -897,21 +926,20 @@ var greenIcon = L.icon({
                 $('.chart-gauge3').html('');
                 $('.chart-gauge3').gaugeIt({selector:'.chart-gauge3',value:valor3,gaugeMaxValue:tipoCon});
 
-                $('#label1').html(arrEstaciones['0'][0].city);
-                $('#label2').html(arrEstaciones['1'][0].city);
-                $('#label3').html(arrEstaciones['2'][0].city);
+                $('#label1').html(ciudades['0'][0].city);
+                $('#label2').html(ciudades['1'][0].city);
+                $('#label3').html(ciudades['2'][0].city);
 
                 for (var i = 0; i < estaciones_json.length; i++) {
-                    if(estaciones_json[i].id == arrEstaciones[0][0].estacionesid){
+                    if(estaciones_json[i].id == ciudades[0][0].estacionesid){
                       estacion  =  estaciones_json[i];
                       $('#estacion1').html('Estación: '+ estacion.nombre);
                       break;
                     }
                 }
 
-
                 for (var i = 0; i < estaciones_json.length; i++) {
-                    if(estaciones_json[i].id == arrEstaciones[1][0].estacionesid){
+                    if(estaciones_json[i].id == ciudades[1][0].estacionesid){
                       estacion  =  estaciones_json[i];
                       $('#estacion2').html('Estación: '+estacion.nombre);
                       break;
@@ -919,28 +947,18 @@ var greenIcon = L.icon({
                 }
 
                 for (var i = 0; i < estaciones_json.length; i++) {
-                    if(estaciones_json[i].id == arrEstaciones[2][0].estacionesid){
+                    if(estaciones_json[i].id == ciudades[2][0].estacionesid){
                       estacion  =  estaciones_json[i];
                       $('#estacion3').html('Estación: '+estacion.nombre);
                       break;
                     }
                 }
 
-
-                  get_historico(arrEstaciones[0][0],$('#linecustom1'));
-                  get_historico(arrEstaciones[1][0],$('#linecustom2'));
-                  get_historico(arrEstaciones[2][0],$('#linecustom3'));
-
-
-
-                var ciudades = [];
-                ciudades.push(arrEstaciones[0][0]);
-                ciudades.push(arrEstaciones[1][0]);
-                ciudades.push(arrEstaciones[2][0]);
+                get_historico(ciudades[0][0],$('#linecustom1'));
+                get_historico(ciudades[1][0],$('#linecustom2'));
+                get_historico(ciudades[2][0],$('#linecustom3'));
 
                 top_ciudades = ciudades;
-
-
               }
 
             },
