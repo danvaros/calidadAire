@@ -187,7 +187,10 @@ footer.page-footer {
 .navbar{height :30px !important;}
 .navbar-default{background : #000 !important;}
 
-
+.navbar-inverse.dgm-navbar {
+    border-bottom: 0px solid #393c3e !important;
+    background: #393c3e !important;
+}
 
 @media (max-width: 600px) {
   .botonera a {
