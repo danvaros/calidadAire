@@ -350,7 +350,7 @@
     </div>
 
     <!-- Modal Structure -->
-    <div id="modal1" class="modal">
+    <!-- <div id="modal1" class="modal"> -->
       <div class="modal-content">
         <!-- esto sera el modal -->
         <div class="row detalle">
@@ -408,6 +408,56 @@
             <div class="col s12 ">
               <p class="subtitulo_chico">Parámetros de la red</p>
             </div>
+
+            <div class="col s12 responsive-table">
+              <table>
+                <thead>
+                  <tr>
+                      <th>Mediciones</th>
+                      <th>PM10 (µg/m&sup3;)</th>
+                      <th>Pm2.5 (µg/m&sup3;)</th>
+                      <th>NO2 (ppm)</th>
+                      <th>SO2 (ppm)</th>
+                      <th>O3 (ppm)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Ultimo Registro</td>
+                    <td><p class="estaciones_5">2652.07</p></td>
+                    <td><p class="estaciones_5">2652.07</p></td>
+                    <td><p class="estaciones_5">2652.07</p></td>
+                    <td><p class="estaciones_5">2652.07</p></td>
+                    <td><p class="estaciones_5">2652.07</p></td>
+                  </tr>
+                  <tr>
+                    <td>24 Horas</td>
+                    <td><p id="PM1024H" class="btn blue">Ver Historico</p></td>
+                    <td><p id="PM2524H" class="btn blue">Ver Historico</p></td>
+                    <td><p   class="estaciones_5"></p></td>
+                    <td><p id="SO224H" class="btn blue">Ver Historico</p></td>
+                    <td><p class="estaciones_5"></p></td>
+                  </tr>
+                  <tr>
+                    <td>8 Horas</td>
+                    <td><p class="estaciones_5"></p></td>
+                    <td><p class="estaciones_5"></p></td>
+                    <td><p class="estaciones_5"></p></td>
+                    <td><p id="SO28H" class="btn blue">Ver Historico</p></td>
+                    <td><p id="O38H" class="btn blue">Ver Historico</p></td>
+                  </tr>
+                  <tr>
+                    <td>Dato Horario</td>
+                    <td><p class="estaciones_5"></p></td>
+                    <td><p class="estaciones_5"></p></td>
+                    <td><p id="NO2H" class="btn blue">Ver Historico</p></td>
+                    <td><p id="SO2DH" class="btn blue">Ver Historico</p></td>
+                    <td><p id="O3DH" class="btn blue">Ver Historico</p></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
             <div class="col s12 m6 l5ths">
               <p class="etiqueta">PM10 (µg/m&sup3;)</p>
               <p id="valPM10" class="estaciones_5">2652.07</p>
@@ -432,6 +482,7 @@
           <div class="row margenes_pop">
             <div class="col  s12 m6 l6">
               <p class="subtitulo_chico">Valores máximos registrados del contaminante <span id="contaminante_grafica">XXX</span></p>
+              <input type="hidden" name="" value="" id="estacion">
             </div>
             <div class="row">
               <div class="col s12 right-align botonera">
@@ -447,7 +498,9 @@
           </div>
         </div>
       </div>
-    </div>
+    <!-- </div> -->
+
+
 
     <!-- <a id="abremodal" class="waves-effect waves-light btn modal-trigger" href="#modal1" style="display:none">Modal</a> -->
 

@@ -257,7 +257,99 @@ var greenIcon = L.icon({
         }
       });
   });
-});// fin de docuemnt ready
+
+  $('#PM1024H').click(function(){
+    var contaminante = 'PM10';
+    var tipo = '24h';
+    var maximo = 158;
+    valores = [];
+    etiquetas = [];
+    for (var i = 0; i < 28; i++) {
+      get_historico_horas(contaminante,tipo,maximo,i);
+    }
+    actualizar_grafica_detalle(valores,etiquetas);
+  });
+  $('#PM2524H').click(function(){
+    var contaminante = 'PM2.5';
+    var tipo = '24h';
+    var maximo = 158;
+    valores = [];
+    etiquetas = [];
+    for (var i = 0; i < 28; i++) {
+      get_historico_horas(contaminante,tipo,maximo,i);
+    }
+    actualizar_grafica_detalle(valores,etiquetas);
+  });
+  $('#SO224H').click(function(){
+    console.log('SO224H');
+    var contaminante = 'SO2';
+    var tipo = '24h';
+    var maximo = 0.32;
+    valores = [];
+    etiquetas = [];
+    for (var i = 0; i < 28; i++) {
+      get_historico_horas(contaminante,tipo,maximo,i);
+    }
+    actualizar_grafica_detalle(valores,etiquetas);
+  });
+  $('#SO28H').click(function(){
+    var contaminante = 'SO2';
+    var tipo = '8h';
+    var maximo = 0.32;
+    valores = [];
+    etiquetas = [];
+    for (var i = 0; i < 28; i++) {
+      get_historico_horas(contaminante,tipo,maximo,i);
+    }
+    actualizar_grafica_detalle(valores,etiquetas);
+  });
+  $('#O38H').click(function(){
+    var contaminante = 'O3';
+    var tipo = '8h';
+    var maximo = 0.181;
+    valores = [];
+    etiquetas = [];
+    for (var i = 0; i < 28; i++) {
+      get_historico_horas(contaminante,tipo,maximo,i);
+    }
+    actualizar_grafica_detalle(valores,etiquetas);
+  });
+  $('#SO2DH').click(function(){
+    var contaminante = 'SO2';
+    var tipo = '8h';
+    var maximo = 0.32;
+    valores = [];
+    etiquetas = [];
+    for (var i = 0; i < 28; i++) {
+      get_historico_horas(contaminante,tipo,maximo,i);
+    }
+    actualizar_grafica_detalle(valores,etiquetas);
+  });
+  $('#O3DH').click(function(){
+    var contaminante = 'O3';
+    var tipo = 'D';
+    var maximo =  0.181;
+    valores = [];
+    etiquetas = [];
+    for (var i = 0; i < 28; i++) {
+      get_historico_horas(contaminante,tipo,maximo,i);
+    }
+    actualizar_grafica_detalle(valores,etiquetas);
+  });
+
+  $('#NO2H').click(function(){
+    var contaminante = 'NO2';
+    var tipo = 'D';
+    var maximo =  0.315;
+    valores = [];
+    etiquetas = [];
+    for (var i = 0; i < 28; i++) {
+      get_historico_horas(contaminante,tipo,maximo,i);
+    }
+  });
+
+
+});// fin de document ready
 
   //funcion para quitar repetidos
   Array.prototype.unique=function(a){
@@ -418,6 +510,7 @@ var greenIcon = L.icon({
       $('#contaminante_detalle').html(top_ciudades[indice-1].parametro);
       $('#estacion_detalle').html(estacion.nombre);
       $('#contaminante_grafica').html(top_ciudades[indice-1].parametro);
+      $('#estacion').val(estacion.id);
 
       put_his_estacion_val_max(top_ciudades[indice-1],estacion);
       put_contaminantes(top_ciudades[indice-1],estacion);
@@ -980,7 +1073,7 @@ var greenIcon = L.icon({
       });
     }
 
-    function get_dato_estacion_mas_actual(contaminante,estacion){
+  function get_dato_estacion_mas_actual(contaminante,estacion){
       var resultado = -1;
       const dActual = new Date();
       var dPasada = new Date();
@@ -1054,3 +1147,96 @@ var greenIcon = L.icon({
     popup.setContent(info);
     popup.update();
   }
+
+  //funcucion que consigue agrupar los datos de una estacion
+  function getUniqueEstation_id(json, id_estacion){
+    var arrEstacion = [];
+    for (var i = 0; i < json.length; i++) {
+      // if(!arrEstaciones[json[i].estacionesid])
+      //   arrEstaciones[json[i].estacionesid] = [];
+      // arrEstaciones[json[i].estacionesid].push(json[i]);
+      if(json[i].estacionesid ==  id_estacion){
+        arrEstacion.push(json[i]);
+      }
+    }
+    return arrEstacion;
+  }
+
+
+  function get_historico_horas(contaminante,tipo,maximo,menos_horas){
+
+    var dActual = new Date();
+    dActual.setHours(dActual.getHours() - (menos_horas*24));
+
+
+    var dPasada = new Date();
+    var reMin = 1;
+
+    if('8h' ==  tipo){
+      dPasada.setHours(dActual.getHours() - (menos_horas*24) - 8);
+      reMin = 4;
+    }else if('24h' == tipo){
+      dPasada.setHours(dActual.getHours() - (menos_horas*24) - 24);
+      reMin = 12;
+    }else{
+      dPasada.setHours(dActual.getHours() - (menos_horas*24) - 2);
+    }
+
+    var ruta = "https://api.datos.gob.mx/v1/sinaica?parametro="+ contaminante +"&date-insert=[range:"+getFormatDateAPI(dPasada)+"%7C"+getFormatDateAPI(dActual)+"]";
+
+      $.ajax({
+        type: 'GET',
+        url: ruta+'&pageSize=1',
+        data: {},
+        success: function( data, textStatus, jqxhr ) {
+
+          //sacamos el numero de total de registros
+          var size =  data.pagination.total;
+
+          $.ajax({
+            type: 'GET',
+            url: ruta+'&pageSize=' + size,
+            data: {},
+            success: function( data, textStatus, jqxhr ) {
+
+              arrEstaciones = getUniqueEstation_id(data.results,$('#estacion').val());
+              console.log(arrEstaciones);
+                var promedio = 0;
+                var sum = 0;
+
+                //validadando que tenga mas de 12 registros para hacer la evaluacion de 24 horas
+                if(arrEstaciones.length >= reMin){
+                  arrEstaciones.forEach(function(item2, index2){
+                    //validacion que no supere el limite establecido
+                    if(item2.valororig < maximo)
+                      sum = sum + item2.valororig;
+                  });
+                  promedio = sum / arrEstaciones.length;
+                  //agregamos la suma y el pormedio al json de las estacion
+                  valores.push(promedio);
+                  var today = new Date(arrEstaciones[0].fecha);
+                  var dd = today.getDate();
+                  var mm = today.getMonth();
+                  etiquetas.push(dd+'-'+meses_abr[mm] + tipo);
+                }else{
+                  item.suma  =  0;
+                  item.promedio =  0;
+                }
+
+                console.log(valores);
+                console.log(etiquetas);
+            },
+            xhrFields: {
+              withCredentials: false
+            },
+            crossDomain: true,
+            async:false
+          });
+        },
+        xhrFields: {
+          withCredentials: false
+        },
+        crossDomain: true,
+        async:false
+      });
+    }
