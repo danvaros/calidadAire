@@ -192,6 +192,10 @@ footer.page-footer {
     background: #393c3e !important;
 }
 
+.tabla_contaminantes{
+  cursor:pointer;
+}
+
 @media (max-width: 600px) {
   .botonera a {
       padding: 10px 4px;

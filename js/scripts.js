@@ -264,9 +264,9 @@ var greenIcon = L.icon({
     var maximo = 158;
     valores = [];
     etiquetas = [];
-    for (var i = 0; i < 28; i++) {
-      get_historico_horas(contaminante,tipo,maximo,i);
-    }
+
+    get_historico_horas(contaminante,tipo,maximo,i);
+
     actualizar_grafica_detalle(valores,etiquetas);
   });
   $('#PM2524H').click(function(){
@@ -275,9 +275,9 @@ var greenIcon = L.icon({
     var maximo = 158;
     valores = [];
     etiquetas = [];
-    for (var i = 0; i < 28; i++) {
+
       get_historico_horas(contaminante,tipo,maximo,i);
-    }
+
     actualizar_grafica_detalle(valores,etiquetas);
   });
   $('#SO224H').click(function(){
@@ -287,9 +287,9 @@ var greenIcon = L.icon({
     var maximo = 0.32;
     valores = [];
     etiquetas = [];
-    for (var i = 0; i < 28; i++) {
+
       get_historico_horas(contaminante,tipo,maximo,i);
-    }
+
     actualizar_grafica_detalle(valores,etiquetas);
   });
   $('#SO28H').click(function(){
@@ -298,9 +298,9 @@ var greenIcon = L.icon({
     var maximo = 0.32;
     valores = [];
     etiquetas = [];
-    for (var i = 0; i < 28; i++) {
+
       get_historico_horas(contaminante,tipo,maximo,i);
-    }
+
     actualizar_grafica_detalle(valores,etiquetas);
   });
   $('#O38H').click(function(){
@@ -309,9 +309,9 @@ var greenIcon = L.icon({
     var maximo = 0.181;
     valores = [];
     etiquetas = [];
-    for (var i = 0; i < 28; i++) {
+
       get_historico_horas(contaminante,tipo,maximo,i);
-    }
+
     actualizar_grafica_detalle(valores,etiquetas);
   });
   $('#SO2DH').click(function(){
@@ -320,9 +320,9 @@ var greenIcon = L.icon({
     var maximo = 0.32;
     valores = [];
     etiquetas = [];
-    for (var i = 0; i < 28; i++) {
+
       get_historico_horas(contaminante,tipo,maximo,i);
-    }
+
     actualizar_grafica_detalle(valores,etiquetas);
   });
   $('#O3DH').click(function(){
@@ -331,9 +331,9 @@ var greenIcon = L.icon({
     var maximo =  0.181;
     valores = [];
     etiquetas = [];
-    for (var i = 0; i < 28; i++) {
+
       get_historico_horas(contaminante,tipo,maximo,i);
-    }
+
     actualizar_grafica_detalle(valores,etiquetas);
   });
 
@@ -343,9 +343,9 @@ var greenIcon = L.icon({
     var maximo =  0.315;
     valores = [];
     etiquetas = [];
-    for (var i = 0; i < 28; i++) {
+
       get_historico_horas(contaminante,tipo,maximo,i);
-    }
+
   });
 
 
@@ -519,16 +519,24 @@ var greenIcon = L.icon({
   function put_contaminantes(lectura,estacion){
     console.log(lectura);
     console.log(estacion);
-    var valPM10 = $('#valPM10');
-    getMasAlto('PM10',lectura.city,estacion.id,valPM10);
-    var valPM25 = $('#valPM25');
-    getMasAlto('PM2.5',lectura.city,estacion.id,valPM25);
-    var valN02 = $('#valN02');
-    getMasAlto('NO2',lectura.city,estacion.id,valN02);
-    var valS02 = $('#valS02');
-    getMasAlto('SO2',lectura.city,estacion.id,valS02);
-    var valO3 = $('#valO3');
-    getMasAlto('O3',lectura.city,estacion.id,valO3);
+    var valPM10 = $('#valPM1024H');
+    getMasAlto('PM10',lectura.city,estacion.id,valPM10,'24h');
+    var valPM25 = $('#valPM2524H');
+    getMasAlto('PM2.5',lectura.city,estacion.id,valPM25,'24h');
+    var valN02 = $('#valN02DH');
+    getMasAlto('NO2',lectura.city,estacion.id,valN02,'DH');
+    var valS02 = $('#valS0224H');
+    getMasAlto('SO2',lectura.city,estacion.id,valS02,'24h');
+    var valS02 = $('#valS028H');
+    getMasAlto('SO2',lectura.city,estacion.id,valS02,'8h');
+    var valS02 = $('#valS02DH');
+    getMasAlto('SO2',lectura.city,estacion.id,valS02,'DH');
+    var valO3 = $('#valO38H');
+    getMasAlto('O3',lectura.city,estacion.id,valO3,'8h');
+    var valO3 = $('#valO3DH');
+    getMasAlto('O3',lectura.city,estacion.id,valO3,'DH');
+    $('#estacion_id').val(estacion.id);
+    $('#ciudad').val(lectura.city);
   }
 
   function getTop3ciudades(contaminante){
@@ -694,7 +702,8 @@ var greenIcon = L.icon({
                 if(his_estacion[j].fecha == objeto.fecha )
                 {
                   bandera = true;
-                  if(his_estacion[j].valororig < objeto.valororig){
+
+                  if(his_estacion[j].valororig < objeto.valororig && objeto.validoorig == 1){
                     his_estacion[j] = objeto;
                   }
                   break;
@@ -820,29 +829,66 @@ var greenIcon = L.icon({
       });
     }
 
-  function getMasAlto(contaminante,ciudad,idEstacion,contenedor){
-      var datedate = anio+"-"+mes+"-"+dia;
+  function getMasAlto(contaminante,ciudad,idEstacion,contenedor,tipo){
+    const dActual = new Date();
+    var dPasada = new Date();
+    var reMin = 1;
 
+    if('8h' ==  tipo){
+      dPasada.setHours(dActual.getHours() - 8);
+      reMin = 4;
+    }else if('24h' == tipo){
+      dPasada.setHours(dActual.getHours() - 24);
+      reMin = 12;
+    }else{
+      //default ponemos 8 horas para que logre conseguir un valor
+      dPasada.setHours(dActual.getHours() - 8);
+    }
+
+    console.log(dActual);
+    console.log(dPasada);
+    console.log(getFormatDateAPI(dActual));
+    //ruta con horas de un dia
+    //var ruta = "https://api.datos.gob.mx/v1/sinaica?parametro="+ contaminante +"&date-insert=[range:"+getFormatDateAPI(dPasada)+"%7C"+getFormatDateAPI(dActual)+"]&city="+ciudad+"&";
+    var ruta = "https://api.datos.gob.mx/v1/sinaica?parametro="+ contaminante +"&city="+ciudad+"&pageSize=1200";
+
+    console.log(ruta);
+    // ur anterior
+    // "https://api.datos.gob.mx/v1/sinaica?city="+ciudad+"&fecha="+datedate+"&pageSize=12000&parametro="+contaminante,
       $.ajax({
         type: 'GET',
-        url: "https://api.datos.gob.mx/v1/sinaica?city="+ciudad+"&fecha="+datedate+"&pageSize=12000&parametro="+contaminante,
+        url: ruta,
         data: {},
         success: function( data, textStatus, jqxhr ) {
           console.log(data);
-          var masAlto =  data.results[0];
+          console.log(idEstacion);
+          if(data.results.length > 0){
+            console.log(contaminante);
+            var masAlto = [];
 
-          for (var i = 0; i < data.results.length; i++)
-          {
-            if(data.results[i].estacionesid == idEstacion){
-              if( data.results[i].valororig > masAlto.valororig ){
-                masAlto =  data.results[i];
+            for (var i = 0; i < data.results.length; i++)
+            {
+              if(masAlto.length == 0  && data.results[i].estacionesid == idEstacion){
+                masAlto =  data.results[0];
+              }else if(data.results[i].estacionesid == idEstacion){
+                if( data.results[i].valororig > masAlto.valororig ){
+                  masAlto =  data.results[i];
+                }
               }
             }
+
+            if(masAlto.length != 0){
+              if(contaminante ==  'PM10' || contaminante == 'PM2.5')
+                contenedor.html(''+masAlto.valororig.toFixed(1));
+              else
+                contenedor.html(''+masAlto.valororig.toFixed(3));
+            }else{
+                contenedor.html('Sin valor');
+            }
+
+          }else{
+              contenedor.html('Sin valor');
           }
-          if(contaminante ==  'PM10' || contaminante == 'PM2.5')
-            contenedor.html(''+masAlto.valororig.toFixed(1));
-          else
-            contenedor.html(''+masAlto.valororig.toFixed(3));
         },
         xhrFields: {
           withCredentials: false
@@ -1164,26 +1210,26 @@ var greenIcon = L.icon({
 
 
   function get_historico_horas(contaminante,tipo,maximo,menos_horas){
-
     var dActual = new Date();
-    dActual.setHours(dActual.getHours() - (menos_horas*24));
-
 
     var dPasada = new Date();
-    var reMin = 1;
+    var dias = 24*28;
+    dPasada.setHours(dActual.getHours() - dias);
 
-    if('8h' ==  tipo){
-      dPasada.setHours(dActual.getHours() - (menos_horas*24) - 8);
-      reMin = 4;
-    }else if('24h' == tipo){
-      dPasada.setHours(dActual.getHours() - (menos_horas*24) - 24);
-      reMin = 12;
-    }else{
-      dPasada.setHours(dActual.getHours() - (menos_horas*24) - 2);
-    }
+    //var reMin = 1;
 
-    var ruta = "https://api.datos.gob.mx/v1/sinaica?parametro="+ contaminante +"&date-insert=[range:"+getFormatDateAPI(dPasada)+"%7C"+getFormatDateAPI(dActual)+"]";
-
+    // if('8h' ==  tipo){
+    //   dPasada.setHours(dActual.getHours() - (menos_horas*24) - 8);
+    //   reMin = 4;
+    // }else if('24h' == tipo){
+    //   dPasada.setHours(dActual.getHours() - (menos_horas*24) - 24);
+    //   reMin = 12;
+    // }else{
+    //   dPasada.setHours(dActual.getHours() - (menos_horas*24) - 2);
+    // }
+    var ciudad =  $('#ciudad').val();
+    var ruta = "https://api.datos.gob.mx/v1/sinaica?&city="+ciudad+"&parametro="+ contaminante +"&date-insert=[range:"+getFormatDateAPI(dPasada)+"%7C"+getFormatDateAPI(dActual)+"]";
+    console.log(ruta);
       $.ajax({
         type: 'GET',
         url: ruta+'&pageSize=1',
@@ -1198,33 +1244,53 @@ var greenIcon = L.icon({
             url: ruta+'&pageSize=' + size,
             data: {},
             success: function( data, textStatus, jqxhr ) {
+              console.log(data);
+              var estacionesid = $('#estacion_id').val();
+              // console.log(estacionesid);
+              var his_estacion =  [];
+              var labels_temp = [];
+              var values_temp = [];
+              for (var i = 0; i < data.results.length; i++) {
 
-              arrEstaciones = getUniqueEstation_id(data.results,$('#estacion').val());
-              console.log(arrEstaciones);
-                var promedio = 0;
-                var sum = 0;
+                if(data.results[i].estacionesid == estacionesid){
+                  if(!Array.isArray(his_estacion[data.results[i].fecha])){
+                    his_estacion[data.results[i].fecha] = [];
+                    labels_temp.push(data.results[i].fecha);
+                  }
 
-                //validadando que tenga mas de 12 registros para hacer la evaluacion de 24 horas
-                if(arrEstaciones.length >= reMin){
-                  arrEstaciones.forEach(function(item2, index2){
-                    //validacion que no supere el limite establecido
-                    if(item2.valororig < maximo)
-                      sum = sum + item2.valororig;
-                  });
-                  promedio = sum / arrEstaciones.length;
-                  //agregamos la suma y el pormedio al json de las estacion
-                  valores.push(promedio);
-                  var today = new Date(arrEstaciones[0].fecha);
-                  var dd = today.getDate();
-                  var mm = today.getMonth();
-                  etiquetas.push(dd+'-'+meses_abr[mm] + tipo);
-                }else{
-                  item.suma  =  0;
-                  item.promedio =  0;
+                  //validacion desde el api para valores correctos
+                  if(data.results[i].validoorig == 1){
+                    his_estacion[data.results[i].fecha].push(data.results[i]);
+                  }
+
                 }
 
-                console.log(valores);
-                console.log(etiquetas);
+              }
+
+              console.log(his_estacion);
+              console.log(his_estacion[0]);
+              console.log(his_estacion['2017-09-10']);
+
+              for (var i = 0; i < labels_temp.length; i++) {
+                console.log(his_estacion[labels_temp[i]]);
+                console.log(his_estacion[labels_temp[i]].length);
+                var promedio = his_estacion[labels_temp[i]].length;
+                var suma = 0;
+                var arreglo = his_estacion[labels_temp[i]];
+                for (var j = 0; j < promedio; j++) {
+                  suma += arreglo[j].valororig;
+                }
+
+                if(contaminante ==  'PM10' || contaminante == 'PM2.5')
+                  values_temp.push((suma/promedio).toFixed(1));
+                else
+                  values_temp.push((suma/promedio).toFixed(3));
+
+              }
+
+              console.log(values_temp);
+              valores = values_temp;
+              etiquetas =  labels_temp;
             },
             xhrFields: {
               withCredentials: false
