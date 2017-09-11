@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Calidad del Aire</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+
+  <link rel="import" href="bower_components/polymer/polymer.html">
+  <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+  <!-- <link rel="import" href="https://cdn.datos.gob.mx/bower_components/dgm-navbar/dgm-navbar.html">
+
+  <link rel="import" href="https://cdn.datos.gob.mx/bower_components/dgm-footer/dgm-footer.html"> -->
+
+  <link rel="stylesheet" href="http://cdn.datos.gob.mx/qa/bower_components/dgm-style/main.css" />
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="import" href="https://cdn.datos.gob.mx/bower_components/dgm-navbar/dgm-navbar.html">
+  <link rel="import" href="https://cdn.datos.gob.mx/bower_components/dgm-footer/dgm-footer.html">
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="multiples/css/bootstrap.min.css">
+  <link rel="stylesheet" href="multiples/css/style.css">
+
+  <script src="multiples/js/libs/modernizr-2.0.6.min.js"></script>
+
+<!-- Leaflet-->
+<script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js"
+  integrity="sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA=="
+  crossorigin=""></script>
+
+</head>
+<body class="front" cz-shortcut-listen="true" >
+
+  <dgm-navbar></dgm-navbar>
+  <main>
+    <div id="" class="cabezera" style="background-image: url('foto_fondo.png');background-size: cover; background-repeat: no-repeat;background-position:center top;">
+      <div class="section no-pad-bot">
+        <div class="container">
+          <div class="row center">
+            <div class="col s12 m12 l12">
+              <h2 class="header center white-text text-lighten-2">Calidad de Aire MX</h2>
+            </div>
+            <div class="col s10 m10 l10  offset-s1 offset-m1 offset-l1">
+              <h5 class="header col s12 white-text text-lighten-2" style="   font-size: 32px;font-weight: 100;letter-spacing: 1px; line-height: 35px;"><span id="contaminante_titulo">Partículas menores de 10 micrómetros (PM10).</span></h5>
+            </div>
+          </div>
+
+          <div class="row center" style="display:none">
+            <div class="col s4 m4 l4  offset-s4 offset-m4 offset-l4">
+              <div class="nav-wrapper">
+                <form>
+                  <div class="input-field">
+                    <input id="search_central" type="search" required style="border-bottom: 1px solid #f1f5fb;">
+                    <label class="label-icon" for="search_central"><i class="material-icons" style="color: #ffff;">search</i></label>
+                    <i class="material-icons">close</i>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <div class="row center">
+            <div class="col s12 margen_arriba_g">
+              <div class="base_botones">
+                <a href="index.html" id="btn_ciudades" class="boton boton_activo">Top 3 Ciudades</a>
+                <a href="estados.html" id="btn_estados" class="boton boton_inactivo">32 Estados</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="row center">
+            <div class="col s12 m4">
+              <select class="browser-default" name="cuidad_sel" id="ciudad_sel">
+                <option value="">Ciudad 1</option>
+                <option value="">Ciudad 1</option>
+                <option value="">Ciudad 1</option>
+                <option value="">Ciudad 1</option>
+                <option value="">Ciudad 1</option>
+              </select>
+            </div>
+            <div class="col s12 m4">
+              <select class="browser-default" name="contaminante_sel" id="contaminante_sel">
+                <option value="">PM10</option>
+                <option value="">PM2.5</option>
+                <option value="">NO2</option>
+                <option value="">O3</option>
+                <option value="">SO2</option>
+              </select>
+            </div>
+            <div class="col s12 m4">
+              <select class="browser-default" name="parametro_sel" id="parametro_sel">
+                <option value="">24 Horas</option>
+                <option value="">8 Horas</option>
+                <option value="">Dato Horario</option>
+              </select>
+            </div>
+          </div>
+
+
+          <div class="row center">
+            <div class="col s12">
+              <div id="button-wrap">
+                <div id="count" class="button active">Valor más alto</div>
+                <div id="name" class="button">Nombre</div>
+              </div>
+              <div id="vis"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </main>
+  <dgm-footer></dgm-footer>
+<!--  Scripts-->
+  <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script> -->
+  <script>window.jQuery || document.write('<script src="multiples/js/libs/jquery-1.7.2.min.js"><\/script>')</script>
+
+
+  <script src="js/materialize.js"></script>
+  <script src="multiples/js/libs/coffee-script.js"></script>
+  <script src="multiples/js/libs/isotope.pkgd.min.js"></script>
+  <script src="multiples/js/libs/d3.js"></script>
+  <script src="multiples/js/libs/queue.min.js"></script>
+  <script type="text/coffeescript" src="multiples/coffee/small_multiples.coffee"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+    });
+  </script>
+
+
+  <script> // Change UA-XXXXX-X to be your site's ID
+    window._gaq = [['_setAccount','UAXXXXXXXX1'],['_trackPageview'],['_trackPageLoadTime']];
+    Modernizr.load({
+      load: ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'
+    });
+  </script>
+
+
+  <!--[if lt IE 7 ]>
+    <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+    <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+  <![endif]-->
+
+
+
+
+</body>
+</html>
