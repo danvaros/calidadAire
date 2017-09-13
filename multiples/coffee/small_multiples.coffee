@@ -1,3 +1,122 @@
+data_globas =  [
+  {
+    "key": "clothing, beauty, & fashion",
+    "values": [
+      {
+        "year": "2004",
+        "category": "clothing, beauty, & fashion",
+        "n": 141,
+        "date": "2004-01-01T06:00:00.000Z"
+      },
+      {
+        "year": "2005",
+        "category": "clothing, beauty, & fashion",
+        "n": 203,
+        "date": "2005-01-01T06:00:00.000Z"
+      },
+      {
+        "year": "2006",
+        "category": "clothing, beauty, & fashion",
+        "n": 203,
+        "date": "2006-01-01T06:00:00.000Z"
+      },
+      {
+        "year": "2007",
+        "category": "clothing, beauty, & fashion",
+        "n": 203,
+        "date": "2007-01-01T06:00:00.000Z"
+      }
+    ]
+  },
+  {
+    "key": "computers & internet",
+    "values": [
+      {
+        "year": "2004",
+        "category": "computers & internet",
+        "n": 2489,
+        "date": "2004-01-01T06:00:00.000Z"
+      },
+      {
+        "year": "2005",
+        "category": "computers & internet",
+        "n": 2200,
+        "date": "2005-01-01T06:00:00.000Z"
+      },
+      {
+        "year": "2006",
+        "category": "computers & internet",
+        "n": 2200,
+        "date": "2006-01-01T06:00:00.000Z"
+      },
+      {
+        "year": "2007",
+        "category": "computers & internet",
+        "n": 2200,
+        "date": "2007-01-01T06:00:00.000Z"
+      }
+    ]
+  },
+  {
+    "key": "education",
+    "values": [
+      {
+        "year": "2004",
+        "category": "education",
+        "n": 151,
+        "date": "2004-01-01T06:00:00.000Z"
+      },
+      {
+        "year": "2005",
+        "category": "education",
+        "n": 201,
+        "date": "2005-01-01T06:00:00.000Z"
+      },
+      {
+        "year": "2006",
+        "category": "education",
+        "n": 201,
+        "date": "2006-01-01T06:00:00.000Z"
+      },
+      {
+        "year": "2007",
+        "category": "education",
+        "n": 201,
+        "date": "2007-01-01T06:00:00.000Z"
+      }
+    ]
+  },
+  {
+    "key": "food & drink",
+    "values": [
+      {
+        "year": "2004",
+        "category": "food & drink",
+        "n": 275,
+        "date": "2004-01-01T06:00:00.000Z"
+      },
+      {
+        "year": "2005",
+        "category": "food & drink",
+        "n": 324,
+        "date": "2005-01-01T06:00:00.000Z"
+      },
+      {
+        "year": "2006",
+        "category": "food & drink",
+        "n": 324,
+        "date": "2006-01-01T06:00:00.000Z"
+      },
+      {
+        "year": "2007",
+        "category": "food & drink",
+        "n": 324,
+        "date": "2007-01-01T06:00:00.000Z"
+      }
+    ]
+  }
+];
+
 
 # ---
 # We are using a function to scope
@@ -92,7 +211,7 @@ SmallMultiples = () ->
       # Margins give space for the axis and text labels
       g = svg.select("g")
         .attr("transform", "translate(#{margin.left},#{margin.top})")
-     
+
       # Invisible background rectangle that will
       # capture all our mouse movements
       g.append("rect")
@@ -116,7 +235,7 @@ SmallMultiples = () ->
         .attr("class", "area")
         .style("pointer-events", "none")
         .attr("d", (c) -> area(c.values))
-        
+
       lines.append("path")
         .attr("class", "line")
         .style("pointer-events", "none")
@@ -193,7 +312,7 @@ SmallMultiples = () ->
   mousemove = () ->
     year = xScale.invert(d3.mouse(this)[0]).getFullYear()
     date = format.parse('' + year)
-    
+
     # The index into values will be the same for all
     # of the plots, so we can compute it once and
     # use it for the rest of the scrollables
@@ -315,6 +434,9 @@ $ ->
       console.log(error)
 
     data = transformData(rawData)
+    console.log(data)
+    console.log(data_globas)
+
     plotData("#vis", data, plot)
     setupIsoytpe()
 
@@ -332,5 +454,3 @@ $ ->
     d3.select("#button-wrap").selectAll("div").classed("active", false)
     d3.select("##{id}").classed("active", true)
     $("#vis").isotope({sortBy:id})
-
-
