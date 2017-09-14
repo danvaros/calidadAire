@@ -6,6 +6,8 @@ var meses_abr = ["Ene", "Feb", "Mar", "Abr", "May", "Jun",
   "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"
 ];
 
+var boton_activo;
+
 $(document).ready(function(){
   //var estaciones  =  [];
 
@@ -82,6 +84,9 @@ $(document).ready(function(){
     ant_val_arr = [];
     ant_lab_arr = [];
     ant = 28;
+    boton_activo.removeClass('active_graf');
+    boton_activo = $('#valPM1024H');
+    boton_activo.addClass('active_graf');
   });
 
   $('#ver_top2').click(function(event){
@@ -90,6 +95,9 @@ $(document).ready(function(){
     ant_val_arr = [];
     ant_lab_arr = [];
     ant = 28;
+    boton_activo.removeClass('active_graf');
+    boton_activo = $('#valPM1024H');
+    boton_activo.addClass('active_graf');
   });
 
   $('#ver_top1').click(function(event){
@@ -98,6 +106,9 @@ $(document).ready(function(){
     ant_val_arr = [];
     ant_lab_arr = [];
     ant = 28;
+    boton_activo.removeClass('active_graf');
+    boton_activo = $('#valPM1024H');
+    boton_activo.addClass('active_graf');
   });
 
   $('.modal').modal();
@@ -187,6 +198,10 @@ var greenIcon = L.icon({
     var id_estacion = $(this).data().id;
     var ciudad;
 
+    boton_activo.removeClass('active_graf');
+    boton_activo = $('#valPM1024H');
+    boton_activo.addClass('active_graf');
+    
     for (var i = 0; i < estaciones_global.length; i++) {
       if(id_estacion ==  estaciones_global[i].estacionesid){
        ciudad  =  estaciones_global[i].city;
@@ -257,7 +272,7 @@ var greenIcon = L.icon({
         }
       });
   });
-
+  boton_activo = $('#valPM1024H');
   $('#PM1024H').click(function(){
     var contaminante = 'PM10';
     var tipo = '24h';
@@ -265,6 +280,9 @@ var greenIcon = L.icon({
     valores = [];
     etiquetas = [];
 
+    boton_activo.removeClass('active_graf');
+    boton_activo = $('#valPM1024H');
+    boton_activo.addClass('active_graf');
     get_historico_horas(contaminante,tipo,maximo,i);
 
     actualizar_grafica_detalle(valores,etiquetas);
@@ -275,6 +293,10 @@ var greenIcon = L.icon({
     var maximo = 158;
     valores = [];
     etiquetas = [];
+
+    boton_activo.removeClass('active_graf');
+    boton_activo = $('#valPM2524H');
+    boton_activo.addClass('active_graf');
 
       get_historico_horas(contaminante,tipo,maximo,i);
 
@@ -288,6 +310,10 @@ var greenIcon = L.icon({
     valores = [];
     etiquetas = [];
 
+    boton_activo.removeClass('active_graf');
+    boton_activo = $('#valS0224H');
+    boton_activo.addClass('active_graf');
+
       get_historico_horas(contaminante,tipo,maximo,i);
 
     actualizar_grafica_detalle(valores,etiquetas);
@@ -299,6 +325,9 @@ var greenIcon = L.icon({
     valores = [];
     etiquetas = [];
 
+    boton_activo.removeClass('active_graf');
+    boton_activo = $('#valS028H');
+    boton_activo.addClass('active_graf');
       get_historico_horas(contaminante,tipo,maximo,i);
 
     actualizar_grafica_detalle(valores,etiquetas);
@@ -310,6 +339,9 @@ var greenIcon = L.icon({
     valores = [];
     etiquetas = [];
 
+    boton_activo.removeClass('active_graf');
+    boton_activo = $('#valO38H');
+    boton_activo.addClass('active_graf');
       get_historico_horas(contaminante,tipo,maximo,i);
 
     actualizar_grafica_detalle(valores,etiquetas);
@@ -321,6 +353,9 @@ var greenIcon = L.icon({
     valores = [];
     etiquetas = [];
 
+    boton_activo.removeClass('active_graf');
+    boton_activo = $('#valS02DH');
+    boton_activo.addClass('active_graf');
       get_historico_horas(contaminante,tipo,maximo,i);
 
     actualizar_grafica_detalle(valores,etiquetas);
@@ -331,21 +366,26 @@ var greenIcon = L.icon({
     var maximo =  0.181;
     valores = [];
     etiquetas = [];
-
+    boton_activo.removeClass('active_graf');
+    boton_activo = $('#valO3DH');
+    boton_activo.addClass('active_graf');
       get_historico_horas(contaminante,tipo,maximo,i);
 
     actualizar_grafica_detalle(valores,etiquetas);
   });
 
-  $('#NO2H').click(function(){
+  $('#NO2DH').click(function(){
     var contaminante = 'NO2';
     var tipo = 'D';
     var maximo =  0.315;
     valores = [];
     etiquetas = [];
 
+    boton_activo.removeClass('active_graf');
+    boton_activo = $('#valN02DH');
+    boton_activo.addClass('active_graf');
       get_historico_horas(contaminante,tipo,maximo,i);
-
+    actualizar_grafica_detalle(valores,etiquetas);
   });
 
 
