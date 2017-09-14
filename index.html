@@ -23,7 +23,7 @@
 
   <link rel="import" href="https://cdn.datos.gob.mx/bower_components/dgm-footer/dgm-footer.html"> -->
 
-  <link rel='stylesheet' href='http://cdn.datos.gob.mx/qa/bower_components/dgm-style/main.css' />
+  <link rel="stylesheet" href="http://cdn.datos.gob.mx/qa/bower_components/dgm-style/main.css" />
 
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="import" href="https://cdn.datos.gob.mx/bower_components/dgm-navbar/dgm-navbar.html">
@@ -99,7 +99,7 @@
     color: #fff !important;
   }
 
-  #mapid { height: 600px; margin-top: -45px; }
+  #mapid { height: 600px; }
   #map_detalle { height: 400px; }
 
   .s5ths,
@@ -173,8 +173,8 @@
           <div class="row center">
             <div class="col s12 margen_arriba_g">
               <div class="base_botones">
-                <a href="#" id="btn_ciudades" class="boton boton_activo">Top 3 Ciudades</a>
-                <a href="#" id="btn_estados" class="boton boton_inactivo">32 Estados</a>
+                <a href="index.html" id="btn_ciudades" class="boton boton_activo">Top 3 Ciudades</a>
+                <a href="estados.html" id="btn_estados" class="boton boton_inactivo">32 Estados</a>
                 <select style="color: #333; background-color: rgba(243, 236, 236, .2); border: 0px;" class="browser-default" name="" id="contaminantes">
                   <option value="PM10">PM 10 µg/m&sup3;</option>
                   <option value="PM2.5">PM 2.5 µg/m&sup3;</option>
@@ -287,63 +287,68 @@
       </div>
     </div>
 
-    <div class="row seccion_mapa">
-      <div class="col  s12 m6 l6 offset-l6 offset-m6 right-align">
-        <h3 class="aling-right">Estaciones de medición de contaminantes</h3>
-      </div>
-      <div class="col s12 botonera_mapa">
-        <div class="input-field col s6 m2 l2">
-          <select  name="estados" id="estados" class="browser-default sombra">
-            <option value="Aguascalientes">Aguascalientes</option>
-            <option value="Baja California">Baja California</option>
-            <option value="Baja California Sur">Baja California Sur</option>
-            <option value="Campeche">Campeche</option>
-            <option value="Chiapas">Chiapas</option>
-            <option value="Chihuahua">Chihuahua</option>
-            <option value="Ciudad de México">Ciudad de México</option>
-            <option value="Coahuila de Zaragoza2">Coahuila de Zaragoza2</option>
-            <option value="Colima">Colima</option>
-            <option value="Durango">Durango</option>
-            <option value="Guanajuato">Guanajuato</option>
-            <option value="Guerrero">Guerrero</option>
-            <option value="Hidalgo">Hidalgo</option>
-            <option value="Jalisco">Jalisco</option>
-            <option value="México">México</option>
-            <option value="Michoacán de Ocampo">Michoacán de Ocampo</option>
-            <option value="Morelos">Morelos</option>
-            <option value="Nayarit">Nayarit</option>
-            <option value="Nuevo León">Nuevo León</option>
-            <option value="Oaxaca">Oaxaca</option>
-            <option value="Puebla">Puebla</option>
-            <option value="Querétaro de Arteaga">Querétaro de Arteaga</option>
-            <option value="Quintana Roo">Quintana Roo</option>
-            <option value="San Luis Potosí">San Luis Potosí</option>
-            <option value="Sinaloa">Sinaloa</option>
-            <option value="Sonora">Sonora</option>
-            <option value="Tabasco">Tabasco</option>
-            <option value="Tamaulipas">Tamaulipas</option>
-            <option value="Tlaxcala">Tlaxcala</option>
-            <option value="Veracruz de Ignacio de la Llave">Veracruz de Ignacio de la Llave</option>
-            <option value="Yucatán">Yucatán</option>
-            <option value="Zacatecas">Zacatecas</option>
-          </select>
+    <div class="container">
+      <div class="row mapa_titulo">
+        <div class="col  s12">
+          <h3>Estaciones de medición de contaminantes</h3>
         </div>
-        <!-- <div class="input-field col s6 m2 l2">
-          <select  name="municipios" id="municipios" class="browser-default sombra">
-            <option value="0" disabled selected>Municipios</option>
-            <option value="0">Municipios 1</option>
-            <option value="0">Municipios 2</option>
-            <option value="0">Municipios 3</option>
-          </select>
-        </div> -->
-        <!-- <div class="input-field col s6 m2 l2">
-          <form action="#">
-            <p class="range-field">
-              <input type="range" id="test5" min="0" max="100" />
-            </p>
-          </form>
-        </div> -->
+        <div class="col s12 ">
+          <div class="input-field col s6 m2 l2">
+            <select  name="estados" id="estados" class="browser-default ">
+              <option value="Aguascalientes">Aguascalientes</option>
+              <option value="Baja California">Baja California</option>
+              <option value="Baja California Sur">Baja California Sur</option>
+              <option value="Campeche">Campeche</option>
+              <option value="Chiapas">Chiapas</option>
+              <option value="Chihuahua">Chihuahua</option>
+              <option value="Ciudad de México">Ciudad de México</option>
+              <option value="Coahuila de Zaragoza2">Coahuila de Zaragoza2</option>
+              <option value="Colima">Colima</option>
+              <option value="Durango">Durango</option>
+              <option value="Guanajuato">Guanajuato</option>
+              <option value="Guerrero">Guerrero</option>
+              <option value="Hidalgo">Hidalgo</option>
+              <option value="Jalisco">Jalisco</option>
+              <option value="México">México</option>
+              <option value="Michoacán de Ocampo">Michoacán de Ocampo</option>
+              <option value="Morelos">Morelos</option>
+              <option value="Nayarit">Nayarit</option>
+              <option value="Nuevo León">Nuevo León</option>
+              <option value="Oaxaca">Oaxaca</option>
+              <option value="Puebla">Puebla</option>
+              <option value="Querétaro de Arteaga">Querétaro de Arteaga</option>
+              <option value="Quintana Roo">Quintana Roo</option>
+              <option value="San Luis Potosí">San Luis Potosí</option>
+              <option value="Sinaloa">Sinaloa</option>
+              <option value="Sonora">Sonora</option>
+              <option value="Tabasco">Tabasco</option>
+              <option value="Tamaulipas">Tamaulipas</option>
+              <option value="Tlaxcala">Tlaxcala</option>
+              <option value="Veracruz de Ignacio de la Llave">Veracruz de Ignacio de la Llave</option>
+              <option value="Yucatán">Yucatán</option>
+              <option value="Zacatecas">Zacatecas</option>
+            </select>
+          </div>
+          <div class="input-field col s6 m2 l2">
+            <select  name="municipios" id="municipios" class="browser-default sombra">
+              <option value="0" disabled selected>Municipios</option>
+              <option value="0">Municipios 1</option>
+              <option value="0">Municipios 2</option>
+              <option value="0">Municipios 3</option>
+            </select>
+          </div>
+          <!-- <div class="input-field col s6 m2 l2">
+            <form action="#">
+              <p class="range-field">
+                <input type="range" id="test5" min="0" max="100" />
+              </p>
+            </form>
+          </div> -->
+        </div>
       </div>
+    </div>
+
+    <div class="row">
       <div class="col s12">
         <div id="mapid"></div>
       </div>
@@ -408,30 +413,99 @@
             <div class="col s12 ">
               <p class="subtitulo_chico">Parámetros de la red</p>
             </div>
-            <div class="col s12 m6 l5ths">
-              <p class="etiqueta">PM10 (µg/m&sup3;)</p>
-              <p id="valPM10" class="estaciones_5">2652.07</p>
+
+            <!-- <div class="col s12 responsive-table">
+              <table>
+                <thead>
+                  <tr>
+                      <th>Mediciones</th>
+                      <th>PM10 (µg/m&sup3;)</th>
+                      <th>Pm2.5 (µg/m&sup3;)</th>
+                      <th>NO2 (ppm)</th>
+                      <th>SO2 (ppm)</th>
+                      <th>O3 (ppm)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Ultimo Registro</td>
+                    <td><p class="estaciones_5">2652.07</p></td>
+                    <td><p class="estaciones_5">2652.07</p></td>
+                    <td><p class="estaciones_5">2652.07</p></td>
+                    <td><p class="estaciones_5">2652.07</p></td>
+                    <td><p class="estaciones_5">2652.07</p></td>
+                  </tr>
+                  <tr>
+                    <td>24 Horas</td>
+                    <td><p id="PM1024H" class="btn blue">Ver Historico</p></td>
+                    <td><p id="PM2524H" class="btn blue">Ver Historico</p></td>
+                    <td><p   class="estaciones_5"></p></td>
+                    <td><p id="SO224H" class="btn blue">Ver Historico</p></td>
+                    <td><p class="estaciones_5"></p></td>
+                  </tr>
+                  <tr>
+                    <td>8 Horas</td>
+                    <td><p class="estaciones_5"></p></td>
+                    <td><p class="estaciones_5"></p></td>
+                    <td><p class="estaciones_5"></p></td>
+                    <td><p id="SO28H" class="btn blue">Ver Historico</p></td>
+                    <td><p id="O38H" class="btn blue">Ver Historico</p></td>
+                  </tr>
+                  <tr>
+                    <td>Dato Horario</td>
+                    <td><p class="estaciones_5"></p></td>
+                    <td><p class="estaciones_5"></p></td>
+                    <td><p id="NO2H" class="btn blue">Ver Historico</p></td>
+                    <td><p id="SO2DH" class="btn blue">Ver Historico</p></td>
+                    <td><p id="O3DH" class="btn blue">Ver Historico</p></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div> -->
+
+            <div class="row">
+              <div class="col s12 m6 l5ths center-align">
+                <p class="etiqueta left-align">PM10 (µg/m&sup3;) 24H</p>
+                <a class="tabla_contaminantes" id="PM1024H" ><span class="active_graf estaciones_5" id="valPM1024H" >2652.07</span></a>
+              </div>
+              <div class="col s12 m6 l5ths center-align">
+                <p class="etiqueta left-align">PM2.5 (µg/m&sup3;) 24H</p>
+                <a class="tabla_contaminantes" id="PM2524H" ><span id="valPM2524H" class="estaciones_5">456.07</span></a>
+              </div>
+              <div class="col s12 m6 l5ths center-align">
+                <p class="etiqueta left-align">SO2 (ppm) DH</p>
+                <a class="tabla_contaminantes" id="SO2DH"><span id="valS02DH" class="estaciones_5">456.07</span></a>
+              </div>
+              <div class="col s12 m6 l5ths center-align">
+                <p class="etiqueta left-align">SO2 (ppm) 8H</p>
+                <a class="tabla_contaminantes" id="SO28H"><span id="valS028H" class="estaciones_5">456.07</span></a>
+              </div>
+              <div class="col s12 m6 l5ths center-align">
+                <p class="etiqueta left-align">SO2 (ppm) 24H</p>
+                <a class="tabla_contaminantes" id="SO224H"><span id="valS0224H" class="estaciones_5">456.07</span></a>
+              </div>
             </div>
-            <div class="col s12 m6 l5ths">
-              <p class="etiqueta">PM2.5 (µg/m&sup3;)</p>
-              <p id="valPM25" class="estaciones_5">456.07</p>
-            </div>
-            <div class="col s12 m6 l5ths">
-              <p class="etiqueta">NO2 (ppm)</p>
-              <p id="valN02" class="estaciones_5">2652.07</p>
-            </div>
-            <div class="col s12 m6 l5ths">
-              <p class="etiqueta">SO2 (ppm)</p>
-              <p id="valS02" class="estaciones_5">456.07</p>
-            </div>
-            <div class="col s12 m6 l5ths">
-              <p class="etiqueta">O3 (ppm)</p>
-              <p id="valO3" class="estaciones_5">2652.07</p>
+            <div class="row">
+              <div class="col s12 m6 l5ths center-align">
+                <p class="etiqueta left-align">O3 (ppm) DH</p>
+                <a class="tabla_contaminantes" id="O3DH"><span id="valO3DH" class="estaciones_5">2652.07</span></a>
+              </div>
+              <div class="col s12 m6 l5ths center-align">
+                <p class="etiqueta left-align">O3 (ppm) 8H</p>
+                <a class="tabla_contaminantes" id="O38H"><span id="valO38H" class="estaciones_5">2652.07</span></a>
+              </div>
+              <div class="col s12 m6 l5ths center-align">
+                <p class="etiqueta left-align">NO2 (ppm) DH</p>
+                <a class="tabla_contaminantes" id="NO2DH"><span id="valN02DH" class="estaciones_5">2652.07</span></a>
+              </div>
             </div>
           </div>
+          <input type="hidden" name="estacion" id="estacion_id" value="">
+          <input type="hidden" name="ciudad" id="ciudad" value="">
           <div class="row margenes_pop">
             <div class="col  s12 m6 l6">
               <p class="subtitulo_chico">Valores máximos registrados del contaminante <span id="contaminante_grafica">XXX</span></p>
+              <input type="hidden" name="" value="" id="estacion">
             </div>
             <div class="row">
               <div class="col s12 right-align botonera">
@@ -448,6 +522,8 @@
         </div>
       </div>
     </div>
+
+
 
     <!-- <a id="abremodal" class="waves-effect waves-light btn modal-trigger" href="#modal1" style="display:none">Modal</a> -->
 

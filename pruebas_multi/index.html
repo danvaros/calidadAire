@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="https://unpkg.com/d3@4.6.0"></script>
+<script src="https://unpkg.com/d3fc@12.1.0"></script>
+<div id='small-multiples'></div>
+
+<style>
+  html, body, #small-multiples {
+    height: 100%;
+    margin: 0;
+	}
+</style>
+
+<script>
+
+// Parse the date / time
+var parseDate = d3.time.format("%d-%b-%y").parse;
+
+
+d3.tsv('askmefi_category_year.tsv')
+  .row(function(r) {
+  	return {
+  		category: r.category,
+  		n: Number(r.n),
+      year:parseDate(r.year)
+    }
+  })
+  .get(function(data) {
+    console.log(data);
+    var nested = d3.nest()
+    	.key(function(k) { return k.category; })
+    	.entries(data);
+
+    console.log(nested);
+    // pick on of the data series
+  	var dataSeries = nested[1].values;
+
+    console.log(dataSeries);
+
+    var yExtent = fc.extentLinear()
+      .accessors([function(d) { return d.n; }])
+      .pad([0, 0.2])
+    	.include([0]);
+
+  	var xExtent = fc.extentLinear()
+    	.accessors([function(d) { return d.year; }]);
+
+    var line = fc.seriesSvgLine()
+      .crossValue(function(d) { return d.year; })
+      .mainValue(function(d) { return d.n; });
+
+  	var chart = fc.chartSvgCartesian(
+        d3.scaleLinear(),
+        d3.scaleLinear())
+      .yDomain(yExtent(data))
+    	.xDomain(xExtent(data))
+      .yOrient('left')
+    	.plotArea(line);
+
+    // render
+    d3.select('#small-multiples')
+      .datum(dataSeries)
+      .call(chart);
+	});
+
+</script>

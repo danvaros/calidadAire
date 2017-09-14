@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Calidad del Aire</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+
+  <link rel="import" href="bower_components/polymer/polymer.html">
+  <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="http://cdn.datos.gob.mx/qa/bower_components/dgm-style/main.css" />
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="import" href="https://cdn.datos.gob.mx/bower_components/dgm-navbar/dgm-navbar.html">
+  <link rel="import" href="https://cdn.datos.gob.mx/bower_components/dgm-footer/dgm-footer.html">
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <script src="js/utileria.js"></script>
+
+</head>
+<body class="front" cz-shortcut-listen="true" >
+
+  <dgm-navbar></dgm-navbar>
+  <main>
+    <div id="" class="cabezera" style="background-image: url('foto_fondo.png');background-size: cover; background-repeat: no-repeat;background-position:center top;">
+      <div class="section no-pad-bot">
+        <div class="container">
+          <div class="row center">
+            <div class="col s12 m12 l12">
+              <h2 class="header center white-text text-lighten-2">Calidad de Aire MX</h2>
+            </div>
+            <div class="col s10 m10 l10  offset-s1 offset-m1 offset-l1">
+              <h5 class="header col s12 white-text text-lighten-2" style="   font-size: 32px;font-weight: 100;letter-spacing: 1px; line-height: 35px;"><span id="contaminante_titulo">Partículas menores de 10 micrómetros (PM10).</span></h5>
+            </div>
+          </div>
+
+          <div class="row center" style="display:none">
+            <div class="col s4 m4 l4  offset-s4 offset-m4 offset-l4">
+              <div class="nav-wrapper">
+                <form>
+                  <div class="input-field">
+                    <input id="search_central" type="search" required style="border-bottom: 1px solid #f1f5fb;">
+                    <label class="label-icon" for="search_central"><i class="material-icons" style="color: #ffff;">search</i></label>
+                    <i class="material-icons">close</i>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <div class="row center">
+            <div class="col s12 margen_arriba_g">
+              <div class="base_botones">
+                <a href="index.html" id="btn_ciudades" class="boton boton_activo">Top 3 Ciudades</a>
+                <a href="estados.html" id="btn_estados" class="boton boton_inactivo">32 Estados</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="row center">
+            <div class="col s12 m4">
+              <select class="browser-default" name="cuidad_sel" id="ciudad_sel">
+                <option value="">Ciudad 1</option>
+                <option value="">Ciudad 1</option>
+                <option value="">Ciudad 1</option>
+                <option value="">Ciudad 1</option>
+                <option value="">Ciudad 1</option>
+              </select>
+            </div>
+            <div class="col s12 m4">
+              <select class="browser-default" name="contaminante_sel" id="contaminante_sel">
+                <option value="">PM10</option>
+                <option value="">PM2.5</option>
+                <option value="">NO2</option>
+                <option value="">O3</option>
+                <option value="">SO2</option>
+              </select>
+            </div>
+            <div class="col s12 m4">
+              <select class="browser-default" name="parametro_sel" id="parametro_sel">
+                <option value="">24 Horas</option>
+                <option value="">8 Horas</option>
+                <option value="">Dato Horario</option>
+              </select>
+            </div>
+          </div>
+          <div class="row center cont">
+
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+  </main>
+  <dgm-footer></dgm-footer>
+  <style media="screen">
+
+    canvas{
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+    }
+
+    .chartjs-tooltip {
+      opacity: 1;
+      position: absolute;
+      background: rgba(0, 0, 0, .7);
+      color: white;
+      border-radius: 3px;
+      -webkit-transition: all .1s ease;
+      transition: all .1s ease;
+      pointer-events: none;
+      -webkit-transform: translate(-50%, 0);
+      transform: translate(-50%, 0);
+      padding: 4px;
+    }
+
+    .chartjs-tooltip-key {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+    }
+
+    .chart-container {
+        width: 290px;
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-bottom: 20px;
+    }
+
+    .cont {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+  </style>
+  <script src="js/materialize.js"></script>
+  <script src="libs/chartjs/Chart.bundle.js"></script>
+  <script src="libs/chartjs/utils.js"></script>
+
+
+
+  <script type="text/javascript">
+
+  window.onload = function() {
+      //datos de configuracion
+      var horas = 24;
+      var minPromedio = 12;
+      var maxValor = 152;
+
+      const dActual = new Date();
+      var dPasada = new Date();
+      dPasada.setHours(restaHoras(dActual,horas));
+
+
+      var url = "https://api.datos.gob.mx/v1/sinaica?parametro=PM10&pageSize=12000&date-insert=[range:"+getFormatDateAPI(dPasada)+"%7C"+getFormatDateAPI(dActual)+"] ";
+
+      $.ajax({
+        type: 'GET',
+        url:url,
+        data: {},
+        success: function( data, textStatus, jqxhr ) {
+          console.log(data);
+          var agrupaEstaciones  = [];
+          var indEstaciones     = [];
+          var indPromedios      = [];
+          for (var i = 0; i < data.results.length; i++) {
+
+            if(!Array.isArray(agrupaEstaciones[data.results[i].estacionesid])){
+              agrupaEstaciones[data.results[i].estacionesid] = [];
+              indEstaciones.push(data.results[i].estacionesid);
+            }
+
+            //validacion desde el api para valores correctos
+            if(data.results[i].validoorig == 1 && maxValor > data.results[i].valororig){
+              agrupaEstaciones[data.results[i].estacionesid].push(data.results[i]);
+            }
+          }
+
+
+
+          console.log(agrupaEstaciones);
+          console.log(indEstaciones);
+
+          for (var i = 0; i < indEstaciones.length; i++) {
+            if(agrupaEstaciones[indEstaciones[i]].length > minPromedio){
+              var tempo = agrupaEstaciones[indEstaciones[i]];
+
+              var suma = 0;
+              for (var j = 0; j < tempo.length; j++) {
+                  suma += tempo[j].valororig;
+              }
+              var promedio = suma/tempo.length;
+              indPromedios.push({'estacion':tempo[0].estacionesid,'promedio':promedio});
+            }
+          }
+
+
+          console.log(indPromedios);
+
+
+          //ordenamos el arreglo para tomar los valores mas altos
+          indPromedios.sort(function (a, b) {
+            if (a.promedio < b.promedio) {
+              return 1;
+            }
+            if (a.promedio > b.promedio) {
+              return -1;
+            }
+            // a must be equal to b
+            return 0;
+          });
+
+          console.log(indPromedios);
+
+        },
+        xhrFields: {
+          withCredentials: false
+        },
+        crossDomain: true,
+        async:false
+      });
+
+    activa();
+    };//fin del main
+
+
+function activa(){
+  color = Chart.helpers.color;
+  Chart.defaults.global.defaultFontColor = '#fff';
+  Chart.defaults.global.defaultColor = 'rgba(255,255,255,1)';
+  var container = document.querySelector('.cont');
+
+  [
+      'circle',
+      'triangle',
+      'rect',
+      'rectRounded',
+      'rectRot',
+      'cross',
+      'crossRot',
+      'star',
+      'line',
+      'dash'
+  ].forEach(function(pointStyle) {
+      var div = document.createElement('div');
+      div.classList.add('chart-container');
+
+      var canvas = document.createElement('canvas');
+      div.appendChild(canvas);
+      container.appendChild(div);
+
+      var ctx = canvas.getContext('2d');
+      var config = createConfig(pointStyle);
+      new Chart(ctx, config);
+  });
+}
+
+
+
+
+
+          function createConfig(pointStyle) {
+              return {
+                  type: 'line',
+                  data: {
+                      labels: ["Ene", "Feb", "MAr", "Abr", "May", "Jun", "Jul","Ene", "Feb", "MAr", "Abr", "May", "Jun", "Jul","Ene", "Feb", "MAr", "Abr", "May", "Jun", "Jul","Ene", "Feb", "MAr", "Abr", "May", "Jun", "Jul"],
+                      datasets: [{
+                          label: "PM10",
+                          // backgroundColor: window.chartColors.red,
+                          backgroundColor: 'rgba(255,255,255,0.2)', //color(window.chartColors.gray).alpha(0.2).rgbString(),
+                          // borderColor: window.chartColors.red,
+                          borderColor: window.chartColors.gray,
+                          pointBackgroundColor: window.chartColors.gray,
+                          //window.chartColors.gray,
+                          data: [10, 23, 5, 99, 67, 43, 0,0, 23, 5, 99, 67, 43, 0,0, 23, 5, 99, 67, 43, 0,0, 23, 5, 99, 67, 43, 0],
+                          // fill: false,
+                          //pointRadius: 1,
+                          //pointHoverRadius: 5,
+                          //showLine: false // no line shown
+                      }]
+                  },
+                  options: {
+                      responsive: true,
+                      title:{
+                          display:true,
+                          text:'Point Style: ' + pointStyle
+                      },
+                      legend: {
+                          display: false
+                      },
+                      scales: {
+                          xAxes: [{
+                              gridLines: {
+                                  display: false,
+                                  drawBorder: false
+                              },
+                              display: true,
+                              ticks: {
+                                  callback: function(dataLabel, index) {
+                                      // Hide the label of every 2nd dataset. return null to hide the grid line too
+                                      return index % 3 === 0 ? dataLabel : '';
+                                  }
+                              }
+                          }],
+                          yAxes: [{
+                              gridLines: {
+                                  display: false,
+                                  drawBorder: false
+                              },
+                              ticks: {
+                                  min: 0,
+                                  max: 100,//costumisar max dependiendo del indicador que se vaya precentar
+                                  stepSize: 33 // la divicion tiene que ser en 3
+                              }
+                          }]
+                      }
+                      // elements: {
+                      //     point: {
+                      //         pointStyle: pointStyle
+                      //     }
+                      // }
+                  }
+              };
+          }
+
+
+
+
+
+        // function createConfig(gridlines, title) {
+        //     return {
+        //         type: 'line',
+        //         data: {
+        //             labels: ["January", "February", "March", "April", "May", "June", "July"],
+        //             datasets: [{
+        //                 label: "My First dataset",
+        //                 backgroundColor: window.chartColors.red,
+        //                 borderColor: window.chartColors.red,
+        //                 data: [10, 30, 39, 20, 25, 34, 0],
+        //                 fill: false,
+        //             }, {
+        //                 label: "My Second dataset",
+        //                 fill: false,
+        //                 backgroundColor: window.chartColors.blue,
+        //                 borderColor: window.chartColors.blue,
+        //                 data: [18, 33, 22, 19, 11, 39, 30],
+        //             }]
+        //         },
+        //         options: {
+        //             responsive: true,
+        //             title:{
+        //                 display: true,
+        //                 text: title
+        //             },
+        //             scales: {
+        //                 xAxes: [{
+        //                     gridLines: gridlines
+        //                 }],
+        //                 yAxes: [{
+        //                     gridLines: gridlines,
+        //                     ticks: {
+        //                         min: 0,
+        //                         max: 100,
+        //                         stepSize: 10
+        //                     }
+        //                 }]
+        //             }
+        //         }
+        //     };
+        // }
+        //
+        // window.onload = function() {
+        //     var container = document.querySelector('.container');
+        //
+        //     [{
+        //         title: 'Display: true',
+        //         gridLines: {
+        //             display: true
+        //         }
+        //     }, {
+        //         title: 'Display: false',
+        //         gridLines: {
+        //             display: false
+        //         }
+        //     }, {
+        //         title: 'Display: false, no border',
+        //         gridLines: {
+        //             display: false,
+        //             drawBorder: false
+        //         }
+        //     }, {
+        //         title: 'DrawOnChartArea: false',
+        //         gridLines: {
+        //             display: true,
+        //             drawBorder: true,
+        //             drawOnChartArea: false,
+        //         }
+        //     }, {
+        //         title: 'DrawTicks: false',
+        //         gridLines: {
+        //             display: true,
+        //             drawBorder: true,
+        //             drawOnChartArea: true,
+        //             drawTicks: false,
+        //         }
+        //     }].forEach(function(details) {
+        //         var div = document.createElement('div');
+        //         div.classList.add('chart-container');
+        //
+        //         var canvas = document.createElement('canvas');
+        //         div.appendChild(canvas);
+        //         container.appendChild(div);
+        //
+        //         var ctx = canvas.getContext('2d');
+        //         var config = createConfig(details.gridLines, details.title);
+        //         new Chart(ctx, config);
+        //     });
+        // };
+
+  </script>
+</body>
+</html>
