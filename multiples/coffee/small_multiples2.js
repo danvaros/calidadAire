@@ -19,7 +19,7 @@
     bisect = d3.bisector(function(d) {
       return d.date;
     }).left;
-    format = d3.time.format("%d-%b-%y");
+    format = d3.time.format("%Y");
     xScale = d3.time.scale().range([0, width]);
     yScale = d3.scale.linear().range([height, 0]);
     xValue = function(d) {
@@ -74,10 +74,12 @@
           return c.key;
         });
         lines.append("text").attr("class", "static_year").attr("text-anchor", "start").style("pointer-events", "none").attr("dy", 13).attr("y", height).attr("x", 0).text(function(c) {
-          return xValue(c.values[0]).getFullYear();
+          console.log(xValue(c.values[0]));
+          console.log(xValue(c.values[0]).getMonth());
+          return (xValue(c.values[0]).getMonth()+'-'+ xValue(c.values[0]).getDate());
         });
         lines.append("text").attr("class", "static_year").attr("text-anchor", "end").style("pointer-events", "none").attr("dy", 13).attr("y", height).attr("x", width).text(function(c) {
-          return xValue(c.values[c.values.length - 1]).getFullYear();
+          return (xValue(c.values[c.values.length - 1]).getMonth()+'-'+xValue(c.values[c.values.length - 1]).getDate());
         });
         circle = lines.append("circle").attr("r", 2.2).attr("opacity", 0).style("pointer-events", "none");
         caption = lines.append("text").attr("class", "caption").attr("text-anchor", "middle").style("pointer-events", "none").attr("dy", -8);
@@ -92,8 +94,21 @@
     };
     mousemove = function() {
       var date, index, year;
+      console.log(d3.mouse(this)[0]);
+      console.log(xScale.invert(d3.mouse(this)[0]));
+      console.log(xScale.invert(d3.mouse(this)[0]).getFullYear());
+
+
       year = xScale.invert(d3.mouse(this)[0]).getFullYear();
+      year2 = (xScale.invert(d3.mouse(this)[0]).getMonth()+'-'+xScale.invert(d3.mouse(this)[0]).getDate());
+
+
+      console.log(year);
       date = format.parse('' + year);
+
+
+      console.log(date);
+      console.log( xScale(date) );
       index = 0;
       circle.attr("cx", xScale(date)).attr("cy", function(c) {
         index = bisect(c.values, date, 0, c.values.length - 1);
@@ -104,7 +119,7 @@
       }).text(function(c) {
         return yValue(c.values[index]);
       });
-      return curYear.attr("x", xScale(date)).text(year);
+      return curYear.attr("x", xScale(date)).text(year2);
     };
     mouseout = function() {
       d3.selectAll(".static_year").classed("hidden", false);
@@ -131,7 +146,7 @@
 
   transformData = function(rawData) {
     var format, nest;
-    format = d3.time.format("%d-%b-%y");
+    format = d3.time.format("%Y");
     rawData.forEach(function(d) {
       d.date = format.parse(d.year);
       return d.n = +d.n;
@@ -174,6 +189,90 @@
   };
 
   $(function() {
+      //datos de configuracion
+      var horas = 24;
+      var minPromedio = 12;
+      var maxValor = 152;
+
+      const dActual = new Date();
+      var dPasada = new Date();
+      dPasada.setHours(restaHoras(dActual,horas));
+
+
+      var url = "https://api.datos.gob.mx/v1/sinaica?parametro=PM10&pageSize=12000&date-insert=[range:"+getFormatDateAPI(dPasada)+"%7C"+getFormatDateAPI(dActual)+"] ";
+
+      $.ajax({
+        type: 'GET',
+        url:url,
+        data: {},
+        success: function( data, textStatus, jqxhr ) {
+          console.log(data);
+          var agrupaEstaciones  = [];
+          var indEstaciones     = [];
+          var indPromedios      = [];
+          for (var i = 0; i < data.results.length; i++) {
+
+            if(!Array.isArray(agrupaEstaciones[data.results[i].estacionesid])){
+              agrupaEstaciones[data.results[i].estacionesid] = [];
+              indEstaciones.push(data.results[i].estacionesid);
+            }
+
+            //validacion desde el api para valores correctos
+            if(data.results[i].validoorig == 1 && maxValor > data.results[i].valororig){
+              agrupaEstaciones[data.results[i].estacionesid].push(data.results[i]);
+            }
+          }
+
+
+
+          console.log(agrupaEstaciones);
+          console.log(indEstaciones);
+
+          for (var i = 0; i < indEstaciones.length; i++) {
+            if(agrupaEstaciones[indEstaciones[i]].length > minPromedio){
+              var tempo = agrupaEstaciones[indEstaciones[i]];
+
+              var suma = 0;
+              for (var j = 0; j < tempo.length; j++) {
+                  suma += tempo[j].valororig;
+              }
+              var promedio = suma/tempo.length;
+              indPromedios.push({'estacion':tempo[0].estacionesid,'promedio':promedio});
+            }
+          }
+
+
+          console.log(indPromedios);
+
+
+          //ordenamos el arreglo para tomar los valores mas altos
+          indPromedios.sort(function (a, b) {
+            if (a.promedio < b.promedio) {
+              return 1;
+            }
+            if (a.promedio > b.promedio) {
+              return -1;
+            }
+            // a must be equal to b
+            return 0;
+          });
+
+          console.log(indPromedios);
+
+        },
+        xhrFields: {
+          withCredentials: false
+        },
+        crossDomain: true,
+        async:false
+      });
+
+
+    activa();
+  });//fin del main
+
+
+  function activa(){
     var display, plot;
     plot = SmallMultiples();
     display = function(error, rawData) {
@@ -183,11 +282,15 @@
       }
       rawData = data_2;
       data = transformData(rawData);
+
       console.log(data);
+      //data = data_222;
       plotData("#vis", data, plot);
       return setupIsoytpe();
     };
+
     queue().defer(d3.tsv, "data/askmefi_category_year.tsv").await(display);
+
     return d3.select("#button-wrap").selectAll("div").on("click", function() {
       var id;
       id = d3.select(this).attr("id");
@@ -197,59 +300,111 @@
         sortBy: id
       });
     });
-  });
+  }
+
+
 
 }).call(this);
 
+// var data_2 = [
+//   {
+//     "year": "2004",
+//     "category": "clothing, beauty, & fashion",
+//     "n": 141,
+//     "date": "2004-01-01T06:00:00.000Z"
+//   },
+//   {
+//     "year": "2004",
+//     "category": "computers & internet",
+//     "n": 2489,
+//     "date": "2004-01-01T06:00:00.000Z"
+//   },
+//   {
+//     "year": "2005",
+//     "category": "clothing, beauty, & fashion",
+//     "n": 151,
+//     "date": "2005-01-01T06:00:00.000Z"
+//   },
+//   {
+//     "year": "2005",
+//     "category": "computers & internet",
+//     "n": 275,
+//     "date": "2005-01-01T06:00:00.000Z"
+//   },
+//   {
+//     "year": "2006",
+//     "category": "clothing, beauty, & fashion",
+//     "n": 285,
+//     "date": "2006-01-01T06:00:00.000Z"
+//   },
+//   {
+//     "year": "2006",
+//     "category": "computers & internet",
+//     "n": 379,
+//     "date": "2006-01-01T06:00:00.000Z"
+//   },
+//   {
+//     "year": "2007",
+//     "category": "clothing, beauty, & fashion",
+//     "n": 344,
+//     "date": "2007-01-01T06:00:00.000Z"
+//   },
+//   {
+//     "year": "2007",
+//     "category": "computers & internet",
+//     "n": 245,
+//     "date": "2007-01-01T06:00:00.000Z"
+//   },
+// ];
 
 
 var data_2 = [
   {
-    "year": "18-May-12",
+    "year": "2002-01-01",
     "category": "clothing, beauty, & fashion",
     "n": 141,
     "date": "2004-01-01T06:00:00.000Z"
   },
   {
-    "year": "17-May-12",
+    "year": "2002-01-01",
     "category": "computers & internet",
     "n": 2489,
     "date": "2004-01-01T06:00:00.000Z"
   },
   {
-    "year": "16-May-12",
+    "year": "2003-01-02",
     "category": "clothing, beauty, & fashion",
     "n": 151,
-    "date": "2005-01-01T06:00:00.000Z"
+    "date": "2005-01-02T06:00:00.000Z"
   },
   {
-    "year": "15-May-12",
+    "year": "2003-01-02",
     "category": "computers & internet",
     "n": 275,
-    "date": "2005-01-01T06:00:00.000Z"
+    "date": "2004-01-02T06:00:00.000Z"
   },
   {
-    "year": "14-May-12",
+    "year": "2004-01-03",
     "category": "clothing, beauty, & fashion",
     "n": 285,
-    "date": "2006-01-01T06:00:00.000Z"
+    "date": "2004-01-03T06:00:00.000Z"
   },
   {
-    "year": "13-May-12",
+    "year": "2004-01-03",
     "category": "computers & internet",
     "n": 379,
-    "date": "2006-01-01T06:00:00.000Z"
+    "date": "2004-01-03T06:00:00.000Z"
   },
   {
-    "year": "12-May-12",
+    "year": "2005-01-04",
     "category": "clothing, beauty, & fashion",
     "n": 344,
-    "date": "2007-01-01T06:00:00.000Z"
+    "date": "2004-01-04T06:00:00.000Z"
   },
   {
-    "year": "11-May-12",
+    "year": "2005-01-04",
     "category": "computers & internet",
     "n": 245,
-    "date": "2007-01-01T06:00:00.000Z"
+    "date": "2004-01-04T06:00:00.000Z"
   },
 ];
