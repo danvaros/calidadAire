@@ -12,16 +12,11 @@
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
   <!-- Optional theme -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-  <!-- <link rel="import" href="https://cdn.datos.gob.mx/bower_components/dgm-navbar/dgm-navbar.html">
-
-  <link rel="import" href="https://cdn.datos.gob.mx/bower_components/dgm-footer/dgm-footer.html"> -->
 
   <link rel="stylesheet" href="http://cdn.datos.gob.mx/qa/bower_components/dgm-style/main.css" />
 
@@ -32,17 +27,9 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="multiples/css/bootstrap.min.css">
-  <link rel="stylesheet" href="multiples/css/style.css">
   <link rel="stylesheet" href="css/style.css">
 
-  <script src="multiples/js/libs/modernizr-2.0.6.min.js"></script>
   <script src="js/utileria.js"></script>
-
-<!-- Leaflet-->
-<script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js"
-  integrity="sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA=="
-  crossorigin=""></script>
 
 </head>
 <body class="front" cz-shortcut-listen="true" >
@@ -111,17 +98,10 @@
               </select>
             </div>
           </div>
+          <div class="row center cont">
 
-
-          <div class="row center">
-            <div class="col s12">
-              <div id="button-wrap">
-                <div id="count" class="button active">Valor más alto</div>
-                <div id="name" class="button">Nombre</div>
-              </div>
-              <div id="vis"></div>
-            </div>
           </div>
+
 
         </div>
       </div>
@@ -129,39 +109,333 @@
 
   </main>
   <dgm-footer></dgm-footer>
-<!--  Scripts-->
-  <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script> -->
-  <script>window.jQuery || document.write('<script src="multiples/js/libs/jquery-1.7.2.min.js"><\/script>')</script>
+  <style media="screen">
 
+    canvas{
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+    }
 
+    .chartjs-tooltip {
+      opacity: 1;
+      position: absolute;
+      background: rgba(0, 0, 0, .7);
+      color: white;
+      border-radius: 3px;
+      -webkit-transition: all .1s ease;
+      transition: all .1s ease;
+      pointer-events: none;
+      -webkit-transform: translate(-50%, 0);
+      transform: translate(-50%, 0);
+      padding: 4px;
+    }
+
+    .chartjs-tooltip-key {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+    }
+
+    .chart-container {
+        width: 290px;
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-bottom: 20px;
+    }
+
+    .cont {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+  </style>
   <script src="js/materialize.js"></script>
-  <!-- <script src="multiples/js/libs/coffee-script.js"></script> -->
-  <script src="multiples/js/libs/isotope.pkgd.min.js"></script>
-  <script src="multiples/js/libs/d3.js"></script>
-  <script src="multiples/js/libs/queue.min.js"></script>
-  <!-- <script type="text/coffeescript" src="multiples/coffee/small_multiples.coffee"></script> -->
-  <script type="text/javascript" src="multiples/coffee/small_multiples.js"></script>
+  <script src="libs/chartjs/Chart.bundle.js"></script>
+  <script src="libs/chartjs/utils.js"></script>
+
+
+
   <script type="text/javascript">
-    $(document).ready(function() {
-    });
+
+  window.onload = function() {
+      //datos de configuracion
+      var horas = 24;
+      var minPromedio = 12;
+      var maxValor = 152;
+
+      const dActual = new Date();
+      var dPasada = new Date();
+      dPasada.setHours(restaHoras(dActual,horas));
+
+
+      var url = "https://api.datos.gob.mx/v1/sinaica?parametro=PM10&pageSize=12000&date-insert=[range:"+getFormatDateAPI(dPasada)+"%7C"+getFormatDateAPI(dActual)+"] ";
+
+      $.ajax({
+        type: 'GET',
+        url:url,
+        data: {},
+        success: function( data, textStatus, jqxhr ) {
+          console.log(data);
+          var agrupaEstaciones  = [];
+          var indEstaciones     = [];
+          var indPromedios      = [];
+          for (var i = 0; i < data.results.length; i++) {
+
+            if(!Array.isArray(agrupaEstaciones[data.results[i].estacionesid])){
+              agrupaEstaciones[data.results[i].estacionesid] = [];
+              indEstaciones.push(data.results[i].estacionesid);
+            }
+
+            //validacion desde el api para valores correctos
+            if(data.results[i].validoorig == 1 && maxValor > data.results[i].valororig){
+              agrupaEstaciones[data.results[i].estacionesid].push(data.results[i]);
+            }
+          }
+
+
+
+          console.log(agrupaEstaciones);
+          console.log(indEstaciones);
+
+          for (var i = 0; i < indEstaciones.length; i++) {
+            if(agrupaEstaciones[indEstaciones[i]].length > minPromedio){
+              var tempo = agrupaEstaciones[indEstaciones[i]];
+
+              var suma = 0;
+              for (var j = 0; j < tempo.length; j++) {
+                  suma += tempo[j].valororig;
+              }
+              var promedio = suma/tempo.length;
+              indPromedios.push({'estacion':tempo[0].estacionesid,'promedio':promedio});
+            }
+          }
+
+
+          console.log(indPromedios);
+
+
+          //ordenamos el arreglo para tomar los valores mas altos
+          indPromedios.sort(function (a, b) {
+            if (a.promedio < b.promedio) {
+              return 1;
+            }
+            if (a.promedio > b.promedio) {
+              return -1;
+            }
+            // a must be equal to b
+            return 0;
+          });
+
+          console.log(indPromedios);
+
+        },
+        xhrFields: {
+          withCredentials: false
+        },
+        crossDomain: true,
+        async:false
+      });
+
+    activa();
+    };//fin del main
+
+
+function activa(){
+  color = Chart.helpers.color;
+  Chart.defaults.global.defaultFontColor = '#fff';
+  Chart.defaults.global.defaultColor = 'rgba(255,255,255,1)';
+  var container = document.querySelector('.cont');
+
+  [
+      'circle',
+      'triangle',
+      'rect',
+      'rectRounded',
+      'rectRot',
+      'cross',
+      'crossRot',
+      'star',
+      'line',
+      'dash'
+  ].forEach(function(pointStyle) {
+      var div = document.createElement('div');
+      div.classList.add('chart-container');
+
+      var canvas = document.createElement('canvas');
+      div.appendChild(canvas);
+      container.appendChild(div);
+
+      var ctx = canvas.getContext('2d');
+      var config = createConfig(pointStyle);
+      new Chart(ctx, config);
+  });
+}
+
+
+
+
+
+          function createConfig(pointStyle) {
+              return {
+                  type: 'line',
+                  data: {
+                      labels: ["Ene", "Feb", "MAr", "Abr", "May", "Jun", "Jul","Ene", "Feb", "MAr", "Abr", "May", "Jun", "Jul","Ene", "Feb", "MAr", "Abr", "May", "Jun", "Jul","Ene", "Feb", "MAr", "Abr", "May", "Jun", "Jul"],
+                      datasets: [{
+                          label: "PM10",
+                          // backgroundColor: window.chartColors.red,
+                          backgroundColor: 'rgba(255,255,255,0.2)', //color(window.chartColors.gray).alpha(0.2).rgbString(),
+                          // borderColor: window.chartColors.red,
+                          borderColor: window.chartColors.gray,
+                          pointBackgroundColor: window.chartColors.gray,
+                          //window.chartColors.gray,
+                          data: [10, 23, 5, 99, 67, 43, 0,0, 23, 5, 99, 67, 43, 0,0, 23, 5, 99, 67, 43, 0,0, 23, 5, 99, 67, 43, 0],
+                          // fill: false,
+                          //pointRadius: 1,
+                          //pointHoverRadius: 5,
+                          //showLine: false // no line shown
+                      }]
+                  },
+                  options: {
+                      responsive: true,
+                      title:{
+                          display:true,
+                          text:'Point Style: ' + pointStyle
+                      },
+                      legend: {
+                          display: false
+                      },
+                      scales: {
+                          xAxes: [{
+                              gridLines: {
+                                  display: false,
+                                  drawBorder: false
+                              },
+                              display: true,
+                              ticks: {
+                                  callback: function(dataLabel, index) {
+                                      // Hide the label of every 2nd dataset. return null to hide the grid line too
+                                      return index % 3 === 0 ? dataLabel : '';
+                                  }
+                              }
+                          }],
+                          yAxes: [{
+                              gridLines: {
+                                  display: false,
+                                  drawBorder: false
+                              },
+                              ticks: {
+                                  min: 0,
+                                  max: 100,//costumisar max dependiendo del indicador que se vaya precentar
+                                  stepSize: 33 // la divicion tiene que ser en 3
+                              }
+                          }]
+                      }
+                      // elements: {
+                      //     point: {
+                      //         pointStyle: pointStyle
+                      //     }
+                      // }
+                  }
+              };
+          }
+
+
+
+
+
+        // function createConfig(gridlines, title) {
+        //     return {
+        //         type: 'line',
+        //         data: {
+        //             labels: ["January", "February", "March", "April", "May", "June", "July"],
+        //             datasets: [{
+        //                 label: "My First dataset",
+        //                 backgroundColor: window.chartColors.red,
+        //                 borderColor: window.chartColors.red,
+        //                 data: [10, 30, 39, 20, 25, 34, 0],
+        //                 fill: false,
+        //             }, {
+        //                 label: "My Second dataset",
+        //                 fill: false,
+        //                 backgroundColor: window.chartColors.blue,
+        //                 borderColor: window.chartColors.blue,
+        //                 data: [18, 33, 22, 19, 11, 39, 30],
+        //             }]
+        //         },
+        //         options: {
+        //             responsive: true,
+        //             title:{
+        //                 display: true,
+        //                 text: title
+        //             },
+        //             scales: {
+        //                 xAxes: [{
+        //                     gridLines: gridlines
+        //                 }],
+        //                 yAxes: [{
+        //                     gridLines: gridlines,
+        //                     ticks: {
+        //                         min: 0,
+        //                         max: 100,
+        //                         stepSize: 10
+        //                     }
+        //                 }]
+        //             }
+        //         }
+        //     };
+        // }
+        //
+        // window.onload = function() {
+        //     var container = document.querySelector('.container');
+        //
+        //     [{
+        //         title: 'Display: true',
+        //         gridLines: {
+        //             display: true
+        //         }
+        //     }, {
+        //         title: 'Display: false',
+        //         gridLines: {
+        //             display: false
+        //         }
+        //     }, {
+        //         title: 'Display: false, no border',
+        //         gridLines: {
+        //             display: false,
+        //             drawBorder: false
+        //         }
+        //     }, {
+        //         title: 'DrawOnChartArea: false',
+        //         gridLines: {
+        //             display: true,
+        //             drawBorder: true,
+        //             drawOnChartArea: false,
+        //         }
+        //     }, {
+        //         title: 'DrawTicks: false',
+        //         gridLines: {
+        //             display: true,
+        //             drawBorder: true,
+        //             drawOnChartArea: true,
+        //             drawTicks: false,
+        //         }
+        //     }].forEach(function(details) {
+        //         var div = document.createElement('div');
+        //         div.classList.add('chart-container');
+        //
+        //         var canvas = document.createElement('canvas');
+        //         div.appendChild(canvas);
+        //         container.appendChild(div);
+        //
+        //         var ctx = canvas.getContext('2d');
+        //         var config = createConfig(details.gridLines, details.title);
+        //         new Chart(ctx, config);
+        //     });
+        // };
+
   </script>
-
-
-  <script> // Change UA-XXXXX-X to be your site's ID
-    window._gaq = [['_setAccount','UAXXXXXXXX1'],['_trackPageview'],['_trackPageLoadTime']];
-    Modernizr.load({
-      load: ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'
-    });
-  </script>
-
-
-  <!--[if lt IE 7 ]>
-    <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
-    <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
-  <![endif]-->
-
-
-
-
 </body>
 </html>
