@@ -15,3 +15,37 @@ function getFormatDateAPI(d){
 function restaHoras(d,h){
   return d.getHours() - h;
 }
+
+function get_fecha_corta(d){
+  var fecha = d.getFullYear()+'-'+ meis[d.getMonth()] +'-'+((d.getDate() < 10?'0':'') + d.getDate());
+  return fecha;
+}
+
+function put_temperatura(estacion,contenedor){
+  var fActual = new Date();
+
+  var url =  "https://api.datos.gob.mx/v1/sinaica?parametro=TMP&fecha="+get_fecha_corta(fActual)+"&estacionesid="+estacion;
+  console.log(url);
+  $.ajax({
+    type: 'GET',
+    url: url,
+    data: {},
+    success: function( data, textStatus, jqxhr ) {
+      console.log(data.results);
+      console.log(data.results.length);
+      console.log(data.results[data.results.length-1]);
+      console.log(data.results[data.results.length-1].valororig);
+
+      if(data.results.length > 0)
+        contenedor.html(data.results[data.results.length-1].valororig);
+      else
+        contenedor.html('ND');
+
+    },
+    xhrFields: {
+      withCredentials: false
+    },
+    crossDomain: true,
+    async:true
+  });
+}

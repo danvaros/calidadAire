@@ -201,7 +201,7 @@ var greenIcon = L.icon({
     boton_activo.removeClass('active_graf');
     boton_activo = $('#valPM1024H');
     boton_activo.addClass('active_graf');
-    
+
     for (var i = 0; i < estaciones_global.length; i++) {
       if(id_estacion ==  estaciones_global[i].estacionesid){
        ciudad  =  estaciones_global[i].city;
@@ -388,6 +388,19 @@ var greenIcon = L.icon({
     actualizar_grafica_detalle(valores,etiquetas);
   });
 
+  $('#CO8H').click(function(){
+    var contaminante = 'CO';
+    var tipo = '8h';
+    var maximo =  16.5;
+    valores = [];
+    etiquetas = [];
+
+    boton_activo.removeClass('active_graf');
+    boton_activo = $('#valCO8H');
+    boton_activo.addClass('active_graf');
+      get_historico_horas(contaminante,tipo,maximo,i);
+    actualizar_grafica_detalle(valores,etiquetas);
+  });
 
 });// fin de document ready
 
@@ -559,6 +572,9 @@ var greenIcon = L.icon({
   function put_contaminantes(lectura,estacion){
     console.log(lectura);
     console.log(estacion);
+
+    put_temperatura(estacion.id,$('#temperatura_detalle'));
+
     var valPM10 = $('#valPM1024H');
     getMasAlto('PM10',lectura.city,estacion.id,valPM10,'24h');
     var valPM25 = $('#valPM2524H');
@@ -575,6 +591,8 @@ var greenIcon = L.icon({
     getMasAlto('O3',lectura.city,estacion.id,valO3,'8h');
     var valO3 = $('#valO3DH');
     getMasAlto('O3',lectura.city,estacion.id,valO3,'DH');
+    var valCO = $('#valCO8H');
+    getMasAlto('CO',lectura.city,estacion.id,valCO,'8h');
     $('#estacion_id').val(estacion.id);
     $('#ciudad').val(lectura.city);
   }

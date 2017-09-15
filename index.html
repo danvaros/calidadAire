@@ -329,14 +329,14 @@
               <option value="Zacatecas">Zacatecas</option>
             </select>
           </div>
-          <div class="input-field col s6 m2 l2">
+          <!-- <div class="input-field col s6 m2 l2">
             <select  name="municipios" id="municipios" class="browser-default sombra">
               <option value="0" disabled selected>Municipios</option>
               <option value="0">Municipios 1</option>
               <option value="0">Municipios 2</option>
               <option value="0">Municipios 3</option>
             </select>
-          </div>
+          </div> -->
           <!-- <div class="input-field col s6 m2 l2">
             <form action="#">
               <p class="range-field">
@@ -381,7 +381,7 @@
               </div>
               <div class="col s8">
                 <p><b>Temperatura</b></p>
-                <p>--</p>
+                <p id="temperatura_detalle">--</p>
               </div>
             </div>
 
@@ -498,6 +498,10 @@
                 <p class="etiqueta ">NO2 (ppm) DH</p>
                 <a class="tabla_contaminantes" id="NO2DH"><p id="valN02DH" class="estaciones_5">2652.07</p></a>
               </div>
+              <div class="col s12 m6 l5ths center-align">
+                <p class="etiqueta ">CO (ppm) 8H</p>
+                <a class="tabla_contaminantes" id="CO8H"><p id="valCO8H" class="estaciones_5">2652.07</p></a>
+              </div>
             </div>
           </div>
           <input type="hidden" name="estacion" id="estacion_id" value="">
@@ -548,6 +552,7 @@ crossorigin=""></script>
 
 
 <!-- local-->
+<script src="js/utileria.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/estados_mexico.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/scripts.js" type="text/javascript" charset="utf-8"></script>
 
