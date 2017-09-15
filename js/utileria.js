@@ -57,3 +57,8 @@ function reset_botones(){
 
   $('#pinta_primero').addClass('active');
 }
+
+function get_fecha_formato(fecha){
+  var f = new Date(fecha);
+  return  f.getDate() + '-' + meses_abr[f.getMonth()];
+}

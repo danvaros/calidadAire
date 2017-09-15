@@ -453,7 +453,7 @@ $('#contaminante_grafica').html('SO2');
   Array.prototype.unique=function(a){
     return function(){return this.filter(a)}}(function(a,b,c){return c.indexOf(a,b+1)<0
   });
-  
+
   function create_new_historico(){
 
   }
@@ -1323,17 +1323,6 @@ $('#contaminante_grafica').html('SO2');
     var dias = 24*28;
     dPasada.setHours(dActual.getHours() - dias);
 
-    //var reMin = 1;
-
-    // if('8h' ==  tipo){
-    //   dPasada.setHours(dActual.getHours() - (menos_horas*24) - 8);
-    //   reMin = 4;
-    // }else if('24h' == tipo){
-    //   dPasada.setHours(dActual.getHours() - (menos_horas*24) - 24);
-    //   reMin = 12;
-    // }else{
-    //   dPasada.setHours(dActual.getHours() - (menos_horas*24) - 2);
-    // }
     var ciudad =  $('#ciudad').val();
     var ruta = "https://api.datos.gob.mx/v1/sinaica?&city="+ciudad+"&parametro="+ contaminante +"&date-insert=[range:"+getFormatDateAPI(dPasada)+"%7C"+getFormatDateAPI(dActual)+"]";
     console.log(ruta);
@@ -1397,7 +1386,11 @@ $('#contaminante_grafica').html('SO2');
 
               console.log(values_temp);
               valores = values_temp;
-              etiquetas =  labels_temp;
+              var labels_temp2 = [];
+              for (var i = 0; i < labels_temp.length; i++) {
+                labels_temp2[i] = get_fecha_formato(labels_temp[i]);
+              }
+              etiquetas =  labels_temp2;
             },
             xhrFields: {
               withCredentials: false
