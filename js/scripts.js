@@ -212,11 +212,14 @@ var greenIcon = L.icon({
        ciudad  =  estaciones_global[i].city;
        break;
       }
+
+
     }
 
     console.log(id_estacion);
     console.log(ciudad);
 
+    put_contaminantes(ciudad,id_estacion);
     //cruzar el id con estaciones obscuras
     var estacion = [];
     for (var i = 0; i < estaciones_json.length; i++) {
@@ -615,35 +618,35 @@ $('#contaminante_grafica').html('SO2');
       $('#estacion').val(estacion.id);
 
       put_his_estacion_val_max(top_ciudades[indice-1],estacion);
-      put_contaminantes(top_ciudades[indice-1],estacion);
+      put_contaminantes(top_ciudades[indice-1].city,estacion.id);
   }
 
-  function put_contaminantes(lectura,estacion){
-    console.log(lectura);
+  function put_contaminantes(city,estacion){
+    console.log(city);
     console.log(estacion);
 
     put_temperatura(estacion.id,$('#temperatura_detalle'));
 
     var valPM10 = $('#valPM1024H');
-    getMasAlto('PM10',lectura.city,estacion.id,valPM10,'24h');
+    getMasAlto('PM10',city,estacion,valPM10,'24h');
     var valPM25 = $('#valPM2524H');
-    getMasAlto('PM2.5',lectura.city,estacion.id,valPM25,'24h');
+    getMasAlto('PM2.5',city,estacion,valPM25,'24h');
     var valN02 = $('#valN02DH');
-    getMasAlto('NO2',lectura.city,estacion.id,valN02,'DH');
+    getMasAlto('NO2',city,estacion,valN02,'DH');
     var valS02 = $('#valS0224H');
-    getMasAlto('SO2',lectura.city,estacion.id,valS02,'24h');
+    getMasAlto('SO2',city,estacion,valS02,'24h');
     var valS02 = $('#valS028H');
-    getMasAlto('SO2',lectura.city,estacion.id,valS02,'8h');
+    getMasAlto('SO2',city,estacion,valS02,'8h');
     var valS02 = $('#valS02DH');
-    getMasAlto('SO2',lectura.city,estacion.id,valS02,'DH');
+    getMasAlto('SO2',city,estacion,valS02,'DH');
     var valO3 = $('#valO38H');
-    getMasAlto('O3',lectura.city,estacion.id,valO3,'8h');
+    getMasAlto('O3',city,estacion,valO3,'8h');
     var valO3 = $('#valO3DH');
-    getMasAlto('O3',lectura.city,estacion.id,valO3,'DH');
+    getMasAlto('O3',city,estacion,valO3,'DH');
     var valCO = $('#valCO8H');
-    getMasAlto('CO',lectura.city,estacion.id,valCO,'8h');
-    $('#estacion_id').val(estacion.id);
-    $('#ciudad').val(lectura.city);
+    getMasAlto('CO',city,estacion,valCO,'8h');
+    $('#estacion_id').val(estacion);
+    $('#ciudad').val(city);
   }
 
   function getTop3ciudades(contaminante){

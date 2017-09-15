@@ -31,11 +31,6 @@ function put_temperatura(estacion,contenedor){
     url: url,
     data: {},
     success: function( data, textStatus, jqxhr ) {
-      console.log(data.results);
-      console.log(data.results.length);
-      console.log(data.results[data.results.length-1]);
-      console.log(data.results[data.results.length-1].valororig);
-
       if(data.results.length > 0)
         contenedor.html(data.results[data.results.length-1].valororig);
       else
