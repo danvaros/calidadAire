@@ -244,17 +244,20 @@
             top15_estaciones[i] =  indPromedios[i];
           }
 
+          var maxMaxLocal = 0;
           for (var i = 0; i < top15_estaciones.length; i++) {
             top15_estaciones[i].historico = get_historico_dias('PM10','24','12',maxValor,top15_estaciones[i].estacion);
             for (var j = 0; j < top15_estaciones[i].historico.length; j++) {
-              if(top15_estaciones[i].historico[j].promedio > maxMax){
-                maxMAx = top15_estaciones[i].historico[j].promedio;
-                console.log(maxMax);
+              if(parseFloat(top15_estaciones[i].historico[j].promedio) > maxMaxLocal){
+                maxMaxLocal = top15_estaciones[i].historico[j].promedio;
+                console.log(top15_estaciones[i].historico[j].promedio);
+                console.log(maxMaxLocal);
               }
-
             }
           }
 
+          console.log(maxMaxLocal);
+          maxMAx = maxMaxLocal;
           console.log('estaciones con historico para graficar');
           console.log(top15_estaciones);
         },
@@ -267,19 +270,6 @@
 
     activa(maxValor,maxMAx);
     };//fin del main
-
-
-
-    /*sacar el historico de cada estación
-    crear funcion que consiga el historico de una estacion
-    parametros estacion lapso de tiempo en dias tipo de promedio maximo permitido minimo de mediciones
-    hacer la llamda a la api de los 28 dias
-
-    agrupar estos valores por fecha
-    recorrer y filtrar arreglo con minimo de mediciones
-    descartar los valores o parametros fuera de rango
-    crear un array con los promedios de cada dia
-    sacar el promedio por dia    */
 
     function get_historico_dias(parametro,horas,minPromedio,maxValor,estacionid){
       //datos de configuracion
