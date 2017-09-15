@@ -160,11 +160,13 @@
 
   <script type="text/javascript">
   var top15_estaciones = [];
+
   window.onload = function() {
       //datos de configuracion
       var horas = 24;
       var minPromedio = 12;
       var maxValor = 152;
+      var maxMax = 0;
 
       const dActual = new Date();
       var dPasada = new Date();
@@ -238,12 +240,19 @@
 
 
 //-------------- notiene que ver con el promedio
-          for (var i = 0; i < 15; i++) {
+          for (var i = 0; i < 9; i++) {
             top15_estaciones[i] =  indPromedios[i];
           }
 
           for (var i = 0; i < top15_estaciones.length; i++) {
             top15_estaciones[i].historico = get_historico_dias('PM10','24','12',maxValor,top15_estaciones[i].estacion);
+            for (var j = 0; j < top15_estaciones[i].historico.length; j++) {
+              if(top15_estaciones[i].historico[j].promedio > maxMax)}{
+                maxMAx = top15_estaciones[i].historico[j].promedio;
+                console.log(maxMax);
+              }
+
+            }
           }
 
           console.log('estaciones con historico para graficar');
@@ -255,8 +264,8 @@
         crossDomain: true,
         async:false
       });
-
-    activa(maxValor);
+    
+    activa(maxValor,maxMAx);
     };//fin del main
 
 
@@ -344,7 +353,7 @@
       return historico;
     }
 
-function activa(valMax){
+function activa(valMax,maxMax){
   color = Chart.helpers.color;
   Chart.defaults.global.defaultFontColor = '#fff';
   Chart.defaults.global.defaultColor = 'rgba(255,255,255,1)';
@@ -367,12 +376,14 @@ function activa(valMax){
         datos.push(d.historico[i].promedio);
       }
       var ctx = canvas.getContext('2d');
-      var config = createConfig(d.estacion,datos,labels,valMax);
+      var config = createConfig(d.estacion,datos,labels,valMax,maxMax);
       new Chart(ctx, config);
   });
 }
 
-  function createConfig(pointStyle,data,labels,valMax) {
+  function createConfig(pointStyle,data,labels,valMax,maxMax) {
+
+      var tam = labels.length;
       return {
           type: 'line',
           data: {
@@ -409,12 +420,20 @@ function activa(valMax){
                           drawBorder: false
                       },
                       display: true,
-                      // ticks: {
-                      //     callback: function(dataLabel, index) {
-                      //         // Hide the label of every 2nd dataset. return null to hide the grid line too
-                      //         return index % 3 === 0 ? dataLabel : '';
-                      //     }
-                      // }
+                      ticks: {
+                          autoSkip: false,
+                          maxRotation: 0,
+                          minRotation: 0,
+                          callback: function(dataLabel, index) {
+                              // Hide the label of every 2nd dataset. return null to hide the grid line too
+                              if(index == 0 || index == tam-1)
+                                return get_fecha_formato(dataLabel);
+                              else
+                                return '';
+
+                              //return index % 3 === 0 ? dataLabel : '';
+                          }
+                      }
                   }],
                   yAxes: [{
                       gridLines: {
@@ -423,8 +442,8 @@ function activa(valMax){
                       },
                       ticks: {
                           min: 0,
-                          max: valMax,//costumisar max dependiendo del indicador que se vaya precentar
-                          stepSize: Math.round(valMax / 3) // la divicion tiene que ser en 3
+                          max: Math.round(maxMax + 5),//costumisar max dependiendo del indicador que se vaya precentar
+                          stepSize: Math.round((maxMax + 5) / 3) // la divicion tiene que ser en 3
                       }
                   }]
               }
@@ -435,6 +454,11 @@ function activa(valMax){
               // }
           }
       };
+  }
+
+  function get_fecha_formato(fecha){
+    var f = new Date(fecha);
+    return  f.getDate() + '-' + meses_abr[f.getMonth()];
   }
   </script>
 </body>
