@@ -329,14 +329,14 @@
               <option value="Zacatecas">Zacatecas</option>
             </select>
           </div>
-          <div class="input-field col s6 m2 l2">
+          <!-- <div class="input-field col s6 m2 l2">
             <select  name="municipios" id="municipios" class="browser-default sombra">
               <option value="0" disabled selected>Municipios</option>
               <option value="0">Municipios 1</option>
               <option value="0">Municipios 2</option>
               <option value="0">Municipios 3</option>
             </select>
-          </div>
+          </div> -->
           <!-- <div class="input-field col s6 m2 l2">
             <form action="#">
               <p class="range-field">
@@ -381,7 +381,7 @@
               </div>
               <div class="col s8">
                 <p><b>Temperatura</b></p>
-                <p>--</p>
+                <p id="temperatura_detalle">--</p>
               </div>
             </div>
 
@@ -465,38 +465,42 @@
 
             <div class="row">
               <div class="col s12 m6 l5ths center-align">
-                <p class="etiqueta left-align">PM10 (µg/m&sup3;) 24H</p>
-                <a class="tabla_contaminantes" id="PM1024H" ><span class="active_graf estaciones_5" id="valPM1024H" >2652.07</span></a>
+                <p class="etiqueta ">PM10 (µg/m&sup3;) 24 horas</p>
+                <a class="tabla_contaminantes" id="PM1024H" ><p class="active_graf estaciones_5" id="valPM1024H" >2652.07</p></a>
               </div>
               <div class="col s12 m6 l5ths center-align">
-                <p class="etiqueta left-align">PM2.5 (µg/m&sup3;) 24H</p>
-                <a class="tabla_contaminantes" id="PM2524H" ><span id="valPM2524H" class="estaciones_5">456.07</span></a>
+                <p class="etiqueta ">PM2.5 (µg/m&sup3;) 24 horas</p>
+                <a class="tabla_contaminantes" id="PM2524H" ><p id="valPM2524H" class="estaciones_5">456.07</p></a>
               </div>
               <div class="col s12 m6 l5ths center-align">
-                <p class="etiqueta left-align">SO2 (ppm) DH</p>
-                <a class="tabla_contaminantes" id="SO2DH"><span id="valS02DH" class="estaciones_5">456.07</span></a>
+                <p class="etiqueta ">SO2 (ppm) Dato horario</p>
+                <a class="tabla_contaminantes" id="SO2DH"><p id="valS02DH" class="estaciones_5">456.07</p></a>
               </div>
               <div class="col s12 m6 l5ths center-align">
-                <p class="etiqueta left-align">SO2 (ppm) 8H</p>
-                <a class="tabla_contaminantes" id="SO28H"><span id="valS028H" class="estaciones_5">456.07</span></a>
+                <p class="etiqueta ">SO2 (ppm) 8 horas</p>
+                <a class="tabla_contaminantes" id="SO28H"><p id="valS028H" class="estaciones_5">456.07</p></a>
               </div>
               <div class="col s12 m6 l5ths center-align">
-                <p class="etiqueta left-align">SO2 (ppm) 24H</p>
-                <a class="tabla_contaminantes" id="SO224H"><span id="valS0224H" class="estaciones_5">456.07</span></a>
+                <p class="etiqueta ">SO2 (ppm) 24 horas</p>
+                <a class="tabla_contaminantes" id="SO224H"><p id="valS0224H" class="estaciones_5">456.07</p></a>
               </div>
             </div>
             <div class="row">
               <div class="col s12 m6 l5ths center-align">
-                <p class="etiqueta left-align">O3 (ppm) DH</p>
-                <a class="tabla_contaminantes" id="O3DH"><span id="valO3DH" class="estaciones_5">2652.07</span></a>
+                <p class="etiqueta">O3 (ppm) Dato horario</p>
+                <a class="tabla_contaminantes" id="O3DH"><p id="valO3DH" class="estaciones_5">2652.07</p></a>
               </div>
               <div class="col s12 m6 l5ths center-align">
-                <p class="etiqueta left-align">O3 (ppm) 8H</p>
-                <a class="tabla_contaminantes" id="O38H"><span id="valO38H" class="estaciones_5">2652.07</span></a>
+                <p class="etiqueta ">O3 (ppm) 8 horas</p>
+                <a class="tabla_contaminantes" id="O38H"><p id="valO38H" class="estaciones_5">2652.07</p></a>
               </div>
               <div class="col s12 m6 l5ths center-align">
-                <p class="etiqueta left-align">NO2 (ppm) DH</p>
-                <a class="tabla_contaminantes" id="NO2DH"><span id="valN02DH" class="estaciones_5">2652.07</span></a>
+                <p class="etiqueta ">NO2 (ppm) Dato horario</p>
+                <a class="tabla_contaminantes" id="NO2DH"><p id="valN02DH" class="estaciones_5">2652.07</p></a>
+              </div>
+              <div class="col s12 m6 l5ths center-align">
+                <p class="etiqueta ">CO (ppm) 8 horas</p>
+                <a class="tabla_contaminantes" id="CO8H"><p id="valCO8H" class="estaciones_5">2652.07</p></a>
               </div>
             </div>
           </div>
@@ -512,7 +516,7 @@
                 <a href="#" class="parametro">boton 1</a>
                 <a href="#" class="parametro">boton 1</a>
                 <a href="#" class="parametro">boton 1</a>
-                <a href="#" class="parametro active">boton 1</a>
+                <a href="#" id="pinta_primero" class="parametro active">boton 1</a>
               </div>
               <div class="col s12 offset-m1 m10 offset-l2 l8">
                 <canvas id="myChart"></canvas>
@@ -548,6 +552,7 @@ crossorigin=""></script>
 
 
 <!-- local-->
+<script src="js/utileria.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/estados_mexico.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/scripts.js" type="text/javascript" charset="utf-8"></script>
 
