@@ -71,8 +71,8 @@
             </div>
           </div>
 
-          <div class="row center">
-            <div class="col s12 m4">
+          <div class="row center" style="color:#000">
+            <!-- <div class="col s12 m4">
               <select class="browser-default" name="cuidad_sel" id="ciudad_sel">
                 <option value="">Ciudad 1</option>
                 <option value="">Ciudad 1</option>
@@ -80,7 +80,7 @@
                 <option value="">Ciudad 1</option>
                 <option value="">Ciudad 1</option>
               </select>
-            </div>
+            </div> -->
             <div class="col s12 m4">
               <select class="browser-default" name="contaminante_sel" id="contaminante_sel">
                 <option value="">PM10</option>
@@ -90,13 +90,13 @@
                 <option value="">SO2</option>
               </select>
             </div>
-            <div class="col s12 m4">
+            <!-- <div class="col s12 m4">
               <select class="browser-default" name="parametro_sel" id="parametro_sel">
                 <option value="">24 Horas</option>
                 <option value="">8 Horas</option>
                 <option value="">Dato Horario</option>
               </select>
-            </div>
+            </div> -->
           </div>
           <div class="row center cont">
 
@@ -159,7 +159,7 @@
 
 
   <script type="text/javascript">
-
+  var top15_estaciones = [];
   window.onload = function() {
       //datos de configuracion
       var horas = 24;
@@ -178,10 +178,13 @@
         url:url,
         data: {},
         success: function( data, textStatus, jqxhr ) {
+          console.log('datos ultimas 24 horas');
           console.log(data);
           var agrupaEstaciones  = [];
           var indEstaciones     = [];
           var indPromedios      = [];
+
+          //Agrupamos los registros por estacion
           for (var i = 0; i < data.results.length; i++) {
 
             if(!Array.isArray(agrupaEstaciones[data.results[i].estacionesid])){
@@ -195,11 +198,13 @@
             }
           }
 
-
-
+          console.log('Estaciones Agrupadas');
           console.log(agrupaEstaciones);
+
+          console.log('indicador de estaciones agrupadas');
           console.log(indEstaciones);
 
+          //sacamos los promedios de cada estacion para que sean evaluados
           for (var i = 0; i < indEstaciones.length; i++) {
             if(agrupaEstaciones[indEstaciones[i]].length > minPromedio){
               var tempo = agrupaEstaciones[indEstaciones[i]];
@@ -213,11 +218,10 @@
             }
           }
 
-
+          console.log('indicador de promedios');
           console.log(indPromedios);
 
-
-          //ordenamos el arreglo para tomar los valores mas altos
+          //Ordenamos el arreglo para tomar los valores mas altos
           indPromedios.sort(function (a, b) {
             if (a.promedio < b.promedio) {
               return 1;
@@ -229,8 +233,21 @@
             return 0;
           });
 
+          console.log('indicador de promedios ordenado mayor a menor');
           console.log(indPromedios);
 
+
+//-------------- notiene que ver con el promedio
+          for (var i = 0; i < 15; i++) {
+            top15_estaciones[i] =  indPromedios[i];
+          }
+
+          for (var i = 0; i < top15_estaciones.length; i++) {
+            top15_estaciones[i].historico = get_historico_dias('PM10','24','12',maxValor,top15_estaciones[i].estacion);
+          }
+
+          console.log('estaciones con historico para graficar');
+          console.log(top15_estaciones);
         },
         xhrFields: {
           withCredentials: false
@@ -239,28 +256,102 @@
         async:false
       });
 
-    activa();
+    activa(maxValor);
     };//fin del main
 
 
-function activa(){
+
+    /*sacar el historico de cada estación
+    crear funcion que consiga el historico de una estacion
+    parametros estacion lapso de tiempo en dias tipo de promedio maximo permitido minimo de mediciones
+    hacer la llamda a la api de los 28 dias
+
+    agrupar estos valores por fecha
+    recorrer y filtrar arreglo con minimo de mediciones
+    descartar los valores o parametros fuera de rango
+    crear un array con los promedios de cada dia
+    sacar el promedio por dia    */
+
+    function get_historico_dias(parametro,horas,minPromedio,maxValor,estacionid){
+      //datos de configuracion
+      var horas = 24;
+      var minPromedio = 12;
+      var maxValor = 152;
+      var agrupaFechas  = [];
+      var indFecha     = [];
+      var indPromediosHis      = [];
+
+      const dActual = new Date();
+      var dPasada = new Date();
+      dPasada.setHours(restaHoras(dActual,24*28));
+
+      var historico = [10, 23, 5, 99, 67, 43, 0,0, 23, 5, 99, 67, 43, 0,0, 23, 5, 99, 67, 43, 0,0, 23, 5, 99, 67, 43, 0];
+      var url = "https://api.datos.gob.mx/v1/sinaica?parametro="+parametro+"&pageSize=12000&date-insert=[range:"+getFormatDateAPI(dPasada)+"%7C"+getFormatDateAPI(dActual)+"]&estacionesid="+estacionid;
+      console.log(url);
+      $.ajax({
+        type: 'GET',
+        url:url,
+        data: {},
+        success: function( data, textStatus, jqxhr ) {
+          console.log('datos de 28 dias atras');
+          console.log(data);
+          //agrupamos por fechas
+          for (var i = 0; i < data.results.length; i++) {
+
+            if(!Array.isArray(agrupaFechas[data.results[i].fecha])){
+              agrupaFechas[data.results[i].fecha] = [];
+              indFecha.push(data.results[i].fecha);
+            }
+
+            //validacion desde el api para valores correctos
+            if(data.results[i].validoorig == 1 && maxValor > data.results[i].valororig){
+              agrupaFechas[data.results[i].fecha].push(data.results[i]);
+            }
+          }
+
+          console.log('datos agrupados por fechas');
+          console.log(agrupaFechas);
+
+          //sacamos los promedios de cada fecha para que sean evaluadas
+          for (var i = 0; i < indFecha.length; i++) {
+            if(agrupaFechas[indFecha[i]].length > minPromedio){
+              var tempo = agrupaFechas[indFecha[i]];
+
+              var suma = 0;
+              for (var j = 0; j < tempo.length; j++) {
+                  suma += tempo[j].valororig;
+              }
+              var promedio = suma/tempo.length;
+              if(parametro ==  'PM10' || parametro == 'PM2.5')
+                promedio = promedio.toFixed(1);
+              else
+                promedio = promedio.toFixed(3);
+              indPromediosHis.push({'fecha':tempo[0].fecha,'promedio':promedio});
+            }
+          }
+
+          console.log('indicador de promedios');
+          console.log(indPromediosHis);
+          historico = indPromediosHis;
+        },
+        xhrFields: {
+          withCredentials: false
+        },
+        crossDomain: true,
+        async:false
+      });
+
+      return historico;
+    }
+
+function activa(valMax){
   color = Chart.helpers.color;
   Chart.defaults.global.defaultFontColor = '#fff';
   Chart.defaults.global.defaultColor = 'rgba(255,255,255,1)';
   var container = document.querySelector('.cont');
 
-  [
-      'circle',
-      'triangle',
-      'rect',
-      'rectRounded',
-      'rectRot',
-      'cross',
-      'crossRot',
-      'star',
-      'line',
-      'dash'
-  ].forEach(function(pointStyle) {
+  top15_estaciones.forEach(function(d) {
+    console.log(d.estacion);
       var div = document.createElement('div');
       div.classList.add('chart-container');
 
@@ -268,174 +359,83 @@ function activa(){
       div.appendChild(canvas);
       container.appendChild(div);
 
+      //dividimos historico
+      var labels = [];
+      var datos = [];
+      for (var i = 0; i < d.historico.length; i++) {
+        labels.push(d.historico[i].fecha);
+        datos.push(d.historico[i].promedio);
+      }
       var ctx = canvas.getContext('2d');
-      var config = createConfig(pointStyle);
+      var config = createConfig(d.estacion,datos,labels,valMax);
       new Chart(ctx, config);
   });
 }
 
-
-
-
-
-          function createConfig(pointStyle) {
-              return {
-                  type: 'line',
-                  data: {
-                      labels: ["Ene", "Feb", "MAr", "Abr", "May", "Jun", "Jul","Ene", "Feb", "MAr", "Abr", "May", "Jun", "Jul","Ene", "Feb", "MAr", "Abr", "May", "Jun", "Jul","Ene", "Feb", "MAr", "Abr", "May", "Jun", "Jul"],
-                      datasets: [{
-                          label: "PM10",
-                          // backgroundColor: window.chartColors.red,
-                          backgroundColor: 'rgba(255,255,255,0.2)', //color(window.chartColors.gray).alpha(0.2).rgbString(),
-                          // borderColor: window.chartColors.red,
-                          borderColor: window.chartColors.gray,
-                          pointBackgroundColor: window.chartColors.gray,
-                          //window.chartColors.gray,
-                          data: [10, 23, 5, 99, 67, 43, 0,0, 23, 5, 99, 67, 43, 0,0, 23, 5, 99, 67, 43, 0,0, 23, 5, 99, 67, 43, 0],
-                          // fill: false,
-                          //pointRadius: 1,
-                          //pointHoverRadius: 5,
-                          //showLine: false // no line shown
-                      }]
-                  },
-                  options: {
-                      responsive: true,
-                      title:{
-                          display:true,
-                          text:'Point Style: ' + pointStyle
+  function createConfig(pointStyle,data,labels,valMax) {
+      return {
+          type: 'line',
+          data: {
+              labels:labels,
+              //["Ene", "Feb", "MAr", "Abr", "May", "Jun", "Jul","Ene", "Feb", "MAr", "Abr", "May", "Jun", "Jul","Ene", "Feb", "MAr", "Abr", "May", "Jun", "Jul","Ene", "Feb", "MAr", "Abr", "May", "Jun", "Jul"],
+              datasets: [{
+                  label: "PM10",
+                  // backgroundColor: window.chartColors.red,
+                  backgroundColor: 'rgba(255,255,255,0.2)', //color(window.chartColors.gray).alpha(0.2).rgbString(),
+                  // borderColor: window.chartColors.red,
+                  borderColor: window.chartColors.gray,
+                  pointBackgroundColor: window.chartColors.gray,
+                  //window.chartColors.gray,
+                  data: data,
+                  // fill: false,
+                  //pointRadius: 1,
+                  //pointHoverRadius: 5,
+                  //showLine: false // no line shown
+              }]
+          },
+          options: {
+              responsive: true,
+              title:{
+                  display:true,
+                  text:'Estacion: ' + pointStyle
+              },
+              legend: {
+                  display: false
+              },
+              scales: {
+                  xAxes: [{
+                      gridLines: {
+                          display: false,
+                          drawBorder: false
                       },
-                      legend: {
-                          display: false
-                      },
-                      scales: {
-                          xAxes: [{
-                              gridLines: {
-                                  display: false,
-                                  drawBorder: false
-                              },
-                              display: true,
-                              ticks: {
-                                  callback: function(dataLabel, index) {
-                                      // Hide the label of every 2nd dataset. return null to hide the grid line too
-                                      return index % 3 === 0 ? dataLabel : '';
-                                  }
-                              }
-                          }],
-                          yAxes: [{
-                              gridLines: {
-                                  display: false,
-                                  drawBorder: false
-                              },
-                              ticks: {
-                                  min: 0,
-                                  max: 100,//costumisar max dependiendo del indicador que se vaya precentar
-                                  stepSize: 33 // la divicion tiene que ser en 3
-                              }
-                          }]
-                      }
-                      // elements: {
-                      //     point: {
-                      //         pointStyle: pointStyle
+                      display: true,
+                      // ticks: {
+                      //     callback: function(dataLabel, index) {
+                      //         // Hide the label of every 2nd dataset. return null to hide the grid line too
+                      //         return index % 3 === 0 ? dataLabel : '';
                       //     }
                       // }
-                  }
-              };
+                  }],
+                  yAxes: [{
+                      gridLines: {
+                          display: true,
+                          drawBorder: true
+                      },
+                      ticks: {
+                          min: 0,
+                          max: valMax,//costumisar max dependiendo del indicador que se vaya precentar
+                          stepSize: Math.round(valMax / 3) // la divicion tiene que ser en 3
+                      }
+                  }]
+              }
+              // elements: {
+              //     point: {
+              //         pointStyle: pointStyle
+              //     }
+              // }
           }
-
-
-
-
-
-        // function createConfig(gridlines, title) {
-        //     return {
-        //         type: 'line',
-        //         data: {
-        //             labels: ["January", "February", "March", "April", "May", "June", "July"],
-        //             datasets: [{
-        //                 label: "My First dataset",
-        //                 backgroundColor: window.chartColors.red,
-        //                 borderColor: window.chartColors.red,
-        //                 data: [10, 30, 39, 20, 25, 34, 0],
-        //                 fill: false,
-        //             }, {
-        //                 label: "My Second dataset",
-        //                 fill: false,
-        //                 backgroundColor: window.chartColors.blue,
-        //                 borderColor: window.chartColors.blue,
-        //                 data: [18, 33, 22, 19, 11, 39, 30],
-        //             }]
-        //         },
-        //         options: {
-        //             responsive: true,
-        //             title:{
-        //                 display: true,
-        //                 text: title
-        //             },
-        //             scales: {
-        //                 xAxes: [{
-        //                     gridLines: gridlines
-        //                 }],
-        //                 yAxes: [{
-        //                     gridLines: gridlines,
-        //                     ticks: {
-        //                         min: 0,
-        //                         max: 100,
-        //                         stepSize: 10
-        //                     }
-        //                 }]
-        //             }
-        //         }
-        //     };
-        // }
-        //
-        // window.onload = function() {
-        //     var container = document.querySelector('.container');
-        //
-        //     [{
-        //         title: 'Display: true',
-        //         gridLines: {
-        //             display: true
-        //         }
-        //     }, {
-        //         title: 'Display: false',
-        //         gridLines: {
-        //             display: false
-        //         }
-        //     }, {
-        //         title: 'Display: false, no border',
-        //         gridLines: {
-        //             display: false,
-        //             drawBorder: false
-        //         }
-        //     }, {
-        //         title: 'DrawOnChartArea: false',
-        //         gridLines: {
-        //             display: true,
-        //             drawBorder: true,
-        //             drawOnChartArea: false,
-        //         }
-        //     }, {
-        //         title: 'DrawTicks: false',
-        //         gridLines: {
-        //             display: true,
-        //             drawBorder: true,
-        //             drawOnChartArea: true,
-        //             drawTicks: false,
-        //         }
-        //     }].forEach(function(details) {
-        //         var div = document.createElement('div');
-        //         div.classList.add('chart-container');
-        //
-        //         var canvas = document.createElement('canvas');
-        //         div.appendChild(canvas);
-        //         container.appendChild(div);
-        //
-        //         var ctx = canvas.getContext('2d');
-        //         var config = createConfig(details.gridLines, details.title);
-        //         new Chart(ctx, config);
-        //     });
-        // };
-
+      };
+  }
   </script>
 </body>
 </html>
