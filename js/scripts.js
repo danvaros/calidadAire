@@ -87,6 +87,7 @@ $(document).ready(function(){
     boton_activo.removeClass('active_graf');
     boton_activo = $('#valPM1024H');
     boton_activo.addClass('active_graf');
+    reset_botones();
   });
 
   $('#ver_top2').click(function(event){
@@ -98,6 +99,7 @@ $(document).ready(function(){
     boton_activo.removeClass('active_graf');
     boton_activo = $('#valPM1024H');
     boton_activo.addClass('active_graf');
+    reset_botones();
   });
 
   $('#ver_top1').click(function(event){
@@ -109,6 +111,7 @@ $(document).ready(function(){
     boton_activo.removeClass('active_graf');
     boton_activo = $('#valPM1024H');
     boton_activo.addClass('active_graf');
+    reset_botones();
   });
 
   $('.modal').modal();
@@ -119,9 +122,10 @@ $(document).ready(function(){
       $( this ).removeClass('active');
     });
 
-
     $( this ).addClass('active');
+
     var boton = parseInt($( this ).val());
+    console.log(boton);
     if(ant > boton){
       var tam =  ant - boton;
       for (var i = 0; i < tam; i++) {
@@ -194,6 +198,7 @@ var greenIcon = L.icon({
   }
 
   $(document).on('click', '.modal_mapa', function() {
+    reset_botones();
     //sacar la estacion en particular solo id
     var id_estacion = $(this).data().id;
     var ciudad;
@@ -279,6 +284,9 @@ var greenIcon = L.icon({
     var maximo = 158;
     valores = [];
     etiquetas = [];
+    ant_val_arr = [];
+    ant_lab_arr = [];
+    ant = 28;
 
     boton_activo.removeClass('active_graf');
     boton_activo = $('#valPM1024H');
@@ -287,6 +295,7 @@ var greenIcon = L.icon({
     actualizar_grafica_detalle(valores,etiquetas);
 
     $('#contaminante_grafica').html('PM10');
+    reset_botones();
   });
   $('#PM2524H').click(function(){
     var contaminante = 'PM2.5';
@@ -294,6 +303,9 @@ var greenIcon = L.icon({
     var maximo = 158;
     valores = [];
     etiquetas = [];
+    ant_val_arr = [];
+    ant_lab_arr = [];
+    ant = 28;
 
     boton_activo.removeClass('active_graf');
     boton_activo = $('#valPM2524H');
@@ -302,6 +314,7 @@ var greenIcon = L.icon({
       get_historico_horas(contaminante,tipo,maximo,i);
 $('#contaminante_grafica').html('PM2.5');
     actualizar_grafica_detalle(valores,etiquetas);
+    reset_botones();
   });
   $('#SO224H').click(function(){
     console.log('SO224H');
@@ -310,6 +323,9 @@ $('#contaminante_grafica').html('PM2.5');
     var maximo = 0.32;
     valores = [];
     etiquetas = [];
+    ant_val_arr = [];
+    ant_lab_arr = [];
+    ant = 28;
 
     boton_activo.removeClass('active_graf');
     boton_activo = $('#valS0224H');
@@ -318,6 +334,7 @@ $('#contaminante_grafica').html('PM2.5');
       get_historico_horas(contaminante,tipo,maximo,i);
 $('#contaminante_grafica').html('SO2');
     actualizar_grafica_detalle(valores,etiquetas);
+    reset_botones();
   });
   $('#SO28H').click(function(){
     var contaminante = 'SO2';
@@ -325,6 +342,9 @@ $('#contaminante_grafica').html('SO2');
     var maximo = 0.32;
     valores = [];
     etiquetas = [];
+    ant_val_arr = [];
+    ant_lab_arr = [];
+    ant = 28;
 
     boton_activo.removeClass('active_graf');
     boton_activo = $('#valS028H');
@@ -332,6 +352,7 @@ $('#contaminante_grafica').html('SO2');
       get_historico_horas(contaminante,tipo,maximo,i);
 $('#contaminante_grafica').html('SO2');
     actualizar_grafica_detalle(valores,etiquetas);
+    reset_botones();
   });
   $('#O38H').click(function(){
     var contaminante = 'O3';
@@ -339,6 +360,9 @@ $('#contaminante_grafica').html('SO2');
     var maximo = 0.181;
     valores = [];
     etiquetas = [];
+    ant_val_arr = [];
+    ant_lab_arr = [];
+    ant = 28;
 
     boton_activo.removeClass('active_graf');
     boton_activo = $('#valO38H');
@@ -346,6 +370,7 @@ $('#contaminante_grafica').html('SO2');
       get_historico_horas(contaminante,tipo,maximo,i);
 $('#contaminante_grafica').html('O3');
     actualizar_grafica_detalle(valores,etiquetas);
+    reset_botones();
   });
   $('#SO2DH').click(function(){
     var contaminante = 'SO2';
@@ -353,6 +378,9 @@ $('#contaminante_grafica').html('O3');
     var maximo = 0.32;
     valores = [];
     etiquetas = [];
+    ant_val_arr = [];
+    ant_lab_arr = [];
+    ant = 28;
 
     boton_activo.removeClass('active_graf');
     boton_activo = $('#valS02DH');
@@ -360,6 +388,7 @@ $('#contaminante_grafica').html('O3');
       get_historico_horas(contaminante,tipo,maximo,i);
 $('#contaminante_grafica').html('SO2');
     actualizar_grafica_detalle(valores,etiquetas);
+    reset_botones();
   });
   $('#O3DH').click(function(){
     var contaminante = 'O3';
@@ -367,12 +396,17 @@ $('#contaminante_grafica').html('SO2');
     var maximo =  0.181;
     valores = [];
     etiquetas = [];
+    ant_val_arr = [];
+    ant_lab_arr = [];
+    ant = 28;
+
     boton_activo.removeClass('active_graf');
     boton_activo = $('#valO3DH');
     boton_activo.addClass('active_graf');
-      get_historico_horas(contaminante,tipo,maximo,i);
-$('#contaminante_grafica').html('O3');
+    get_historico_horas(contaminante,tipo,maximo,i);
+    $('#contaminante_grafica').html('O3');
     actualizar_grafica_detalle(valores,etiquetas);
+    reset_botones();
   });
 
   $('#NO2DH').click(function(){
@@ -381,6 +415,9 @@ $('#contaminante_grafica').html('O3');
     var maximo =  0.315;
     valores = [];
     etiquetas = [];
+    ant_val_arr = [];
+    ant_lab_arr = [];
+    ant = 28;
 
     boton_activo.removeClass('active_graf');
     boton_activo = $('#valN02DH');
@@ -388,6 +425,7 @@ $('#contaminante_grafica').html('O3');
     get_historico_horas(contaminante,tipo,maximo,i);
     actualizar_grafica_detalle(valores,etiquetas);
     $('#contaminante_grafica').html('NO2');
+    reset_botones();
   });
 
   $('#CO8H').click(function(){
@@ -396,13 +434,17 @@ $('#contaminante_grafica').html('O3');
     var maximo =  16.5;
     valores = [];
     etiquetas = [];
+    ant_val_arr = [];
+    ant_lab_arr = [];
+    ant = 28;
 
     boton_activo.removeClass('active_graf');
     boton_activo = $('#valCO8H');
     boton_activo.addClass('active_graf');
-      get_historico_horas(contaminante,tipo,maximo,i);
+    get_historico_horas(contaminante,tipo,maximo,i);
     actualizar_grafica_detalle(valores,etiquetas);
     $('#contaminante_grafica').html('CO');
+    reset_botones();
   });
 
 });// fin de document ready
@@ -411,6 +453,10 @@ $('#contaminante_grafica').html('O3');
   Array.prototype.unique=function(a){
     return function(){return this.filter(a)}}(function(a,b,c){return c.indexOf(a,b+1)<0
   });
+  
+  function create_new_historico(){
+
+  }
 
   function convertDate(date) {
     var yyyy = date.getFullYear().toString();

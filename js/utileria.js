@@ -49,3 +49,11 @@ function put_temperatura(estacion,contenedor){
     async:true
   });
 }
+
+function reset_botones(){
+  $('.parametro').each(function(index){
+    $( this ).removeClass('active');
+  });
+
+  $('#pinta_primero').addClass('active');
+}
