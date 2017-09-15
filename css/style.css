@@ -112,7 +112,7 @@ footer.page-footer {
 .botonera a{
   margin: 0px;
   margin-left: -5px;
-  border: 1px solid #6f6f6f;
+  border: 1px solid #ccc;
   padding: 10px 20px;
 }
 
@@ -197,7 +197,6 @@ footer.page-footer {
 .active_graf{
     background-color: #4ebbe3;
     color: #fff;
-    border: 1px solid #000;
     padding: 3px 15px;
 }
 
