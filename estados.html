@@ -247,7 +247,7 @@
           for (var i = 0; i < top15_estaciones.length; i++) {
             top15_estaciones[i].historico = get_historico_dias('PM10','24','12',maxValor,top15_estaciones[i].estacion);
             for (var j = 0; j < top15_estaciones[i].historico.length; j++) {
-              if(top15_estaciones[i].historico[j].promedio > maxMax)}{
+              if(top15_estaciones[i].historico[j].promedio > maxMax){
                 maxMAx = top15_estaciones[i].historico[j].promedio;
                 console.log(maxMax);
               }
