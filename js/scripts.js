@@ -87,6 +87,7 @@ $(document).ready(function(){
     boton_activo.removeClass('active_graf');
     boton_activo = $('#valPM1024H');
     boton_activo.addClass('active_graf');
+    reset_botones();
   });
 
   $('#ver_top2').click(function(event){
@@ -98,6 +99,7 @@ $(document).ready(function(){
     boton_activo.removeClass('active_graf');
     boton_activo = $('#valPM1024H');
     boton_activo.addClass('active_graf');
+    reset_botones();
   });
 
   $('#ver_top1').click(function(event){
@@ -109,6 +111,7 @@ $(document).ready(function(){
     boton_activo.removeClass('active_graf');
     boton_activo = $('#valPM1024H');
     boton_activo.addClass('active_graf');
+    reset_botones();
   });
 
   $('.modal').modal();
@@ -119,9 +122,10 @@ $(document).ready(function(){
       $( this ).removeClass('active');
     });
 
-
     $( this ).addClass('active');
+
     var boton = parseInt($( this ).val());
+    console.log(boton);
     if(ant > boton){
       var tam =  ant - boton;
       for (var i = 0; i < tam; i++) {
@@ -194,6 +198,7 @@ var greenIcon = L.icon({
   }
 
   $(document).on('click', '.modal_mapa', function() {
+    reset_botones();
     //sacar la estacion en particular solo id
     var id_estacion = $(this).data().id;
     var ciudad;
@@ -201,17 +206,20 @@ var greenIcon = L.icon({
     boton_activo.removeClass('active_graf');
     boton_activo = $('#valPM1024H');
     boton_activo.addClass('active_graf');
-    
+
     for (var i = 0; i < estaciones_global.length; i++) {
       if(id_estacion ==  estaciones_global[i].estacionesid){
        ciudad  =  estaciones_global[i].city;
        break;
       }
+
+
     }
 
     console.log(id_estacion);
     console.log(ciudad);
 
+    put_contaminantes(ciudad,id_estacion);
     //cruzar el id con estaciones obscuras
     var estacion = [];
     for (var i = 0; i < estaciones_json.length; i++) {
@@ -279,13 +287,18 @@ var greenIcon = L.icon({
     var maximo = 158;
     valores = [];
     etiquetas = [];
+    ant_val_arr = [];
+    ant_lab_arr = [];
+    ant = 28;
 
     boton_activo.removeClass('active_graf');
     boton_activo = $('#valPM1024H');
     boton_activo.addClass('active_graf');
     get_historico_horas(contaminante,tipo,maximo,i);
-
     actualizar_grafica_detalle(valores,etiquetas);
+
+    $('#contaminante_grafica').html('PM10');
+    reset_botones();
   });
   $('#PM2524H').click(function(){
     var contaminante = 'PM2.5';
@@ -293,14 +306,18 @@ var greenIcon = L.icon({
     var maximo = 158;
     valores = [];
     etiquetas = [];
+    ant_val_arr = [];
+    ant_lab_arr = [];
+    ant = 28;
 
     boton_activo.removeClass('active_graf');
     boton_activo = $('#valPM2524H');
     boton_activo.addClass('active_graf');
 
       get_historico_horas(contaminante,tipo,maximo,i);
-
+$('#contaminante_grafica').html('PM2.5');
     actualizar_grafica_detalle(valores,etiquetas);
+    reset_botones();
   });
   $('#SO224H').click(function(){
     console.log('SO224H');
@@ -309,14 +326,18 @@ var greenIcon = L.icon({
     var maximo = 0.32;
     valores = [];
     etiquetas = [];
+    ant_val_arr = [];
+    ant_lab_arr = [];
+    ant = 28;
 
     boton_activo.removeClass('active_graf');
     boton_activo = $('#valS0224H');
     boton_activo.addClass('active_graf');
 
       get_historico_horas(contaminante,tipo,maximo,i);
-
+$('#contaminante_grafica').html('SO2');
     actualizar_grafica_detalle(valores,etiquetas);
+    reset_botones();
   });
   $('#SO28H').click(function(){
     var contaminante = 'SO2';
@@ -324,13 +345,17 @@ var greenIcon = L.icon({
     var maximo = 0.32;
     valores = [];
     etiquetas = [];
+    ant_val_arr = [];
+    ant_lab_arr = [];
+    ant = 28;
 
     boton_activo.removeClass('active_graf');
     boton_activo = $('#valS028H');
     boton_activo.addClass('active_graf');
       get_historico_horas(contaminante,tipo,maximo,i);
-
+$('#contaminante_grafica').html('SO2');
     actualizar_grafica_detalle(valores,etiquetas);
+    reset_botones();
   });
   $('#O38H').click(function(){
     var contaminante = 'O3';
@@ -338,13 +363,17 @@ var greenIcon = L.icon({
     var maximo = 0.181;
     valores = [];
     etiquetas = [];
+    ant_val_arr = [];
+    ant_lab_arr = [];
+    ant = 28;
 
     boton_activo.removeClass('active_graf');
     boton_activo = $('#valO38H');
     boton_activo.addClass('active_graf');
       get_historico_horas(contaminante,tipo,maximo,i);
-
+$('#contaminante_grafica').html('O3');
     actualizar_grafica_detalle(valores,etiquetas);
+    reset_botones();
   });
   $('#SO2DH').click(function(){
     var contaminante = 'SO2';
@@ -352,13 +381,17 @@ var greenIcon = L.icon({
     var maximo = 0.32;
     valores = [];
     etiquetas = [];
+    ant_val_arr = [];
+    ant_lab_arr = [];
+    ant = 28;
 
     boton_activo.removeClass('active_graf');
     boton_activo = $('#valS02DH');
     boton_activo.addClass('active_graf');
       get_historico_horas(contaminante,tipo,maximo,i);
-
+$('#contaminante_grafica').html('SO2');
     actualizar_grafica_detalle(valores,etiquetas);
+    reset_botones();
   });
   $('#O3DH').click(function(){
     var contaminante = 'O3';
@@ -366,12 +399,17 @@ var greenIcon = L.icon({
     var maximo =  0.181;
     valores = [];
     etiquetas = [];
+    ant_val_arr = [];
+    ant_lab_arr = [];
+    ant = 28;
+
     boton_activo.removeClass('active_graf');
     boton_activo = $('#valO3DH');
     boton_activo.addClass('active_graf');
-      get_historico_horas(contaminante,tipo,maximo,i);
-
+    get_historico_horas(contaminante,tipo,maximo,i);
+    $('#contaminante_grafica').html('O3');
     actualizar_grafica_detalle(valores,etiquetas);
+    reset_botones();
   });
 
   $('#NO2DH').click(function(){
@@ -380,14 +418,37 @@ var greenIcon = L.icon({
     var maximo =  0.315;
     valores = [];
     etiquetas = [];
+    ant_val_arr = [];
+    ant_lab_arr = [];
+    ant = 28;
 
     boton_activo.removeClass('active_graf');
     boton_activo = $('#valN02DH');
     boton_activo.addClass('active_graf');
-      get_historico_horas(contaminante,tipo,maximo,i);
+    get_historico_horas(contaminante,tipo,maximo,i);
     actualizar_grafica_detalle(valores,etiquetas);
+    $('#contaminante_grafica').html('NO2');
+    reset_botones();
   });
 
+  $('#CO8H').click(function(){
+    var contaminante = 'CO';
+    var tipo = '8h';
+    var maximo =  16.5;
+    valores = [];
+    etiquetas = [];
+    ant_val_arr = [];
+    ant_lab_arr = [];
+    ant = 28;
+
+    boton_activo.removeClass('active_graf');
+    boton_activo = $('#valCO8H');
+    boton_activo.addClass('active_graf');
+    get_historico_horas(contaminante,tipo,maximo,i);
+    actualizar_grafica_detalle(valores,etiquetas);
+    $('#contaminante_grafica').html('CO');
+    reset_botones();
+  });
 
 });// fin de document ready
 
@@ -395,6 +456,10 @@ var greenIcon = L.icon({
   Array.prototype.unique=function(a){
     return function(){return this.filter(a)}}(function(a,b,c){return c.indexOf(a,b+1)<0
   });
+
+  function create_new_historico(){
+
+  }
 
   function convertDate(date) {
     var yyyy = date.getFullYear().toString();
@@ -553,30 +618,35 @@ var greenIcon = L.icon({
       $('#estacion').val(estacion.id);
 
       put_his_estacion_val_max(top_ciudades[indice-1],estacion);
-      put_contaminantes(top_ciudades[indice-1],estacion);
+      put_contaminantes(top_ciudades[indice-1].city,estacion.id);
   }
 
-  function put_contaminantes(lectura,estacion){
-    console.log(lectura);
+  function put_contaminantes(city,estacion){
+    console.log(city);
     console.log(estacion);
+
+    put_temperatura(estacion.id,$('#temperatura_detalle'));
+
     var valPM10 = $('#valPM1024H');
-    getMasAlto('PM10',lectura.city,estacion.id,valPM10,'24h');
+    getMasAlto('PM10',city,estacion,valPM10,'24h');
     var valPM25 = $('#valPM2524H');
-    getMasAlto('PM2.5',lectura.city,estacion.id,valPM25,'24h');
+    getMasAlto('PM2.5',city,estacion,valPM25,'24h');
     var valN02 = $('#valN02DH');
-    getMasAlto('NO2',lectura.city,estacion.id,valN02,'DH');
+    getMasAlto('NO2',city,estacion,valN02,'DH');
     var valS02 = $('#valS0224H');
-    getMasAlto('SO2',lectura.city,estacion.id,valS02,'24h');
+    getMasAlto('SO2',city,estacion,valS02,'24h');
     var valS02 = $('#valS028H');
-    getMasAlto('SO2',lectura.city,estacion.id,valS02,'8h');
+    getMasAlto('SO2',city,estacion,valS02,'8h');
     var valS02 = $('#valS02DH');
-    getMasAlto('SO2',lectura.city,estacion.id,valS02,'DH');
+    getMasAlto('SO2',city,estacion,valS02,'DH');
     var valO3 = $('#valO38H');
-    getMasAlto('O3',lectura.city,estacion.id,valO3,'8h');
+    getMasAlto('O3',city,estacion,valO3,'8h');
     var valO3 = $('#valO3DH');
-    getMasAlto('O3',lectura.city,estacion.id,valO3,'DH');
-    $('#estacion_id').val(estacion.id);
-    $('#ciudad').val(lectura.city);
+    getMasAlto('O3',city,estacion,valO3,'DH');
+    var valCO = $('#valCO8H');
+    getMasAlto('CO',city,estacion,valCO,'8h');
+    $('#estacion_id').val(estacion);
+    $('#ciudad').val(city);
   }
 
   function getTop3ciudades(contaminante){
@@ -1256,17 +1326,6 @@ var greenIcon = L.icon({
     var dias = 24*28;
     dPasada.setHours(dActual.getHours() - dias);
 
-    //var reMin = 1;
-
-    // if('8h' ==  tipo){
-    //   dPasada.setHours(dActual.getHours() - (menos_horas*24) - 8);
-    //   reMin = 4;
-    // }else if('24h' == tipo){
-    //   dPasada.setHours(dActual.getHours() - (menos_horas*24) - 24);
-    //   reMin = 12;
-    // }else{
-    //   dPasada.setHours(dActual.getHours() - (menos_horas*24) - 2);
-    // }
     var ciudad =  $('#ciudad').val();
     var ruta = "https://api.datos.gob.mx/v1/sinaica?&city="+ciudad+"&parametro="+ contaminante +"&date-insert=[range:"+getFormatDateAPI(dPasada)+"%7C"+getFormatDateAPI(dActual)+"]";
     console.log(ruta);
@@ -1330,7 +1389,11 @@ var greenIcon = L.icon({
 
               console.log(values_temp);
               valores = values_temp;
-              etiquetas =  labels_temp;
+              var labels_temp2 = [];
+              for (var i = 0; i < labels_temp.length; i++) {
+                labels_temp2[i] = get_fecha_formato(labels_temp[i]);
+              }
+              etiquetas =  labels_temp2;
             },
             xhrFields: {
               withCredentials: false
