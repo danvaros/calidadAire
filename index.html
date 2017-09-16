@@ -603,8 +603,14 @@ $(function() {
 
   var options =  {
     height: '4em', width: '8em', lineColor: '#fff', fillColor: '#a4b6da',
-    minSpotColor: false, maxSpotColor: false, spotColor: '#fff', spotRadius: 3
+    minSpotColor: false, maxSpotColor: false, spotColor: '#fff', spotRadius: 3,
+    normalRangeMin: 0,
+    normalRangeMax: 100
   }
+
+
+
+
   // Customized line chart
   $('#linecustom1').sparkline(myvalues,options);
   $('#linecustom2').sparkline(myvalues2,options);

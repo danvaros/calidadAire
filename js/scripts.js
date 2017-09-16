@@ -7,6 +7,9 @@ var meses_abr = ["Ene", "Feb", "Mar", "Abr", "May", "Jun",
 ];
 
 var boton_activo;
+var mini_graf = [];
+var mini_etiquetas = [];
+var min_grafMax = 0;
 
 $(document).ready(function(){
   //var estaciones  =  [];
@@ -770,10 +773,18 @@ $('#contaminante_grafica').html('SO2');
               }
           }
 
+
           get_historico(ciudades[0],$('#linecustom1'));
           get_historico(ciudades[1],$('#linecustom2'));
           get_historico(ciudades[2],$('#linecustom3'));
 
+          console.log('--------------- escamilla ----------');
+          put_grafica_inline(mini_graf[0],$('#linecustom1'),mini_etiquetas[0]);
+          put_grafica_inline(mini_graf[1],$('#linecustom1'),mini_etiquetas[1]);
+          put_grafica_inline(mini_graf[2],$('#linecustom1'),mini_etiquetas[2]);
+
+          console.log(mini_graf[0]);
+          console.log(mini_etiquetas[2]);
         }
 
         top_ciudades = ciudades;
@@ -865,19 +876,21 @@ $('#contaminante_grafica').html('SO2');
 
 
         valores2[0] = 0;
-        put_grafica_inline(valores2,contenedor,etiquetas2);
+        mini_graf.push(valores2);
+        mini_etiquetas.push(etiquetas2);
+        //put_grafica_inline(valores2,contenedor,etiquetas2);
 
       },
       xhrFields: {
         withCredentials: false
       },
       crossDomain: true,
-      async:true
+      async:false
     });
   }
 
 // fillColor: '#a4b6da'
-  function put_grafica_inline(valores,contenedor,etiquetas2){
+  function put_grafica_inline(valores,contenedor,etiquetas2,maxRage){
     var options =  {
       type: "line",
       height: '3em',
@@ -890,6 +903,8 @@ $('#contaminante_grafica').html('SO2');
       spotRadius: 3,
       highlightLineColor: '#fff',
       highlightSpotColor: '#000',
+      chartRangeMin: 0,
+      chartRangeMax: min_grafMax,
       tooltipFormat: '{{offset:offset}} {{value}} <br> {{prefix}}{{y}}{{suffix}}' ,
       tooltipValueLookups: {
         'offset': etiquetas2
@@ -1205,6 +1220,24 @@ $('#contaminante_grafica').html('SO2');
                 get_historico(ciudades[0][0],$('#linecustom1'));
                 get_historico(ciudades[1][0],$('#linecustom2'));
                 get_historico(ciudades[2][0],$('#linecustom3'));
+
+                console.log('--------------- escamilla ----------');
+                var max = 0;
+                for (var i = 0; i < mini_graf.length; i++) {
+                  for (var j = 0; j < mini_graf[i].length; j++) {
+                    if(mini_graf[i][j] > max){
+                      max = mini_graf[i][j];
+                    }
+                  }
+                }
+
+                min_grafMax = max;
+                put_grafica_inline(mini_graf[0],$('#linecustom1'),mini_etiquetas[0]);
+                put_grafica_inline(mini_graf[1],$('#linecustom2'),mini_etiquetas[1]);
+                put_grafica_inline(mini_graf[2],$('#linecustom3'),mini_etiquetas[2]);
+
+                console.log(mini_graf[0]);
+                console.log(mini_etiquetas[2]);
 
                 var ciudades2 = [];
                             ciudades2.push(ciudades[0][0]);
