@@ -101,7 +101,7 @@
   <script src="js/script_estados.js"></script>
 
   <script type="text/javascript">
-  
+
   window.onload = function() {
 
     $('#contaminante_sel').change(function(){
@@ -119,16 +119,19 @@
         get_top9('SO2',8,6,0.32);
       }
       else if($(this).val() == 'SO2D'){
-        get_top9('SO2',4,4,0.32);
+        get_top9('SO2',1,1,0.32);
       }
       else if($(this).val() == 'NO2'){
-        get_top9('NO2',4,4,0.315);
+        get_top9('NO2',1,1,0.315);
       }
       else if($(this).val() == 'O3'){
         get_top9('O3',8,6,0.181);
       }
       else if($(this).val() == 'O3'){
-        get_top9('O3',4,4,0.181);
+        get_top9('O3',1,1,0.181);
+      }
+      else if($(this).val() == 'CO'){
+        get_top9('CO',1,1,0.181);
       }
     });
 

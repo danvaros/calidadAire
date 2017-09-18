@@ -1,4 +1,5 @@
 var top15_estaciones = [];
+var contaminante;
 
 function get_top9(parametro,horas,minPromedio,maxValor) {
     //datos de configuracion
@@ -7,6 +8,7 @@ function get_top9(parametro,horas,minPromedio,maxValor) {
     // var maxValor = 152;
 
     //limpiar variables y contenedor
+    contaminante = parametro;
     top15_estaciones = [];
     $('.cont').html('');
     var maxMax = 0;
@@ -23,8 +25,6 @@ function get_top9(parametro,horas,minPromedio,maxValor) {
       url:url,
       data: {},
       success: function( data, textStatus, jqxhr ) {
-        console.log('datos ultimas 24 horas');
-        console.log(data);
         var agrupaEstaciones  = [];
         var indEstaciones     = [];
         var indPromedios      = [];
@@ -43,17 +43,15 @@ function get_top9(parametro,horas,minPromedio,maxValor) {
           }
         }
 
-        console.log('Estaciones Agrupadas');
-        console.log(agrupaEstaciones);
-
-        console.log('indicador de estaciones agrupadas');
-        console.log(indEstaciones);
-
         //sacamos los promedios de cada estacion para que sean evaluados
         for (var i = 0; i < indEstaciones.length; i++) {
-          if(agrupaEstaciones[indEstaciones[i]].length > minPromedio){
-            var tempo = agrupaEstaciones[indEstaciones[i]];
+          var tempo = agrupaEstaciones[indEstaciones[i]];
 
+          if(horas == 1){
+            var promedio = tempo.length;
+            indPromedios.push({'estacion':tempo[0].estacionesid,'promedio':tempo[promedio-1]});
+          }
+          else if(agrupaEstaciones[indEstaciones[i]].length > minPromedio){
             var suma = 0;
             for (var j = 0; j < tempo.length; j++) {
                 suma += tempo[j].valororig;
@@ -62,9 +60,6 @@ function get_top9(parametro,horas,minPromedio,maxValor) {
             indPromedios.push({'estacion':tempo[0].estacionesid,'promedio':promedio});
           }
         }
-
-        console.log('indicador de promedios');
-        console.log(indPromedios);
 
         //Ordenamos el arreglo para tomar los valores mas altos
         indPromedios.sort(function (a, b) {
@@ -78,16 +73,13 @@ function get_top9(parametro,horas,minPromedio,maxValor) {
           return 0;
         });
 
-        console.log('indicador de promedios ordenado mayor a menor');
-        console.log(indPromedios);
-
         for (var i = 0; i < 9; i++) {
           top15_estaciones[i] =  indPromedios[i];
         }
 
         var maxMaxLocal = 0;
         for (var i = 0; i < top15_estaciones.length; i++) {
-          top15_estaciones[i].historico = get_historico_dias('PM10','24','12',maxValor,top15_estaciones[i].estacion);
+          top15_estaciones[i].historico = get_historico_dias(parametro,horas,minPromedio,maxValor,top15_estaciones[i].estacion);
           for (var j = 0; j < top15_estaciones[i].historico.length; j++) {
             if(parseFloat(top15_estaciones[i].historico[j].promedio) > maxMaxLocal){
               maxMaxLocal = top15_estaciones[i].historico[j].promedio;
@@ -97,10 +89,7 @@ function get_top9(parametro,horas,minPromedio,maxValor) {
           }
         }
 
-        console.log(maxMaxLocal);
         maxMAx = maxMaxLocal;
-        console.log('estaciones con historico para graficar');
-        console.log(top15_estaciones);
       },
       xhrFields: {
         withCredentials: false
@@ -214,6 +203,12 @@ function activa(valMax,maxMax){
 
 function createConfig(pointStyle,data,labels,valMax,maxMax) {
   var tam = labels.length;
+  var aumento = 0;
+  if(contaminante ==  'PM10' || contaminante == 'PM2.5')
+    aumento = 5;
+  else
+    aumento = 1;
+
   return {
       type: 'line',
       data: {
@@ -272,8 +267,8 @@ function createConfig(pointStyle,data,labels,valMax,maxMax) {
                   },
                   ticks: {
                       min: 0,
-                      max: Math.round(maxMax + 5),//costumisar max dependiendo del indicador que se vaya precentar
-                      stepSize: Math.round((maxMax + 5) / 3) // la divicion tiene que ser en 3
+                      max: Math.round(maxMax),//costumisar max dependiendo del indicador que se vaya precentar
+                      stepSize: Math.round((maxMax) / 3) // la divicion tiene que ser en 3
                   }
               }]
           }
