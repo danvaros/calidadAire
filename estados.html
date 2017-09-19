@@ -36,7 +36,7 @@
 
   <dgm-navbar></dgm-navbar>
   <main>
-    <div id="" class="cabezera" style="background-image: url('foto_fondo.png');background-size: cover; background-repeat: no-repeat;background-position:center top;">
+    <div id="" class="cabezera" style="background-image: url('imagenes/fondo.jpg');background-size: cover; background-repeat: no-repeat;background-position:center top;">
       <div class="section no-pad-bot">
         <div class="container">
           <div class="row center">
@@ -65,13 +65,24 @@
           <div class="row center">
             <div class="col s12 margen_arriba_g">
               <div class="base_botones">
-                <a href="index.html" id="btn_ciudades" class="boton boton_inactivo">Top 3 Ciudades</a>
-                <a href="estados.html" id="btn_estados" class="boton boton_activo">Top 9 ciudades</a>
+                <a href="index.html" id="btn_ciudades" style="color:#ddd" class="boton boton_inactivo">Top 3 Ciudades</a>
+                <a href="estados.html" id="btn_estados"  class="boton boton_activo">Top 9 ciudades</a>
+                <select style="color: #ddd; background-color: rgba(243, 236, 236, .2); border: 0px;" class="browser-default" name="contaminante_sel" id="contaminante_sel">
+                  <option value="PM10">PM 10 µg/m&sup3;</option>
+                  <option value="PM2.5">PM 2.5 µg/m&sup3;</option>
+                  <option value="SO2">SO2 (ppm) Promedio 24 horas</option>
+                  <option value="SO28">SO2 (ppm) Promedio 8 horas</option>
+                  <option value="SO2D">SO2 (ppm) Dato horario</option>
+                  <option value="O3">Ozono (O3)(ppm) Promedio 8 horas</option>
+                  <option value="O3D">Ozono (O3)(ppm) Dato horario</option>
+                  <option value="NO2">NO2 (ppm)</option>
+                  <option value="CO">CO (ppm)</option>
+                </select>
               </div>
             </div>
           </div>
 
-          <div class="row center" style="color:#000">
+          <!-- <div class="row center" style="color:#000">
             <div class="col s12 m4">
               <select class="browser-default" name="contaminante_sel" id="contaminante_sel">
                 <option value="PM10">PM 10 µg/m&sup3;</option>
@@ -85,7 +96,7 @@
                 <option value="CO">CO (ppm)</option>
               </select>
             </div>
-          </div>
+          </div> -->
 
           <div class="row center cont"></div>
         </div>

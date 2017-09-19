@@ -145,7 +145,7 @@
 
   <dgm-navbar></dgm-navbar>
   <main>
-    <div id="" class="cabezera" style="background-image: url('foto_fondo.png');background-size: cover; background-repeat: no-repeat;background-position:center top;">
+    <div id="" class="cabezera" style="background-image: url('imagenes/fondo.jpg');background-size: cover; background-repeat: no-repeat;background-position:center top;">
       <div class="section no-pad-bot">
         <div class="container">
           <div class="row center">
@@ -174,8 +174,8 @@
             <div class="col s12 margen_arriba_g">
               <div class="base_botones">
                 <a href="index.html" id="btn_ciudades" class="boton boton_activo">Top 3 Ciudades</a>
-                <a href="estados.html" id="btn_estados" class="boton boton_inactivo">Top 9 ciudades</a>
-                <select style="color: #333; background-color: rgba(243, 236, 236, .2); border: 0px;" class="browser-default" name="" id="contaminantes">
+                <a href="estados.html" id="btn_estados" style="color:#ddd" class="boton boton_inactivo">Top 9 ciudades</a>
+                <select style="color: #ddd; background-color: rgba(243, 236, 236, .2); border: 0px;" class="browser-default" name="" id="contaminantes">
                   <option value="PM10">PM 10 µg/m&sup3;</option>
                   <option value="PM2.5">PM 2.5 µg/m&sup3;</option>
                   <option value="SO2">SO2 (ppm) Promedio 24 horas</option>
@@ -837,10 +837,10 @@ $(document).ready(function()
     }
     else if(contaminante == 'CO'){
       $('#contaminante_titulo').html('Monóxido de carbono (CO)(ppm).');
-      maximo =  0.315;
+      maximo =  16.5;
       tipo = '8h';
     }
-  
+
 
 
 
