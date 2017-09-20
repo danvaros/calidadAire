@@ -173,7 +173,7 @@ function get_historico_dias(parametro,horas,minPromedio,maxValor,estacionid){
 
   return historico;
 }
-
+//inicia la versión 2.0
 function activa(valMax,maxMax){
   color = Chart.helpers.color;
   Chart.defaults.global.defaultFontColor = '#fff';
