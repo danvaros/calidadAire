@@ -774,9 +774,9 @@ $('#contaminante_grafica').html('SO2');
           }
 
 
-          get_historico(ciudades[0],$('#linecustom1'));
-          get_historico(ciudades[1],$('#linecustom2'));
-          get_historico(ciudades[2],$('#linecustom3'));
+          get_historico(ciudades[0],$('#linecustom1'),maximo);
+          get_historico(ciudades[1],$('#linecustom2'),maximo);
+          get_historico(ciudades[2],$('#linecustom3'),maximo);
 
           console.log('--------------- escamilla ----------');
           put_grafica_inline(mini_graf[0],$('#linecustom1'),mini_etiquetas[0]);
@@ -797,7 +797,7 @@ $('#contaminante_grafica').html('SO2');
     });
   }
 
-  function get_historico(lectura,contenedor){
+  function get_historico(lectura,contenedor,maximo){
     var hoy = convertDate(new Date());
     var menos28 = convertDate(sumarDias(new Date(), -28));
 
@@ -824,7 +824,7 @@ $('#contaminante_grafica').html('SO2');
                 {
                   bandera = true;
 
-                  if(his_estacion[j].valororig < objeto.valororig && objeto.validoorig == 1){
+                  if(his_estacion[j].valororig < objeto.valororig && objeto.valororig < maximo){
                     his_estacion[j] = objeto;
                   }
                   break;
@@ -1092,8 +1092,15 @@ $('#contaminante_grafica').html('SO2');
                 if(item.length >= reMin){
                   item.forEach(function(item2, index2){
                     //validacion que no supere el limite establecido
-                    if(item2.valororig < maximo)
+                    if(item2.valororig < maximo){
                       sum = sum + item2.valororig;
+                      console.log('menor');
+                      console.log(item2.valororig);
+                    }else{
+                      console.log('mayor');
+                      console.log(item2.valororig);
+                    }
+
                   });
                   promedio = sum / item.length;
                   //agregamos la suma y el pormedio al json de las estacion
@@ -1217,9 +1224,9 @@ $('#contaminante_grafica').html('SO2');
                     }
                 }
 
-                get_historico(ciudades[0][0],$('#linecustom1'));
-                get_historico(ciudades[1][0],$('#linecustom2'));
-                get_historico(ciudades[2][0],$('#linecustom3'));
+                get_historico(ciudades[0][0],$('#linecustom1'),maximo);
+                get_historico(ciudades[1][0],$('#linecustom2'),maximo);
+                get_historico(ciudades[2][0],$('#linecustom3'),maximo);
 
                 console.log('--------------- escamilla ----------');
                 var max = 0;
@@ -1331,7 +1338,7 @@ $('#contaminante_grafica').html('SO2');
 
     /*<div class="lista_con">'+lista+'<div><br>*/
 
-    var info = '<b>Estación #'+estaciones_json[array].id+'</b><br>Nombre :'+ estaciones_json[array].nombre +'<br>Codigo:'+estaciones_json[array].codigo+'<br><div style="margin-bottom: 25px; margin-top: 25px;" class="botonera"><a class="modal_mapa" data-id="'+ estaciones_json[array].id +'">Detalle Estación</a></div>';
+    var info = '<b>Estación:</b> '+estaciones_json[array].id+'<br><b>Nombre: </b>'+ estaciones_json[array].nombre +'<br><b>Codigo: </b>'+estaciones_json[array].codigo+'<br><div style="margin-bottom: 25px; margin-top: 25px;" class="botonera"><a class="modal_mapa" data-id="'+ estaciones_json[array].id +'">Detalle Estación</a></div>';
 
     popup.setContent(info);
     popup.update();
@@ -1410,7 +1417,8 @@ $('#contaminante_grafica').html('SO2');
                 var suma = 0;
                 var arreglo = his_estacion[labels_temp[i]];
                 for (var j = 0; j < promedio; j++) {
-                  suma += arreglo[j].valororig;
+                  if(arreglo[j].valororig < maximo)
+                    suma += arreglo[j].valororig;
                 }
 
                 if(contaminante ==  'PM10' || contaminante == 'PM2.5')

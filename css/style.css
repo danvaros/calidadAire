@@ -240,6 +240,10 @@ flex-wrap: wrap;
 justify-content: center;
 }
 
+.titulo_chart{
+  color:#fff;
+}
+
 @media (max-width: 600px) {
   .botonera a {
       padding: 10px 4px;
