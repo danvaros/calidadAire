@@ -183,6 +183,10 @@ function activa(valMax,maxMax){
   console.log(d.estacion);
     var div = document.createElement('div');
     div.classList.add('chart-container');
+    div.classList.add('s12');
+    div.classList.add('m6');
+    div.classList.add('l4');
+
 
     var canvas = document.createElement('canvas');
     div.appendChild(canvas);
@@ -233,7 +237,7 @@ function createConfig(pointStyle,data,labels,valMax,maxMax) {
           responsive: true,
           title:{
               display:true,
-              text:'Estacion: ' + pointStyle
+              text:'Estacion: uno texto<br>otro teexto:' + pointStyle
           },
           legend: {
               display: false
