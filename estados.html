@@ -82,22 +82,6 @@
             </div>
           </div>
 
-          <!-- <div class="row center" style="color:#000">
-            <div class="col s12 m4">
-              <select class="browser-default" name="contaminante_sel" id="contaminante_sel">
-                <option value="PM10">PM 10 µg/m&sup3;</option>
-                <option value="PM2.5">PM 2.5 µg/m&sup3;</option>
-                <option value="SO2">SO2 (ppm) Promedio 24 horas</option>
-                <option value="SO28">SO2 (ppm) Promedio 8 horas</option>
-                <option value="SO2D">SO2 (ppm) Dato horario</option>
-                <option value="O3">Ozono (O3)(ppm) Promedio 8 horas</option>
-                <option value="O3D">Ozono (O3)(ppm) Dato horario</option>
-                <option value="NO2">NO2 (ppm)</option>
-                <option value="CO">CO (ppm)</option>
-              </select>
-            </div>
-          </div> -->
-
           <div class="row center cont"></div>
         </div>
       </div>
@@ -119,39 +103,35 @@
     $('#contaminante_sel').change(function(){
       console.log($(this).val());
       if($(this).val() == 'PM10'){
-        get_top9('PM10',24,12,152);
+        get_top('PM10',24,12,152,9);
       }
       else if($(this).val() == 'PM2.5'){
-        get_top9('PM2.5',24,12,152);
+        get_top('PM2.5',24,12,152,9);
       }
       else if($(this).val() == 'SO2'){
-        get_top9('SO2',24,12,0.32);
+        get_top('SO2',24,12,0.32,9);
       }
       else if($(this).val() == 'SO28'){
-        get_top9('SO2',8,6,0.32);
+        get_top('SO2',8,6,0.32,9);
       }
       else if($(this).val() == 'SO2D'){
-        get_top9('SO2',1,1,0.32);
+        get_top('SO2',1,1,0.32,9);
       }
       else if($(this).val() == 'NO2'){
-        get_top9('NO2',1,1,0.315);
+        get_top('NO2',1,1,0.315,9);
       }
       else if($(this).val() == 'O3'){
-        get_top9('O3',8,6,0.181);
+        get_top('O3',8,6,0.181,9);
       }
       else if($(this).val() == 'O3'){
-        get_top9('O3',1,1,0.181);
+        get_top('O3',1,1,0.181,9);
       }
       else if($(this).val() == 'CO'){
-        get_top9('CO',1,1,0.181);
+        get_top('CO',1,1,0.181,9);
       }
     });
 
-
-    get_top9('PM10',24,12,152);
-    // var horas = 24;
-    // var minPromedio = 12;
-    // var maxValor = 152;
+    get_top('PM10',24,12,152);
   };//fin del main
 
   </script>

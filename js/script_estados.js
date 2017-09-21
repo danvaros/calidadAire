@@ -1,16 +1,11 @@
-var top15_estaciones = [];
+var top_estaciones = [];
 var contaminante;
 get_estaciones();
 
-function get_top9(parametro,horas,minPromedio,maxValor) {
-    //datos de configuracion
-    // var horas = 24;
-    // var minPromedio = 12;
-    // var maxValor = 152;
-
+function get_top(parametro,horas,minPromedio,maxValor,top) {
     //limpiar variables y contenedor
     contaminante = parametro;
-    top15_estaciones = [];
+    top_estaciones = [];
     $('.cont').html('');
     var maxMax = 0;
 
@@ -74,18 +69,16 @@ function get_top9(parametro,horas,minPromedio,maxValor) {
           return 0;
         });
 
-        for (var i = 0; i < 9; i++) {
-          top15_estaciones[i] =  indPromedios[i];
+        for (var i = 0; i < top; i++) {
+          top_estaciones[i] =  indPromedios[i];
         }
 
         var maxMaxLocal = 0;
-        for (var i = 0; i < top15_estaciones.length; i++) {
-          top15_estaciones[i].historico = get_historico_dias(parametro,horas,minPromedio,maxValor,top15_estaciones[i].estacion);
-          for (var j = 0; j < top15_estaciones[i].historico.length; j++) {
-            if(parseFloat(top15_estaciones[i].historico[j].promedio) > maxMaxLocal){
-              maxMaxLocal = top15_estaciones[i].historico[j].promedio;
-              console.log(top15_estaciones[i].historico[j].promedio);
-              console.log(maxMaxLocal);
+        for (var i = 0; i < top_estaciones.length; i++) {
+          top_estaciones[i].historico = get_historico_dias(parametro,horas,minPromedio,maxValor,top_estaciones[i].estacion);
+          for (var j = 0; j < top_estaciones[i].historico.length; j++) {
+            if(parseFloat(top_estaciones[i].historico[j].promedio) > maxMaxLocal){
+              maxMaxLocal = top_estaciones[i].historico[j].promedio;
             }
           }
         }
@@ -117,14 +110,13 @@ function get_historico_dias(parametro,horas,minPromedio,maxValor,estacionid){
 
   var historico = [10, 23, 5, 99, 67, 43, 0,0, 23, 5, 99, 67, 43, 0,0, 23, 5, 99, 67, 43, 0,0, 23, 5, 99, 67, 43, 0];
   var url = "https://api.datos.gob.mx/v1/sinaica?parametro="+parametro+"&pageSize=12000&date-insert=[range:"+getFormatDateAPI(dPasada)+"%7C"+getFormatDateAPI(dActual)+"]&estacionesid="+estacionid;
-  console.log(url);
+
   $.ajax({
     type: 'GET',
     url:url,
     data: {},
     success: function( data, textStatus, jqxhr ) {
-      console.log('datos de 28 dias atras');
-      console.log(data);
+
       //agrupamos por fechas
       for (var i = 0; i < data.results.length; i++) {
 
@@ -138,9 +130,6 @@ function get_historico_dias(parametro,horas,minPromedio,maxValor,estacionid){
           agrupaFechas[data.results[i].fecha].push(data.results[i]);
         }
       }
-
-      console.log('datos agrupados por fechas');
-      console.log(agrupaFechas);
 
       //sacamos los promedios de cada fecha para que sean evaluadas
       for (var i = 0; i < indFecha.length; i++) {
@@ -160,8 +149,6 @@ function get_historico_dias(parametro,horas,minPromedio,maxValor,estacionid){
         }
       }
 
-      console.log('indicador de promedios');
-      console.log(indPromediosHis);
       historico = indPromediosHis;
     },
     xhrFields: {
@@ -180,8 +167,8 @@ function activa(valMax,maxMax){
   Chart.defaults.global.defaultColor = 'rgba(255,255,255,1)';
   var container = document.querySelector('.cont');
 
-  top15_estaciones.forEach(function(d) {
-  console.log(d.estacion);
+  top_estaciones.forEach(function(d) {
+
     var div_superior = document.createElement('div');
     div_superior.classList.add('titulo_chart');
     var newContent = document.createTextNode("Ciudad: " + d.ciudad);
@@ -205,7 +192,6 @@ function activa(valMax,maxMax){
           break;
         }
     }
-    console.log(estacion);
 
     //dividimos historico
     var labels = [];

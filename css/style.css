@@ -244,8 +244,102 @@ justify-content: center;
   color:#fff;
 }
 
+
+
+  .chart-gauge
+  {
+    width: 100%;
+    margin: 32px 0 0 0;
+  }
+  .chart-gauge2
+  {
+    width: 100%;
+    margin: 32px 0 0 0;
+  }
+  .chart-gauge3
+  {
+    width: 100%;
+    margin: 32px 0 0 0;
+  }
+
+  .chart-first
+  {
+    fill: #9FBD35;
+  }
+
+  .chart-second
+  {
+    fill:url(#grad1);
+  }
+
+  .chart-third
+  {
+    fill: #FB3033;
+  }
+
+  .chart-blanco
+  {
+    fill: #FFFFFF;
+  }
+
+  .needle, .needle-center
+  {
+    fill: #ffffff;
+  }
+  .text {
+    color: "#ffffff";
+    font-size: 16px;
+  }
+
+  svg {
+    font: 10px sans-serif;
+  }
+
+  .parallax img{
+    filter: contrast(100%) brightness(70%);
+  }
+
+  .input-field label{
+    color: #fff !important;
+  }
+
+  #mapid { height: 600px; }
+  #map_detalle { height: 400px; }
+
+  .s5ths,
+  .m5ths,
+  .l5ths,
+  .xl5ths {
+    margin-left: auto;
+    left: auto;
+    right: auto;
+  }
+
+  .row .col.s5ths {
+    width: 20%;
+  }
+
 @media (max-width: 600px) {
   .botonera a {
       padding: 10px 4px;
+  }
+}
+
+
+@media only screen and (min-width: 601px) {
+  .row .col.m5ths {
+    width: 20%;
+  }
+}
+
+@media only screen and (min-width: 993px) {
+  .row .col.l5ths {
+    width: 20%;
+  }
+}
+
+@media only screen and (min-width: 1201px) {
+  .row .col.xl5ths {
+    width: 20%;
   }
 }
