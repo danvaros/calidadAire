@@ -295,3 +295,29 @@ function createConfig(pointStyle,data,labels,valMax,maxMax) {
       }
   };
 }
+
+
+function get_estaciones(){
+    var datedate = anio+"-"+mes+"-"+dia;
+
+    $.ajax({
+      type: 'GET',
+      url: "https://api.datos.gob.mx/v1/sinaica?fecha="+datedate+"&pageSize=12000",
+      data: {},
+      success: function( data, textStatus, jqxhr ) {
+        var estations = [];
+
+        for (var i = 0; i < data.results.length; i++) {
+          estations.push(data.results[i]);
+        }
+        //estaciones.push(data.results.parametro);
+
+        estaciones_global = estations;
+      },
+      xhrFields: {
+        withCredentials: false
+      },
+      crossDomain: true,
+      async:false
+    });
+  }

@@ -2,14 +2,13 @@ var top_ciudades = [];
 var ant = 28;
 var ant_val_arr = [];
 var ant_lab_arr = [];
-var meses_abr = ["Ene", "Feb", "Mar", "Abr", "May", "Jun",
-  "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"
-];
+
 
 var boton_activo;
 var mini_graf = [];
 var mini_etiquetas = [];
 var min_grafMax = 0;
+
 
 $(document).ready(function(){
   // +++++++++++++++++ botonera inicial +++++++++++++++++++++++++
@@ -76,6 +75,7 @@ $(document).ready(function(){
 
   $('.parametro').click(function(){
     event.preventDefault();
+
     $('.parametro').each(function(index){
       $( this ).removeClass('active');
     });
@@ -377,8 +377,8 @@ Array.prototype.unique=function(a){
   return function(){return this.filter(a)}}(function(a,b,c){return c.indexOf(a,b+1)<0
 });
 
-var arrEstaciones;
-function getTop3ciudadesV2(contaminante,tipo,maximo){
+  var arrEstaciones;
+  function getTop3ciudadesV2(contaminante,tipo,maximo){
 
   $('#linecustom1').hide();
   $('#linecustom2').hide();
@@ -616,7 +616,6 @@ function getTop3ciudadesV2(contaminante,tipo,maximo){
   });
 }//fin de get top 3
 
-
   function convertDate(date) {
     var yyyy = date.getFullYear().toString();
     var mm = (date.getMonth()+1).toString();
@@ -653,14 +652,18 @@ function getTop3ciudadesV2(contaminante,tipo,maximo){
     chart.data.datasets[0].data =  valores;
     chart.data.labels =  etiquetas;
     chart.update();
+    poner_botones(valores);
   }
 
   function poner_botones(valores){
+    ant = valores.length;
     var parametro =  valores.length/4
+    console.log(parametro);
 
     $('.parametro').each(function(index){
       $( this ).text(Math.round(parametro*(index+1))+' días');
       $( this ).val(Math.round(parametro*(index+1)));
+      console.log($( this ).val());
     });
   }
 
@@ -668,8 +671,7 @@ function getTop3ciudadesV2(contaminante,tipo,maximo){
   var etiquetas = [];
   function put_his_estacion_val_max(lectura,estacion){
     //llamada para crear la grafica
-    //https://api.datos.gob.mx/v1/sinaica?city=Guadalajara&pageSize=22245
-    //"https://api.datos.gob.mx/v1/sinaica?city="+lectura.city+"&date-insert=[range:"+menos28+"T00:00:00%7C"+hoy+"T00:00:00]&pageSize=22245"
+
     var hoy = convertDate(new Date());
     var menos28 = convertDate(sumarDias(new Date(), -28));
 
@@ -742,6 +744,8 @@ function getTop3ciudadesV2(contaminante,tipo,maximo){
         actualizar_grafica_detalle(valores,etiquetas);
         poner_botones(valores);
         $('#modal1').modal('open');
+
+        $('#PM1024H').trigger('click');
         //document.getElementById("modal1").modal('open');
         //$( "#abremodal" ).trigger( "click" );
         //$('#modal1').openModal();
@@ -772,6 +776,9 @@ function getTop3ciudadesV2(contaminante,tipo,maximo){
       $('#estacion_detalle').html(estacion.nombre);
       $('#contaminante_grafica').html(top_ciudades[indice-1].parametro);
       $('#estacion').val(estacion.id);
+
+      console.log(top_ciudades[indice-1]);
+
 
       put_his_estacion_val_max(top_ciudades[indice-1],estacion);
       put_contaminantes(top_ciudades[indice-1].city,estacion.id);
@@ -1099,13 +1106,17 @@ function getTop3ciudadesV2(contaminante,tipo,maximo){
     }
 
     //ruta con horas de un dia
-    var ruta = "https://api.datos.gob.mx/v1/sinaica?parametro="+ contaminante +"&idestacion="+idEstacion+"&pageSize=1200";
+    var ruta = "https://api.datos.gob.mx/v1/sinaica?parametro="+ contaminante +"&estacionesid="+idEstacion+"&pageSize=1200";
+
+    console.log(ruta);
+    console.log(idEstacion);
 
       $.ajax({
         type: 'GET',
         url: ruta,
         data: {},
         success: function( data, textStatus, jqxhr ) {
+          console.log(data);
           if(data.results.length > 0){
             var masAlto = [];
             for (var i = 0; i < data.results.length; i++)

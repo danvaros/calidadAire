@@ -11,6 +11,9 @@ var meis = ["01","02","03","04","05","06","07","08","09","10","11","12"];
 var mes = meis[d.getMonth()];
 var deis = ["00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"];
 var dia = deis[d.getDate()];
+var meses_abr = ["Ene", "Feb", "Mar", "Abr", "May", "Jun",
+  "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"
+];
 
 
 //regresa la fecha con el formato que requiere el api
