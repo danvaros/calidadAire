@@ -108,15 +108,17 @@ function get_historico_dias(parametro,horas,minPromedio,maxValor,estacionid){
   var dPasada = new Date();
   dPasada.setHours(restaHoras(dActual,24*28));
 
-  var historico = [10, 23, 5, 99, 67, 43, 0,0, 23, 5, 99, 67, 43, 0,0, 23, 5, 99, 67, 43, 0,0, 23, 5, 99, 67, 43, 0];
+  var historico = [];
   var url = "https://api.datos.gob.mx/v1/sinaica?parametro="+parametro+"&pageSize=12000&date-insert=[range:"+getFormatDateAPI(dPasada)+"%7C"+getFormatDateAPI(dActual)+"]&estacionesid="+estacionid;
-
+  console.log('url');
+  console.log(url);
   $.ajax({
     type: 'GET',
     url:url,
     data: {},
     success: function( data, textStatus, jqxhr ) {
-
+      console.log('data');
+      console.log(data);
       //agrupamos por fechas
       for (var i = 0; i < data.results.length; i++) {
 
@@ -131,11 +133,13 @@ function get_historico_dias(parametro,horas,minPromedio,maxValor,estacionid){
         }
       }
 
+      console.log('Agrupados');
+      console.log(indFecha);
+      console.log(agrupaFechas);
       //sacamos los promedios de cada fecha para que sean evaluadas
       for (var i = 0; i < indFecha.length; i++) {
-        if(agrupaFechas[indFecha[i]].length > minPromedio){
-          var tempo = agrupaFechas[indFecha[i]];
-
+        var tempo = agrupaFechas[indFecha[i]];
+        if(tempo.length >= minPromedio){
           var suma = 0;
           for (var j = 0; j < tempo.length; j++) {
               suma += tempo[j].valororig;
@@ -146,9 +150,15 @@ function get_historico_dias(parametro,horas,minPromedio,maxValor,estacionid){
           else
             promedio = promedio.toFixed(3);
           indPromediosHis.push({'fecha':tempo[0].fecha,'promedio':promedio});
+        }else{
+          if(parametro ==  'PM10' || parametro == 'PM2.5')
+            indPromediosHis.push({'fecha':indFecha[i],'promedio':-1});
+          else
+            indPromediosHis.push({'fecha':indFecha[i],'promedio':-0.01});
         }
       }
-
+      console.log('promedios');
+      console.log(indPromediosHis);
       historico = indPromediosHis;
     },
     xhrFields: {

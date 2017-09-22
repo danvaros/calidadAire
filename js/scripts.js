@@ -377,9 +377,6 @@ Array.prototype.unique=function(a){
   return function(){return this.filter(a)}}(function(a,b,c){return c.indexOf(a,b+1)<0
 });
 
-  
-
-
 var arrEstaciones;
 function getTop3ciudadesV2(contaminante,tipo,maximo){
 
@@ -412,7 +409,7 @@ function getTop3ciudadesV2(contaminante,tipo,maximo){
     data: {},
     success: function( data, textStatus, jqxhr ) {
       arrEstaciones = getUniqueEstation(data.results);
-      
+
       arrEstaciones.forEach(function(item, index){
         var promedio = 0;
         var sum = 0;
@@ -449,7 +446,7 @@ function getTop3ciudadesV2(contaminante,tipo,maximo){
       //preguntamos se lleno el arreglo con los datos necesarios
       if(arrEstaciones.length > 0){
 
-        //creamos un arreglo de ciudades para poder comparar 
+        //creamos un arreglo de ciudades para poder comparar
         //las ciudades y que estas no se repitan
         var ciudades = [];
         var contador =  0;
@@ -503,7 +500,7 @@ function getTop3ciudadesV2(contaminante,tipo,maximo){
         $('.chart-gauge3').html('');
         $('.chart-gauge3').gaugeIt({selector:'.chart-gauge3',value:valor3,gaugeMaxValue:maximo});
 
-        //se pasan la etiquetas correspondientes 
+        //se pasan la etiquetas correspondientes
         $('#label1').html(ciudades['0'][0].city);
         $('#label2').html(ciudades['1'][0].city);
         $('#label3').html(ciudades['2'][0].city);
@@ -512,7 +509,7 @@ function getTop3ciudadesV2(contaminante,tipo,maximo){
         for (var i = 0; i < estaciones_json.length; i++) {
           if(estaciones_json[i].id == ciudades[0][0].estacionesid){
             estacion1  =  estaciones_json[i];
-            $('#estacion1').html('Estación: '+ estacion.nombre);
+            $('#estacion1').html('Estación: '+ estacion1.nombre);
             break;
           }
         }
@@ -521,7 +518,7 @@ function getTop3ciudadesV2(contaminante,tipo,maximo){
         for (var i = 0; i < estaciones_json.length; i++) {
           if(estaciones_json[i].id == ciudades[1][0].estacionesid){
             estacion2  =  estaciones_json[i];
-            $('#estacion2').html('Estación: '+estacion.nombre);
+            $('#estacion2').html('Estación: '+estacion2.nombre);
             break;
           }
         }
@@ -530,11 +527,11 @@ function getTop3ciudadesV2(contaminante,tipo,maximo){
         for (var i = 0; i < estaciones_json.length; i++) {
           if(estaciones_json[i].id == ciudades[2][0].estacionesid){
             estacion3  =  estaciones_json[i];
-            $('#estacion3').html('Estación: '+estacion.nombre);
+            $('#estacion3').html('Estación: '+estacion3.nombre);
             break;
           }
         }
-        //hasta esta parte llega el odometro con sus etiquetas 
+        //hasta esta parte llega el odometro con sus etiquetas
 
         //generamos el historico de las graficas pequeñas
         get_historico(ciudades[0][0],$('#linecustom1'),maximo);
@@ -560,7 +557,7 @@ function getTop3ciudadesV2(contaminante,tipo,maximo){
           var mm = today.getMonth(); //January is 0!
           mini_etiquetas_local[0].push(dd+'-'+meses_abr[mm]);
         }
-        
+
 
         for (var i = 0; i < historico2.length; i++) {
           mini_graf_local[1].push(historico2[i].promedio);
@@ -583,32 +580,32 @@ function getTop3ciudadesV2(contaminante,tipo,maximo){
         }
 
         var max = 0;
-        for (var i = 0; i < mini_graf.length; i++) {
-          for (var j = 0; j < mini_graf[i].length; j++) {
-            if(mini_graf[i][j] > max){
-              max = mini_graf[i][j];
+        for (var i = 0; i < mini_graf_local.length; i++) {
+          for (var j = 0; j < mini_graf_local[i].length; j++) {
+            if(mini_graf_local[i][j] > max){
+              max = mini_graf_local[i][j];
             }
           }
         }
 
         min_grafMax = max;
+        console.log(max);
+
+        console.log(mini_graf_local[0]);
+        put_grafica_inline(mini_graf_local[0],$('#linecustom1'),mini_etiquetas_local[0]);
+        put_grafica_inline(mini_graf_local[1],$('#linecustom2'),mini_etiquetas_local[1]);
+        put_grafica_inline(mini_graf_local[2],$('#linecustom3'),mini_etiquetas_local[2]);
 
 
-
-        put_grafica_inline(mini_graf_local[0],$('#linecustom1'),mini_etiquetas_local[0]); 
-        put_grafica_inline(mini_graf_local[1],$('#linecustom2'),mini_etiquetas_local[1]); 
-        put_grafica_inline(mini_graf_local[2],$('#linecustom3'),mini_etiquetas_local[2]); 
-
-       
         // put_grafica_inline(mini_graf[0],$('#linecustom1'),mini_etiquetas[0]);
         // put_grafica_inline(mini_graf[1],$('#linecustom2'),mini_etiquetas[1]);
         // put_grafica_inline(mini_graf[2],$('#linecustom3'),mini_etiquetas[2]);
 
-        // var ciudades2 = [];
-        // ciudades2.push(ciudades[0][0]);
-        // ciudades2.push(ciudades[1][0]);
-        // ciudades2.push(ciudades[2][0]);
-        // top_ciudades = ciudades2;
+        var ciudades2 = [];
+        ciudades2.push(ciudades[0][0]);
+        ciudades2.push(ciudades[1][0]);
+        ciudades2.push(ciudades[2][0]);
+        top_ciudades = ciudades2;
       }//fin de if que valida que tenga valores el arreglo inicial
     },
     xhrFields: {
@@ -617,10 +614,7 @@ function getTop3ciudadesV2(contaminante,tipo,maximo){
     crossDomain: true,
     async:true
   });
-}//fin de get top 3 
-
-
-
+}//fin de get top 3
 
 
   function convertDate(date) {
@@ -808,143 +802,143 @@ function getTop3ciudadesV2(contaminante,tipo,maximo){
     $('#ciudad').val(city);
   }
 
-  function getTop3ciudades(contaminante){
-    var datedate = anio+"-"+mes+"-"+dia;
-
-    $.ajax({
-      type: 'GET',
-      url: "https://api.datos.gob.mx/v1/sinaica?fecha="+datedate+"&pageSize=12000&parametro="+contaminante,
-      data: {},
-      success: function( data, textStatus, jqxhr ) {
-        var ciudades = [];
-        for (var i = 0; i < data.results.length; i++)
-        {
-          var objeto = data.results[i];
-          var bandera =  false;
-
-          if(ciudades.length != 0)
-          {
-            for (var j = 0; j < ciudades.length; j++)
-            {
-              if(ciudades[j].city == objeto.city )
-              {
-                bandera = true;
-                if(ciudades[j].valororig < objeto.valororig){
-                  ciudades[j] = objeto;
-                }
-              }
-             }
-            if(!bandera)
-            {
-              ciudades.push(objeto);
-            }
-          }
-          else
-          {
-            ciudades.push(objeto);
-          }
-        }
-
-        //ordenamos el arreglo para tomar los valores mas altos
-        ciudades.sort(function (a, b) {
-          if (a.valororig < b.valororig) {
-            return 1;
-          }
-          if (a.valororig > b.valororig) {
-            return -1;
-          }
-          // a must be equal to b
-          return 0;
-        });
-
-        if(ciudades.length > 0){
-          var valor =  ciudades[0].valororig;
-          var valor2 = ciudades[1].valororig;
-          var valor3 = ciudades[2].valororig;
-
-          //validamos si tenesmos que tratar el valor
-          if (valor > Math.floor(valor)) valor = valor.toFixed(2);
-          if (valor2 > Math.floor(valor2)) valor2 = valor2.toFixed(2);
-          if (valor3 > Math.floor(valor3)) valor3 = valor3.toFixed(2);
-
-
-          var tipoCon;
-          switch(contaminante){
-            case "NO2":
-              tipoCon = 0.315;
-            break;
-            case "O3":
-              tipoCon = 0.181;
-            break;
-            case "PM10":
-                tipoCon = 158;
-            break;
-            case "PM2.5":
-              tipoCon = 158;
-            break;
-            case "SO2":
-              tipoCon = 0.32;
-            break;
-            case "CO":
-              tipoCon = 16.5;
-            break;
-          }
-
-          $('.chart-gauge').html('');
-          $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:valor,gaugeMaxValue:tipoCon});
-          $('.chart-gauge2').html('');
-          $('.chart-gauge2').gaugeIt({selector:'.chart-gauge2',value:valor2,gaugeMaxValue:tipoCon});
-          $('.chart-gauge3').html('');
-          $('.chart-gauge3').gaugeIt({selector:'.chart-gauge3',value:valor3,gaugeMaxValue:tipoCon});
-
-          $('#label1').html(ciudades[0].city);
-          $('#label2').html(ciudades[1].city);
-          $('#label3').html(ciudades[2].city);
-
-          for (var i = 0; i < estaciones_json.length; i++) {
-              if(estaciones_json[i].id == ciudades[0].estacionesid){
-                estacion  =  estaciones_json[i];
-                $('#estacion1').html('Estación: '+ estacion.nombre);
-                break;
-              }
-          }
-
-          for (var i = 0; i < estaciones_json.length; i++) {
-              if(estaciones_json[i].id == ciudades[1].estacionesid){
-                estacion  =  estaciones_json[i];
-                $('#estacion2').html('Estación: '+estacion.nombre);
-                break;
-              }
-          }
-
-          for (var i = 0; i < estaciones_json.length; i++) {
-              if(estaciones_json[i].id == ciudades[2].estacionesid){
-                estacion  =  estaciones_json[i];
-                $('#estacion3').html('Estación: '+estacion.nombre);
-                break;
-              }
-          }
-
-
-          get_historico(ciudades[0],$('#linecustom1'),maximo);
-          get_historico(ciudades[1],$('#linecustom2'),maximo);
-          get_historico(ciudades[2],$('#linecustom3'),maximo);
-
-          put_grafica_inline(mini_graf[0],$('#linecustom1'),mini_etiquetas[0]);
-          put_grafica_inline(mini_graf[1],$('#linecustom1'),mini_etiquetas[1]);
-          put_grafica_inline(mini_graf[2],$('#linecustom1'),mini_etiquetas[2]);
-
-        }
-
-        top_ciudades = ciudades;
-      },
-      xhrFields: {
-        withCredentials: false
-      },
-      crossDomain: true,
-      async:true
-    });
-  }
+  // function getTop3ciudades(contaminante){
+  //   var datedate = anio+"-"+mes+"-"+dia;
+  //
+  //   $.ajax({
+  //     type: 'GET',
+  //     url: "https://api.datos.gob.mx/v1/sinaica?fecha="+datedate+"&pageSize=12000&parametro="+contaminante,
+  //     data: {},
+  //     success: function( data, textStatus, jqxhr ) {
+  //       var ciudades = [];
+  //       for (var i = 0; i < data.results.length; i++)
+  //       {
+  //         var objeto = data.results[i];
+  //         var bandera =  false;
+  //
+  //         if(ciudades.length != 0)
+  //         {
+  //           for (var j = 0; j < ciudades.length; j++)
+  //           {
+  //             if(ciudades[j].city == objeto.city )
+  //             {
+  //               bandera = true;
+  //               if(ciudades[j].valororig < objeto.valororig){
+  //                 ciudades[j] = objeto;
+  //               }
+  //             }
+  //            }
+  //           if(!bandera)
+  //           {
+  //             ciudades.push(objeto);
+  //           }
+  //         }
+  //         else
+  //         {
+  //           ciudades.push(objeto);
+  //         }
+  //       }
+  //
+  //       //ordenamos el arreglo para tomar los valores mas altos
+  //       ciudades.sort(function (a, b) {
+  //         if (a.valororig < b.valororig) {
+  //           return 1;
+  //         }
+  //         if (a.valororig > b.valororig) {
+  //           return -1;
+  //         }
+  //         // a must be equal to b
+  //         return 0;
+  //       });
+  //
+  //       if(ciudades.length > 0){
+  //         var valor =  ciudades[0].valororig;
+  //         var valor2 = ciudades[1].valororig;
+  //         var valor3 = ciudades[2].valororig;
+  //
+  //         //validamos si tenesmos que tratar el valor
+  //         if (valor > Math.floor(valor)) valor = valor.toFixed(2);
+  //         if (valor2 > Math.floor(valor2)) valor2 = valor2.toFixed(2);
+  //         if (valor3 > Math.floor(valor3)) valor3 = valor3.toFixed(2);
+  //
+  //
+  //         var tipoCon;
+  //         switch(contaminante){
+  //           case "NO2":
+  //             tipoCon = 0.315;
+  //           break;
+  //           case "O3":
+  //             tipoCon = 0.181;
+  //           break;
+  //           case "PM10":
+  //               tipoCon = 158;
+  //           break;
+  //           case "PM2.5":
+  //             tipoCon = 158;
+  //           break;
+  //           case "SO2":
+  //             tipoCon = 0.32;
+  //           break;
+  //           case "CO":
+  //             tipoCon = 16.5;
+  //           break;
+  //         }
+  //
+  //         $('.chart-gauge').html('');
+  //         $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:valor,gaugeMaxValue:tipoCon});
+  //         $('.chart-gauge2').html('');
+  //         $('.chart-gauge2').gaugeIt({selector:'.chart-gauge2',value:valor2,gaugeMaxValue:tipoCon});
+  //         $('.chart-gauge3').html('');
+  //         $('.chart-gauge3').gaugeIt({selector:'.chart-gauge3',value:valor3,gaugeMaxValue:tipoCon});
+  //
+  //         $('#label1').html(ciudades[0].city);
+  //         $('#label2').html(ciudades[1].city);
+  //         $('#label3').html(ciudades[2].city);
+  //
+  //         for (var i = 0; i < estaciones_json.length; i++) {
+  //             if(estaciones_json[i].id == ciudades[0].estacionesid){
+  //               estacion  =  estaciones_json[i];
+  //               $('#estacion1').html('Estación: '+ estacion.nombre);
+  //               break;
+  //             }
+  //         }
+  //
+  //         for (var i = 0; i < estaciones_json.length; i++) {
+  //             if(estaciones_json[i].id == ciudades[1].estacionesid){
+  //               estacion  =  estaciones_json[i];
+  //               $('#estacion2').html('Estación: '+estacion.nombre);
+  //               break;
+  //             }
+  //         }
+  //
+  //         for (var i = 0; i < estaciones_json.length; i++) {
+  //             if(estaciones_json[i].id == ciudades[2].estacionesid){
+  //               estacion  =  estaciones_json[i];
+  //               $('#estacion3').html('Estación: '+estacion.nombre);
+  //               break;
+  //             }
+  //         }
+  //
+  //
+  //         get_historico(ciudades[0],$('#linecustom1'),maximo);
+  //         get_historico(ciudades[1],$('#linecustom2'),maximo);
+  //         get_historico(ciudades[2],$('#linecustom3'),maximo);
+  //
+  //         put_grafica_inline(mini_graf[0],$('#linecustom1'),mini_etiquetas[0]);
+  //         put_grafica_inline(mini_graf[1],$('#linecustom1'),mini_etiquetas[1]);
+  //         put_grafica_inline(mini_graf[2],$('#linecustom1'),mini_etiquetas[2]);
+  //
+  //       }
+  //
+  //       top_ciudades = ciudades;
+  //     },
+  //     xhrFields: {
+  //       withCredentials: false
+  //     },
+  //     crossDomain: true,
+  //     async:true
+  //   });
+  // }
 
   function get_historico(lectura,contenedor,maximo){
     var hoy = convertDate(new Date());
@@ -1038,7 +1032,6 @@ function getTop3ciudadesV2(contaminante,tipo,maximo){
     });
   }
 
-// fillColor: '#a4b6da'
   function put_grafica_inline(valores,contenedor,etiquetas2,maxRage){
     var options =  {
       type: "line",
@@ -1106,7 +1099,7 @@ function getTop3ciudadesV2(contaminante,tipo,maximo){
     }
 
     //ruta con horas de un dia
-    var ruta = "https://api.datos.gob.mx/v1/sinaica?parametro="+ contaminante +"&city="+ciudad+"&pageSize=1200";
+    var ruta = "https://api.datos.gob.mx/v1/sinaica?parametro="+ contaminante +"&idestacion="+idEstacion+"&pageSize=1200";
 
       $.ajax({
         type: 'GET',
@@ -1114,17 +1107,14 @@ function getTop3ciudadesV2(contaminante,tipo,maximo){
         data: {},
         success: function( data, textStatus, jqxhr ) {
           if(data.results.length > 0){
-
             var masAlto = [];
-
             for (var i = 0; i < data.results.length; i++)
             {
-              if(masAlto.length == 0  && data.results[i].estacionesid == idEstacion){
+              if(masAlto.length == 0 ){
                 masAlto =  data.results[0];
-              }else if(data.results[i].estacionesid == idEstacion){
-                if( data.results[i].valororig > masAlto.valororig ){
+              }
+              else if( data.results[i].valororig > masAlto.valororig ){
                   masAlto =  data.results[i];
-                }
               }
             }
 
@@ -1136,7 +1126,6 @@ function getTop3ciudadesV2(contaminante,tipo,maximo){
             }else{
                 contenedor.html('Sin valor');
             }
-
           }else{
               contenedor.html('Sin valor');
           }

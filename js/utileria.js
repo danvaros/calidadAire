@@ -1,4 +1,4 @@
-//poner todas las funciones 
+//poner todas las funciones
 
 //variables globales de la pagina
 var estaciones = [];
@@ -30,7 +30,6 @@ function get_fecha_corta(d){
 
 function put_temperatura(estacion,contenedor){
   var fActual = new Date();
-
   var url =  "https://api.datos.gob.mx/v1/sinaica?parametro=TMP&fecha="+get_fecha_corta(fActual)+"&estacionesid="+estacion;
   console.log(url);
   $.ajax({
@@ -42,7 +41,6 @@ function put_temperatura(estacion,contenedor){
         contenedor.html(data.results[data.results.length-1].valororig);
       else
         contenedor.html('ND');
-
     },
     xhrFields: {
       withCredentials: false
