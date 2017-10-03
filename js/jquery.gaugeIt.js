@@ -104,7 +104,7 @@
 
         valueText = chart.append("text")
               .attr('id', "Value")
-              .attr("font-size",22)
+              .attr("font-size",14)
               .attr("text-anchor","middle")
               .attr("dy",".5em")
               .style("fill", '#ffffff');

@@ -1,10 +1,44 @@
-/* Custom Stylesheet */
+/** Custom Stylesheet */
 /**
  * Use this file to override Materialize files so you can update
  * the core Materialize files in the future
  *
  * Made By MaterializeCSS.com
  */
+
+
+/*declaración de fuentes*/
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,700');
+body{
+  font-family: 'Roboto', sans-serif;
+}
+.titulo_hd{
+  font-weight: bold;
+  font-size: 24pt;
+}
+
+
+.sub_titulo_hd{
+  font-weight: 300;
+  font-size: 18pt;
+}
+
+.titulo_ciudad{
+  font-weight: bold;
+  font-size: 14pt;
+}
+
+.titulo_estacion{
+  font-weight: 300;
+  font-size: 12pt;
+}
+
+.boton_ver{
+  font-weight: 300;
+  font-size: 9pt;
+}
+
 
 nav ul a,
 nav .brand-logo {
@@ -65,19 +99,15 @@ footer.page-footer {
   display: inline-block;
 }
 
-
-
 .boton{
-  padding: 5px 0px 5px 0px;
-  font-size: 17px;
   display: inline-block;
-  width: 180px;
+  width: 150px;
+  height: 30px;
   background-color: transparent;
   border: 1px solid #fff;
-  margin-left: -5px;
-  margin-right: : -5px;
   color:#fff;
-  font-weight: 200;
+  font-weight: 300;
+  font-size: 14px;
 }
 
 .boton_activo{
@@ -85,20 +115,18 @@ footer.page-footer {
   margin-left: -5px;
   background-color: #fff;
   color:#74b3e0;
-  font-weight: 400;
+  font-weight: bold;
 }
-
-.boton_inactivo{
-
+#contaminantes{
+  color: #ddd;
+  background-color:
+  rgba(243, 236, 236, .2);
+  border: 0px;
+  width: 300px;
+  height: 30px;
+  font-weight: 300;
+  font-size: 14px;
 }
-
-.customNextBtn{
-  cursor: pointer;
-}
-.customPrevBtn{
-  cursor: pointer;
-}
-
 
 .select-wrapper input.select-dropdown {
     border: 1px solid #fff !important;
@@ -149,13 +177,26 @@ footer.page-footer {
 
 .boton_redondo{
   color: #fff !important;
-  background: rgba(51, 51, 51, 0.5);
+  background: rgba(255, 255, 255, 0.3);
   padding: 10px 15px;
   border-radius: 19px;
   margin: 50px 0px;
+  font-size: 9pt;
+  font-weight: 300;
 }
 /*hacer le over del boton o no por que es mobile*/
 
+.titulo_mapa{
+  font-size: 24pt;
+  font-weight: bold;
+}
+
+#estados{
+  font-size: 11pt;
+  font-weight: bold;
+  width: 160px;
+  height: 25px;
+}
 
 .chart-gauge2 .chart-gauge1 .chart-gauge3{
     margin: 50px 0px;

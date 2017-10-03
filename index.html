@@ -35,6 +35,10 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css"
   integrity="sha512-wcw6ts8Anuw10Mzh9Ytw4pylW8+NAD4ch3lqm9lzAsTxg0GFeJgoAtxuCLREZSC5lUXdVyo/7yfsqFjQ4S+aKw=="
   crossorigin=""/>
+  <!-- Fuente Roboto-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,700" rel="stylesheet">
+  <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Tangerine">
 
   <!-- Leaflet-->
   <script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js"
@@ -51,10 +55,11 @@
         <div class="container">
           <div class="row center">
             <div class="col s12 m12 l12">
-              <h2 class="header center white-text text-lighten-2">Calidad de Aire MX</h2>
+              <h2 class="center white-text titulo_hd">Calidad de Aire MX</h2>
             </div>
             <div class="col s10 m10 l10  offset-s1 offset-m1 offset-l1">
-              <h5 class="header col s12 white-text text-lighten-2" style="   font-size: 32px;font-weight: 100;letter-spacing: 1px; line-height: 35px;"><span id="contaminante_titulo">Partículas menores de 10 micrómetros (PM10).</span></h5>
+              <h5 class="sub_titulo_hd col s12 white-text" style="
+              letter-spacing: 1px; line-height: 35px;"><span id="contaminante_titulo">Partículas menores de 10 micrómetros (PM10).</span></h5>
             </div>
           </div>
 
@@ -74,9 +79,9 @@
           <div class="row center">
             <div class="col s12 margen_arriba_g">
               <div class="base_botones">
-                <a href="index.html" id="btn_ciudades" class="boton boton_activo">Top 3 Ciudades</a>
+                <a href="index.html" id="btn_ciudades" style="margin-right: -5px;" class="boton boton_activo">Top 3 Ciudades</a>
                 <a href="estados.html" id="btn_estados" style="color:#ddd" class="boton boton_inactivo">Top 9 ciudades</a>
-                <select style="color: #ddd; background-color: rgba(243, 236, 236, .2); border: 0px;" class="browser-default" name="" id="contaminantes">
+                <select class="browser-default" name="" id="contaminantes">
                   <option value="PM10">PM 10 µg/m&sup3;</option>
                   <option value="PM2.5">PM 2.5 µg/m&sup3;</option>
                   <option value="SO2">SO2 (ppm) Promedio 24 horas</option>
@@ -94,8 +99,8 @@
           <div class="row center velocimetros">
             <div class="col s12 m12 l12 xl4">
               <div class="col s12 ">
-                <h5 id="label1">Ciudad de México</h5>
-                <span id="estacion1">.</span>
+                <h5 id="label1" class="titulo_ciudad">Ciudad de México</h5>
+                <span id="estacion1" class="titulo_estacion">.</span>
               </div>
               <div class="col s12 center">
 
@@ -109,8 +114,8 @@
 
             <div class="col s12 m12 l12 xl4">
               <div class="col s12">
-                <h5 id="label2">Puebla</h5>
-                <span id="estacion2">.</span>
+                <h5 id="label2" class="titulo_ciudad">Puebla</h5>
+                <span id="estacion2" class="titulo_estacion">.</span>
               </div>
               <div class="col s12">
                 <div class="chart-gauge2"></div>
@@ -123,8 +128,8 @@
 
             <div class="col s12 m12 l12 xl4">
               <div class="col s12">
-                <h5 id="label3">Guadalajara</h5>
-                <span id="estacion3">.</span>
+                <h5 id="label3" class="titulo_ciudad">Guadalajara</h5>
+                <span id="estacion3" class="titulo_estacion">.</span>
               </div>
               <div class="col s12">
                 <div class="chart-gauge3"></div>
@@ -143,7 +148,7 @@
     <div class="container">
       <div class="row mapa_titulo">
         <div class="col  s12">
-          <h3>Estaciones de medición de contaminantes</h3>
+          <h3 class="titulo_mapa">Estaciones de medición de contaminantes</h3>
         </div>
         <div class="col s12 ">
           <div class="input-field col s6 m2 l2">

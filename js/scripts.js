@@ -1045,6 +1045,7 @@ Array.prototype.unique=function(a){
       height: '3em',
       width: '8em',
       lineColor: '#fff',
+      lineWidth: 2,
       fillColor: false,
       minSpotColor: false,
       maxSpotColor: false,
