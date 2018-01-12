@@ -150,7 +150,7 @@ $(document).ready(function(){
         }
     }
 
-    var hoy =  convertDate(new Date());
+    var hoy =  convertDate(DateFalsa());
 
     $.ajax({
       type: 'GET',
@@ -384,8 +384,11 @@ Array.prototype.unique=function(a){
   $('#linecustom2').hide();
   $('#linecustom3').hide();
 
-  const dActual = new Date();
-  var dPasada = new Date();
+  // const dActual = new Date();
+  // var dPasada = new Date();
+  const dActual = DateFalsa();
+  var dPasada = DateFalsa();
+  
   var reMin = 1;
   var horas = 1;
 
@@ -403,6 +406,7 @@ Array.prototype.unique=function(a){
 
   var ruta = "https://api.datos.gob.mx/v1/sinaica?pageSize=1200&parametro="+ contaminante +"&date-insert=[range:"+getFormatDateAPI(dPasada)+"%7C"+getFormatDateAPI(dActual)+"]";
 
+  console.log('ruta '+ruta)
   $.ajax({
     type: 'GET',
     url: ruta,
@@ -1091,8 +1095,8 @@ Array.prototype.unique=function(a){
     }
 
   function getMasAlto(contaminante,ciudad,idEstacion,contenedor,tipo){
-    const dActual = new Date();
-    var dPasada = new Date();
+    const dActual = DateFalsa();
+    var dPasada = DateFalsa();
     var reMin = 1;
 
     if('8h' ==  tipo){
@@ -1168,8 +1172,8 @@ Array.prototype.unique=function(a){
 
   function get_dato_estacion_mas_actual(contaminante,estacion){
       var resultado = -1;
-      const dActual = new Date();
-      var dPasada = new Date();
+      const dActual = DateFalsa();
+      var dPasada = DateFalsa();
 
       dPasada.setHours(dActual.getHours() - 8);
 
@@ -1237,9 +1241,9 @@ Array.prototype.unique=function(a){
 
 
   function get_historico_horas(contaminante,tipo,maximo,menos_horas){
-    var dActual = new Date();
+    var dActual =  DateFalsa();
 
-    var dPasada = new Date();
+    var dPasada = DateFalsa();
     var dias = 24*28;
     dPasada.setHours(dActual.getHours() - dias);
 
@@ -1316,4 +1320,9 @@ Array.prototype.unique=function(a){
         crossDomain: true,
         async:false
       });
+    }
+
+
+    function DateFalsa(){
+      return new Date("2017-11-10");
     }

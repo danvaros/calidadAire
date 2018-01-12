@@ -9,8 +9,8 @@ function get_top(parametro,horas,minPromedio,maxValor,top) {
     $('.cont').html('');
     var maxMax = 0;
 
-    const dActual = new Date();
-    var dPasada = new Date();
+    const dActual = new DateFalsa();
+    var dPasada = new DateFalsa();
     dPasada.setHours(restaHoras(dActual,horas));
 
 
@@ -320,4 +320,10 @@ function get_estaciones(){
       crossDomain: true,
       async:false
     });
+  }
+
+
+
+  function DateFalsa(){
+    return new Date("2017-11-10");
   }
