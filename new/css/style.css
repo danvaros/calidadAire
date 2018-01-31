@@ -123,10 +123,40 @@ footer.page-footer {
   rgba(243, 236, 236, .2);
   border: 0px;
   width: 300px;
-  height: 30px;
+  height: 50px;
   font-weight: 300;
   font-size: 14px;
 }
+
+.contaminantes_mitad{
+  color: #ddd;
+  background-color:
+  rgba(243, 236, 236, .2);
+  border: 0px;
+  width: 150px;
+  height: 50px;
+  font-weight: 300;
+  font-size: 14px;
+  float: left;
+}
+
+
+hr.red {
+  margin: 10px 0 70px;
+  border-top-color: #DCE0E0;
+}
+
+.red {
+  color: #D0021B;
+}
+
+
+.vcenter {
+  display: inline-block;
+  vertical-align: middle;
+  float: none;
+}
+
 
 .select-wrapper input.select-dropdown {
     border: 1px solid #fff !important;

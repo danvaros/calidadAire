@@ -19,16 +19,12 @@
   <!-- Optional theme -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
-  <!-- <link rel="import" href="https://cdn.datos.gob.mx/bower_components/dgm-navbar/dgm-navbar.html">
-
-  <link rel="import" href="https://cdn.datos.gob.mx/bower_components/dgm-footer/dgm-footer.html"> -->
-
   <link rel="stylesheet" href="http://cdn.datos.gob.mx/qa/bower_components/dgm-style/main.css" />
 
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="import" href="https://cdn.datos.gob.mx/bower_components/dgm-navbar/dgm-navbar.html">
   <link rel="import" href="https://cdn.datos.gob.mx/bower_components/dgm-footer/dgm-footer.html">
-  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 
   <!-- Leaflet -->
@@ -40,48 +36,30 @@
   <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Tangerine">
 
-  <!-- Leaflet-->
-  <script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js"
-    integrity="sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA=="
-    crossorigin=""></script>
+
 
 </head>
 <body class="front" cz-shortcut-listen="true" >
 
   <dgm-navbar></dgm-navbar>
   <main>
-    <div id="" class="cabezera" style="background-image: url('imagenes/fondo.jpg');background-size: cover; background-repeat: no-repeat;background-position:center top;">
+    <div id="" class="cabezera" style="background-image: url('imagenes/fondo.jpg');background-size: cover; background-repeat: no-repeat;background-position:center top; height: 100vh; width: 100vw;">
       <div class="section no-pad-bot">
         <div class="container">
-          <div class="row center">
-            <div class="col s12 m12 l12">
-              <h2 class="center white-text titulo_hd">Calidad de Aire MX</h2>
-            </div>
-            <div class="col s10 m10 l10  offset-s1 offset-m1 offset-l1">
-              <h5 class="sub_titulo_hd col s12 white-text" style="
-              letter-spacing: 1px; line-height: 35px;"><span id="contaminante_titulo">Partículas menores de 10 micrómetros (PM10).</span></h5>
+          <div class="row">
+            <div class="col-xs-12 text-center">
+              <h2 style="color: #FFFFFF">Calidad de Aire MX</h2>
             </div>
           </div>
 
-          <div class="row center" style="display:none">
-            <div class="col s4 m4 l4  offset-s4 offset-m4 offset-l4">
-              <div class="nav-wrapper">
-                <form>
-                  <div class="input-field">
-                    <input id="search_central" type="search" required style="border-bottom: 1px solid #f1f5fb;">
-                    <label class="label-icon" for="search_central"><i class="material-icons" style="color: #ffff;">search</i></label>
-                    <i class="material-icons">close</i>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-          <div class="row center">
-            <div class="col s12 margen_arriba_g">
+          <div class="row">
+            <div class="col-xs-12 text-center margen_arriba_g">
               <div class="base_botones">
-                <a href="index.html" id="btn_ciudades" style="margin-right: -5px;" class="boton boton_activo">Top 3 Ciudades</a>
-                <a href="estados.html" id="btn_estados" style="color:#ddd" class="boton boton_inactivo">Top 9 ciudades</a>
+                <select class="browser-default contaminantes_mitad" name="" id="estado_primer_select"></select>
+                <select class="browser-default contaminantes_mitad" name="" id="estaciones_select"></select>
+                <br>
                 <select class="browser-default" name="" id="contaminantes">
+                  <option value="0">Contaminate</option>
                   <option value="PM10">PM 10 µg/m&sup3;</option>
                   <option value="PM2.5">PM 2.5 µg/m&sup3;</option>
                   <option value="SO2">SO2 (ppm) Promedio 24 horas</option>
@@ -92,54 +70,11 @@
                   <option value="NO2">NO2 (ppm)</option>
                   <option value="CO">CO (ppm)</option>
                 </select>
-              </div>
+              </div> 
+            </div>         
+            <div class="col-xs-12 text-center">
+              <h5 class="white-text"><span id="contaminante_titulo">Preguntas frecuentes | Glosairo</span></h5>
             </div>
-          </div>
-
-          <div class="row center velocimetros">
-            <div class="col s12 m12 l12 xl4">
-              <div class="col s12 ">
-                <h5 id="label1" class="titulo_ciudad">Ciudad de México</h5>
-                <span id="estacion1" class="titulo_estacion">.</span>
-              </div>
-              <div class="col s12 center">
-
-                <div class="chart-gauge"></div>
-                <p style="margin-bottom: 20px; height: 50px;">
-                  <span id="linecustom1">10,8,9,3,5,8,5,7</span>
-                </p>
-                <a href="#" class="boton_redondo" id="ver_top1">Ver más</a>
-              </div>
-            </div>
-
-            <div class="col s12 m12 l12 xl4">
-              <div class="col s12">
-                <h5 id="label2" class="titulo_ciudad">Puebla</h5>
-                <span id="estacion2" class="titulo_estacion">.</span>
-              </div>
-              <div class="col s12">
-                <div class="chart-gauge2"></div>
-                <p style="margin-bottom: 20px; height: 50px;">
-                  <span id="linecustom2">10,8,9,3,5,8,5,7</span>
-                </p>
-                <a href="" class="boton_redondo" id="ver_top2">Ver más</a>
-              </div>
-            </div>
-
-            <div class="col s12 m12 l12 xl4">
-              <div class="col s12">
-                <h5 id="label3" class="titulo_ciudad">Guadalajara</h5>
-                <span id="estacion3" class="titulo_estacion">.</span>
-              </div>
-              <div class="col s12">
-                <div class="chart-gauge3"></div>
-                <p style="margin-bottom: 20px; height: 50px;">
-                  <span id="linecustom3">10,8,9,3,5,8,5,7</span>
-                </p>
-                <a href="" class="boton_redondo" id="ver_top3">Ver más</a>
-              </div>
-            </div>
-
           </div>
         </div>
       </div>
@@ -147,10 +82,10 @@
 
     <div class="container">
       <div class="row mapa_titulo">
-        <div class="col  s12">
+        <div class="col  col-xs-12">
           <h3 class="titulo_mapa">Estaciones de medición de contaminantes</h3>
         </div>
-        <div class="col s12 ">
+        <div class="col col-xs-12 ">
           <div class="input-field col s6 m2 l2">
             <select  name="estados" id="estados" class="browser-default ">
               <option value="Aguascalientes">Aguascalientes</option>
@@ -192,8 +127,15 @@
     </div>
 
     <div class="row">
-      <div class="col s12">
+      <div class="col col-xs-12">
         <div id="mapid"></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col col-xs-12">
+        <h2> <a href="//datos.gob.mx/busca" target="_self">Datos</a></h2>
+        <hr class="red">
       </div>
     </div>
 
@@ -203,12 +145,12 @@
         <!-- esto sera el modal -->
         <div class="row detalle">
           <div class="row margenes_pop">
-            <div class="col s12 m12 l12 ">
+            <div class="col col-xs-12 m12 l12 ">
               <p class="titulo"><strong id="titulo_detalle">Ciudad Fernández</strong></p>
             </div>
           </div>
           <div class="row  margenes_pop">
-            <div class="col s12 m6 l3">
+            <div class="col col-xs-12 m6 l3">
               <div class="col s4">
                 <img class="responsive-img" src="imagenes/fecha.png">
               </div>
@@ -218,7 +160,7 @@
               </div>
             </div>
 
-            <div class="col s12 m6 l3">
+            <div class="col col-xs-12 col-sm-6 col-lg-3">
               <div class="col s4 ">
                 <img class="responsive-img" src="imagenes/temperatura.png">
               </div>
@@ -228,7 +170,7 @@
               </div>
             </div>
 
-            <div class="col s12 m6 l3">
+            <div class="col col-xs-12 m6 l3">
               <div class="col s4">
                 <img class="responsive-img" src="imagenes/contaminante.png">
               </div>
@@ -238,7 +180,7 @@
               </div>
             </div>
 
-            <div class="col s12 m6 l3">
+            <div class="col col-xs-12 m6 l3">
               <div class="col s4">
                 <img class="responsive-img" src="imagenes/estacion.png">
               </div>
@@ -249,46 +191,46 @@
             </div>
           </div>
           <div class="row margenes_pop">
-            <div class="col s12 ">
+            <div class="col col-xs-12 ">
               <p class="subtitulo_chico">Parámetros de la red</p>
             </div>
 
             <div class="row">
-              <div class="col s12 m6 l5ths center-align">
+              <div class="col col-xs-12 m6 l5ths center-align">
                 <p class="etiqueta ">PM10 (µg/m&sup3;) 24 horas</p>
                 <a class="tabla_contaminantes" id="PM1024H" ><p class="active_graf estaciones_5" id="valPM1024H" >2652.07</p></a>
               </div>
-              <div class="col s12 m6 l5ths center-align">
+              <div class="col col-xs-12 m6 l5ths center-align">
                 <p class="etiqueta ">PM2.5 (µg/m&sup3;) 24 horas</p>
                 <a class="tabla_contaminantes" id="PM2524H" ><p id="valPM2524H" class="estaciones_5">456.07</p></a>
               </div>
-              <div class="col s12 m6 l5ths center-align">
+              <div class="col col-xs-12 m6 l5ths center-align">
                 <p class="etiqueta ">SO2 (ppm) Dato horario</p>
                 <a class="tabla_contaminantes" id="SO2DH"><p id="valS02DH" class="estaciones_5">456.07</p></a>
               </div>
-              <div class="col s12 m6 l5ths center-align">
+              <div class="col col-xs-12 m6 l5ths center-align">
                 <p class="etiqueta ">SO2 (ppm) 8 horas</p>
                 <a class="tabla_contaminantes" id="SO28H"><p id="valS028H" class="estaciones_5">456.07</p></a>
               </div>
-              <div class="col s12 m6 l5ths center-align">
+              <div class="col col-xs-12 m6 l5ths center-align">
                 <p class="etiqueta ">SO2 (ppm) 24 horas</p>
                 <a class="tabla_contaminantes" id="SO224H"><p id="valS0224H" class="estaciones_5">456.07</p></a>
               </div>
             </div>
             <div class="row">
-              <div class="col s12 m6 l5ths center-align">
+              <div class="col col-xs-12 m6 l5ths center-align">
                 <p class="etiqueta">O3 (ppm) Dato horario</p>
                 <a class="tabla_contaminantes" id="O3DH"><p id="valO3DH" class="estaciones_5">2652.07</p></a>
               </div>
-              <div class="col s12 m6 l5ths center-align">
+              <div class="col col-xs-12 m6 l5ths center-align">
                 <p class="etiqueta ">O3 (ppm) 8 horas</p>
                 <a class="tabla_contaminantes" id="O38H"><p id="valO38H" class="estaciones_5">2652.07</p></a>
               </div>
-              <div class="col s12 m6 l5ths center-align">
+              <div class="col col-xs-12 m6 l5ths center-align">
                 <p class="etiqueta ">NO2 (ppm) Dato horario</p>
                 <a class="tabla_contaminantes" id="NO2DH"><p id="valN02DH" class="estaciones_5">2652.07</p></a>
               </div>
-              <div class="col s12 m6 l5ths center-align">
+              <div class="col col-xs-12 m6 l5ths center-align">
                 <p class="etiqueta ">CO (ppm) 8 horas</p>
                 <a class="tabla_contaminantes" id="CO8H"><p id="valCO8H" class="estaciones_5">2652.07</p></a>
               </div>
@@ -297,18 +239,18 @@
           <input type="hidden" name="estacion" id="estacion_id" value="">
           <input type="hidden" name="ciudad" id="ciudad" value="">
           <div class="row margenes_pop">
-            <div class="col  s12 m6 l6">
+            <div class="col  col-xs-12 m6 l6">
               <p class="subtitulo_chico">Valores máximos registrados del contaminante <span id="contaminante_grafica">XXX</span></p>
               <input type="hidden" name="" value="" id="estacion">
             </div>
             <div class="row">
-              <div class="col s12 right-align botonera">
+              <div class="col col-xs-12 right-align botonera">
                 <a href="#" class="parametro">boton 1</a>
                 <a href="#" class="parametro">boton 1</a>
                 <a href="#" class="parametro">boton 1</a>
                 <a href="#" id="pinta_primero" class="parametro active">boton 1</a>
               </div>
-              <div class="col s12 offset-m1 m10 offset-l2 l8">
+              <div class="col col-xs-12 offset-m1 m10 offset-l2 l8">
                 <canvas id="myChart"></canvas>
               </div>
             </div>
@@ -316,16 +258,47 @@
         </div>
       </div>
     </div>
+    
+
+
+
+    <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    Launch demo modal
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
 
     </main>
     <dgm-footer></dgm-footer>
-    <script src="js/materialize.js"></script>
-    <script src="js/init.js"></script>
+  
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <!-- Leaflet-->
     <script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js"
     integrity="sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA=="
     crossorigin=""></script>
+
     <script type="text/javascript" src="libs/jquery.sparkline.min.js"></script>
     <script src="libs/chartjs/Chart.bundle.js"></script>
     <script src="libs/chartjs/utils.js"></script>
@@ -334,130 +307,196 @@
     <!-- local-->
     <script src="js/utileria.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/estados_mexico.js" type="text/javascript" charset="utf-8"></script>
-    <script src="js/scripts.js" type="text/javascript" charset="utf-8"></script>
+    <!-- <script src="js/scripts.js" type="text/javascript" charset="utf-8"></script> -->
     <script src="js/script_estados.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/estaciones_json.js" type="text/javascript" charset="utf-8"></script>
-
     <script>
       var chart;
-      var ctx ;
+      var ctx;
       var color;
       var mymap = L.map('mapid').setView([16.8889,-100], 5);
 
-      $(document).ready(function()
-      {
-        /*instancia de la grafica*/
-        ctx = document.getElementById('myChart').getContext('2d');
-        color = Chart.helpers.color;
-        chart = new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels: ["January", "February", "March", "April", "May", "June", "July"],
-            datasets: [{
-              label: "Contaminantes",
-              backgroundColor: color(window.chartColors.blue).alpha(0.2).rgbString(),
-              borderColor: window.chartColors.blue,
-              pointBackgroundColor: window.chartColors.blue,
-              data: [0, 10, 5, 2, 20, 30, 45],
-            }]
-          },
-          options: {
-            legend: {
-              display: false
-            },
-            tooltips: {
-              enabled: true
-            },
-            scales: {
-              xAxes: [{
-                ticks: {
-                  autoSkip: false,
-                  maxRotation: 90,
-                  minRotation: 90
-                }
-              }]
-            }
-          },
-        });
-        // fin de instancia de la grafica
 
+      $(document).ready(function(){
         /* instancia del mapa*/
-        mymap.panTo(new L.LatLng(24.8, -100));
+          mymap.panTo(new L.LatLng(24.8, -100));
 
-        var OpenStreetMap_BlackAndWhite = L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
-          maxZoom: 18,
-          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          var OpenStreetMap_BlackAndWhite = L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          });
+
+          OpenStreetMap_BlackAndWhite.addTo(mymap);
+
+          if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) mymap.dragging.disable();
+
+          mymap.scrollWheelZoom.disable();
+
+          if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) mymap.dragging.disable();
+
+          mymap.scrollWheelZoom.disable();
+        /*fin de instancia del mapa*/
+
+
+        $('#estado_primer_select').html(options_estado());
+        $('#estaciones_select').html(options_estaciones());
+        $('#contaminantes').change(function()
+        {
+          $('#myModal').modal('show'); // mandar a llamar al modal 
+          
+          // hacer la llamda con la estación y el contaminante ver como hacer
+          // crep que es con esta https://api.datos.gob.mx/v1/sinaica?estacionesid=[eq:244]&pageSize=4 
+          // pero tengo que validarla 
         });
 
-        OpenStreetMap_BlackAndWhite.addTo(mymap);
-
-        if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) mymap.dragging.disable();
-
-        mymap.scrollWheelZoom.disable();
-
-        if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) mymap.dragging.disable();
-
-        mymap.scrollWheelZoom.disable();
-        // fin de instancia del mapa
-
-
-        $('#contaminantes').change(function(){
-          var contaminante = $( this ).val();
-          var tipo = '24h';
-          var maximo = 0;
-
-          if(contaminante == 'PM10'){
-            $('#contaminante_titulo').html('Partículas menores de 10 micrómetros (PM10) (µg/m&sup3;).');
-            maximo =  158;
-          }
-          else if(contaminante == 'PM2.5'){
-            $('#contaminante_titulo').html('Partículas menores de 2.5 micrómetros (PM2.5) (µg/m&sup3;).');
-            maximo =  158;
-          }
-          else if(contaminante == 'O3'){
-            $('#contaminante_titulo').html('Ozono (O3) (ppm).');
-            maximo =  0.181;
-            tipo = '8h';
-          }
-          else if(contaminante == 'O3D'){
-            contaminante = 'O3';
-            tipo = 'D';
-            $('#contaminante_titulo').html('Ozono (O3) (ppm).');
-            maximo =  0.181;
-          }
-          else if(contaminante == 'SO2'){
-            $('#contaminante_titulo').html('Dióxido de azufre (SO2) (ppm).');
-            maximo =   0.32;
-          }
-          else if(contaminante == 'SO28'){
-            contaminante = 'SO2';
-            tipo = '8h';
-            $('#contaminante_titulo').html('Dióxido de azufre (SO2) (ppm).');
-            maximo =   0.32;
-          } else if(contaminante == 'SO2D'){
-            contaminante = 'SO2';
-            tipo = 'D';
-            $('#contaminante_titulo').html('Dióxido de azufre (SO2) (ppm).');
-            maximo =   0.32;
-          }
-          else if(contaminante == 'NO2'){
-            $('#contaminante_titulo').html('Dióxido de nitrógeno (NO2) (ppm).');
-            maximo =  0.315;
-            tipo = 'D';
-          }
-          else if(contaminante == 'CO'){
-            $('#contaminante_titulo').html('Monóxido de carbono (CO)(ppm).');
-            maximo =  16.5;
-            tipo = '8h';
-          }
-
-          getTop3ciudadesV2(contaminante,tipo,maximo);
-        });
-
-        getTop3ciudadesV2('PM10','24h',158);
-        get_estaciones();
-
+          
+    
       });
+
+
+      function options_estado()
+      {
+        var options  = '<option value="0">Estado</option>';
+        for (let index = 0; index < coor_estado.length; index++) 
+        {
+          const element = coor_estado[index];
+          options += '<option value="'+element.estado+'">'+element.estado+'</option>'
+        }
+
+        return options;
+      }
+
+      function options_estaciones()
+      {
+        var options  = '<option value="0">Estaciones</option>';
+        for (let index = 0; index < estaciones_json.length; index++) 
+        {
+          const element = estaciones_json[index];
+          options += '<option value="'+element.id+'">'+element.nombre+'</option>'
+        }
+
+        return options;
+      }
+
+      // var chart;
+      // var ctx ;
+      // var color;
+      // var mymap = L.map('mapid').setView([16.8889,-100], 5);
+
+      // $(document).ready(function()
+      // {
+      //   /*instancia de la grafica*/
+      //   ctx = document.getElementById('myChart').getContext('2d');
+      //   color = Chart.helpers.color;
+      //   chart = new Chart(ctx, {
+      //     type: 'line',
+      //     data: {
+      //       labels: ["January", "February", "March", "April", "May", "June", "July"],
+      //       datasets: [{
+      //         label: "Contaminantes",
+      //         backgroundColor: color(window.chartColors.blue).alpha(0.2).rgbString(),
+      //         borderColor: window.chartColors.blue,
+      //         pointBackgroundColor: window.chartColors.blue,
+      //         data: [0, 10, 5, 2, 20, 30, 45],
+      //       }]
+      //     },
+      //     options: {
+      //       legend: {
+      //         display: false
+      //       },
+      //       tooltips: {
+      //         enabled: true
+      //       },
+      //       scales: {
+      //         xAxes: [{
+      //           ticks: {
+      //             autoSkip: false,
+      //             maxRotation: 90,
+      //             minRotation: 90
+      //           }
+      //         }]
+      //       }
+      //     },
+      //   });
+      //   // fin de instancia de la grafica
+
+      //   /* instancia del mapa*/
+      //   mymap.panTo(new L.LatLng(24.8, -100));
+
+      //   var OpenStreetMap_BlackAndWhite = L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
+      //     maxZoom: 18,
+      //     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      //   });
+
+      //   OpenStreetMap_BlackAndWhite.addTo(mymap);
+
+      //   if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) mymap.dragging.disable();
+
+      //   mymap.scrollWheelZoom.disable();
+
+      //   if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) mymap.dragging.disable();
+
+      //   mymap.scrollWheelZoom.disable();
+      //   // fin de instancia del mapa
+
+
+      //   $('#contaminantes').change(function(){
+      //     var contaminante = $( this ).val();
+      //     var tipo = '24h';
+      //     var maximo = 0;
+
+      //     if(contaminante == 'PM10'){
+      //       $('#contaminante_titulo').html('Partículas menores de 10 micrómetros (PM10) (µg/m&sup3;).');
+      //       maximo =  158;
+      //     }
+      //     else if(contaminante == 'PM2.5'){
+      //       $('#contaminante_titulo').html('Partículas menores de 2.5 micrómetros (PM2.5) (µg/m&sup3;).');
+      //       maximo =  158;
+      //     }
+      //     else if(contaminante == 'O3'){
+      //       $('#contaminante_titulo').html('Ozono (O3) (ppm).');
+      //       maximo =  0.181;
+      //       tipo = '8h';
+      //     }
+      //     else if(contaminante == 'O3D'){
+      //       contaminante = 'O3';
+      //       tipo = 'D';
+      //       $('#contaminante_titulo').html('Ozono (O3) (ppm).');
+      //       maximo =  0.181;
+      //     }
+      //     else if(contaminante == 'SO2'){
+      //       $('#contaminante_titulo').html('Dióxido de azufre (SO2) (ppm).');
+      //       maximo =   0.32;
+      //     }
+      //     else if(contaminante == 'SO28'){
+      //       contaminante = 'SO2';
+      //       tipo = '8h';
+      //       $('#contaminante_titulo').html('Dióxido de azufre (SO2) (ppm).');
+      //       maximo =   0.32;
+      //     } else if(contaminante == 'SO2D'){
+      //       contaminante = 'SO2';
+      //       tipo = 'D';
+      //       $('#contaminante_titulo').html('Dióxido de azufre (SO2) (ppm).');
+      //       maximo =   0.32;
+      //     }
+      //     else if(contaminante == 'NO2'){
+      //       $('#contaminante_titulo').html('Dióxido de nitrógeno (NO2) (ppm).');
+      //       maximo =  0.315;
+      //       tipo = 'D';
+      //     }
+      //     else if(contaminante == 'CO'){
+      //       $('#contaminante_titulo').html('Monóxido de carbono (CO)(ppm).');
+      //       maximo =  16.5;
+      //       tipo = '8h';
+      //     }
+
+      //     getTop3ciudadesV2(contaminante,tipo,maximo);
+      //   });
+
+      //   getTop3ciudadesV2('PM10','24h',158);
+      //   get_estaciones();
+
+      // });
 
     </script>
   </body>
