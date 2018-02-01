@@ -60,15 +60,15 @@
                 <br>
                 <select class="browser-default" name="" id="contaminantes">
                   <option value="0">Contaminate</option>
-                  <option value="PM10">PM 10 µg/m&sup3;</option>
-                  <option value="PM2.5">PM 2.5 µg/m&sup3;</option>
-                  <option value="SO2">SO2 (ppm) Promedio 24 horas</option>
-                  <option value="SO28">SO2 (ppm) Promedio 8 horas</option>
-                  <option value="SO2D">SO2 (ppm) Dato horario</option>
-                  <option value="O3">Ozono (O3)(ppm) Promedio 8 horas</option>
-                  <option value="O3D">Ozono (O3)(ppm) Dato horario</option>
-                  <option value="NO2">NO2 (ppm)</option>
-                  <option value="CO">CO (ppm)</option>
+                  <option value="PM10_24">PM 10 µg/m&sup3;</option>
+                  <option value="PM2.5_24">PM 2.5 µg/m&sup3;</option>
+                  <option value="SO2_24">SO2 (ppm) Promedio 24 horas</option>
+                  <option value="SO2_8">SO2 (ppm) Promedio 8 horas</option>
+                  <option value="SO2_D">SO2 (ppm) Dato horario</option>
+                  <option value="O3_8">Ozono (O3)(ppm) Promedio 8 horas</option>
+                  <option value="O3_D">Ozono (O3)(ppm) Dato horario</option>
+                  <option value="NO2_24">NO2 (ppm)</option>
+                  <option value="CO_24">CO (ppm)</option>
                 </select>
               </div> 
             </div>         
@@ -138,12 +138,6 @@
         <hr class="red">
       </div>
     </div>
-
-    <!-- <div class="chart-gauge"></div> -->
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-      Launch demo modal
-    </button>
     
     <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
@@ -167,6 +161,14 @@
                   </div>
               
                   <div class="col-xs-4">
+                    <img class="img-responsive" src="imagenes/estacion.png">
+                  </div>
+                  <div class="col-xs-8">
+                    <p><b>Estación:</b></p>
+                    <p id="estacion_detalle">XAL-Xalostoc</p>
+                  </div>
+                  
+                  <div class="col-xs-4">
                     <img class="img-responsive" src="imagenes/temperatura.png">
                   </div>
                   <div class="col-xs-8">
@@ -181,14 +183,7 @@
                     <p><b >Contaminante:</b></p>
                     <p id="contaminante_detalle">PM10, 104</p>
                   </div>
-             
-                  <div class="col-xs-4">
-                    <img class="img-responsive" src="imagenes/estacion.png">
-                  </div>
-                  <div class="col-xs-8">
-                    <p><b>Estación:</b></p>
-                    <p id="estacion_detalle">XAL-Xalostoc</p>
-                  </div>
+                  
                 </div>
                 <div class="col-xs-9">
                     <div class="col-xs-12">
@@ -197,35 +192,35 @@
                     <div class="row margenes_pop">
                       <div class="row">
                         <div class="col-xs-4">
-                          <p class="boton_pop">PM10 (µg/m&sup3;) 24 horas</p>
+                          <p class="boton_pop" id="botonPM10" onclick="cambioParametro('PM10',24)">PM10 (µg/m&sup3;) 24 horas</p>
                         </div>
                         <div class="col-xs-4">
-                          <p class="boton_pop">PM2.5 (µg/m&sup3;) 24 horas</p>
+                          <p class="boton_pop" id="boton25" onclick="cambioParametro('PM2.5',24)">PM2.5 (µg/m&sup3;) 24 horas</p>
                         </div>
                         <div class="col-xs-4">
-                          <p class="boton_pop">NO2 (ppm) Dato horario</p>
+                          <p class="boton_pop" id="botonNO2" onclick="cambioParametro('NO2',D)">NO2 (ppm) Dato horario</p>
                         </div>
                       </div>
                       <div class="row">
                         <div class=" col-xs-4">
-                          <p class="boton_pop">SO2 (ppm) Dato horario</p>
+                          <p class="boton_pop" id="botonSO2D" onclick="cambioParametro('SO2',D)">SO2 (ppm) Dato horario</p>
                         </div>
                         <div class="col-xs-4">
-                          <p class="boton_pop">SO2 (ppm) 8 horas</p>
+                          <p class="boton_pop" id="botonSO28" onclick="cambioParametro('SO2',8)">SO2 (ppm) 8 horas</p>
                         </div>
                         <div class="col-xs-4">
-                          <p class="boton_pop">SO2 (ppm) 24 horas</p>
+                          <p class="boton_pop" id="botonSO224" onclick="cambioParametro('SO2',24)">SO2 (ppm) 24 horas</p>
                         </div>
                       </div>
                       <div class="row">
                         <div class="col-xs-4">
-                          <p class="boton_pop">O3 (ppm) Dato horario</p>
+                          <p class="boton_pop" id="botonO3D" onclick="cambioParametro('O3',D)">O3 (ppm) Dato horario</p>
                         </div>
                         <div class="col-xs-4">
-                          <p class="boton_pop">O3 (ppm) 8 horas</p>
+                          <p class="boton_pop" id="botonO38" onclick="cambioParametro('O3',8)">O3 (ppm) 8 horas</p>
                         </div>
                         <div class="col-xs-4">
-                          <p class="boton_pop">CO (ppm) 8 horas</p>
+                          <p class="boton_pop" id="botonCO" onclick="cambioParametro('CO',8)">CO (ppm) 8 horas</p>
                         </div>
                       </div>
                     </div>
@@ -233,7 +228,7 @@
               </div>
               
               <div class="row">
-                <div class="col-xs-12">
+                <div class="col-xs-3">
                     <div class="chart-gauge"></div>
                 </div>
                 <div class="col-xs-9">
@@ -269,12 +264,8 @@
         
       </div>
     </div>
-
-  
-    
-
-    </main>
-    <dgm-footer></dgm-footer>
+  </main>
+  <dgm-footer></dgm-footer>
   
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <!-- Leaflet-->
@@ -300,11 +291,6 @@
       var color;
       var mymap = L.map('mapid').setView([16.8889,-100], 5);
 
-          var valor =  50;
-          var maximo = 100;
-          $('.chart-gauge').html('');
-          $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:valor,gaugeMaxValue:1000});
-
       //catalogo de constantes de configuración
       const pageSize_estaciones = 1200;
 
@@ -312,19 +298,14 @@
         /* instancia del mapa*/
           mymap.panTo(new L.LatLng(24.8, -100));
 
-          var OpenStreetMap_BlackAndWhite = L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
+          var OpenStreetMap_BlackAndWhite = L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', 
+          {
             maxZoom: 18,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           });
 
           OpenStreetMap_BlackAndWhite.addTo(mymap);
-
           if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) mymap.dragging.disable();
-
-          mymap.scrollWheelZoom.disable();
-
-          if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) mymap.dragging.disable();
-
           mymap.scrollWheelZoom.disable();
         /*fin de instancia del mapa*/
 
@@ -333,32 +314,56 @@
         $('#estaciones_select').html(options_estaciones());
         $('#contaminantes').change(function()
         {
-        
-          // porEstaciones(244);
+          //conseguimos todas las variables necesarias para hacer la llamada a el API
+          var estado =  $('#estado_primer_select').val();
+          var estacion =  $('#estaciones_select').val();
+          var a = $('#contaminantes').val().split('_');
+          var parametro = a[0];
+          var horas = a[1];
+
+          porEstaciones(estado, estacion, parametro, horas); //llamada a la estación 
           $('#myModal').modal('show'); // mandar a llamar al modal 
           
-          // hacer la llamda con la estación y el contaminante ver como hacer
+
+          //ponemos los parametros en la ventana
+
+          $('#fecha_detalle').html(convertDate(new Date()));
+          $('#contaminante_detalle').html(parametro);
+          $('#estacion_detalle').html($('#estaciones_select option:selected').text());
           
           // pero tengo que validarla 
         });
 
+
+        // var valor =  50;
+        // var maximo = 100;
+        // $('.chart-gauge').html('');
+        // $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:valor,gaugeMaxValue:1000});
+        
         /*instancia de la grafica*/
         ctx = document.getElementById('myChart').getContext('2d');
         color = Chart.helpers.color;
-        chart = new Chart(ctx, {
+        chart = new Chart(ctx, 
+        {
           type: 'line',
-          data: {
+          data: 
+          {
             labels: ["January", "February", "March", "April", "May", "June", "July"],
-            datasets: [{
-              label: "Contaminantes",
-              backgroundColor: color(window.chartColors.blue).alpha(0.2).rgbString(),
-              borderColor: window.chartColors.blue,
-              pointBackgroundColor: window.chartColors.blue,
-              data: [0, 10, 5, 2, 20, 30, 45],
-            }]
+            datasets: 
+            [
+              {
+                label: "Contaminantes",
+                backgroundColor: color(window.chartColors.blue).alpha(0.2).rgbString(),
+                borderColor: window.chartColors.blue,
+                pointBackgroundColor: window.chartColors.blue,
+                data: [0, 10, 5, 2, 20, 30, 45],
+              }
+            ]
           },
-          options: {
-            legend: {
+          options: 
+          {
+            legend: 
+            {
               display: false
             },
             tooltips: {
@@ -377,10 +382,33 @@
         });
         // fin de instancia de la grafica
         
+        //botonera de contaminantes 
+        
        
 
       });
 
+      function cambioParametro(parametro, horas)
+      {
+        console.log('====================================');
+        console.log(horas);
+        console.log(parametro);
+        console.log('====================================');
+        
+        var estado =  $('#estado_primer_select').val();
+        var estacion =  $('#estaciones_select').val();
+
+        $('#contaminante_detalle').html(parametro);
+        porEstaciones(estado,estacion,parametro,horas);
+
+      }
+
+      function convertDate(inputFormat) 
+      {
+        function pad(s) { return (s < 10) ? '0' + s : s; }
+        var d = new Date(inputFormat);
+        return [pad(d.getDate()), pad(d.getMonth()+1), d.getFullYear()].join('/');
+      }
 
       function options_estado()
       {
@@ -407,11 +435,31 @@
       }
 
 
-      function porEstaciones(id_estacion)
+      function porEstaciones(estado,id_estacion,parametro,horas)
       {
-        //https://api.datos.gob.mx/v1/sinaica?estacionesid=[eq:244]&pageSize=4 
-        var url = 'https://api.datos.gob.mx/v1/sinaica?estacionesid='+id_estacion+'&pageSize='+pageSize_estaciones;
+        const dActual = new Date();
+        var dPasada = new Date();
+        var isDatoHorario =  (horas == 'D') ? 'true' : 'false';
+        
+        if(isDatoHorario) 
+        {
+          horas = 8;
+        }
+        
+        dPasada.setHours(dActual.getHours() - horas);
 
+
+        console.log('====================================');
+        console.log(horas);
+        console.log(dPasada);
+        console.log(dActual);
+        console.log(id_estacion);
+        console.log('====================================');
+        //https://api.datos.gob.mx/v1/sinaica?estacionesid=[eq:244]&pageSize=4 
+        //https://api.datos.gob.mx/v1/sinaica?estacionesid=244&pageSize=1200&parametro=PM10&state=Chihuahua
+        var url = 'https://api.datos.gob.mx/v1/sinaica?estacionesid='+id_estacion+'&date-insert=[range:'+getFormatDateAPI(dPasada)+'%7C'+getFormatDateAPI(dActual)+']&pageSize='+pageSize_estaciones;
+        
+        console.log(url);
         $.ajax({
           type: 'GET',
           url: url,
@@ -437,6 +485,30 @@
 
       }
 
+      function convertDate(date) 
+      {
+        var yyyy = date.getFullYear().toString();
+        var mm = (date.getMonth()+1).toString();
+        var dd  = date.getDate().toString();
+
+        var mmChars = mm.split('');
+        var ddChars = dd.split('');
+
+        return yyyy + '-' + (mmChars[1]?mm:"0"+mmChars[0]) + '-' + (ddChars[1]?dd:"0"+ddChars[0]);
+      }
+
+
+      function sumarDias(fecha, dias)
+      {
+        fecha.setDate(fecha.getDate() + dias);
+        return fecha;
+      }
+
+      function getFormatDateAPI(d)
+      {
+        var fecha = d.getFullYear()+'-'+ meis[d.getMonth()] +'-'+((d.getDate() < 10?'0':'') + d.getDate())      +'T'+ ( (d.getHours() < 10?'0':'') + d.getHours() ) +':'+( (d.getMinutes()<10?'0':'') + d.getMinutes() )+':00';
+        return fecha;
+      }
       // var chart;
       // var ctx ;
       // var color;
