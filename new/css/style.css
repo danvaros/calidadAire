@@ -157,6 +157,16 @@ hr.red {
   float: none;
 }
 
+.boton_pop{
+  margin: 30px 0px 30px 0px;
+  border: 1px solid #333;
+  border-radius: 10px 10px;
+  padding: 3px 5px;
+}
+
+.boton_pop p{
+  font-size: 10px;
+}
 
 .select-wrapper input.select-dropdown {
     border: 1px solid #fff !important;
