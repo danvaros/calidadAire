@@ -11,7 +11,8 @@
           gaugeMaxValue: 100,
           barWidth: 3,
           range:100,
-          colorNeddle:"#000000"
+          colorNeddle:"#000000",
+          forceWidth: 'default'//Put 195px width
       }
 
       var options = $.extend({}, defaults, options);
@@ -46,9 +47,15 @@
             left: 30
           };
 
-          console.log(el[0][0]);
+          console.log(el[0][0].offsetWidth);
 
-          width = el[0][0].offsetWidth - margin.left - margin.right;
+          if (options.forceWidth == 'default'){
+            width = 195;
+          }else{
+            width = el[0][0].offsetWidth - margin.left - margin.right;
+          }
+          //width = el[0][0].offsetWidth - margin.left - margin.right;
+          //width = 150;
           widtho = el[0][0].offsetWidth - margin.left + 25 - margin.right + 25;
           height = width;
           heighto = widtho;
