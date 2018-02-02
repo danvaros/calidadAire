@@ -192,35 +192,35 @@
                     <div class="row margenes_pop">
                       <div class="row">
                         <div class="col-xs-4">
-                          <p class="boton_pop" id="botonPM10" onclick="cambioParametro('PM10',24)">PM10 (µg/m&sup3;) 24 horas</p>
+                          <p class="active_pop boton_pop" id="botonPM10" onclick="cambioParametro('PM10',24,'botonPM10')">PM10 (µg/m&sup3;) 24 horas</p>
                         </div>
                         <div class="col-xs-4">
-                          <p class="boton_pop" id="boton25" onclick="cambioParametro('PM2.5',24)">PM2.5 (µg/m&sup3;) 24 horas</p>
+                          <p class="boton_pop" id="botonPM25" onclick="cambioParametro('PM2.5',24,'botonPM25')">PM2.5 (µg/m&sup3;) 24 horas</p>
                         </div>
                         <div class="col-xs-4">
-                          <p class="boton_pop" id="botonNO2" onclick="cambioParametro('NO2',D)">NO2 (ppm) Dato horario</p>
+                          <p class="boton_pop" id="botonNO2" onclick="cambioParametro('NO2','D','botonNO2')">NO2 (ppm) Dato horario</p>
                         </div>
                       </div>
                       <div class="row">
                         <div class=" col-xs-4">
-                          <p class="boton_pop" id="botonSO2D" onclick="cambioParametro('SO2',D)">SO2 (ppm) Dato horario</p>
+                          <p class="boton_pop" id="botonSO2D" onclick="cambioParametro('SO2','D','botonSO2D')">SO2 (ppm) Dato horario</p>
                         </div>
                         <div class="col-xs-4">
-                          <p class="boton_pop" id="botonSO28" onclick="cambioParametro('SO2',8)">SO2 (ppm) 8 horas</p>
+                          <p class="boton_pop" id="botonSO28" onclick="cambioParametro('SO2',8,'botonSO28')">SO2 (ppm) 8 horas</p>
                         </div>
                         <div class="col-xs-4">
-                          <p class="boton_pop" id="botonSO224" onclick="cambioParametro('SO2',24)">SO2 (ppm) 24 horas</p>
+                          <p class="boton_pop" id="botonSO224" onclick="cambioParametro('SO2',24,'botonSO224')">SO2 (ppm) 24 horas</p>
                         </div>
                       </div>
                       <div class="row">
                         <div class="col-xs-4">
-                          <p class="boton_pop" id="botonO3D" onclick="cambioParametro('O3',D)">O3 (ppm) Dato horario</p>
+                          <p class="boton_pop" id="botonO3D" onclick="cambioParametro('O3','D','botonO3D')">O3 (ppm) Dato horario</p>
                         </div>
                         <div class="col-xs-4">
-                          <p class="boton_pop" id="botonO38" onclick="cambioParametro('O3',8)">O3 (ppm) 8 horas</p>
+                          <p class="boton_pop" id="botonO38" onclick="cambioParametro('O3',8,'botonO38')">O3 (ppm) 8 horas</p>
                         </div>
                         <div class="col-xs-4">
-                          <p class="boton_pop" id="botonCO" onclick="cambioParametro('CO',8)">CO (ppm) 8 horas</p>
+                          <p class="boton_pop" id="botonCO" onclick="cambioParametro('CO',8,'botonCO')">CO (ppm) 8 horas</p>
                         </div>
                       </div>
                     </div>
@@ -258,8 +258,8 @@
 
           </div> <!-- fin del body  -->
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
           </div>
         
       </div>
@@ -317,7 +317,8 @@
           //conseguimos todas las variables necesarias para hacer la llamada a el API
           var estado =  $('#estado_primer_select').val();
           var estacion =  $('#estaciones_select').val();
-          var a = $('#contaminantes').val().split('_');
+          var b= $('#contaminantes').val();
+          var a = b.split('_');
           var parametro = a[0];
           var horas = a[1];
 
@@ -326,12 +327,25 @@
           
 
           //ponemos los parametros en la ventana
-
           $('#fecha_detalle').html(convertDate(new Date()));
           $('#contaminante_detalle').html(parametro);
           $('#estacion_detalle').html($('#estaciones_select option:selected').text());
           
-          // pero tengo que validarla 
+          var id;
+          switch (b) {
+            case 'PM10_24':   id='botonPM10'; break;
+            case 'PM2.5_24':  id='botonPM25'; break;
+            case 'SO2_24':    id='botonSO224'; break;
+            case 'SO2_8':     id='botonSO28'; break;
+            case 'SO2_D':     id='botonSO2D'; break;
+            case 'O3_8':      id='botonO38'; break;
+            case 'O3_D':      id='botonO3D'; break;
+            case 'NO2_24':    id='botonNO2'; break;
+            case 'CO_24':     id='botonCO'; break;
+            default: id=''; break;
+          }
+
+          cambioBotonActivo(id);
         });
 
 
@@ -382,25 +396,26 @@
         });
         // fin de instancia de la grafica
         
-        //botonera de contaminantes 
-        
-       
+      }); // fin de document ready
 
-      });
-
-      function cambioParametro(parametro, horas)
+      function cambioBotonActivo(id)
       {
-        console.log('====================================');
-        console.log(horas);
-        console.log(parametro);
-        console.log('====================================');
-        
+        //cambio de active boton
+        $(".boton_pop").each(function()
+        {
+          $(this).removeClass( "active_pop" )
+        });  
+        $('#'+id).addClass('active_pop');
+      }
+
+      function cambioParametro(parametro, horas,id)
+      {
+        cambioBotonActivo(id);
         var estado =  $('#estado_primer_select').val();
         var estacion =  $('#estaciones_select').val();
 
         $('#contaminante_detalle').html(parametro);
         porEstaciones(estado,estacion,parametro,horas);
-
       }
 
       function convertDate(inputFormat) 
@@ -443,22 +458,15 @@
         
         if(isDatoHorario) 
         {
-          horas = 8;
+          horas = 2;
         }
         
         dPasada.setHours(dActual.getHours() - horas);
 
-
-        console.log('====================================');
-        console.log(horas);
-        console.log(dPasada);
-        console.log(dActual);
-        console.log(id_estacion);
-        console.log('====================================');
         //https://api.datos.gob.mx/v1/sinaica?estacionesid=[eq:244]&pageSize=4 
         //https://api.datos.gob.mx/v1/sinaica?estacionesid=244&pageSize=1200&parametro=PM10&state=Chihuahua
         var url = 'https://api.datos.gob.mx/v1/sinaica?estacionesid='+id_estacion+'&date-insert=[range:'+getFormatDateAPI(dPasada)+'%7C'+getFormatDateAPI(dActual)+']&pageSize='+pageSize_estaciones;
-        
+      
         console.log(url);
         $.ajax({
           type: 'GET',
@@ -468,6 +476,38 @@
           {
           
             console.log(data);
+            //al recorrerlo sacar los tipos de contaminante  que esta manejando la estacion
+            // guardar el data en cache para consultarlo de nuevo
+            // if(data.length > )
+            // {
+
+            // }
+
+
+
+
+            if(isDatoHorario)//es dato horario
+            {
+              
+            }
+            else if(horas == 8)// es 8 horas
+            {
+              
+            }
+            else // es 24 horas
+            {
+
+            }
+
+
+            
+            //sacar los tipos de promedio para el gaugen
+            // tenemos datos maximos 
+            // tenemos un campo llamado valoring que se debe considerar
+            //tenemos que vlaidar que se tenga 75% de datos para poder hacer el promedio si no se deja como dato vacio
+            // 24 horas 
+            // 8 horas 
+            //dato horario
 
           },
           error: function (xhr, ajaxOptions, thrownError) 
