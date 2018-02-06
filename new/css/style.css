@@ -162,10 +162,12 @@ hr.red {
   border: 1px solid #333;
   border-radius: 10px 10px;
   padding: 3px 5px;
+  cursor: pointer;
 }
 
-.boton_pop p{
-  font-size: 10px;
+.active_pop{
+  color: #FFFFFF;
+  background-color: #87c8f3;
 }
 
 .select-wrapper input.select-dropdown {
