@@ -192,6 +192,7 @@
                     <div class="row margenes_pop">
                       <div class="row">
                         <div class="col-xs-4">
+
                           <p class="active_pop boton_pop" id="botonPM10" onclick="cambioParametro('PM10',24,'botonPM10')">PM10 (µg/m&sup3;) 24 horas</p>
                         </div>
                         <div class="col-xs-4">
@@ -203,6 +204,8 @@
                       </div>
                       <div class="row">
                         <div class=" col-xs-4">
+
+
                           <p class="boton_pop" id="botonSO2D" onclick="cambioParametro('SO2','D','botonSO2D')">SO2 (ppm) Dato horario</p>
                         </div>
                         <div class="col-xs-4">
@@ -214,6 +217,7 @@
                       </div>
                       <div class="row">
                         <div class="col-xs-4">
+
                           <p class="boton_pop" id="botonO3D" onclick="cambioParametro('O3','D','botonO3D')">O3 (ppm) Dato horario</p>
                         </div>
                         <div class="col-xs-4">
@@ -297,10 +301,18 @@
       var ant_val_arr = [];
       var ant_lab_arr = [];
 
+
+     
       //catalogo de constantes de configuración
       const pageSize_estaciones = 1200;
 
       $(document).ready(function(){
+
+        var valor =  50;
+          var maximo = 100;
+        $('.chart-gauge').html('');
+          $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:valor,gaugeMaxValue:maximo});
+
         /* instancia del mapa*/
           mymap.panTo(new L.LatLng(24.8, -100));
 
@@ -323,13 +335,15 @@
           //conseguimos todas las variables necesarias para hacer la llamada a el API
           var estado =  $('#estado_primer_select').val();
           var estacion =  $('#estaciones_select').val();
+
           var b= $('#contaminantes').val();
           var a = b.split('_');
           var parametro = a[0];
           var horas = a[1];
 
           porEstaciones(estado, estacion, parametro, horas); //llamada a la estación 
-          $('#myModal').modal('show'); // mandar a llamar al modal 
+
+
           
 
           //ponemos los parametros en la ventana
@@ -337,6 +351,11 @@
           $('#contaminante_detalle').html(parametro);
           $('#estacion_detalle').html($('#estaciones_select option:selected').text());
           
+
+          // pero tengo que validarla 
+          $('#myModal').modal('show'); // mandar a llamar al modal
+          
+
           var id;
           switch (b) {
             case 'PM10_24':   id='botonPM10'; break;
@@ -402,6 +421,7 @@
         });
         // fin de instancia de la grafica
         
+
 
 
         $('.parametro').click(function(){
@@ -491,6 +511,7 @@
       {
         const dActual = new Date();
         var dPasada = new Date();
+
         var isDatoHorario =  (horas == 'D') ? true : false;
         
         if(isDatoHorario) 
@@ -688,6 +709,7 @@
           console.log($( this ).val());
         });
       }
+
 
       function convertDate(date) 
       {

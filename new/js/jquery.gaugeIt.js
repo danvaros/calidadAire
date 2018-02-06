@@ -10,7 +10,9 @@
           value: 25,
           gaugeMaxValue: 100,
           barWidth: 3,
-          range:100
+          range:100,
+          colorNeddle:"#000000",
+          forceWidth: 'default'//Put 195px width
       }
 
       var options = $.extend({}, defaults, options);
@@ -45,7 +47,15 @@
             left: 30
           };
 
-          width = el[0][0].offsetWidth - margin.left - margin.right;
+          console.log(el[0][0].offsetWidth);
+
+          if (options.forceWidth == 'default'){
+            width = 195;
+          }else{
+            width = el[0][0].offsetWidth - margin.left - margin.right;
+          }
+          //width = el[0][0].offsetWidth - margin.left - margin.right;
+          //width = 150;
           widtho = el[0][0].offsetWidth - margin.left + 25 - margin.right + 25;
           height = width;
           heighto = widtho;
@@ -259,6 +269,9 @@
         this.perc = perc;
         self = this;
 
+        this.el.select('.needle').attr('fill', options.colorNeddle);
+        this.el.select('.needle-center').attr('fill', options.colorNeddle);
+        
         // Reset pointer position
         this.el.transition().delay(100).ease('quad').duration(200).select('.needle').tween('reset-progress', function() {
           return function(percentOfPercent) {

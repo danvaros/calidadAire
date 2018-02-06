@@ -365,10 +365,10 @@ justify-content: center;
     fill: #FFFFFF;
   }
 
-  .needle, .needle-center
+  /* .needle, .needle-center
   {
     fill: #ffffff;
-  }
+  } */
   .text {
     color: "#ffffff";
     font-size: 16px;
