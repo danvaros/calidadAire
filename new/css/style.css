@@ -12,6 +12,7 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,700');
 body{
   font-family: 'Roboto', sans-serif;
+  padding-top: 95px !important;
 }
 .titulo_hd{
   font-weight: bold;
