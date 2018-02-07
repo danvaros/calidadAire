@@ -55,7 +55,7 @@
           <div class="row">
             <div class="col-xs-12 text-center margen_arriba_g">
               <div class="base_botones">
-                <select class="browser-default contaminantes_mitad" name="" id="estado_primer_select"></select>
+                <select class="browser-default contaminantes_mitad" name="" onchange="ponEstacionesSel()" id="estado_primer_select"></select>
                 <select class="browser-default contaminantes_mitad" name="" id="estaciones_select"></select>
                 <br>
                 <select class="browser-default" name="" id="contaminantes">
@@ -137,6 +137,9 @@
         <h2> <a href="//datos.gob.mx/busca" target="_self">Datos</a></h2>
         <hr class="red">
       </div>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
     
     <!-- Modal -->
@@ -268,6 +271,11 @@
         
       </div>
     </div>
+
+
+   
+
+
   </main>
   <dgm-footer></dgm-footer>
   
@@ -328,14 +336,14 @@
 
 
         $('#estado_primer_select').html(options_estado());
-        $('#estaciones_select').html(options_estaciones());
+        //$('#estaciones_select').html(options_estaciones());
         $('#contaminantes').change(function()
         {
           //conseguimos todas las variables necesarias para hacer la llamada a el API
           var estado =  $('#estado_primer_select').val();
           var estacion =  $('#estaciones_select').val();
 
-          var b= $('#contaminantes').val();
+          var b = $('#contaminantes').val();
           var a = b.split('_');
           var parametro = a[0];
           var horas = a[1];
@@ -347,8 +355,6 @@
           $('#contaminante_detalle').html(parametro);
           $('#estacion_detalle').html($('#estaciones_select option:selected').text());
           
-
-          // pero tengo que validarla 
           $('#myModal').modal('show'); // mandar a llamar al modal
           
 
@@ -487,17 +493,17 @@
         return options;
       }
 
-      function options_estaciones()
-      {
-        var options  = '<option value="0">Estaciones</option>';
-        for (let index = 0; index < estaciones_json.length; index++) 
-        {
-          const element = estaciones_json[index];
-          options += '<option value="'+element.id+'">'+element.nombre+'</option>'
-        }
+      // function options_estaciones()
+      // {
+      //   var options  = '<option value="0">Estaciones</option>';
+      //   for (let index = 0; index < estaciones_json.length; index++) 
+      //   {
+      //     const element = estaciones_json[index];
+      //     options += '<option value="'+element.id+'">'+element.nombre+'</option>'
+      //   }
 
-        return options;
-      }
+      //   return options;
+      // }
 
 
       function porEstaciones(estado,id_estacion,parametro,horas)
@@ -525,7 +531,7 @@
           data: {},
           success: function( data, textStatus, jqxhr ) 
           {
-            var promedio;
+            var promedio = 0;
             if(isDatoHorario)//validamos si es dato horario
             {
               console.log('Dato horario');
@@ -564,34 +570,39 @@
                 promedio =  acumulado / tam; 
               }
 
-              console.log(promedio);
-
-     
+              console.log(promedio);     
 
             }
             
+            if(promedio != 0)
+            {
+              //temporal en lo que meto el gauge
+              // $('.chart-gauge').html('<p>'+promedio+'</p>');
+              var valor = promedio.toFixed(2);
+              var maximo = 100;
+              $('.chart-gauge').html('');
+              $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:valor,gaugeMaxValue:maximo});
+              
+              //consideraciones 
+              // tenemos datos maximos 
+              // tenemos un campo llamado valoring que se debe considerar
+              //tenemos que vlaidar que se tenga 75% de datos para poder hacer el promedio si no se deja como dato vacio
 
-            //temporal en lo que meto el gauge
-           // $('.chart-gauge').html('<p>'+promedio+'</p>');
-            var valor = promedio;
-            var maximo = 100;
-            $('.chart-gauge').html('');
-            $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:valor,gaugeMaxValue:maximo});
+              //poner la grafica 
+              //crear otra funcion que haga una llamada de 28 dias con los parametros de la llamada anterior 
+
             
-            //consideraciones 
-            // tenemos datos maximos 
-            // tenemos un campo llamado valoring que se debe considerar
-            //tenemos que vlaidar que se tenga 75% de datos para poder hacer el promedio si no se deja como dato vacio
+              var dPasada28 = new Date();
+              dPasada.setHours(dActual.getHours() - (28*24));
+              var url28 = 'https://api.datos.gob.mx/v1/sinaica?estacionesid='+id_estacion+'&date-insert=[range:'+getFormatDateAPI(dPasada)+'%7C'+getFormatDateAPI(dActual)+']&pageSize='+pageSize_estaciones;
 
-            //poner la grafica 
-            //crear otra funcion que haga una llamada de 28 dias con los parametros de la llamada anterior 
-
-           
-            var dPasada28 = new Date();
-            dPasada.setHours(dActual.getHours() - (28*24));
-            var url28 = 'https://api.datos.gob.mx/v1/sinaica?estacionesid='+id_estacion+'&date-insert=[range:'+getFormatDateAPI(dPasada)+'%7C'+getFormatDateAPI(dActual)+']&pageSize='+pageSize_estaciones;
-
-            createArrayGrafica(url28, parametro);   
+              createArrayGrafica(url28, parametro); 
+            }
+            else
+            {
+              alert('El parametro seleccionado no cuenta con lecturas');
+            }
+            
 
 
           },
@@ -731,6 +742,24 @@
       {
         var fecha = d.getFullYear()+'-'+ meis[d.getMonth()] +'-'+((d.getDate() < 10?'0':'') + d.getDate())      +'T'+ ( (d.getHours() < 10?'0':'') + d.getHours() ) +':'+( (d.getMinutes()<10?'0':'') + d.getMinutes() )+':00';
         return fecha;
+      }
+
+      function ponEstacionesSel()
+      {
+        console.log('cambio de contenido para las estaciones');
+        
+        var x = document.getElementById("estado_primer_select").value;
+        var contenido = '';
+        for (let index = 0; index < estaciones_json.length; index++) 
+        {
+          var element =  estaciones_json[index];
+          if(element.state == x && element.activa)
+          {
+            contenido += '<option value="'+element.id+'">'+element.nombre+'</option>';
+          }  
+        }
+        
+        $('#estaciones_select').html(contenido);
       }
       
     </script>

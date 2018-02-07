@@ -28,8 +28,81 @@ $(document).ready(function()
             marker_mymap.idarray = i;
         }
     }
-    console.log(estaciones_json);
+
+    $(document).on('click', '.modal_mapa', function() {
+
+        // //sacar la estacion en particular solo id
+        var estacion = $(this).data().id;
+        //porEstaciones(estado, estacion, parametro, horas);
+        porEstaciones('', estacion, 'PM10', 24); //llamada a la estación 
+
+        $('#myModal').modal('show'); // mandar a llamar al modal
+        // var ciudad;
     
+        // boton_activo.removeClass('active_graf');
+        // boton_activo = $('#valPM1024H');
+        // boton_activo.addClass('active_graf');
+    
+        // for (var i = 0; i < estaciones_global.length; i++) {
+        //   if(id_estacion ==  estaciones_global[i].estacionesid){
+        //    ciudad  =  estaciones_global[i].city;
+        //    break;
+        //   }
+        // }
+    
+        // put_contaminantes(ciudad,id_estacion);
+        // //cruzar el id con estaciones obscuras
+        // var estacion = [];
+        // for (var i = 0; i < estaciones_json.length; i++) {
+        //     if(estaciones_json[i].id == id_estacion){
+        //       estacion  = estaciones_json[i];
+        //       break;
+        //     }
+        // }
+    
+        // var hoy =  convertDate(DateFalsa());
+    
+        // $.ajax({
+        //   type: 'GET',
+        //   url: "https://api.datos.gob.mx/v1/sinaica?parametro=PM10&city="+ciudad +"&fecha="+hoy+"&pageSize=12000",
+        //   data: {},
+        //   success: function( data, textStatus, jqxhr ) {
+        //     var lectura_alta = [];
+        //     if(data.results.length > 0)
+        //     {
+        //       for (var i = 0; i < data.results.length; i++) {
+        //         if(lectura_alta[i]>0 && data.results[i].valororig >lectura_alta[0].valororig ){
+        //           lectura_alta[0] = data.results[i];
+    
+        //         }else{
+        //           lectura_alta[0] = data.results[i];
+    
+        //         }
+        //       }
+    
+    
+        //       $('#titulo_detalle').html(lectura_alta[0].city);
+        //       $('#fecha_detalle').html(lectura_alta[0].fecha);
+        //       $('#contaminante_detalle').html(lectura_alta[0].parametro);
+        //       $('#estacion_detalle').html(estacion.nombre);
+        //       $('#contaminante_grafica').html(lectura_alta[0].parametro);
+    
+        //       //llamar pon historial
+        //       put_his_estacion_val_max(lectura_alta[0],estacion);
+        //     }else{
+        //       alert('La estación no tiene mediciones este día');
+        //     }
+    
+        //   },
+        //   xhrFields: {
+        //     withCredentials: false
+        //   },
+        //   crossDomain: true,
+        //   async:false
+        // });
+      });
+
+
 });
 
 function groupClick(event) 
@@ -71,7 +144,6 @@ function get_estaciones()
         async:false
     });
 }
-
 
 
 /*********************** codigo usado para crear el json de estaciones con estados y ciudades */
