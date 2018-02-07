@@ -9,6 +9,13 @@
 
 /*declaración de fuentes*/
 
+::before, ::after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,700');
 body{
   font-family: 'Roboto', sans-serif;
@@ -401,6 +408,16 @@ justify-content: center;
 
   .row .col.s5ths {
     width: 20%;
+  }
+  
+    
+  .green h2::after{
+	content: '';
+	width: 40px;
+	position: absolute;
+	bottom: -6px;
+	left: 0;
+	border-bottom: solid 5px #0c9;
   }
 
 @media (max-width: 600px) {
