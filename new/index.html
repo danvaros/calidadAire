@@ -85,7 +85,7 @@
       </div>
     </div>
 
-    <div class="container">
+    <div class="container hidden-xs">
       <div class="row mapa_titulo">
         <div class="col  col-xs-12">
           <h3 class="titulo_mapa">Estaciones de medición de contaminantes</h3>
@@ -131,15 +131,19 @@
       </div>
     </div>
 
-	<div class="container">
-	    <div class="row">
-	      <div class="col col-xs-12">
-	        <div id="mapid"></div>
-	      </div>
-	    </div>
+	<div class="container hidden-xs">
+    <div class="row">
+      <div class="col col-xs-12">
+        <div id="mapid"></div>
+      </div>
+    </div>
 	</div>
 
-	<div class="container">
+
+
+
+
+	<div class="container hidden-xs">
 	    <div class="row">
 	      <div class="col col-xs-12 green">
 	        <h2> <a href="//datos.gob.mx/busca" target="_self">Datos</a></h2>
@@ -150,6 +154,25 @@
 	    </div>
 	</div>
     
+
+    <!-- Modal -->
+    <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Mensaje</h4>
+          </div>
+          <div class="modal-body">
+            El parametro seleccionado no cuenta con lecturas
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal"> Aceptar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
       <div class="modal-dialog modal-lg" role="document">
@@ -162,7 +185,7 @@
             <!-- esto sera el modal -->
             
               <div class="row ">
-                <div class="col-xs-3">
+                <div class="col-xs-3 hidden-xs">
                   <div class="col-xs-4">
                     <img class="img-responsive" src="imagenes/fecha.png">
                   </div>
@@ -196,14 +219,13 @@
                   </div>
                   
                 </div>
-                <div class="col-xs-9">
+                <div class="col-xs-9 hidden-xs">
                     <div class="col-xs-12">
                         <p class="titulo"><strong>Valores maximos registrsdos del contaminate <span id="contaminante_grafica"> XXX </span></strong></p>
                     </div>
                     <div class="row margenes_pop">
                       <div class="row">
                         <div class="col-xs-4">
-
                           <p class="active_pop boton_pop" id="botonPM10" onclick="cambioParametro('PM10',24,'botonPM10')">PM10 (µg/m&sup3;) 24 horas</p>
                         </div>
                         <div class="col-xs-4">
@@ -215,8 +237,6 @@
                       </div>
                       <div class="row">
                         <div class=" col-xs-4">
-
-
                           <p class="boton_pop" id="botonSO2D" onclick="cambioParametro('SO2','D','botonSO2D')">SO2 (ppm) Dato horario</p>
                         </div>
                         <div class="col-xs-4">
@@ -240,13 +260,19 @@
                       </div>
                     </div>
                 </div>
+                <div class="col-xs-12 hidden-sm hidden-md hidden-lg">
+                  <select name="" id="">
+                    <option value="">1</option>
+                    <option value="">2</option>
+                  </select>
+                </div>
               </div>
               
               <div class="row">
-                <div class="col-xs-3">
+                <div class="col-xs-12 col-sm-3">
                     <div class="chart-gauge"></div>
                 </div>
-                <div class="col-xs-9">
+                <div class="col-xs-12 col-sm-9">
                   <div class="col-xs-12">
                     <h5>parametro</h5>
                     <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias, delectus voluptate error libero, repudiandae </p>
@@ -257,7 +283,7 @@
                   </div>
                 </div>
               </div>
-              <div class="row">
+              <div class="row hidden-xs">
                 <div class="col-xs-12 offset-m1 offset-l2">
                   <canvas id="myChart"></canvas>
                 </div>
@@ -279,10 +305,6 @@
         
       </div>
     </div>
-
-
-   
-
 
   </main>
   <dgm-footer></dgm-footer>
@@ -351,6 +373,8 @@
         //$('#estaciones_select').html(options_estaciones());
         $('#contaminantes').change(function()
         {
+          // Oculta Loader
+	        $('.forLoader').show();
           //conseguimos todas las variables necesarias para hacer la llamada a el API
           var estado =  $('#estado_primer_select').val();
           var estacion =  $('#estaciones_select').val();
@@ -365,11 +389,9 @@
           //ponemos los parametros en la ventana
           $('#fecha_detalle').html(convertDate(new Date()));
           $('#contaminante_detalle').html(parametro);
+          $('#titulo_detalle').html(buscarCiudad(estacion));
           $('#estacion_detalle').html($('#estaciones_select option:selected').text());
           
-          $('#myModal').modal('show'); // mandar a llamar al modal
-          
-
           var id;
           switch (b) {
             case 'PM10_24':   id='botonPM10'; break;
@@ -465,6 +487,18 @@
       }); // fin de document ready
 
 
+      function buscarCiudad(idEstacion){
+        var city = '';
+        for (let index = 0; index < estaciones_json.length; index++) {
+          const element = estaciones_json[index];
+          if(element.id == idEstacion)
+          {
+            city =  element.city;
+            break;
+          }
+        }
+        return city;
+      }
 
       function cambioBotonActivo(id)
       {
@@ -609,14 +643,15 @@
               var url28 = 'https://api.datos.gob.mx/v1/sinaica?estacionesid='+id_estacion+'&date-insert=[range:'+getFormatDateAPI(dPasada)+'%7C'+getFormatDateAPI(dActual)+']&pageSize='+pageSize_estaciones;
 
               createArrayGrafica(url28, parametro); 
+              $('#myModal').modal('show'); // mandar a llamar al modal
             }
             else
-            {
-              alert('El parametro seleccionado no cuenta con lecturas');
+            {   
+              $('#alertModal').modal('show');
             }
-            
 
-
+            // Oculta Loader
+            $('.forLoader').hide();
           },
           error: function (xhr, ajaxOptions, thrownError) 
           {
