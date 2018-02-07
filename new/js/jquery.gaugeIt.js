@@ -110,14 +110,14 @@
               .attr("font-size",72)
               .attr("text-anchor","middle")
               .attr("dy",".5em")
-              .style("fill", '#ffffff');
+              .style("fill", options.colorNeddle);
 
         valueText = chart.append("text")
               .attr('id', "Value")
               .attr("font-size",14)
               .attr("text-anchor","middle")
               .attr("dy",".5em")
-              .style("fill", '#ffffff');
+              .style("fill", options.colorNeddle);
               //formatValue = d3.format('1%');
               formatValue = d3.format(".2f");
 
