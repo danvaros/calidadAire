@@ -133,7 +133,7 @@ footer.page-footer {
   width: 300px;
   height: 50px;
   font-weight: 300;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .contaminantes_mitad{
@@ -144,7 +144,7 @@ footer.page-footer {
   width: 150px;
   height: 50px;
   font-weight: 300;
-  font-size: 14px;
+  font-size: 16px;
   float: left;
 }
 
@@ -410,8 +410,8 @@ justify-content: center;
   .row .col.s5ths {
     width: 20%;
   }
-  
-    
+
+
   .green h2::after{
 	content: '';
 	width: 40px;
@@ -420,7 +420,7 @@ justify-content: center;
 	left: 0;
 	border-bottom: solid 5px #0c9;
   }
-  
+
   .forLoader{
 	width:100vw;
 	height:100vh;
@@ -431,7 +431,7 @@ justify-content: center;
 	background: rgba(0,0,0,0.7);
 	display:flex;
   }
-  
+
    .loader {
     border: 16px solid #f3f3f3; /* Light grey */
     border-top: 16px solid #3498db; /* Blue */
@@ -442,7 +442,7 @@ justify-content: center;
     z-index: 999999999999999;
     margin: auto;
 	}
-	
+
 	@keyframes spin {
 	    0% { transform: rotate(0deg); }
 	    100% { transform: rotate(360deg); }
