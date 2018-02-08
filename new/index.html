@@ -50,7 +50,7 @@
   <main>
     <div id="" class="cabezera" style="background-image: url('imagenes/fondo.jpg');background-size: cover; background-repeat: no-repeat;background-position:center top; height: 100vh; width: 100vw;">
       <div class="section no-pad-bot">
-        <div class="container" style="padding-top: 30%;">
+        <div class="container" style="padding-top: 30vh;">
           <div class="row">
             <div class="col-xs-12 text-center">
               <h2 style="color: #FFFFFF">Calidad de Aire MX</h2>
@@ -136,7 +136,9 @@
 	      <div class="col col-xs-12">
 	        <div id="mapid"></div>
 	      </div>
-	    </div>
+      </div>
+      
+      <!-- <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left" title="Tooltip on left">Tooltip on left</button> -->
 	</div>
 
 	<div class="container">
@@ -184,7 +186,7 @@
                   </div>
                   <div class="col-xs-8">
                     <p><b >Temperatura</b></p>
-                    <p id="temperatura_detalle">24/05/17</p>
+                    <p id="temperatura_detalle">No disponible</p>
                   </div>
 
                   <div class="col-xs-4">
@@ -198,44 +200,40 @@
                 </div>
                 <div class="col-xs-9">
                     <div class="col-xs-12">
-                        <p class="titulo"><strong>Valores maximos registrsdos del contaminate <span id="contaminante_grafica"> XXX </span></strong></p>
+                        <p class="titulo"><strong>Valores maximos registrados del contaminate <span id="contaminante_grafica"> XXX </span></strong></p>
                     </div>
                     <div class="row margenes_pop">
                       <div class="row">
                         <div class="col-xs-4">
-
-                          <p class="active_pop boton_pop" id="botonPM10" onclick="cambioParametro('PM10',24,'botonPM10')">PM10 (µg/m&sup3;) 24 horas</p>
+                          <p data-toggle="tooltip" data-placement="top" title="Tooltip on left" class="active_pop boton_pop" id="botonPM10" onclick="cambioParametro('PM10',24,'botonPM10')">PM10 (µg/m&sup3;) 24 horas</p>
                         </div>
                         <div class="col-xs-4">
-                          <p class="boton_pop" id="botonPM25" onclick="cambioParametro('PM2.5',24,'botonPM25')">PM2.5 (µg/m&sup3;) 24 horas</p>
+                          <p data-toggle="tooltip" data-placement="top" title="Tooltip on left" class="boton_pop" id="botonPM25" onclick="cambioParametro('PM2.5',24,'botonPM25')">PM2.5 (µg/m&sup3;) 24 horas</p>
                         </div>
                         <div class="col-xs-4">
-                          <p class="boton_pop" id="botonNO2" onclick="cambioParametro('NO2','D','botonNO2')">NO2 (ppm) Dato horario</p>
+                          <p data-toggle="tooltip" data-placement="top" title="Tooltip on left" class="boton_pop" id="botonNO2" onclick="cambioParametro('NO2','D','botonNO2')">NO2 (ppm) Dato horario</p>
                         </div>
                       </div>
                       <div class="row">
                         <div class=" col-xs-4">
-
-
-                          <p class="boton_pop" id="botonSO2D" onclick="cambioParametro('SO2','D','botonSO2D')">SO2 (ppm) Dato horario</p>
+                          <p data-toggle="tooltip" data-placement="top" title="Tooltip on left" class="boton_pop" id="botonSO2D" onclick="cambioParametro('SO2','D','botonSO2D')">SO2 (ppm) Dato horario</p>
                         </div>
                         <div class="col-xs-4">
-                          <p class="boton_pop" id="botonSO28" onclick="cambioParametro('SO2',8,'botonSO28')">SO2 (ppm) 8 horas</p>
+                          <p data-toggle="tooltip" data-placement="top" title="Tooltip on left" class="boton_pop" id="botonSO28" onclick="cambioParametro('SO2',8,'botonSO28')">SO2 (ppm) 8 horas</p>
                         </div>
                         <div class="col-xs-4">
-                          <p class="boton_pop" id="botonSO224" onclick="cambioParametro('SO2',24,'botonSO224')">SO2 (ppm) 24 horas</p>
+                          <p data-toggle="tooltip" data-placement="top" title="Tooltip on left" class="boton_pop" id="botonSO224" onclick="cambioParametro('SO2',24,'botonSO224')">SO2 (ppm) 24 horas</p>
                         </div>
                       </div>
                       <div class="row">
                         <div class="col-xs-4">
-
-                          <p class="boton_pop" id="botonO3D" onclick="cambioParametro('O3','D','botonO3D')">O3 (ppm) Dato horario</p>
+                          <p data-toggle="tooltip" data-placement="top" title="Tooltip on left" class="boton_pop" id="botonO3D" onclick="cambioParametro('O3','D','botonO3D')">O3 (ppm) Dato horario</p>
                         </div>
                         <div class="col-xs-4">
-                          <p class="boton_pop" id="botonO38" onclick="cambioParametro('O3',8,'botonO38')">O3 (ppm) 8 horas</p>
+                          <p data-toggle="tooltip" data-placement="top" title="Tooltip on left" class="boton_pop" id="botonO38" onclick="cambioParametro('O3',8,'botonO38')">O3 (ppm) 8 horas</p>
                         </div>
                         <div class="col-xs-4">
-                          <p class="boton_pop" id="botonCO" onclick="cambioParametro('CO',8,'botonCO')">CO (ppm) 8 horas</p>
+                          <p data-toggle="tooltip" data-placement="top" title="Tooltip on left" class="boton_pop" id="botonCO" onclick="cambioParametro('CO',8,'botonCO')">CO (ppm) 8 horas</p>
                         </div>
                       </div>
                     </div>
@@ -327,7 +325,8 @@
       const pageSize_estaciones = 1200;
 
       $(document).ready(function(){
-	      
+
+        $('[data-toggle="tooltip"]').tooltip();   
 	      
 	      // Oculta Loader
 	      $('.forLoader').hide();
@@ -366,7 +365,7 @@
           $('#fecha_detalle').html(convertDate(new Date()));
           $('#contaminante_detalle').html(parametro);
           $('#estacion_detalle').html($('#estaciones_select option:selected').text());
-          
+          $('#contaminante_grafica').html(parametro);
           $('#myModal').modal('show'); // mandar a llamar al modal
           
 
@@ -761,17 +760,29 @@
         console.log('cambio de contenido para las estaciones');
         
         var x = document.getElementById("estado_primer_select").value;
-        var contenido = '';
+        var contenido = '<option value="0">Seleccionar estación</option>';
+        var numEstaciones = 0;
         for (let index = 0; index < estaciones_json.length; index++) 
         {
           var element =  estaciones_json[index];
           if(element.state == x && element.activa)
           {
-            contenido += '<option value="'+element.id+'">'+element.nombre+'</option>';
+            contenido += '<option value="'+element.id+'">'+element.city+' - '+element.nombre+'</option>';
+            numEstaciones ++;
           }  
         }
         
-        $('#estaciones_select').html(contenido);
+
+        if(numEstaciones > 0)
+        {
+          $('#estaciones_select').html(contenido);
+        }
+        else
+        {
+          $('#estaciones_select').html('<option value="0">El estado no cuenta con estaciones habilitadas</option>');
+        }
+
+        
       }
       
     </script>
