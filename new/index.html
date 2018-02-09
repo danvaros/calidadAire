@@ -40,14 +40,18 @@
 
 </head>
 
-<div class="forLoader" id="forLoader1">
-	 <div class="loader"></div>
- </div>
+
 
 <body class="front" cz-shortcut-listen="true" >
 
   <dgm-navbar></dgm-navbar>
   <main>
+
+    <div class="forLoader" id="forLoader1">
+    	 <div class="loader"></div>
+     </div>
+
+
     <div id="" class="cabezera" style="background-image: url('imagenes/fondo.jpg');background-size: cover; background-repeat: no-repeat;background-position:center top; height: 100vh; width: 100vw;">
       <div class="section no-pad-bot">
         <div class="container" style="padding-top: 30vh;">
@@ -92,7 +96,7 @@
         </div>
         <div class="col col-xs-12 ">
           <div class="input-field col s6 m2 l2">
-            <select  name="estados" id="estados" class="browser-default ">
+            <select  name="estados" id="estados" class="browser-default " onchange="cambiaCoor()">
               <option value="Aguascalientes">Aguascalientes</option>
               <option value="Baja California">Baja California</option>
               <option value="Baja California Sur">Baja California Sur</option>
@@ -229,35 +233,36 @@
                     <div class="row margenes_pop">
                       <div class="row">
                         <div class="col-xs-4">
-                          <p data-toggle="tooltip" data-placement="top" title="Tooltip on left" class="active_pop boton_pop" id="botonPM10" onclick="cambioParametro('PM10',24,'botonPM10')">PM10 (µg/m&sup3;) 24 horas</p>
+                          <p data-toggle="tooltip" data-placement="top" title="Las partículas menores o iguales a 10 micras (PM10) se depositan en la región extratorácica del tracto respiratorio (nariz, boca, naso, oro y laringofarínge); contienen principalmente materiales de la corteza terrestre y se originan en su mayoría por procesos de desintegración de partículas más grandes. También pueden contener material biológico como
+polen, esporas, virus o bacterias o provenir de la combustión incompleta de combustibles fósiles." class="active_pop boton_pop" id="botonPM10" onclick="cambioParametro('PM10',24,'botonPM10')">PM10 (µg/m&sup3;) 24 horas</p>
                         </div>
                         <div class="col-xs-4">
-                          <p data-toggle="tooltip" data-placement="top" title="Tooltip on left" class="boton_pop" id="botonPM25" onclick="cambioParametro('PM2.5',24,'botonPM25')">PM2.5 (µg/m&sup3;) 24 horas</p>
+                          <p data-toggle="tooltip" data-placement="top" title="Las partículas menores o iguales a 2.5 micras (PM2.5) están formadas primordialmente por gases y por material proveniente de la combustión. Se depositan fundamentalmente en la región traqueobronquial (tráquea hasta bronquiolo terminal), aunque pueden ingresar a los alvéolos." class="boton_pop" id="botonPM25" onclick="cambioParametro('PM2.5',24,'botonPM25')">PM2.5 (µg/m&sup3;) 24 horas</p>
                         </div>
                         <div class="col-xs-4">
-                          <p data-toggle="tooltip" data-placement="top" title="Tooltip on left" class="boton_pop" id="botonNO2" onclick="cambioParametro('NO2','D','botonNO2')">NO2 (ppm) Dato horario</p>
+                          <p data-toggle="tooltip" data-placement="top" title="El dióxido de nitrógeno es un compuesto químico gaseoso de color marrón amarillento, es un gas tóxico e irritante. La exposición a este gas disminuye la capacidad de difusión pulmonar." class="boton_pop" id="botonNO2" onclick="cambioParametro('NO2','D','botonNO2')">NO2 (ppm) Dato horario</p>
                         </div>
                       </div>
                       <div class="row">
                         <div class=" col-xs-4">
-                          <p data-toggle="tooltip" data-placement="top" title="Tooltip on left" class="boton_pop" id="botonSO2D" onclick="cambioParametro('SO2','D','botonSO2D')">SO2 (ppm) Dato horario</p>
+                          <p data-toggle="tooltip" data-placement="top" title="Gas incoloro que se forman al quemar azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios." class="boton_pop" id="botonSO2D" onclick="cambioParametro('SO2','D','botonSO2D')">SO2 (ppm) Dato horario</p>
                         </div>
                         <div class="col-xs-4">
-                          <p data-toggle="tooltip" data-placement="top" title="Tooltip on left" class="boton_pop" id="botonSO28" onclick="cambioParametro('SO2',8,'botonSO28')">SO2 (ppm) 8 horas</p>
+                          <p data-toggle="tooltip" data-placement="top" title="Gas incoloro que se forman al quemar azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios." class="boton_pop" id="botonSO28" onclick="cambioParametro('SO2',8,'botonSO28')">SO2 (ppm) 8 horas</p>
                         </div>
                         <div class="col-xs-4">
-                          <p data-toggle="tooltip" data-placement="top" title="Tooltip on left" class="boton_pop" id="botonSO224" onclick="cambioParametro('SO2',24,'botonSO224')">SO2 (ppm) 24 horas</p>
+                          <p data-toggle="tooltip" data-placement="top" title="Gas incoloro que se forman al quemar azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios." class="boton_pop" id="botonSO224" onclick="cambioParametro('SO2',24,'botonSO224')">SO2 (ppm) 24 horas</p>
                         </div>
                       </div>
                       <div class="row">
                         <div class="col-xs-4">
-                          <p data-toggle="tooltip" data-placement="top" title="Tooltip on left" class="boton_pop" id="botonO3D" onclick="cambioParametro('O3','D','botonO3D')">O3 (ppm) Dato horario</p>
+                          <p data-toggle="tooltip" data-placement="top" title="Es un compuesto gaseoso incoloro, que posee la capacidad de oxidar materiales, y causa irritación ocular y en las vías respiratorias." class="boton_pop" id="botonO3D" onclick="cambioParametro('O3','D','botonO3D')">O3 (ppm) Dato horario</p>
                         </div>
                         <div class="col-xs-4">
-                          <p data-toggle="tooltip" data-placement="top" title="Tooltip on left" class="boton_pop" id="botonO38" onclick="cambioParametro('O3',8,'botonO38')">O3 (ppm) 8 horas</p>
+                          <p data-toggle="tooltip" data-placement="top" title="Es un compuesto gaseoso incoloro, que posee la capacidad de oxidar materiales, y causa irritación ocular y en las vías respiratorias." class="boton_pop" id="botonO38" onclick="cambioParametro('O3',8,'botonO38')">O3 (ppm) 8 horas</p>
                         </div>
                         <div class="col-xs-4">
-                          <p data-toggle="tooltip" data-placement="top" title="Tooltip on left" class="boton_pop" id="botonCO" onclick="cambioParametro('CO',8,'botonCO')">CO (ppm) 8 horas</p>
+                          <p data-toggle="tooltip" data-placement="top" title="Es un gas incoloro e inodoro que en concentraciones altas puede ser letal ya que forma carboxihemoglobina, la cual impide la oxígenación de la sangre." class="boton_pop" id="botonCO" onclick="cambioParametro('CO',8,'botonCO')">CO (ppm) 8 horas</p>
                         </div>
                       </div>
                     </div>
@@ -376,12 +381,9 @@
         //$('#estaciones_select').html(options_estaciones());
         $('#contaminantes').change(function()
         {
-          // Oculta Loader
 
+          $('.forLoader').show();
 
-	        $('.forLoader').show();
-          $('#forLoader1').show();
-          alert('por que no sale');
           //conseguimos todas las variables necesarias para hacer la llamada a el API
           var estado =  $('#estado_primer_select').val();
           var estacion =  $('#estaciones_select').val();
@@ -493,7 +495,6 @@
         get_estaciones();
 
       }); // fin de document ready
-
 
       function buscarCiudad(idEstacion){
         var city = '';
@@ -827,6 +828,21 @@
         }
       }
 
+
+      function cambiaCoor()
+      {
+          var seleccionado = document.getElementById("estados").value;
+
+          console.log(seleccionado);
+          jQuery.each( coor_estado, function( i, val )
+          {
+            if(seleccionado == val.estado)
+            {
+                mymap.setView([val.lat, val.long], (val.zoom-1));
+                console.log('entro');
+            }
+          });
+      }
     </script>
   </body>
 </html>
