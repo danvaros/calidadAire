@@ -378,7 +378,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
         $('[data-toggle="tooltip"]').tooltip();
 
 	      // Oculta Loader
-	      //$('.forLoader').hide();
+	      $('.forLoader').hide();
 
         /* instancia del mapa*/
           mymap.panTo(new L.LatLng(24.8, -100));
@@ -583,8 +583,13 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
 
       function porEstaciones(estado,id_estacion,parametro,horas)
       {
-        const dActual = new Date();
-        var dPasada = new Date();
+        // const dActual = new Date();
+        // var dPasada = new Date();
+
+        
+
+        const dActual = DateFalsa();
+        var dPasada = DateFalsa();
 
         var isDatoHorario =  (horas == 'D') ? true : false;
 
@@ -606,6 +611,9 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
           data: {},
           success: function( data, textStatus, jqxhr )
           {
+            console.log('datos');
+            console.log(data);
+            
             if(data.results.length > 0)
             {
                 var promedio = 0;
@@ -681,26 +689,13 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
                 }
                 else
                 {
-                    $('#alertModal').modal('show');
+                  desabilitarGrafica();
                 }
 
             }
             else
             {
-                var valor = 0;
-                var maximo = 100;
-                $('.chart-gauge').html('');
-                $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:valor,gaugeMaxValue:maximo});
-                
-                //vaciamos la grafica para mostrar que no tenemos lectura
-                for(var i=0; i< valores.length; i++){
-                    valores[i] =  null;
-                }
-                
-                actualizar_grafica_detalle(valores, etiquetas);
-                
-                //ocultamos la botonera para que no se pueda utilizar
-                $('.botonera').hide();
+              desabilitarGrafica();
             }
             
             // Oculta Loader
@@ -719,6 +714,25 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
         });
       }
         
+      function desabilitarGrafica()
+      {
+        $('#alertModal').modal('show');
+        var valor = 0;
+        var maximo = 100;
+        $('.chart-gauge').html('');
+        $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:valor,gaugeMaxValue:maximo});
+        
+        //vaciamos la grafica para mostrar que no tenemos lectura
+        for(var i=0; i< valores.length; i++){
+            valores[i] =  null;
+        }
+        
+        actualizar_grafica_detalle(valores, etiquetas);
+        
+        //ocultamos la botonera para que no se pueda utilizar
+        $('.botonera').hide();
+      }
+
       function createArrayGrafica(url, parametro){
         $.ajax({
           type: 'GET',
@@ -903,6 +917,11 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
                 console.log('entro');
             }
           });
+      }
+
+      function DateFalsa()
+      {
+        return new Date("2018-02-08");
       }
     </script>
   </body>
