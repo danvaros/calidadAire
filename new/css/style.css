@@ -125,7 +125,8 @@ footer.page-footer {
   color:#74b3e0;
   font-weight: bold;
 }
-#contaminantes{
+
+.contaminantes{
   color: #ddd;
   background-color:
   rgba(243, 236, 236, .2);
@@ -443,6 +444,7 @@ justify-content: center;
     margin: auto;
 	}
 
+    
 	@keyframes spin {
 	    0% { transform: rotate(0deg); }
 	    100% { transform: rotate(360deg); }
