@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Calidad del Aire</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+
+  <link rel="import" href="bower_components/polymer/polymer.html">
+  <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="http://cdn.datos.gob.mx/qa/bower_components/dgm-style/main.css" />
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="import" href="https://cdn.datos.gob.mx/bower_components/dgm-navbar/dgm-navbar.html">
+  <link rel="import" href="https://cdn.datos.gob.mx/bower_components/dgm-footer/dgm-footer.html">
+
+  <!-- Fuente Roboto-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
+</head>
+
+<body class="front" cz-shortcut-listen="true" >
+
+  <dgm-navbar></dgm-navbar>
+  <main>
+
+<!--
+    <div class="forLoader" id="forLoader1">
+        <div class="loader"></div>
+    </div>
+-->
+<div class="container">
+  <div class="row">
+     <div class="col-xs-12">
+         <breadcrumb>
+             <ul class="breadcrumb">
+                 <li>
+                     <a ui-sref="landing" href="/">
+                         <i class="glyphicon glyphicon-home"></i>
+                     </a>
+                 </li>
+                 <!-- ngRepeat: crumb in crumbs -->
+                 <li ng-repeat="crumb in crumbs" class="ng-scope">
+                     <a href="index.html" class="ng-binding">
+                         Calidad de aire
+                     </a>
+                 </li>
+                 <li ng-repeat="crumb in crumbs" class="ng-scope">
+                     <a class="ng-binding">
+                          Glosario
+                     </a>
+                 </li>
+                <!-- end ngRepeat: crumb in crumbs -->
+             </ul>
+         </breadcrumb>
+     </div>
+ </div>
+  <div class="row">
+      <div class="col-xs-12">
+          <h1>Glosario de terminos</h1>
+      </div>
+  </div>
+   <div class="row">
+       <div class="col-xs-12">
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingOne">
+              <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  Aire limpio
+                </a>
+              </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+              <div class="panel-body">
+                <p>
+                    El aire es un elemento esencial para la vida de todos los seres vivos que habitamos el planeta y está compuesto en porcentaje de volumen de aire seco, por los gases: nitrógeno en un 78%, oxígeno en un 21% y gases inertes en un 1%, que se mantienen virtualmente constantes en todo el planeta.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingTwo">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  Calidad del aire
+                </a>
+              </h4>
+            </div>
+            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+              <div class="panel-body">
+              <p> 
+                  Estado de la concentración de los diferentes contaminantes atmosféricos en un periodo de tiempo y lugar determinados, cuyos niveles máximos de concentración se establecen en las normas oficiales mexicanas y que son catalogados por un índice estadístico atendiendo sus efectos en la salud humana.
+              </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingThree">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                  Concentración de contaminantes
+                </a>
+              </h4>
+            </div>
+            <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+              <div class="panel-body">
+                <p>
+                    Cantidad de contaminante contenida en un determinado volumen de aire.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading4">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                  Contaminantes criterio
+                </a>
+              </h4>
+            </div>
+            <div id="collapse4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading4">
+              <div class="panel-body">
+                <p>
+                    Aquellos contaminantes normados a los que se les han establecido un límite máximo de concentración en el aire ambiente, con la finalidad de proteger la salud humana y asegurar el bienestar de la población. Estos son: el ozono (O3), el monóxido de carbono (CO), el bióxido de azufre (SO2), el bióxido de nitrógeno (NO2), el plomo (Pb), las partículas suspendidas totales (PST), y las partículas suspendidas menores a 10 (PM10) y partículas suspendidas menores a 2.5 micrómetros (PM2.5)
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading5">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse5" aria-expanded="false" aria-controls="collapse5">
+                  Contaminantes primarios
+                </a>
+              </h4>
+            </div>
+            <div id="collapse5" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading5">
+              <div class="panel-body">
+                <p>
+                    Aquellos procedentes directamente de las fuentes de emisión, por ejemplo: plomo (Pb), monóxido de carbono (CO), óxidos de azufre (SOx), óxidos de nitrógeno (NOx), hidrocarburos (HC), material particulado , entre otros.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading6">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse6" aria-expanded="false" aria-controls="collapse6">
+                  Contaminantes secundarios
+                </a>
+              </h4>
+            </div>
+            <div id="collapse6" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading6">
+              <div class="panel-body">
+                <p>
+                    Aquellos originados en el aire por la interacción entre dos o más contaminantes primarios, o por sus reacciones con los componentes naturales de la atmósfera. Por ejemplo: ozono (O3), peroxiacetil-nitrato (PAN), sulfatos (SO4), nitratos (NO3), ácido sulfúrico (H2SO4), entre otr
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading7">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse7" aria-expanded="false" aria-controls="collapse7">
+                  Estación de muestreo
+                </a>
+              </h4>
+            </div>
+            <div id="collapse7" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading7">
+              <div class="panel-body">
+                <p>
+                    Uno o más instrumentos diseñados para recolectar muestras de aire ambiente con el fin de evaluar la calidad del aire en un área determinada.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading8">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse8" aria-expanded="false" aria-controls="collapse8">
+                  Estación de monitoreo
+                </a>
+              </h4>
+            </div>
+            <div id="collapse8" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading8">
+              <div class="panel-body">
+                <p>
+                    Está integrada por uno o más instrumentos, diseñados para medir de forma continua, la concentración de contaminantes en aire ambiente para evaluar la calidad del aire en un área determinada.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading9">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse9" aria-expanded="false" aria-controls="collapse9">
+                  Red de muestreo y/o monitoreo
+                </a>
+              </h4>
+            </div>
+            <div id="collapse9" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading9">
+              <div class="panel-body">
+                <p>
+                    Conjunto de estaciones que miden la calidad del aire en una región determinada.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading10">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse10" aria-expanded="false" aria-controls="collapse10">
+                  Sistemas de monitoreo de la calidad del aire
+                </a>
+              </h4>
+            </div>
+            <div id="collapse10" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading10">
+              <div class="panel-body">
+                <p>
+                    Un sistema de monitoreo consiste en un conjunto organizado de recursos humanos, técnicos y administrativos empleados para operar una o un conjunto de estaciones de monitoreo y/o muestreo que miden la calidad del aire en una zona o región.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading11">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse11" aria-expanded="false" aria-controls="collapse11">
+                  Inventario de emisiones a la atmósfera
+                </a>
+              </h4>
+            </div>
+            <div id="collapse11" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading11">
+              <div class="panel-body">
+                <p>
+                    Estimación de la cantidad de contaminantes emitidos a la atmósfera por diferentes fuentes (p.e Industrias, vehículos, puestos de comida al carbón, etc.) en una localidad determinada para un periodo de tiempo definido.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading12">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse12" aria-expanded="false" aria-controls="collapse12">
+                  Fuentes puntuales (también conocidas como fuentes estacionarias o fijas)
+                </a>
+              </h4>
+            </div>
+            <div id="collapse12" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading12">
+              <div class="panel-body">
+                <p>
+                    Se refiere a una fuente de emisión de contaminantes ubicada en un punto fijo. Existen cientos de miles de fuentes estacionarias de contaminación del aire, como las plantas de energía, industrias químicas, refinerías de petróleo, fábricas, etc. Una de las mayores preocupaciones en todo el mundo, es la emisión de contaminantes como el bióxido de azufre (SO2) y partículas (PM) en la generación de energía eléctrica, pues su proceso involucra la combustión de grandes cantidades de combustibles fósiles.| Las industrias químicas, entre otras son responsables de emitir muchos contaminantes peligrosos como los compuestos orgánicos volátiles (COVs).
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading13">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse13" aria-expanded="false" aria-controls="collapse13">
+                  Fuentes móviles
+                </a>
+              </h4>
+            </div>
+            <div id="collapse13" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading13">
+              <div class="panel-body">
+                <p>
+                    Las fuentes móviles incluyen a las diversas formas de transporte tales como automóviles, camiones y aviones, etc. La principal fuente móvil de contaminación del aire es el automóvil, pues produce grandes cantidades de monóxido de carbono (CO) y cantidades menores de óxidos de nitrógeno (NOx) y compuestos orgánicos volátiles (COVs). http://www2.inecc.gob.mx/publicaciones/libros/457/categorias.pdf
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading14">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse14" aria-expanded="false" aria-controls="collapse14">
+                  Fuentes de área
+                </a>
+              </h4>
+            </div>
+            <div id="collapse14" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading14">
+              <div class="panel-body">
+                <p>
+                    Las fuentes de área se refiere a una serie de fuentes pequeñas, numerosas y dispersas, que no pueden ser incluidas de manera eficiente en un inventario de fuentes puntuales, pero que en conjunto pueden afectar la calidad del aire en una región, por ejemplo: el uso de madera para cocinar o calentar la casa, las imprentas, gasolineras, y las tintorerías, panaderías y puestos de comida al carbón, etc.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading15">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse15" aria-expanded="false" aria-controls="collapse15">
+                  Fuentes naturales
+                </a>
+              </h4>
+            </div>
+            <div id="collapse15" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading15">
+              <div class="panel-body">
+                <p>
+                    Los fenómenos naturales y la vida animal y vegetal pueden jugar un papel importante en el problema de la contaminación del aire, tales como: emisiones biogénicas, emisiones de suelos, erosión eólica, emisiones geotécnicas, etc.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading16">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse16" aria-expanded="false" aria-controls="collapse16">
+                  
+                </a>
+              </h4>
+            </div>
+            <div id="collapse16" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading16">
+              <div class="panel-body">
+                <p>
+                    Emisiones biogénicas: Son aquellas que provienen de las plantas, éstas emiten compuestos orgánicos volátiles: compuestos oxigenados (aldehídos y cetonas), compuestos cíclicos y lineales (isopreno y terpenos principalmente). http://www2.inecc.gob.mx/publicaciones/libros/439/cap1.html
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading17">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse18" aria-expanded="false" aria-controls="collapse18">
+                  
+                </a>
+              </h4>
+            </div>
+            <div id="collapse18" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading17">
+              <div class="panel-body">
+                <p>
+                    Emisiones geotécnicas: son aquellas que provienen de las erupciones volcánicas, fumarolas, géiseres y otras actividades geotérmicas. Estas fuentes emiten principalmente dióxido de azufre, dióxido de carbono, ácido sulfhídrico, mercurio, cloro y en menor medida etano, propano y otros hidrocarburos volátiles no metánicos (Guenther et al. 2000).
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading18">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse19" aria-expanded="false" aria-controls="collapse19">
+                  
+                </a>
+              </h4>
+            </div>
+            <div id="collapse19" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading18">
+              <div class="panel-body">
+                <p>
+                    Emisiones de Suelos: El óxido nitroso (N2O) es producido naturalmente en los suelos como parte de los procesos de desnitrificación (es decir, la reducción de nitritos y nitratos a nitrógeno gaseoso como N2 o NOx). Por su parte, los fertilizantes nitrogenados comerciales constituyen una fuente adicional de nitrógeno, lo cual incrementa las emisiones del suelo de N2O. Se estima que las emisiones de NOx provenientes de los suelos constituyen un 16% de la cantidad global de NOx en la tropósfera.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading19">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse20" aria-expanded="false" aria-controls="collapse20">
+                  
+                </a>
+              </h4>
+            </div>
+            <div id="collapse20" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading19">
+              <div class="panel-body">
+                <p>
+                    Erosión eólica: La erosión es el proceso de desalojamiento y transporte de las partículas del suelo por los dos principales agentes de erosión: el agua y el viento. La erosión ésta íntimamente relacionada con las propiedades del suelo y su cobertura. http://www.fao.org/docrep/u1510s/u1510s07.htm
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading20">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse21" aria-expanded="false" aria-controls="collapse21">
+                  Bióxido de azufre (SO2)
+                </a>
+              </h4>
+            </div>
+            <div id="collapse21" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading20">
+              <div class="panel-body">
+                <p>
+                    El SO2 pertenece a la familia de los óxidos de azufre (SOx) que son gases incoloros que se forman al quemar azufre y tienden a disolverse fácilmente en agua. La fuente primaria de SOx es la quema de combustibles fósiles, que contienen azufre en su composición, como el combustóleo y en particular, el carbón. La exposición a SO2 produce irritación e inflamación de las mucosas conjuntival y respiratoria.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading21">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse22" aria-expanded="false" aria-controls="collapse22">
+                  Bióxido de nitrógeno (NO2)
+                </a>
+              </h4>
+            </div>
+            <div id="collapse22" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading21">
+              <div class="panel-body">
+                <p>
+                    El dióxido de nitrógeno NO2 es un compuesto químico gaseoso de color marrón amarillento formado por la combinación de un átomo de nitrógeno y dos de oxígeno. Es un gas tóxico e irritante. El aumento progresivo en la exposición al NO2 puede producir problemas de percepción olfativa, molestias respiratorias, dolores respiratorios agudos y edema pulmonar.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading22">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse23" aria-expanded="false" aria-controls="collapse23">
+                  Material Particulado (PM)
+                </a>
+              </h4>
+            </div>
+            <div id="collapse23" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading22">
+              <div class="panel-body">
+                <p>
+                    El material particulado es una mezcla compleja de sustancias en estado líquido o sólido, que permanece suspendida en la atmósfera por periodos variables de tiempo. El espectro de efectos en la salud es amplio, pero afectan en particular a los sistemas respiratorio y cardiovascular. Toda la población puede ser afectada, aunque la susceptibilidad puede variar con el estado de salud o la edad, siendo los niños menores de 5 años, los adultos mayores de 65 y las personas con padecimientos previos, los grupos de mayor susceptibilidad.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading23">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse24" aria-expanded="false" aria-controls="collapse24">
+                  Plomo (Pb)
+                </a>
+              </h4>
+            </div>
+            <div id="collapse24" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading23">
+              <div class="panel-body">
+                <p>
+                    Es un metal que se usaba frecuentemente para fabricar tuberías de agua, recipientes para alimentos, pinturas y gasolina. La fuente primaria de contaminación del aire por plomo ha sido el uso de combustibles con plomo en los automóviles. Debido a que el plomo no se consume en el proceso de combustión, se emite como material particulado. El plomo es un contaminante tóxico para los humanos, su difícil remoción del cuerpo hace que se acumule en varios órganos y pueda dañar el sistema nervioso central. La intoxicación aguda produce síntomas como diarrea, vómito, cólico, convulsiones y dolor de cabeza. http://www.uniplom.es/fuentes.htm
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading24">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse25" aria-expanded="false" aria-controls="collapse25">
+                  Monóxido de carbono (CO)
+                </a>
+              </h4>
+            </div>
+            <div id="collapse25" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading24">
+              <div class="panel-body">
+                <p>
+                    Es un gas incoloro e inodoro que en concentraciones altas puede ser letal, pues impide el transporte del oxígeno a la sangre, lo que puede ocasionar una reducción significativa en la dotación de oxígeno al corazón.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading25">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse26" aria-expanded="false" aria-controls="collapse26">
+                  Ozono (O3)
+                </a>
+              </h4>
+            </div>
+            <div id="collapse26" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading25">
+              <div class="panel-body">
+                <p>
+                    Es un compuesto gaseoso incoloro, que posee la capacidad de oxidar materiales. El ozono es un contaminante secundario que se forma mediante la reacción química del dióxido de nitrógeno (NO2) y compuestos orgánicos volátiles (COV) en presencia de la luz solar. El ozono puede ocasionar inflamación pulmonar, depresión del sistema inmunológico frente a infecciones pulmonares, cambios agudos en la función, estructura y metabolismo pulmonar y efectos sistémicos en órganos blandos como el hígado.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading26">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse27" aria-expanded="false" aria-controls="collapse27">
+                  SMOG
+                </a>
+              </h4>
+            </div>
+            <div id="collapse27" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading26">
+              <div class="panel-body">
+                <p>
+                    Es una mezcla de contaminantes primarios y secundarios, que bajo ciertas condiciones meteorológicas, tienen la posibilidad de acumularse y de reaccionar entre sí, aumentando la concentración de contaminantes secundarios, que en la mayoría de los casos resultan, más peligrosos que los que, los originaron. Además, el smog disminuye la visibilidad. Como resultado de esta mezcla, se observa una especie de “niebla” y de aquí su nombre, que se compone de la combinación de las palabras smoke (humo) y fog (niebla) de origen inglés., en muchos casos aumenta la peligrosidad para la salud de la población que está expuesta y puede incluso aumentar el riesgo de muerte.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading27">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse28" aria-expanded="false" aria-controls="collapse28">
+                  Inversión térmica
+                </a>
+              </h4>
+            </div>
+            <div id="collapse28" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading27">
+              <div class="panel-body">
+                <p>
+                    Es un proceso totalmente natural que se presenta cuando la capa de aire que se encuentra en contacto con la superficie del suelo adquiere una temperatura menor que las capas superiores, por lo que se vuelve más densa y pesada. Las capas de aire que se encuentran a mayor altura y que están relativamente más calientes actúan como una cubierta que impide el movimiento del aire contaminante hacia arriba y por lo tanto se estanca, esto provoca un aumento progresivo de la concentración de los contaminantes a niveles que pueden ser nocivos para la salud humana y para los ecosistemas.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading28">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse29" aria-expanded="false" aria-controls="collapse29">
+                  Red general de medición de la calidad del aire ambiente.
+                </a>
+              </h4>
+            </div>
+            <div id="collapse29" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading28">
+              <div class="panel-body">
+                <p>
+                    Estas redes se instalan con la finalidad de co­nocer el grado de exposición que tienen los habitantes de una localidad, los ecosistemas e inmuebles, a los contaminantes atmosfé­ricos. Estas redes proporcionan información sobre la tendencia de dichos contaminantes en una localidad; la información de la loca­lidad debe ser representativa, por lo que se deben cubrir todos los tipos de área dentro de la localidad: industriales, comerciales y residenciales. En este sentido, las estacio­nes deben ubicarse de manera que sean re­presentativas de estas diferentes áreas. Cada estación debe estar conectada en línea con el centro de control para enviar los datos periódicamente de manera automática. El centro de control analiza los datos enviados y cuando se detecta algún problema manda al personal de mantenimiento a la estación donde se detectó dicho problema. El centro, a su vez, revisa los datos crudos que vienen de las estaciones y, de ser necesario, mar­ca datos sospechosos, colocando banderas (ver Manual 5) para después manejarlos. Las estaciones de niveles de fondo (ver Sección 4.3.4.) también se pueden incluir en este tipo de red y los datos se manejan de la misma manera que los de las estaciones de moni­toreo de calidad del aire ambiente general1. 1 El bienestar de la población es una consideración importante, sin embargo este tipo de monitoreo también puede identificar im­pactos de otras fuentes que de otra manera no se identificarían. Comentario realizado por experto de la EPA durante la elabo­ración de este documento
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading29">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse30" aria-expanded="false" aria-controls="collapse30">
+                  Red de medición de contami­nantes de fuentes específicas.
+                </a>
+              </h4>
+            </div>
+            <div id="collapse30" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading29">
+              <div class="panel-body">
+                <p>
+                    Este tipo de redes son instaladas en función de la ubicación de fuentes de emisión específicas, así como de los parámetros que son característicos de dichas emisiones. La información que genera la red de monitoreo es supervisada casi en tiem­po real para activar planes de contingencia y pro­ceder a controlar las emisiones de la(s) fuente(s) correspondientes. Estas redes también son una opción cuando los re­cursos económicos son insuficientes para contar con redes que midan todos los contaminantes criterio y los parámetros meteorológicos. Las principales fuen­tes específicas que se monitorean son las fuentes fijas y las móviles. Sin embargo, requieren de inven­tarios previos de emisiones de las fuentes a vigilar y de una sofisticada modelación para determinar los sitios idóneos para la instalación de las estaciones de medición.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading30">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse31" aria-expanded="false" aria-controls="collapse31">
+                  Red de monitoreo de fuentes fijas.
+                </a>
+              </h4>
+            </div>
+            <div id="collapse31" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading30">
+              <div class="panel-body">
+                <p>
+                    Esta red está compuesta por estaciones de medición ubicadas en lugares estratégicos para medir emisiones de fuentes fijas espe­cíficas. Sus estaciones se pueden incluir en la red general de medición de calidad del aire ambiente y, al igual que ésta, enviar los datos de medición al centro de control de manera periódica y automática. Según las atribucio­nes de cada localidad, el centro de control tendrá la consigna de emitir un llamado de advertencia a las autoridades correspondien­tes, a la fuente fija específica y a la ciudadanía cuando los datos recibidos muestren la pre­sencia de concentraciones que rebasen las normas de calidad del aire.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading31">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse32" aria-expanded="false" aria-controls="collapse32">
+                  Red de medición de emi­siones vehiculares.
+                </a>
+              </h4>
+            </div>
+            <div id="collapse32" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading31">
+              <div class="panel-body">
+                <p>
+                    Con el fin de conocer las concentraciones producidas por las emisiones vehiculares (co­nocidas también como fuentes móviles), las estaciones que conforman este tipo de red se ubican a un lado de las calles o avenidas principales, fuera de los carriles y atrás de la banqueta. Como las concentraciones que se miden varían dependiendo de varios paráme­tros, las vías deben clasificarse para que así las estaciones se ubiquen de tal manera que se optimice su cobertura y la representativi­dad de los datos generados. Esto evita que se instalen un gran número de estaciones de monitoreo de emisiones vehicu­lares, haciendo posible obtener concentracio­nes típicas a lo largo de las diferentes vías de la localidad con sólo un número limitado de estaciones. Al diseñar la red, estas estaciones pueden quedar incluidas en el Sistema de Me­dición de Calidad del Aire, SMCA. El manejo de los datos enviados por la estación se reali­za de la misma manera que en el caso de las estaciones de monitoreo de la calidad del aire, ver Manual 5.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading32">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse33" aria-expanded="false" aria-controls="collapse33">
+                  Red de medición de con­taminantes específicos.
+                </a>
+              </h4>
+            </div>
+            <div id="collapse33" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading32">
+              <div class="panel-body">
+                <p>
+                    Este tipo de redes tiene generalmente la fi­nalidad de medir la concentración de conta­minantes no criterio, como: compuestos or­gánicos volátiles, contaminantes orgánicos persistentes, contaminantes peligrosos, en­tre otros. Cuenta con estaciones que son uti­lizadas para fines específicos, generalmen­te de investigación. Por sus características, esta red requiere estar conectada de mane­ra independiente al centro de control. Como se mencionó, el principal propósito de estas redes es la investigación de contaminantes específicos, en cuanto a su comportamiento, transporte y tendencias.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+   </div>
+</div>
+  
+  
+
+  </main>
+  <dgm-footer></dgm-footer>
+  </body>
+</html>

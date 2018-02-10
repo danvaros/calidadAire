@@ -63,26 +63,33 @@
 
           <div class="row">
             <div class="col-xs-12 text-center margen_arriba_g">
+<!--
               <div class="base_botones">
                 <select class="browser-default contaminantes_mitad" name="" onchange="ponEstacionesSel()" id="estado_primer_select"></select>
-                <select class="browser-default contaminantes_mitad" name="" id="estaciones_select"></select>
+                <select class="browser-default contaminantes_mitad" name="" onchange="ponContaminantesSel()" id="estaciones_select">
+                    <option value="0">2.-Selecciona una estación</option>
+                </select>
                 <br>
                 <select class="browser-default" name="" id="contaminantes">
-                  <option value="0">Contaminate</option>
-                  <option value="PM10_24">PM 10 µg/m&sup3;</option>
-                  <option value="PM2.5_24">PM 2.5 µg/m&sup3;</option>
-                  <option value="SO2_24">SO2 (ppm) Promedio 24 horas</option>
-                  <option value="SO2_8">SO2 (ppm) Promedio 8 horas</option>
-                  <option value="SO2_D">SO2 (ppm) Dato horario</option>
-                  <option value="O3_8">Ozono (O3)(ppm) Promedio 8 horas</option>
-                  <option value="O3_D">Ozono (O3)(ppm) Dato horario</option>
-                  <option value="NO2_24">NO2 (ppm)</option>
-                  <option value="CO_24">CO (ppm)</option>
+                  <option value="0">3.-Selecciona un contaminate</option>
                 </select>
               </div>
+-->
+             <div class="base_botones">
+                <select class="browser-default contaminantes" name="" onchange="ponEstacionesSel()" id="estado_primer_select"></select>
+                <br>
+                <select class="browser-default contaminantes" name="" onchange="ponContaminantesSel()" id="estaciones_select">
+                    <option value="0">2.-Selecciona una estación</option>
+                </select>
+                <br>
+                <select class="browser-default contaminantes" name="" id="contaminantes">
+                  <option value="0">3.-Selecciona un contaminate</option>
+                </select>
+              </div>
+              
             </div>
             <div class="col-xs-12 text-center">
-              <h5 class="white-text"><span id="contaminante_titulo">Preguntas frecuentes | Glosario</span></h5>
+              <h5 class="white-text"><span id="contaminante_titulo"><a style="color: white" href="preguntas.html">Preguntas frecuentes </a>|<a style="color: white" href="glosario.html"> Glosario</a> </span></h5>
             </div>
           </div>
         </div>
@@ -135,7 +142,6 @@
       </div>
     </div>
 
-
 	<div class="container">
 	    <div class="row">
 	      <div class="col col-xs-12">
@@ -146,22 +152,34 @@
       <!-- <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left" title="Tooltip on left">Tooltip on left</button> -->
 	</div>
 
-
-
-
-
 	<div class="container hidden-xs">
 	    <div class="row">
-	      <div class="col col-xs-12 green">
-	        <h2> <a href="//datos.gob.mx/busca" target="_self">Datos</a></h2>
+	      <div class="col col-xs-12">
+	        <h1>Datos</h1>
+	        <div class="data-table" style="color: black; margin-bottom: 50px;">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Institución</th>
+                    <th>Formato</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr id="dato" data-href="https://datos.gob.mx/busca/dataset/proveedores-comercializacion-y-cultivos">
+                    <td id="nombreDato" class="">Proveedores, Comercialización y Cultivos</td>
+                    <td id="institucionDato" width="25%" class="">SAGARPA</td>
+                    <td width="10%">
+                      <span id="tipoDato" data-format="XLS" class="dataset-format">XLS</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 	      </div>
-	      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-	        <span aria-hidden="true">&times;</span>
-	      </button>
 	    </div>
 	</div>
-
-
+    
     <!-- Modal -->
     <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog modal-sm" role="document">
@@ -526,6 +544,8 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
         var estacion =  $('#estaciones_select').val();
 
         $('#contaminante_detalle').html(parametro);
+        $('#contaminante_grafica').html(parametro);
+          
         porEstaciones(estado,estacion,parametro,horas);
       }
 
@@ -538,7 +558,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
 
       function options_estado()
       {
-        var options  = '<option value="0">Estado</option>';
+        var options  = '<option value="0">1.-Selecciona un estado</option>';
         for (let index = 0; index < coor_estado.length; index++)
         {
           const element = coor_estado[index];
@@ -586,79 +606,103 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
           data: {},
           success: function( data, textStatus, jqxhr )
           {
-            var promedio = 0;
-            if(isDatoHorario)//validamos si es dato horario
+            if(data.results.length > 0)
             {
-              console.log('Dato horario');
-              for (let index = data.pagination.total-1; index > 0; index--)
-              {
-                if(data.results[index].parametro == parametro)
+                var promedio = 0;
+                if(isDatoHorario)//validamos si es dato horario
                 {
-                  promedio =  data.results[index].valororig;
-                  break;
+                  console.log('Dato horario');
+                  for (let index = data.pagination.total-1; index > 0; index--)
+                  {
+                    if(data.results[index].parametro == parametro)
+                    {
+                      promedio =  data.results[index].valororig;
+                      break;
+                    }
+                  }
                 }
-              }
+                else
+                {
+                  //filtramos el parametro deseado
+                  var dataParametro = [];
+                  for (let index = 0; index < data.pagination.total; index++)
+                  {
+                    if(data.results[index].parametro == parametro)
+                    {
+                      dataParametro.push(data.results[index]);
+                    }
+                  }
+
+                  console.log(dataParametro);
+                  // validamos qiue según el parametro pueda ser promediado
+                  if(dataParametro.length > 4) // cambiar para hacer el maximo modificable
+                  {
+                    var tam = dataParametro.length;
+                    var acumulado = 0;
+                    for (let index = 0; index < tam; index++)
+                    {
+                      acumulado  =  acumulado + dataParametro[index].valororig;
+                    }
+                    console.log(acumulado);
+                    promedio =  acumulado / tam;
+                  }
+
+                  console.log(promedio);
+
+                }
+
+                if(promedio != 0)
+                {
+                  //temporal en lo que meto el gauge
+                  // $('.chart-gauge').html('<p>'+promedio+'</p>');
+                  var valor = promedio.toFixed(2);
+                  var maximo = 100;
+                  $('.chart-gauge').html('');
+                  $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:valor,gaugeMaxValue:maximo});
+
+                  //consideraciones
+                  // tenemos datos maximos
+                  // tenemos un campo llamado valoring que se debe considerar
+                  //tenemos que vlaidar que se tenga 75% de datos para poder hacer el promedio si no se deja como dato vacio
+
+                  //poner la grafica
+                  //crear otra funcion que haga una llamada de 28 dias con los parametros de la llamada anterior
+
+
+                  var dPasada28 = new Date();
+                  dPasada.setHours(dActual.getHours() - (28*24));
+                  var url28 = 'https://api.datos.gob.mx/v1/sinaica?estacionesid='+id_estacion+'&date-insert=[range:'+getFormatDateAPI(dPasada)+'%7C'+getFormatDateAPI(dActual)+']&pageSize='+pageSize_estaciones;
+
+                  createArrayGrafica(url28, parametro);
+                  
+                  //Mostramos la botonera por si fue ocualta en el apso anterior
+                  $('.botonera').show();
+                  $('#myModal').modal('show'); // mandar a llamar al modal
+                }
+                else
+                {
+                    $('#alertModal').modal('show');
+                }
+
             }
             else
             {
-              //filtramos el parametro deseado
-              var dataParametro = [];
-              for (let index = 0; index < data.pagination.total; index++)
-              {
-                if(data.results[index].parametro == parametro)
-                {
-                  dataParametro.push(data.results[index]);
+                var valor = 0;
+                var maximo = 100;
+                $('.chart-gauge').html('');
+                $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:valor,gaugeMaxValue:maximo});
+                
+                //vaciamos la grafica para mostrar que no tenemos lectura
+                for(var i=0; i< valores.length; i++){
+                    valores[i] =  null;
                 }
-              }
-
-              console.log(dataParametro);
-              // validamos qiue según el parametro pueda ser promediado
-              if(dataParametro.length > 5) // cambiar para hacer el maximo modificable
-              {
-                var tam = dataParametro.length;
-                var acumulado = 0;
-                for (let index = 0; index < tam; index++)
-                {
-                  acumulado  =  acumulado + dataParametro[index].valororig;
-                }
-                console.log(acumulado);
-                promedio =  acumulado / tam;
-              }
-
-              console.log(promedio);
-
+                
+                actualizar_grafica_detalle(valores, etiquetas);
+                
+                //ocultamos la botonera para que no se pueda utilizar
+                $('.botonera').hide();
             }
-
-            if(promedio != 0)
-            {
-              //temporal en lo que meto el gauge
-              // $('.chart-gauge').html('<p>'+promedio+'</p>');
-              var valor = promedio.toFixed(2);
-              var maximo = 100;
-              $('.chart-gauge').html('');
-              $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:valor,gaugeMaxValue:maximo});
-
-              //consideraciones
-              // tenemos datos maximos
-              // tenemos un campo llamado valoring que se debe considerar
-              //tenemos que vlaidar que se tenga 75% de datos para poder hacer el promedio si no se deja como dato vacio
-
-              //poner la grafica
-              //crear otra funcion que haga una llamada de 28 dias con los parametros de la llamada anterior
-
-
-              var dPasada28 = new Date();
-              dPasada.setHours(dActual.getHours() - (28*24));
-              var url28 = 'https://api.datos.gob.mx/v1/sinaica?estacionesid='+id_estacion+'&date-insert=[range:'+getFormatDateAPI(dPasada)+'%7C'+getFormatDateAPI(dActual)+']&pageSize='+pageSize_estaciones;
-
-              createArrayGrafica(url28, parametro);
-              $('#myModal').modal('show'); // mandar a llamar al modal
-            }
-            else
-            {
-              $('#alertModal').modal('show');
-            }
-
+            
             // Oculta Loader
             $('.forLoader').hide();
           },
@@ -673,10 +717,8 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
           crossDomain: true,
           async:false
         });
-
-
       }
-
+        
       function createArrayGrafica(url, parametro){
         $.ajax({
           type: 'GET',
@@ -684,6 +726,8 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
           data: {},
           success: function( data, textStatus, jqxhr )
           {
+            console.log('data obtenida');
+            console.log(data);
             dataLocal =  data;
             putGrafica(parametro);
           },
@@ -805,7 +849,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
         console.log('cambio de contenido para las estaciones');
 
         var x = document.getElementById("estado_primer_select").value;
-        var contenido = '<option value="0">Seleccionar estación</option>';
+        var contenido = '<option value="0">2.-Seleccionar estación</option>';
         var numEstaciones = 0;
         for (let index = 0; index < estaciones_json.length; index++)
         {
@@ -828,7 +872,24 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
         }
       }
 
-
+        function ponContaminantesSel()
+        {
+            
+              var options = '<option value="0">3.-Selecciona Contaminate</option>'+
+                  '<option value="PM10_24">PM 10 µg/m&sup3;</option>'+
+                  '<option value="PM2.5_24">PM 2.5 µg/m&sup3;</option>'+
+                  '<option value="SO2_24">SO2 (ppm) Promedio 24 horas</option>'+
+                  '<option value="SO2_8">SO2 (ppm) Promedio 8 horas</option>'+
+                  '<option value="SO2_D">SO2 (ppm) Dato horario</option>'+
+                  '<option value="O3_8">Ozono (O3)(ppm) Promedio 8 horas</option>'+
+                  '<option value="O3_D">Ozono (O3)(ppm) Dato horario</option>'+
+                  '<option value="NO2_24">NO2 (ppm)</option>'+
+                  '<option value="CO_24">CO (ppm)</option>';
+            
+            $('#contaminantes').html(options);
+        }
+        
+        
       function cambiaCoor()
       {
           var seleccionado = document.getElementById("estados").value;
