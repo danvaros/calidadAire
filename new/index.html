@@ -77,11 +77,11 @@
 -->
              <div class="base_botones">
                 <select class="browser-default contaminantes" name="" onchange="ponEstacionesSel()" id="estado_primer_select"></select>
-                <br>
+               
                 <select class="browser-default contaminantes" name="" onchange="ponContaminantesSel()" id="estaciones_select">
                     <option value="0">2.-Selecciona una estación</option>
                 </select>
-                <br>
+                
                 <select class="browser-default contaminantes" name="" id="contaminantes">
                   <option value="0">3.-Selecciona un contaminate</option>
                 </select>
@@ -374,7 +374,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
         $('[data-toggle="tooltip"]').tooltip();
 
 	      // Oculta Loader
-	      $('.forLoader').hide();
+	     $('.forLoader').removeClass('hide').slideUp();
 
         /* instancia del mapa*/
           mymap.panTo(new L.LatLng(24.8, -100));
@@ -395,8 +395,12 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
         //$('#estaciones_select').html(options_estaciones());
         $('#contaminantes').change(function()
         {
+		
+		console.log('Entra al loader, a ver si sale');
 
-          $('.forLoader').show();
+          $('.forLoader').addClass('hide').slideDown();
+/*          $('#forLoader1').show();
+*/
 
           //conseguimos todas las variables necesarias para hacer la llamada a el API
           var estado =  $('#estado_primer_select').val();
@@ -405,8 +409,8 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
           var b = $('#contaminantes').val();
           var a = b.split('_');
           var parametro = a[0];
-          var horas = a[1];
-
+          var horas = a[1]; 
+		  
           porEstaciones(estado, estacion, parametro, horas); //llamada a la estación
 
           //ponemos los parametros en la ventana
@@ -597,8 +601,6 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
         // const dActual = new Date();
         // var dPasada = new Date();
 
-        
-
         const dActual = DateFalsa();
         var dPasada = DateFalsa();
 
@@ -710,7 +712,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
             }
             
             // Oculta Loader
-            $('.forLoader').hide();
+            $('.forLoader').removeClass('hide').slideUp();
           },
           error: function (xhr, ajaxOptions, thrownError)
           {
