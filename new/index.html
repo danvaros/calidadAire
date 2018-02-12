@@ -82,7 +82,7 @@
                     <option value="0">2.-Selecciona una estación</option>
                 </select>
                 <br>
-                <select class="browser-default contaminantes" name="" id="contaminantes" style="margin-left: -5px;">
+                <select class="browser-default contaminantes" name="" id="contaminantes">
                   <option value="0">3.-Selecciona un contaminate</option>
                 </select>
               </div>
@@ -356,6 +356,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
       var mymap = L.map('mapid').setView([16.8889,-100], 5);
 
       var valores = [];
+      var valoresRango = [];
       var etiquetas = [];
 
       var ant_val_arr = [];
@@ -701,7 +702,11 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
                   dPasada.setHours(dActual.getHours() - (28*24));
                   var url28 = 'https://api.datos.gob.mx/v1/sinaica?estacionesid='+id_estacion+'&date-insert=[range:'+getFormatDateAPI(dPasada)+'%7C'+getFormatDateAPI(dActual)+']&pageSize='+pageSize_estaciones;
 
-                  createArrayGrafica(url28, parametro);
+                    
+                  console.log(getFormatDateAPI(dActual));
+                  console.log(getFormatDateAPI(dPasada));
+                    
+                  createArrayGrafica(url28, parametro,horas);
                   
                   //Mostramos la botonera por si fue ocualta en el apso anterior
                   $('.botonera').show();
@@ -745,6 +750,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
         //vaciamos la grafica para mostrar que no tenemos lectura
         for(var i=0; i< valores.length; i++){
             valores[i] =  null;
+            valoresRango[i] = null;
         }
         
         actualizar_grafica_detalle(valores, etiquetas);
@@ -753,7 +759,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
         $('.botonera').hide();
       }
 
-      function createArrayGrafica(url, parametro){
+      function createArrayGrafica(url, parametro, horas){
         $.ajax({
           type: 'GET',
           url: url,
@@ -763,7 +769,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
             console.log('data obtenida');
             console.log(data);
             dataLocal =  data;
-            putGrafica(parametro);
+            putGrafica(parametro, horas);
           },
           error: function (xhr, ajaxOptions, thrownError)
           {
@@ -778,7 +784,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
         });
       }
 
-      function putGrafica(parametro){
+      function putGrafica(parametro,horas){
         console.log('vamos a hacer todos los datos, tomando el dataLocal');
         console.log(dataLocal);
         var data = dataLocal;
@@ -821,6 +827,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
               console.log(values_temp);
 
               valores = values_temp;
+              rangoInecc(parametro,horas);
               var labels_temp2 = [];
               for (var i = 0; i < labels_temp.length; i++) {
                 labels_temp2[i] = get_fecha_formato(labels_temp[i]);
@@ -830,20 +837,56 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
 
               actualizar_grafica_detalle(valores, etiquetas);
       }
+        
+        function rangoInecc(parametro, horas)
+        {
+            var rango = 0;
+            var cadena = parametro+''+horas;
+            console.log(cadena);
+            switch(cadena) 
+            {
+                case "PM1024":
+                    rango = 75;
+                break;
+                case "PM2.524":
+                    rango = 45;
+                break;
+                case "O32":
+                    rango = 0.095;
+                break;
+                case "SO22":
+                    rango = 0.025;
+                break;
+                case "SO224":
+                    rango = 0.11;
+                break;
+                case "SO28":
+                    rango = 0.2;
+                break;
+                case "O38":
+                    rango = 0.07;
+                break;
+                case "NO22":
+                    rango = 0.21;
+                break;
+                case "CO8":
+                    rango = 11;
+                break;
+                default:
+                    rango = 0;
+            }
+            
+            for(var i = 0; i< valores.length; i++)
+            {
+              valoresRango[i] = rango;
+            }
+        }    
+        
 
       function actualizar_grafica_detalle(valores,etiquetas)
       {
         chart.data.datasets[0].data =  valores;
-        valores_maximos =  [];
-          for(var i = 0; i< valores.length; i++){
-              valores_maximos[i] = 50;
-          }
-        chart.data.datasets[1].data =  valores_maximos;
-          
-        chart.data.datasets[1].borderColor = window.chartColors.red;
-        chart.data.datasets[1].backgroundColor = window.chartColors.red;
-            
-            
+        chart.data.datasets[1].data =  valoresRango;            
         chart.data.labels =  etiquetas;
         chart.update();
         poner_botones(valores);
