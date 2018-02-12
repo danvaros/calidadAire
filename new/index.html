@@ -368,7 +368,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
       var dia = deis[d.getDate()];
 
       //catalogo de constantes de configuración
-      const pageSize_estaciones = 1200;
+      const pageSize_estaciones = 2000;
 
       $(document).ready(function(){
 
@@ -677,7 +677,6 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
                   }
 
                   console.log(promedio);
-
                 }
 
                 if(promedio != 0)
@@ -701,12 +700,8 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
                   var dPasada28 = new Date();
                   dPasada.setHours(dActual.getHours() - (28*24));
                   var url28 = 'https://api.datos.gob.mx/v1/sinaica?estacionesid='+id_estacion+'&date-insert=[range:'+getFormatDateAPI(dPasada)+'%7C'+getFormatDateAPI(dActual)+']&pageSize='+pageSize_estaciones;
-
-                    
-                  console.log(getFormatDateAPI(dActual));
-                  console.log(getFormatDateAPI(dPasada));
-                    
-                  createArrayGrafica(url28, parametro,horas);
+          
+                  createArrayGrafica(url28, parametro,horas,promedio);
                   
                   //Mostramos la botonera por si fue ocualta en el apso anterior
                   $('.botonera').show();
@@ -759,7 +754,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
         $('.botonera').hide();
       }
 
-      function createArrayGrafica(url, parametro, horas){
+      function createArrayGrafica(url, parametro, horas,promedio){
         $.ajax({
           type: 'GET',
           url: url,
@@ -768,8 +763,8 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
           {
             console.log('data obtenida');
             console.log(data);
-            dataLocal =  data;
-            putGrafica(parametro, horas);
+            dataLocal = data;
+            putGrafica(parametro, horas,promedio);
           },
           error: function (xhr, ajaxOptions, thrownError)
           {
@@ -784,19 +779,22 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
         });
       }
 
-      function putGrafica(parametro,horas){
+      function putGrafica(parametro,horas,promedio2){
         console.log('vamos a hacer todos los datos, tomando el dataLocal');
         console.log(dataLocal);
         var data = dataLocal;
-        var maximo = 158;
+        var maximo = 1580;
               var estacionesid = $('#estacion_id').val();
               var his_estacion =  [];
               var labels_temp = [];
               var values_temp = [];
-              for (var i = 0; i < data.results.length; i++) {
-
-                if(data.results[i].parametro == parametro){
-                  if(!Array.isArray(his_estacion[data.results[i].fecha])){
+          
+              for (var i = 0; i < data.results.length; i++) 
+              {
+                if(data.results[i].parametro == parametro)
+                {
+                  if(!Array.isArray(his_estacion[data.results[i].fecha]))
+                  {
                     his_estacion[data.results[i].fecha] = [];
                     labels_temp.push(data.results[i].fecha);
                   }
@@ -810,8 +808,14 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
 
               }
 
+          
+                console.log(his_estacion);
+                console.log(labels_temp);
+          
+          
               for (var i = 0; i < labels_temp.length; i++) {
                 var promedio = his_estacion[labels_temp[i]].length;
+                  console.log(promedio);
                 var suma = 0;
                 var arreglo = his_estacion[labels_temp[i]];
                 for (var j = 0; j < promedio; j++) {
@@ -819,7 +823,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
                     suma += arreglo[j].valororig;
                 }
 
-                if(contaminante ==  'PM10' || contaminante == 'PM2.5')
+                if(parametro ==  'PM10' || parametro == 'PM2.5')
                   values_temp.push((suma/promedio).toFixed(1));
                 else
                   values_temp.push((suma/promedio).toFixed(3));
@@ -827,10 +831,13 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
               console.log(values_temp);
 
               valores = values_temp;
+              //forzamos el primer valor 
+              valores[values_temp.length-1] = promedio2.toFixed(2);
               rangoInecc(parametro,horas);
               var labels_temp2 = [];
-              for (var i = 0; i < labels_temp.length; i++) {
-                labels_temp2[i] = get_fecha_formato(labels_temp[i]);
+              for (var i = 0; i < labels_temp.length; i++) 
+              {
+                labels_temp2[i] = get_fecha_formato(labels_temp[i]);    
               }
               etiquetas =  labels_temp2;
               console.log(labels_temp2);
