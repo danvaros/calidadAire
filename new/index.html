@@ -54,7 +54,7 @@
     <div id="videoBlock" class="cabezera" style="height: 100vh; width: 100vw;">
       <video preload="preload"  id="video" autoplay="autoplay" loop="loop" playsinline muted>
         <!-- WCAG general accessibility recommendation is that media such as background video play through only once. Loop turned on for the purposes of illustration; if removed, the end of the video will fade in the same way created by pressing the "Pause" button  -->
-      <source src="imagenes/CIELO.mp4" type="video/mp4">
+      <source src="imagenes/nubes.mp4" type="video/mp4">
       </video>
       <div class="section no-pad-bot">
         <div class="container" style="margin-top:-50%;">
@@ -742,7 +742,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
                   var url28 = 'https://api.datos.gob.mx/v1/sinaica?estacionesid='+id_estacion+'&date-insert=[range:'+getFormatDateAPI(dPasada)+'%7C'+getFormatDateAPI(dActual)+']&pageSize='+pageSize_estaciones;
 
                   createArrayGrafica(url28, parametro,horas,promedio);
-                  
+
 
                   //Mostramos la botonera por si fue ocualta en el apso anterior
                   $('.botonera').show();
@@ -829,8 +829,8 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
               var his_estacion =  [];
               var labels_temp = [];
               var values_temp = [];
-          
-              for (var i = 0; i < data.results.length; i++) 
+
+              for (var i = 0; i < data.results.length; i++)
               {
                 if(data.results[i].parametro == parametro)
                 {
@@ -849,11 +849,11 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
 
               }
 
-          
+
                 console.log(his_estacion);
                 console.log(labels_temp);
-          
-          
+
+
               for (var i = 0; i < labels_temp.length; i++) {
                 var promedio = his_estacion[labels_temp[i]].length;
                   console.log(promedio);
@@ -872,13 +872,13 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
               console.log(values_temp);
 
               valores = values_temp;
-              //forzamos el primer valor 
+              //forzamos el primer valor
               valores[values_temp.length-1] = promedio2.toFixed(2);
               rangoInecc(parametro,horas);
               var labels_temp2 = [];
-              for (var i = 0; i < labels_temp.length; i++) 
+              for (var i = 0; i < labels_temp.length; i++)
               {
-                labels_temp2[i] = get_fecha_formato(labels_temp[i]);    
+                labels_temp2[i] = get_fecha_formato(labels_temp[i]);
               }
               etiquetas =  labels_temp2;
               console.log(labels_temp2);
