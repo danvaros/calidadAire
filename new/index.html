@@ -33,10 +33,7 @@
   crossorigin=""/>
   <!-- Fuente Roboto-->
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,700" rel="stylesheet">
-  <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Tangerine">
-
-
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
 
 </head>
 
@@ -437,11 +434,11 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
         $('#contaminantes').change(function()
         {
 
-		console.log('Entra al loader, a ver si sale');
+		        console.log('Entra al loader, a ver si sale');
 
-          $('.forLoader').addClass('hide').slideDown();
-/*          $('#forLoader1').show();
-*/
+          $('.forLoader').removeAttr('style');
+          $('.forLoader').addClass('show');
+          // $('#forLoader1').show();
 
           //conseguimos todas las variables necesarias para hacer la llamada a el API
           var estado =  $('#estado_primer_select').val();
@@ -742,7 +739,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
                   var url28 = 'https://api.datos.gob.mx/v1/sinaica?estacionesid='+id_estacion+'&date-insert=[range:'+getFormatDateAPI(dPasada)+'%7C'+getFormatDateAPI(dActual)+']&pageSize='+pageSize_estaciones;
 
                   createArrayGrafica(url28, parametro,horas,promedio);
-                  
+
 
                   //Mostramos la botonera por si fue ocualta en el apso anterior
                   $('.botonera').show();
@@ -760,7 +757,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
             }
 
             // Oculta Loader
-            $('.forLoader').removeClass('hide').slideUp();
+            $('.forLoader').removeClass('show').slideUp();
           },
           error: function (xhr, ajaxOptions, thrownError)
           {
@@ -829,8 +826,8 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
               var his_estacion =  [];
               var labels_temp = [];
               var values_temp = [];
-          
-              for (var i = 0; i < data.results.length; i++) 
+
+              for (var i = 0; i < data.results.length; i++)
               {
                 if(data.results[i].parametro == parametro)
                 {
@@ -849,11 +846,11 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
 
               }
 
-          
+
                 console.log(his_estacion);
                 console.log(labels_temp);
-          
-          
+
+
               for (var i = 0; i < labels_temp.length; i++) {
                 var promedio = his_estacion[labels_temp[i]].length;
                   console.log(promedio);
@@ -872,13 +869,13 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
               console.log(values_temp);
 
               valores = values_temp;
-              //forzamos el primer valor 
+              //forzamos el primer valor
               valores[values_temp.length-1] = promedio2.toFixed(2);
               rangoInecc(parametro,horas);
               var labels_temp2 = [];
-              for (var i = 0; i < labels_temp.length; i++) 
+              for (var i = 0; i < labels_temp.length; i++)
               {
-                labels_temp2[i] = get_fecha_formato(labels_temp[i]);    
+                labels_temp2[i] = get_fecha_formato(labels_temp[i]);
               }
               etiquetas =  labels_temp2;
               console.log(labels_temp2);
