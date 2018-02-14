@@ -61,7 +61,12 @@ function reset_botones(){
   $('#pinta_primero').addClass('active');
 }
 
-function get_fecha_formato(fecha){
-  var f = new Date(fecha);
-  return  f.getDate() + '-' + meses_abr[f.getMonth()];
+function get_fecha_formato(fecha)
+{
+    //voltear fecha 
+    var voltear  =  fecha.split('-');
+    var nuevaFecha  =  voltear[1]+'/'+voltear[2]+'/'+voltear[0];
+    var f = new Date(nuevaFecha);
+    
+    return  f.getDate() + '-' + meses_abr[f.getMonth()];
 }
