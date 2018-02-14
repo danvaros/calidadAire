@@ -5,7 +5,7 @@ var coor_estado = [{estado:"Aguascalientes",         lat:"22.0413262	",long:"-10
 {estado:"Chiapas",                lat:"16.258383",long:"-93.3757469",zoom:8},
 {estado:"Chihuahua",              lat:"28.6580071",long:"-108.4337342",zoom:7},
 {estado:"Ciudad de México",       lat:"19.3908821",long:"-99.2136521",zoom:12},
-{estado:"Coahuila de Zaragoza2",  lat:"27.2093378",long:"-103.0225758",zoom:8},
+{estado:"Coahuila de Zaragoza23",  lat:"27.2093378",long:"-103.0225758",zoom:8},
 {estado:"Colima",                 lat:"18.9175536",long:"-111.3664229",zoom:7},
 {estado:"Durango",                lat:"24.5933278",long:"-105.9624431",zoom:8},
 {estado:"Guanajuato",             lat:"20.8764542	",long:"-101.4445746",zoom:9},
