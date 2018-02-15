@@ -33,10 +33,7 @@
   crossorigin=""/>
   <!-- Fuente Roboto-->
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,700" rel="stylesheet">
-  <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Tangerine">
-
-
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
 
 </head>
 
@@ -437,11 +434,11 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
         $('#contaminantes').change(function()
         {
 
-		console.log('Entra al loader, a ver si sale');
+		        console.log('Entra al loader, a ver si sale');
 
-          $('.forLoader').addClass('hide').slideDown();
-/*          $('#forLoader1').show();
-*/
+          $('.forLoader').removeAttr('style');
+          $('.forLoader').addClass('show');
+          // $('#forLoader1').show();
 
           //conseguimos todas las variables necesarias para hacer la llamada a el API
           var estado =  $('#estado_primer_select').val();
@@ -760,7 +757,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
             }
 
             // Oculta Loader
-            $('.forLoader').removeClass('hide').slideUp();
+            $('.forLoader').removeClass('show').slideUp();
           },
           error: function (xhr, ajaxOptions, thrownError)
           {
