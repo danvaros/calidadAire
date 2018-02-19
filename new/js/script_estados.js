@@ -1,6 +1,6 @@
 var top_estaciones = [];
 var contaminante;
-get_estaciones();
+//get_estaciones();
 
 function get_top(parametro,horas,minPromedio,maxValor,top) {
     //limpiar variables y contenedor

@@ -338,7 +338,6 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
     integrity="sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA=="
     crossorigin=""></script>
 
-    <script type="text/javascript" src="libs/jquery.sparkline.min.js"></script>
     <script src="libs/chartjs/Chart.bundle.js"></script>
     <script src="libs/chartjs/utils.js"></script>
     <script src="js/jquery.gaugeIt.js"></script>
@@ -346,8 +345,6 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
     <!-- local-->
     <script src="js/utileria.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/estados_mexico.js" type="text/javascript" charset="utf-8"></script>
-    <!-- <script src="js/scripts.js" type="text/javascript" charset="utf-8"></script> -->
-    <script src="js/script_estados.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/estaciones_json.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/mod_mapa.js" type="text/javascript" charset="utf-8"></script>
     <script>
@@ -562,11 +559,6 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
           ant = boton;
           chart.update();
         });
-
-        //ponemos todas las estaciones en el mapa
-        //validar para que es por que no entiendo bien que show
-        get_estaciones();
-
       }); // fin de document ready
 
       function buscarCiudad(idEstacion){
