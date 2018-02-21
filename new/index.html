@@ -182,7 +182,8 @@
 	</div>
 
     <!-- Modal -->
-    <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="margin-top: 40%;
+    margin-left: 5%;">
       <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -193,7 +194,7 @@
             El parámetro seleccionado no cuenta con lecturas
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal"> Aceptar</button>
+            <button type="button" class="btn" data-dismiss="modal" style="color:#fff; background-color: #87c8f3;"> Aceptar</button>
           </div>
         </div>
       </div>
@@ -635,11 +636,11 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
 
       function porEstaciones(estado,id_estacion,parametro,horas)
       {
-        // const dActual = new Date();
-        // var dPasada = new Date();
+        const dActual = new Date();
+        var dPasada = new Date();
 
-        const dActual = DateFalsa();
-        var dPasada = DateFalsa();
+        // const dActual = DateFalsa();
+        // var dPasada = DateFalsa();
 
         var isDatoHorario =  (horas == 'D') ? true : false;
 
