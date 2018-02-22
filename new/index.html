@@ -83,7 +83,7 @@
                     <option value="0">2.-Selecciona una estación</option>
                 </select>
 
-                <select class="browser-default contaminantes" name="" id="contaminantes">
+                <select class="browser-default contaminantes" name="" id="contaminantes" style="display: none;">
                   <option value="0">3.-Selecciona un contaminate</option>
                 </select>
               </div>
@@ -182,8 +182,7 @@
 	</div>
 
     <!-- Modal -->
-    <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="margin-top: 40%;
-    margin-left: 5%;">
+    <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -329,6 +328,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
 
       </div>
     </div>
+    </div>
 
   </main>
   <dgm-footer></dgm-footer>
@@ -369,41 +369,6 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
 
       //catalogo de constantes de configuración
       const pageSize_estaciones = 2000;
-
-      // var vid = document.getElementById("bgvid");
-      // var pauseButton = document.querySelector("#polina button");
-
-      // if (window.matchMedia('(prefers-reduced-motion)').matches) {
-      //     vid.removeAttribute("autoplay");
-      //     vid.pause();
-      //     pauseButton.innerHTML = "Paused";
-      // }
-      //
-      // function vidFade() {
-      //   vid.classList.add("stopfade");
-      // }
-      //
-      // vid.addEventListener('ended', function()
-      // {
-      // // only functional if "loop" is removed
-      // vid.pause();
-      // // to capture IE10
-      // vidFade();
-      // });
-      //
-      //
-      // pauseButton.addEventListener("click", function() {
-      //   vid.classList.toggle("stopfade");
-      //   if (vid.paused) {
-      //     vid.play();
-      //     pauseButton.innerHTML = "Pause";
-      //   } else {
-      //     vid.pause();
-      //     pauseButton.innerHTML = "Paused";
-      //   }
-      // })
-
-
 
       $(document).ready(function(){
 
@@ -447,6 +412,9 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
           var parametro = a[0];
           var horas = a[1];
 
+          horas = 24;
+          parametro = 'PM10';
+
           porEstaciones(estado, estacion, parametro, horas); //llamada a la estación
 
           //ponemos los parametros en la ventana
@@ -455,9 +423,6 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
           $('#contaminante_grafica').html(parametro);
           $('#titulo_detalle').html(buscarCiudad(estacion));
           $('#estacion_detalle').html($('#estaciones_select option:selected').text());
-
-
-
 
 
           var id;
@@ -474,6 +439,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
             default: id=''; break;
           }
 
+          id = 'botonPM10';
           console.log(id);
 
 
@@ -621,26 +587,14 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
         return options;
       }
 
-      // function options_estaciones()
-      // {
-      //   var options  = '<option value="0">Estaciones</option>';
-      //   for (let index = 0; index < estaciones_json.length; index++)
-      //   {
-      //     const element = estaciones_json[index];
-      //     options += '<option value="'+element.id+'">'+element.nombre+'</option>'
-      //   }
-
-      //   return options;
-      // }
-
-
       function porEstaciones(estado,id_estacion,parametro,horas)
       {
-        const dActual = new Date();
-        var dPasada = new Date();
+        // const dActual = new Date();
+        // var dPasada = new Date();
+        //
 
-        // const dActual = DateFalsa();
-        // var dPasada = DateFalsa();
+        const dActual = DateFalsa();
+        var dPasada = DateFalsa();
 
         var isDatoHorario =  (horas == 'D') ? true : false;
 
@@ -648,13 +602,16 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
         {
           horas = 2;
         }
-
+console.log(horas);
+console.log(dActual.getHours() - horas);
         dPasada.setHours(dActual.getHours() - horas);
 
         //https://api.datos.gob.mx/v1/sinaica?estacionesid=[eq:244]&pageSize=4
         //https://api.datos.gob.mx/v1/sinaica?estacionesid=244&pageSize=1200&parametro=PM10&state=Chihuahua
-        var url = 'https://api.datos.gob.mx/v1/sinaica?estacionesid='+id_estacion+'&date-insert=[range:'+getFormatDateAPI(dPasada)+'%7C'+getFormatDateAPI(dActual)+']&pageSize='+pageSize_estaciones;
+        var url = 'https://api.datos.gob.mx/v1/sinaica?parametro=[text:PM10]&estacionesid='+id_estacion+'&date-insert=[range:'+getFormatDateAPI(dPasada)+'%7C'+getFormatDateAPI(dActual)+']&pageSize='+pageSize_estaciones;
 
+console.log(dActual);
+console.log(dPasada);
         console.log(url);
         $.ajax({
           type: 'GET',
@@ -1013,6 +970,8 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
                   '<option value="CO_24" title="Es un gas incoloro e inodoro que en concentraciones altas puede ser letal ya que forma carboxihemoglobina, la cual impide la oxígenación de la sangre.">CO (ppm)</option>';
 
             $('#contaminantes').html(options);
+            $('#contaminantes').trigger( "change" );
+            //$( "button:first" ).trigger( "click" );
         }
 
 
@@ -1033,7 +992,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
 
       function DateFalsa()
       {
-        return new Date("2018-02-08");
+        return new Date("2018-02-19");
       }
     </script>
   </body>

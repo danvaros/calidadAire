@@ -248,10 +248,7 @@ hr.red {
   left: 50px !important;
 }
 
-.modal {
-  max-height: 90%;
-  width: 90%;
-}
+
 
 .container{
   color:#fff;
@@ -471,6 +468,8 @@ justify-content: center;
 option {
   color: #333333;
 }
+
+
 
 /*
    .loader {
