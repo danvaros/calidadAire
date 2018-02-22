@@ -145,7 +145,7 @@
 
 	<div class="container">
 	    <div class="row">
-	      <div class="col col-xs-12">
+	      <div class="col col-xs-12 hidden-xs">
 	        <div id="mapid"></div>
 	      </div>
       </div>
@@ -602,16 +602,13 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
         {
           horas = 2;
         }
-console.log(horas);
-console.log(dActual.getHours() - horas);
+
         dPasada.setHours(dActual.getHours() - horas);
 
         //https://api.datos.gob.mx/v1/sinaica?estacionesid=[eq:244]&pageSize=4
         //https://api.datos.gob.mx/v1/sinaica?estacionesid=244&pageSize=1200&parametro=PM10&state=Chihuahua
-        var url = 'https://api.datos.gob.mx/v1/sinaica?parametro=[text:PM10]&estacionesid='+id_estacion+'&date-insert=[range:'+getFormatDateAPI(dPasada)+'%7C'+getFormatDateAPI(dActual)+']&pageSize='+pageSize_estaciones;
+        var url = 'https://api.datos.gob.mx/v1/sinaica?parametro=[text:'+parametro+']&estacionesid='+id_estacion+'&date-insert=[range:'+getFormatDateAPI(dPasada)+'%7C'+getFormatDateAPI(dActual)+']&pageSize='+pageSize_estaciones;
 
-console.log(dActual);
-console.log(dPasada);
         console.log(url);
         $.ajax({
           type: 'GET',
@@ -686,8 +683,8 @@ console.log(dPasada);
 
                   var dPasada28 = new Date();
                   dPasada.setHours(dActual.getHours() - (28*24));
-                  var url28 = 'https://api.datos.gob.mx/v1/sinaica?estacionesid='+id_estacion+'&date-insert=[range:'+getFormatDateAPI(dPasada)+'%7C'+getFormatDateAPI(dActual)+']&pageSize='+pageSize_estaciones;
-
+                  var url28 = 'https://api.datos.gob.mx/v1/sinaica?parametro=[text:'+parametro+']&estacionesid='+id_estacion+'&date-insert=[range:'+getFormatDateAPI(dPasada)+'%7C'+getFormatDateAPI(dActual)+']&pageSize='+pageSize_estaciones;
+console.log(url28);
                   createArrayGrafica(url28, parametro,horas,promedio);
 
 
