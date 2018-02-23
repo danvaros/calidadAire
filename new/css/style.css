@@ -34,9 +34,9 @@ body{
 
 #videoBlock{
     width:100%;
-    min-height: 100%;
+    min-height: 800px;
    /* Set the height to match that of the viewport. */
-    height: 100vh;
+    height: 800px;
     width: auto;
     padding:0!important;
     margin: 0!important;
@@ -45,7 +45,7 @@ body{
 }
 #video{
     width: 100vw;
-    height: 100vh;
+    height: 800px;
     object-fit: cover;
     left: 0px;
     top: 0px;
