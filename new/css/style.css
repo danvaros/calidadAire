@@ -489,6 +489,12 @@ option {
 	    100% { transform: rotate(360deg); }
 	}
 */
+.bloqueado
+{
+  color: white;
+  background-color: grey;
+  cursor: not-allowed;
+}
 
 .hide {
    position: absolute !important;

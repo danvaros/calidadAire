@@ -6,12 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
 
   <link rel="import" href="bower_components/polymer/polymer.html">
-  <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <!-- Latest compiled and minified JavaScript -->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
 
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -35,8 +29,12 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,700" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
 
-</head>
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 
+</head>
 
 <body class="front" cz-shortcut-listen="true" >
 
@@ -50,7 +48,7 @@
 
     <div id="videoBlock" class="cabezera" style="height: 100vh; width: 100vw;">
       <video preload="preload"  id="video" autoplay="autoplay" loop="loop" playsinline muted>
-        <!-- WCAG general accessibility recommendation is that media such as background video play through only once. Loop turned on for the purposes of illustration; if removed, the end of the video will fade in the same way created by pressing the "Pause" button  -->
+
       <source src="imagenes/nubes.mp4" type="video/mp4">
       </video>
       <div class="section no-pad-bot">
@@ -58,24 +56,13 @@
           <div class="row">
             <div class="col-xs-12 text-center">
               <h2 style="color: #FFFFFF;font-size: 60px;">Calidad de Aire MX</h2>
-              <p><strong><i>Selecciona tu estado, estación y contaminante para obtener información</i></strong></p>
+              <p><strong><i>Selecciona tu estado y estación para obtener información</i></strong></p>
             </div>
           </div>
 
           <div class="row">
             <div class="col-xs-12 text-center margen_arriba_g">
-<!--
-              <div class="base_botones">
-                <select class="browser-default contaminantes_mitad" name="" onchange="ponEstacionesSel()" id="estado_primer_select"></select>
-                <select class="browser-default contaminantes_mitad" name="" onchange="ponContaminantesSel()" id="estaciones_select">
-                    <option value="0">2.-Selecciona una estación</option>
-                </select>
-                <br>
-                <select class="browser-default" name="" id="contaminantes">
-                  <option value="0">3.-Selecciona un contaminate</option>
-                </select>
-              </div>
--->
+
              <div class="base_botones">
                 <select class="browser-default contaminantes" name="" onchange="ponEstacionesSel()" id="estado_primer_select"></select>
 
@@ -149,8 +136,6 @@
 	        <div id="mapid"></div>
 	      </div>
       </div>
-
-      <!-- <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left" title="Tooltip on left">Tooltip on left</button> -->
 	</div>
 
 	<div class="container hidden-xs">
@@ -323,7 +308,6 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
           </div> <!-- fin del body  -->
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
           </div>
 
       </div>
@@ -396,13 +380,6 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
         //$('#estaciones_select').html(options_estaciones());
         $('#contaminantes').change(function()
         {
-
-		        console.log('Entra al loader, a ver si sale');
-
-          $('.forLoader').removeAttr('style');
-          $('.forLoader').addClass('show');
-          // $('#forLoader1').show();
-
           //conseguimos todas las variables necesarias para hacer la llamada a el API
           var estado =  $('#estado_primer_select').val();
           var estacion =  $('#estaciones_select').val();
@@ -447,6 +424,13 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
           $('#textoTitulo').html($('#'+id).attr('data-original-title'));
 
           cambioBotonActivo(id);
+          
+          //vamos a llenar los arreglos de todos los coantaminantes
+          llenarConstaminantes(generaUrl('PM2.5', estacion, (24*28)),'PM2.5');
+          llenarConstaminantes(generaUrl('NO2', estacion, (24*28)),'NO2');
+          llenarConstaminantes(generaUrl('SO2', estacion, (24*28)),'SO2');
+          llenarConstaminantes(generaUrl('O3', estacion, (24*28)),'O3');
+          llenarConstaminantes(generaUrl('CO', estacion, (24*28)),'CO');
         });
 
         /*instancia de la grafica*/
@@ -498,7 +482,6 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
         });
         // fin de instancia de la grafica
 
-
         $('.parametro').click(function(){
           event.preventDefault();
 
@@ -528,7 +511,8 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
         });
       }); // fin de document ready
 
-      function buscarCiudad(idEstacion){
+      function buscarCiudad(idEstacion)
+      {
         var city = '';
         for (let index = 0; index < estaciones_json.length; index++) {
           const element = estaciones_json[index];
@@ -553,21 +537,142 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
 
       function cambioParametro(parametro, horas,id,titulo)
       {
-        console.log(titulo);
+        if(!($('#'+id).hasClass('bloqueado')))
+        {
+          console.log(titulo);
 
-        cambioBotonActivo(id);
-        var estado =  $('#estado_primer_select').val();
-        var estacion =  $('#estaciones_select').val();
+          cambioBotonActivo(id);
+          var estado =  $('#estado_primer_select').val();
+          var estacion =  $('#estaciones_select').val();
 
-        $('#contaminante_detalle').html(parametro);
-        $('#contaminante_grafica').html(parametro);
-        $('#tituloTexto').html(parametro);
-        $('#textoTitulo').html(titulo);
+          $('#contaminante_detalle').html(parametro);
+          $('#contaminante_grafica').html(parametro);
+          $('#tituloTexto').html(parametro);
+          $('#textoTitulo').html(titulo);
 
+          //porEstaciones(estado,estacion,parametro,horas);
+          var promedioFinal = 0;
+          if('PM2.5' == parametro)
+          {
+            promedioFinal = sacaDatoDiario(arrPM2,horas,158);
+            if(promedioFinal > 0)
+            {
+              dataLocal = arrPM2; 
+              putGrafica(parametro, horas, promedioFinal);
+            }
+          }
+          else if('NO2' == parametro)
+          {
+            promedioFinal = sacaDatoDiario(arrNO2,horas, 0.315);
+            if(promedioFinal > 0)
+            {
+              dataLocal = arrNO2; 
+              putGrafica(parametro, horas, promedioFinal);
+            }
+          }
+          else if('CO' == parametro)
+          {
+            promedioFinal = sacaDatoDiario(arrCO,horas,16.5);
+            if(promedioFinal > 0)
+            {
+              dataLocal = arrCO; 
+              putGrafica(parametro, horas, promedioFinal);
+            }
+          }
+          else if('O3' == parametro)
+          {
+            promedioFinal = sacaDatoDiario(arrO3,horas,0.181);
+            if(promedioFinal > 0)
+            {
+              dataLocal = arrO3; 
+              putGrafica(parametro, horas, promedioFinal);
+            }
+          }
+          else if('SO2' == parametro)
+          {
+            promedioFinal = sacaDatoDiario(arrSO2,horas,0.32);
+            if(promedioFinal > 0)
+            {
+              dataLocal = arrSO2; 
+              putGrafica(parametro, horas, promedioFinal);
+            }
+          }
+        }
 
-        porEstaciones(estado,estacion,parametro,horas);
+        //poner el promedio donde debe 
+        //llamar funcion del historico
+       
+      }
+      
+      function sacaDatoDiario(data,horas,max)
+      {
+        if(horas != 'D')
+        {
+          const dActual = DateFalsa();
+          var dPasada = DateFalsa();
+
+          dPasada.setHours(dActual.getHours() - horas);
+
+          var datos =  data.results;
+          var arrTemp = [];
+          for (let index = datos.length - 1; index >= 0;  index--) 
+          {
+            
+            var fechaValida = new Date(hacerFechaValida(datos[index]['date-insert']));
+
+            console.log(fechaValida);
+            console.log(fechaValida.getTime());
+            
+            if(fechaValida.getTime() >= dPasada.getTime() )
+            {
+              arrTemp.push(datos[index]);
+            }
+            else
+            {
+              break;
+            }
+          }
+          
+          var promedio = 0;  
+          var acumulado = 0;
+          for (let index = 0; index < arrTemp.length; index++) 
+          {
+            if(arrTemp[index].valororig > max && arrTemp[index].validoorig == 1)
+            {
+              acumulado += arrTemp[index].valororig;
+              promedio++;
+            }
+          }
+          
+          if((arrTemp * .75) < promedio)
+          {
+            return acumulado/promedio;
+          }
+          else
+          {
+            // no jalo no se que hacer
+            return 0;
+          }
+
+        }
+        else
+        {
+           return data.results[data.results.length-1].valororig;
+        }
+
+        
       }
 
+      function hacerFechaValida(fecha)
+      { //2018-02-18T23:11:57.715Z
+        
+        var fechaPartida = fecha.split("T");
+        var tiempoPartido =  fechaPartida[1].split(".");
+
+        console.log(fechaPartida[0]+' '+tiempoPartido[0]);
+        
+        return fechaPartida[0]+' '+tiempoPartido[0];
+      }
       function convertDate(inputFormat)
       {
         function pad(s) { return (s < 10) ? '0' + s : s; }
@@ -591,7 +696,6 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
       {
         // const dActual = new Date();
         // var dPasada = new Date();
-        //
 
         const dActual = DateFalsa();
         var dPasada = DateFalsa();
@@ -605,8 +709,6 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
 
         dPasada.setHours(dActual.getHours() - horas);
 
-        //https://api.datos.gob.mx/v1/sinaica?estacionesid=[eq:244]&pageSize=4
-        //https://api.datos.gob.mx/v1/sinaica?estacionesid=244&pageSize=1200&parametro=PM10&state=Chihuahua
         var url = 'https://api.datos.gob.mx/v1/sinaica?parametro=[text:'+parametro+']&estacionesid='+id_estacion+'&date-insert=[range:'+getFormatDateAPI(dPasada)+'%7C'+getFormatDateAPI(dActual)+']&pageSize='+pageSize_estaciones;
 
         console.log(url);
@@ -684,7 +786,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
                   var dPasada28 = new Date();
                   dPasada.setHours(dActual.getHours() - (28*24));
                   var url28 = 'https://api.datos.gob.mx/v1/sinaica?parametro=[text:'+parametro+']&estacionesid='+id_estacion+'&date-insert=[range:'+getFormatDateAPI(dPasada)+'%7C'+getFormatDateAPI(dActual)+']&pageSize='+pageSize_estaciones;
-console.log(url28);
+                  console.log(url28);
                   createArrayGrafica(url28, parametro,horas,promedio);
 
 
@@ -715,7 +817,7 @@ console.log(url28);
             withCredentials: false
           },
           crossDomain: true,
-          async:false
+          async:true
         });
       }
 
@@ -733,9 +835,7 @@ console.log(url28);
             valores[i] =  null;
             valoresRango[i] = null;
         }
-
         actualizar_grafica_detalle(valores, etiquetas);
-
         //ocultamos la botonera para que no se pueda utilizar
         $('.botonera').hide();
       }
@@ -764,7 +864,7 @@ console.log(url28);
           async:false
         });
       }
-
+      
       function putGrafica(parametro,horas,promedio2){
         console.log('vamos a hacer todos los datos, tomando el dataLocal');
         console.log(dataLocal);
@@ -794,12 +894,8 @@ console.log(url28);
 
               }
 
-
-                console.log(his_estacion);
-                console.log(labels_temp);
-
-
-              for (var i = 0; i < labels_temp.length; i++) {
+              for (var i = 0; i < labels_temp.length; i++) 
+              {
                 var promedio = his_estacion[labels_temp[i]].length;
                   console.log(promedio);
                 var suma = 0;
@@ -814,8 +910,7 @@ console.log(url28);
                 else
                   values_temp.push((suma/promedio).toFixed(3));
               }
-              console.log(values_temp);
-
+              
               valores = values_temp;
               //forzamos el primer valor
               valores[values_temp.length-1] = promedio2.toFixed(2);
@@ -831,50 +926,49 @@ console.log(url28);
               actualizar_grafica_detalle(valores, etiquetas);
       }
 
-        function rangoInecc(parametro, horas)
-        {
-            var rango = 0;
-            var cadena = parametro+''+horas;
-            console.log(cadena);
-            switch(cadena)
-            {
-                case "PM1024":
-                    rango = 75;
-                break;
-                case "PM2.524":
-                    rango = 45;
-                break;
-                case "O32":
-                    rango = 0.095;
-                break;
-                case "SO22":
-                    rango = 0.025;
-                break;
-                case "SO224":
-                    rango = 0.11;
-                break;
-                case "SO28":
-                    rango = 0.2;
-                break;
-                case "O38":
-                    rango = 0.07;
-                break;
-                case "NO22":
-                    rango = 0.21;
-                break;
-                case "CO8":
-                    rango = 11;
-                break;
-                default:
-                    rango = 0;
-            }
+      function rangoInecc(parametro, horas)
+      {
+          var rango = 0;
+          var cadena = parametro+''+horas;
+          console.log(cadena);
+          switch(cadena)
+          {
+              case "PM1024":
+                  rango = 75;
+              break;
+              case "PM2.524":
+                  rango = 45;
+              break;
+              case "O32":
+                  rango = 0.095;
+              break;
+              case "SO22":
+                  rango = 0.025;
+              break;
+              case "SO224":
+                  rango = 0.11;
+              break;
+              case "SO28":
+                  rango = 0.2;
+              break;
+              case "O38":
+                  rango = 0.07;
+              break;
+              case "NO22":
+                  rango = 0.21;
+              break;
+              case "CO8":
+                  rango = 11;
+              break;
+              default:
+                  rango = 0;
+          }
 
-            for(var i = 0; i< valores.length; i++)
-            {
-              valoresRango[i] = rango;
-            }
-        }
-
+          for(var i = 0; i< valores.length; i++)
+          {
+            valoresRango[i] = rango;
+          }
+      }
 
       function actualizar_grafica_detalle(valores,etiquetas)
       {
@@ -898,7 +992,6 @@ console.log(url28);
         });
       }
 
-
       function convertDate(date)
       {
         var yyyy = date.getFullYear().toString();
@@ -910,7 +1003,6 @@ console.log(url28);
 
         return yyyy + '-' + (mmChars[1]?mm:"0"+mmChars[0]) + '-' + (ddChars[1]?dd:"0"+ddChars[0]);
       }
-
 
       function sumarDias(fecha, dias)
       {
@@ -952,24 +1044,22 @@ console.log(url28);
         }
       }
 
-        function ponContaminantesSel()
-        {
+      function ponContaminantesSel()
+      {
+            var options = '<option value="0">3.-Selecciona Contaminate</option>'+
+            '<option value="PM10_24" title="Las partículas menores o iguales a 2.5 micras (PM2.5) están formadas primordialmente por gases y por material proveniente de la combustión. Se depositan fundamentalmente en la región traqueobronquial (tráquea hasta bronquiolo terminal), aunque pueden ingresar a los alvéolos.">PM 10 µg/m&sup3;</option>'+
+                '<option value="PM2.5_24" title="Las partículas menores o iguales a 2.5 micras (PM2.5) están formadas primordialmente por gases y por material proveniente de la combustión. Se depositan fundamentalmente en la región traqueobronquial (tráquea hasta bronquiolo terminal), aunque pueden ingresar a los alvéolos.">PM 2.5 µg/m&sup3;</option>'+
+                '<option value="SO2_24" title="Gas incoloro que se forman al quemar azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.">SO2 (ppm) Promedio 24 horas</option>'+
+                '<option value="SO2_8" title="Gas incoloro que se forman al quemar azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.">SO2 (ppm) Promedio 8 horas</option>'+
+                '<option value="SO2_D" title="Gas incoloro que se forman al quemar azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.">SO2 (ppm) Dato horario</option>'+
+                '<option value="O3_8" title="Es un compuesto gaseoso incoloro, que posee la capacidad de oxidar materiales, y causa irritación ocular y en las vías respiratorias.">Ozono (O3)(ppm) Promedio 8 horas</option>'+
+                '<option value="O3_D" title="Es un compuesto gaseoso incoloro, que posee la capacidad de oxidar materiales, y causa irritación ocular y en las vías respiratorias.">Ozono (O3)(ppm) Dato horario</option>'+
+                '<option value="NO2_24" title="El dióxido de nitrógeno es un compuesto químico gaseoso de color marrón amarillento, es un gas tóxico e irritante. La exposición a este gas disminuye la capacidad de difusión pulmonar.">NO2 (ppm)</option>'+
+                '<option value="CO_24" title="Es un gas incoloro e inodoro que en concentraciones altas puede ser letal ya que forma carboxihemoglobina, la cual impide la oxígenación de la sangre.">CO (ppm)</option>';
 
-              var options = '<option value="0">3.-Selecciona Contaminate</option>'+
-              '<option value="PM10_24" title="Las partículas menores o iguales a 2.5 micras (PM2.5) están formadas primordialmente por gases y por material proveniente de la combustión. Se depositan fundamentalmente en la región traqueobronquial (tráquea hasta bronquiolo terminal), aunque pueden ingresar a los alvéolos.">PM 10 µg/m&sup3;</option>'+
-                  '<option value="PM2.5_24" title="Las partículas menores o iguales a 2.5 micras (PM2.5) están formadas primordialmente por gases y por material proveniente de la combustión. Se depositan fundamentalmente en la región traqueobronquial (tráquea hasta bronquiolo terminal), aunque pueden ingresar a los alvéolos.">PM 2.5 µg/m&sup3;</option>'+
-                  '<option value="SO2_24" title="Gas incoloro que se forman al quemar azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.">SO2 (ppm) Promedio 24 horas</option>'+
-                  '<option value="SO2_8" title="Gas incoloro que se forman al quemar azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.">SO2 (ppm) Promedio 8 horas</option>'+
-                  '<option value="SO2_D" title="Gas incoloro que se forman al quemar azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.">SO2 (ppm) Dato horario</option>'+
-                  '<option value="O3_8" title="Es un compuesto gaseoso incoloro, que posee la capacidad de oxidar materiales, y causa irritación ocular y en las vías respiratorias.">Ozono (O3)(ppm) Promedio 8 horas</option>'+
-                  '<option value="O3_D" title="Es un compuesto gaseoso incoloro, que posee la capacidad de oxidar materiales, y causa irritación ocular y en las vías respiratorias.">Ozono (O3)(ppm) Dato horario</option>'+
-                  '<option value="NO2_24" title="El dióxido de nitrógeno es un compuesto químico gaseoso de color marrón amarillento, es un gas tóxico e irritante. La exposición a este gas disminuye la capacidad de difusión pulmonar.">NO2 (ppm)</option>'+
-                  '<option value="CO_24" title="Es un gas incoloro e inodoro que en concentraciones altas puede ser letal ya que forma carboxihemoglobina, la cual impide la oxígenación de la sangre.">CO (ppm)</option>';
-
-            $('#contaminantes').html(options);
-            $('#contaminantes').trigger( "change" );
-            //$( "button:first" ).trigger( "click" );
-        }
+          $('#contaminantes').html(options);
+          $('#contaminantes').trigger( "change" );
+      }
 
 
       function cambiaCoor()
@@ -989,8 +1079,104 @@ console.log(url28);
 
       function DateFalsa()
       {
-        return new Date("2018-02-19");
+        return new Date("2018-02-19 00:00:00");
       }
+
+
+      var arrPM2,arrNO2,arrCO,arrO3,arrSO2 = [];
+
+
+      function llenarConstaminantes(url, parametro)
+      {
+        console.log('guardaremos los arreglos de cada contaminante ' + parametro);
+
+        $.ajax({
+          type: 'GET',
+          url: url,
+          data: {},
+          success: function( data, textStatus, jqxhr )
+          {
+            if(data.results.length > 0)
+            {
+              if('PM2.5' == parametro)
+              {
+                arrPM2 = data;
+              }
+              else if('NO2' == parametro)
+              {
+                arrNO2 = data;
+              }
+              else if('CO' == parametro)
+              {
+                arrCO = data;
+              }
+              else if('O3' == parametro)
+              {
+                arrO3 = data;
+              }
+              else if('SO2' == parametro)
+              {
+                arrSO2 = data;
+              }
+            }
+            else
+            {
+              if('PM2.5' == parametro)
+              {
+                $('#botonPM25').addClass('bloqueado');
+              }
+              else if('NO2' == parametro)
+              {
+                $('#botonNO2').addClass('bloqueado');
+              }
+              else if('CO' == parametro)
+              {
+                $('#botonCO').addClass('bloqueado');
+              }
+              else if('O3' == parametro)
+              {
+                $('#botonO38').addClass('bloqueado');
+                $('#botonO3D').addClass('bloqueado');
+              }
+              else if('SO2' == parametro)
+              {
+                $('#botonSO2D').addClass('bloqueado');
+                $('#botonSO28').addClass('bloqueado');
+                $('#botonSO224').addClass('bloqueado');
+              }
+            }
+            
+          },
+          error: function (xhr, ajaxOptions, thrownError)
+          {
+            alert(xhr.status);
+            alert(thrownError);
+          },
+          xhrFields: {
+            withCredentials: false
+          },
+          crossDomain: true,
+          async:true
+        });
+      }
+
+      function generaUrl(parametro,id_estacion,horas)
+      {
+        // cambiar estas horas con = new Date();
+        const dActual = DateFalsa();
+        var dPasada = DateFalsa();
+
+        dPasada.setHours(dActual.getHours() - horas);
+        
+        var url = 'https://api.datos.gob.mx/v1/sinaica?parametro=[text:'+parametro+']&estacionesid='+id_estacion+'&date-insert=[range:'+getFormatDateAPI(dPasada)+'%7C'+getFormatDateAPI(dActual)+']&pageSize='+pageSize_estaciones;
+
+        
+        return url;
+      } 
+
+
+
+      
     </script>
   </body>
 </html>
