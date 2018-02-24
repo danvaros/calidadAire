@@ -404,7 +404,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
           horas = 24;
           parametro = 'PM10';
 
-          porEstaciones(estado, estacion, parametro, horas); //llamada a la estación
+          //porEstaciones(estado, estacion, parametro, horas); //llamada a la estación
 
           //ponemos los parametros en la ventana
           $('#fecha_detalle').html(convertDate(new Date()));
@@ -438,6 +438,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
           cambioBotonActivo(id);
 
           //vamos a llenar los arreglos de todos los coantaminantes
+          llenarConstaminantes(generaUrl('PM10', estacion, (24*28)),'PM10');
           llenarConstaminantes(generaUrl('PM2.5', estacion, (24*28)),'PM2.5');
           llenarConstaminantes(generaUrl('NO2', estacion, (24*28)),'NO2');
           llenarConstaminantes(generaUrl('SO2', estacion, (24*28)),'SO2');
@@ -494,7 +495,8 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
         });
         // fin de instancia de la grafica
 
-        $('.parametro').click(function(){
+        $('.parametro').click(function()
+        {
           event.preventDefault();
 
           $('.parametro').each(function(index){
@@ -521,7 +523,6 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
           ant = boton;
           chart.update();
         });
-
 
         //select para version movil
         $('#conataminatesMovil').change(function ()
@@ -609,7 +610,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
           var maximoL = 0;
           if('PM10' == parametro)
           {
-            promedioFinal = sacaDatoDiario(arrPM2,horas,158);
+            promedioFinal = sacaDatoDiario(arrPM10,horas,158);
             dataLocal = arrPM10;
             maximoL = 158;
           }
@@ -763,7 +764,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
 
         dPasada.setHours(dActual.getHours() - horas);
 
-        var url = 'https://api.datos.gob.mx/v1/sinaica?parametro=[text:'+parametro+']&estacionesid='+id_estacion+'&date-insert=[range:'+getFormatDateAPI(dPasada)+'%7C'+getFormatDateAPI(dActual)+']&pageSize='+pageSize_estaciones;
+        var url = 'https://api.datos.gob.mx/v1/sinaica?parametro=[text:'+parametro+']&estacionesid='+id_estacion+'&date-insert=[range:'+getFormatDateAPI(dPasada)+'%7C'+getFormatDateAPI(dActual)+']&pageSize='+50;
 
         console.log(url);
         $.ajax({
@@ -1140,8 +1141,6 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
 
       function llenarConstaminantes(url, parametro)
       {
-        console.log('guardaremos los arreglos de cada contaminante ' + parametro);
-
         $.ajax({
           type: 'GET',
           url: url,
@@ -1150,7 +1149,15 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
           {
             if(data.results.length > 0)
             {
-              if('PM2.5' == parametro)
+
+              if('PM10' == parametro)
+              {
+                arrPM10 = data;
+                $('#botonPM10').trigger('click');
+                $('#myModal').modal('show');
+                $('.forLoader').removeClass('hide').slideUp();
+              }
+              else if('PM2.5' == parametro)
               {
                 arrPM2 = data;
               }
@@ -1170,6 +1177,8 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
               {
                 arrSO2 = data;
               }
+
+              
             }
             else
             {
