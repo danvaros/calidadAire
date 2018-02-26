@@ -11,6 +11,7 @@
           gaugeMaxValue: 100,
           barWidth: 3,
           range:100,
+          label: '',
           colorNeddle:"#000000",
           forceWidth: 'default'//Put 195px width
       }
@@ -26,7 +27,7 @@
           var barWidthi, chart, chartInset, degToRad, repaintGauge,
           height, margin, numSections, padRad, percToDeg, percToRad,
           percent, radius, sectionIndx, svg, totalPercent, width,
-          valueText,valueTexto, formatValue, k;
+          valueText,labelText,valueTexto, formatValue, k;
 
           percent = percentValue;
 
@@ -120,6 +121,14 @@
               .style("fill", options.colorNeddle);
               //formatValue = d3.format('1%');
               formatValue = d3.format(".2f");
+
+
+        labelText = chart.append("text")
+              .attr('id', "Label")
+              .attr("font-size",14)
+              .attr("text-anchor","middle")
+              .attr("dy",".5em")
+              .style("fill", options.colorNeddle);
 
               // arc5 = d3.svg.arc().outerRadius(radius - chartInset).innerRadius(radius - chartInset - barWidth)
               blanco = d3.svg.arc().outerRadius(radiuso).innerRadius(radiuso - barWidtho)
@@ -271,7 +280,7 @@
 
         this.el.select('.needle').attr('fill', options.colorNeddle);
         this.el.select('.needle-center').attr('fill', options.colorNeddle);
-        
+
         // Reset pointer position
         this.el.transition().delay(100).ease('quad').duration(200).select('.needle').tween('reset-progress', function() {
           return function(percentOfPercent) {
@@ -305,7 +314,11 @@
             var percent100 = formatValue(progress) * options.gaugeMaxValue;
 
             valueText.text(options.value)
-            .attr("x","0")
+            .attr("x","-20")
+            .attr("y","30")
+
+            labelText.text(options.label)
+            .attr("x","20")
             .attr("y","30")
 
             //valueText.text(percent100)
