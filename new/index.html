@@ -649,7 +649,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
           {
             putGrafica(parametro, horas, promedioFinal);
             $('.chart-gauge').html('');
-            $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:promedioFinal.toFixed(2),gaugeMaxValue:maximoL});
+            $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:promedioFinal.toFixed(2),label:'µg/m³',gaugeMaxValue:maximoL});
             $('#lbParametro p').text(lb);
           }
 
@@ -1178,7 +1178,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
                 arrSO2 = data;
               }
 
-              
+
             }
             else
             {
