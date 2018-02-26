@@ -34,9 +34,9 @@ body{
 
 #videoBlock{
     width:100%;
-    min-height: 100%;
+    min-height: 800px;
    /* Set the height to match that of the viewport. */
-    height: 100vh;
+    height: 800px;
     width: auto;
     padding:0!important;
     margin: 0!important;
@@ -45,7 +45,7 @@ body{
 }
 #video{
     width: 100vw;
-    height: 100vh;
+    height: 800px;
     object-fit: cover;
     left: 0px;
     top: 0px;
@@ -248,10 +248,7 @@ hr.red {
   left: 50px !important;
 }
 
-.modal {
-  max-height: 90%;
-  width: 90%;
-}
+
 
 .container{
   color:#fff;
@@ -472,6 +469,8 @@ option {
   color: #333333;
 }
 
+
+
 /*
    .loader {
     border: 16px solid #f3f3f3;
@@ -490,6 +489,12 @@ option {
 	    100% { transform: rotate(360deg); }
 	}
 */
+.bloqueado
+{
+  color: white;
+  background-color: grey;
+  cursor: not-allowed;
+}
 
 .hide {
    position: absolute !important;
