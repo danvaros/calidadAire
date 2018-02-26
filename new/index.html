@@ -613,48 +613,55 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
           //porEstaciones(estado,estacion,parametro,horas);
           var promedioFinal = 0;
           var maximoL = 0;
+          var label = "";
           if('PM10' == parametro)
           {
             promedioFinal = sacaDatoDiario(arrPM10,horas,158);
             dataLocal = arrPM10;
             maximoL = 158;
+            label = 'µg/m³';
           }
           else if('PM2.5' == parametro)
           {
             promedioFinal = sacaDatoDiario(arrPM2,horas,158);
             dataLocal = arrPM2;
             maximoL = 158;
+            label = 'µg/m³';
           }
           else if('NO2' == parametro)
           {
             promedioFinal = sacaDatoDiario(arrNO2,horas, 0.315);
             dataLocal = arrNO2;
             maximoL = 0.315;
+            label = 'ppm';
           }
           else if('CO' == parametro)
           {
             promedioFinal = sacaDatoDiario(arrCO,horas,16.5);
             dataLocal = arrCO;
             maximoL = 16.5;
+            label = 'ppm';
           }
           else if('O3' == parametro)
           {
             promedioFinal = sacaDatoDiario(arrO3,horas,0.181);
             dataLocal = arrO3;
             maximoL = 0.181;
+            label = 'ppm';
           }
           else if('SO2' == parametro)
           {
             promedioFinal = sacaDatoDiario(arrSO2,horas,0.32);
             dataLocal = arrSO2;
             maximoL = 0.32;
+            label = 'ppm';
           }
 
           if(promedioFinal > 0)
           {
             putGrafica(parametro, horas, promedioFinal);
             $('.chart-gauge').html('');
-            $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:promedioFinal.toFixed(2),label:'µg/m³',gaugeMaxValue:maximoL});
+            $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:promedioFinal.toFixed(2),label:label,gaugeMaxValue:maximoL});
             $('#lbParametro p').text(lb);
           }
 
