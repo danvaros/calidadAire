@@ -774,7 +774,9 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
 
         dPasada.setHours(dActual.getHours() - horas);
 
-        var url = 'https://api.datos.gob.mx/v1/sinaica?parametro=[text:'+parametro+']&estacionesid='+id_estacion+'&date-insert=[range:'+getFormatDateAPI(dPasada)+'%7C'+getFormatDateAPI(dActual)+']&pageSize='+50;
+var url = 'https://api.datos.gob.mx/v1/sinaica-30?estacionesid='+id_estacion+'&parametro='+parametro; 
+
+        // var url = 'https://api.datos.gob.mx/v1/sinaica?parametro=[text:'+parametro+']&estacionesid='+id_estacion+'&date-insert=[range:'+getFormatDateAPI(dPasada)+'%7C'+getFormatDateAPI(dActual)+']&pageSize='+50;
 
         console.log(url);
         $.ajax({
@@ -850,7 +852,11 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
 
                   var dPasada28 = new Date();
                   dPasada.setHours(dActual.getHours() - (28*24));
-                  var url28 = 'https://api.datos.gob.mx/v1/sinaica?parametro=[text:'+parametro+']&estacionesid='+id_estacion+'&date-insert=[range:'+getFormatDateAPI(dPasada)+'%7C'+getFormatDateAPI(dActual)+']&pageSize='+pageSize_estaciones;
+
+                  var url28 = 'https://api.datos.gob.mx/v1/sinaica-30?estacionesid='+id_estacion+'&parametro='+parametro+'&pageSize='+pageSize_estaciones; 
+
+
+                  // var url28 = 'https://api.datos.gob.mx/v1/sinaica?parametro=[text:'+parametro+']&estacionesid='+id_estacion+'&date-insert=[range:'+getFormatDateAPI(dPasada)+'%7C'+getFormatDateAPI(dActual)+']&pageSize='+pageSize_estaciones;
                   console.log(url28);
                   createArrayGrafica(url28, parametro,horas,promedio);
 
@@ -1257,7 +1263,8 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
 
         dPasada.setHours(dActual.getHours() - horas);
 
-        var url = 'https://api.datos.gob.mx/v1/sinaica?parametro=[text:'+parametro+']&estacionesid='+id_estacion+'&date-insert=[range:'+getFormatDateAPI(dPasada)+'%7C'+getFormatDateAPI(dActual)+']&pageSize='+pageSize_estaciones;
+        var url = 'https://api.datos.gob.mx/v1/sinaica-30?estacionesid='+id_estacion+'&parametro='+parametro+'&pageSize='+pageSize_estaciones; 
+        // var url = 'https://api.datos.gob.mx/v1/sinaica?parametro=[text:'+parametro+']&estacionesid='+id_estacion+'&date-insert=[range:'+getFormatDateAPI(dPasada)+'%7C'+getFormatDateAPI(dActual)+']&pageSize='+pageSize_estaciones;
 
         return url;
       }
