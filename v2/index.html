@@ -674,8 +674,11 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
       {
         if(horas != 'D')
         {
-          const dActual = DateFalsa();
-          var dPasada = DateFalsa();
+          // const dActual = DateFalsa();
+          // var dPasada = DateFalsa();
+
+          const dActual = new Date();
+          var dPasada = new Date();
 
           dPasada.setHours(dActual.getHours() - horas);
 
@@ -774,7 +777,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
 
         dPasada.setHours(dActual.getHours() - horas);
 
-var url = 'https://api.datos.gob.mx/v1/sinaica-30?estacionesid='+id_estacion+'&parametro='+parametro; 
+        var url = 'https://api.datos.gob.mx/v1/sinaica-30?estacionesid='+id_estacion+'&parametro='+parametro; 
 
         // var url = 'https://api.datos.gob.mx/v1/sinaica?parametro=[text:'+parametro+']&estacionesid='+id_estacion+'&date-insert=[range:'+getFormatDateAPI(dPasada)+'%7C'+getFormatDateAPI(dActual)+']&pageSize='+50;
 
@@ -900,7 +903,8 @@ var url = 'https://api.datos.gob.mx/v1/sinaica-30?estacionesid='+id_estacion+'&p
         $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:valor,gaugeMaxValue:maximo});
 
         //vaciamos la grafica para mostrar que no tenemos lectura
-        for(var i=0; i< valores.length; i++){
+        for(var i=0; i< valores.length; i++)
+        {
             valores[i] =  null;
             valoresRango[i] = null;
         }
