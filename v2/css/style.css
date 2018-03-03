@@ -32,17 +32,18 @@ body{
   padding-top: 46px !important;
 }
 
-#videoBlock{
-    width:100%;
+#videoBlock {
+    width: 100vw;
     min-height: 800px;
    /* Set the height to match that of the viewport. */
     height: 800px;
-    width: auto;
     padding:0!important;
     margin: 0!important;
     background-color: gray;
     position: relative;
+    color: #fff;
 }
+#videoBlock h2 { font-size: 60px; }
 #video{
     width: 100vw;
     height: 800px;
@@ -101,9 +102,16 @@ p {
   .parallax-container .section {
     width: 100%;
   }
+
 .mapa_titulo{
   color: #424242;
-  margin: 50px 0px 40px 0px;
+  margin-top: 50px;
+  margin-bottom: 40px;
+}
+
+.data-table {
+  background-color: #f0f0f0;
+  padding: 15px;
 }
 
 @media only screen and (max-width : 992px) {
@@ -205,6 +213,7 @@ hr.red {
   border: 1px solid #333;
   border-radius: 10px 10px;
   padding: 3px 5px;
+  font-size: 14px;
   cursor: pointer;
   text-align: center;
 }
@@ -248,12 +257,6 @@ hr.red {
   left: 50px !important;
 }
 
-
-
-.container{
-  color:#fff;
-}
-
 .velocimetros > div{
   margin: 50px 0px;
 }
@@ -267,6 +270,8 @@ hr.red {
   font-size: 9pt;
   font-weight: 300;
 }
+
+.modal_mapa { cursor: pointer; }
 /*hacer le over del boton o no por que es mobile*/
 
 .titulo_mapa{
@@ -607,3 +612,8 @@ option {
     width: 20%;
   }
 }
+
+/*
+** Formatos de datos
+*/
+.dataset-format{font-size:12px;font-weight:700;color:#fff;text-transform:uppercase;border-radius:0;padding:3px 5px}.dataset-format[data-format="csv"],.dataset-format[data-format="CSV"]{background-color:#ffd100}.dataset-format[data-format="kml"],.dataset-format[data-format="KML"]{background-color:#474747}.dataset-format[data-format="geojson"],.dataset-format[data-format="GEOJSON"],.dataset-format[data-format="json"],.dataset-format[data-format="JSON"]{background-color:#33ffd1}.dataset-format[data-format="pdf"],.dataset-format[data-format="PDF"]{background-color:#ff2200}.dataset-format[data-format="arcgis"],.dataset-format[data-format="ARCGIS"]{background-color:#d100FF}.dataset-format[data-format="xlsx"],.dataset-format[data-format="xls"],.dataset-format[data-format="excel"],.dataset-format[data-format="vnd.ms-excel"],.dataset-format[data-format="EXCEL"],.dataset-format[data-format="VND.MS-EXCEL"],.dataset-format[data-format="XLS"],.dataset-format[data-format="XLSX"]{background-color:#00d100}.dataset-format[data-format="xml"],.dataset-format[data-format="XML"]{background-color:#0000d1}.dataset-format[data-format="oracle"],.dataset-format[data-format="ORACLE"]{background-color:#55bada}.dataset-format[data-format="shp"],.dataset-format[data-format="SHP"]{background-color:#bada55}.dataset-format[data-format="kmz"],.dataset-format[data-format="KMZ"]{background-color:#55adab}.dataset-format[data-format="zip"],.dataset-format[data-format="ZIP"]{background-color:#669999}
