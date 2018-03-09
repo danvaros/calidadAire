@@ -279,7 +279,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
               <div class="row">
                 <div class="col-xs-12 col-sm-3 text-center">
                     <div class="chart-gauge"></div>
-                    
+
                 </div>
                 <div class="col-xs-12 col-sm-9">
                   <div class="col-xs-12">
@@ -584,146 +584,8 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
         $('#'+id).addClass('active_pop');
       }
 
-      function cambioParametro(parametro, horas,id,titulo,lb)
-      {
-        if(!($('#'+id).hasClass('bloqueado')))
-        {
-          console.log(titulo);
-
-          cambioBotonActivo(id);
-          var estado =  $('#estado_primer_select').val();
-          var estacion =  $('#estaciones_select').val();
-
-          $('#contaminante_detalle').html(parametro);
-          $('#contaminante_grafica').html(parametro);
-          $('#tituloTexto').html(parametro);
-          $('#textoTitulo').html(titulo);
-
-          //porEstaciones(estado,estacion,parametro,horas);
-          var promedioFinal = 0;
-          var maximoL = 0;
-          var label = "";
-          if('PM10' == parametro)
-          {
-            promedioFinal = sacaDatoDiario(arrPM10,horas,158);
-            dataLocal = arrPM10;
-            maximoL = 158;
-            label = 'µg/m³';
-          }
-          else if('PM2.5' == parametro)
-          {
-            promedioFinal = sacaDatoDiario(arrPM2,horas,158);
-            dataLocal = arrPM2;
-            maximoL = 158;
-            label = 'µg/m³';
-          }
-          else if('NO2' == parametro)
-          {
-            promedioFinal = sacaDatoDiario(arrNO2,horas, 0.315);
-            dataLocal = arrNO2;
-            maximoL = 0.315;
-            label = 'ppm';
-          }
-          else if('CO' == parametro)
-          {
-            promedioFinal = sacaDatoDiario(arrCO,horas,16.5);
-            dataLocal = arrCO;
-            maximoL = 16.5;
-            label = 'ppm';
-          }
-          else if('O3' == parametro)
-          {
-            promedioFinal = sacaDatoDiario(arrO3,horas,0.181);
-            dataLocal = arrO3;
-            maximoL = 0.181;
-            label = 'ppm';
-          }
-          else if('SO2' == parametro)
-          {
-            promedioFinal = sacaDatoDiario(arrSO2,horas,0.32);
-            dataLocal = arrSO2;
-            maximoL = 0.32;
-            label = 'ppm';
-          }
-
-          if(promedioFinal > 0)
-          {
-            putGrafica(parametro, horas, promedioFinal);
-            $('.chart-gauge').html('');
-            $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:promedioFinal.toFixed(2),label:label,gaugeMaxValue:maximoL});
-            
-          }
-
-        }
-
-        //poner el promedio donde debe
-        //llamar funcion del historico
-
-      }
-
-      function sacaDatoDiario(data,horas,max)
-      {
-        if(horas != 'D')
-        {
-          // const dActual = DateFalsa();
-          // var dPasada = DateFalsa();
-
-          const dActual = new Date();
-          var dPasada = new Date();
-
-          dPasada.setHours(dActual.getHours() - horas);
-
-          var datos =  data.results;
-          var arrTemp = [];
-          for (let index = datos.length - 1; index >= 0;  index--)
-          {
-
-            var fechaValida = new Date(hacerFechaValida(datos[index]['date-insert']));
-
-            console.log(fechaValida);
-            console.log(fechaValida.getTime());
-
-            if(fechaValida.getTime() >= dPasada.getTime() )
-            {
-              arrTemp.push(datos[index]);
-            }
-            else
-            {
-              break;
-            }
-          }
-
-          var promedio = 0;
-          var acumulado = 0;
-          for (let index = 0; index < arrTemp.length; index++)
-          {
-            if(arrTemp[index].valororig < max && arrTemp[index].validoorig == 1)
-            {
-              acumulado += arrTemp[index].valororig;
-              promedio++;
-            }
-          }
-
-          if((arrTemp.length * .75) < promedio)
-          {
-            return acumulado/promedio;
-          }
-          else
-          {
-            // no jalo no se que hacer
-            return 0;
-          }
-
-        }
-        else
-        {
-           return data.results[data.results.length-1].valororig;
-        }
-      }
-
       function hacerFechaValida(fecha)
-      { //2018-02-18T23:11:57.715Z
-
+      {
         var fechaPartida = fecha.split("T");
         var tiempoPartido =  fechaPartida[1].split(".");
 
@@ -768,7 +630,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
 
         dPasada.setHours(dActual.getHours() - horas);
 
-        var url = 'https://api.datos.gob.mx/v1/sinaica-30?estacionesid='+id_estacion+'&parametro='+parametro; 
+        var url = 'https://api.datos.gob.mx/v1/sinaica-30?estacionesid='+id_estacion+'&parametro='+parametro;
 
         // var url = 'https://api.datos.gob.mx/v1/sinaica?parametro=[text:'+parametro+']&estacionesid='+id_estacion+'&date-insert=[range:'+getFormatDateAPI(dPasada)+'%7C'+getFormatDateAPI(dActual)+']&pageSize='+50;
 
@@ -847,7 +709,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
                   var dPasada28 = new Date();
                   dPasada.setHours(dActual.getHours() - (28*24));
 
-                  var url28 = 'https://api.datos.gob.mx/v1/sinaica-30?estacionesid='+id_estacion+'&parametro='+parametro+'&pageSize='+pageSize_estaciones; 
+                  var url28 = 'https://api.datos.gob.mx/v1/sinaica-30?estacionesid='+id_estacion+'&parametro='+parametro+'&pageSize='+pageSize_estaciones;
 
 
                   // var url28 = 'https://api.datos.gob.mx/v1/sinaica?parametro=[text:'+parametro+']&estacionesid='+id_estacion+'&date-insert=[range:'+getFormatDateAPI(dPasada)+'%7C'+getFormatDateAPI(dActual)+']&pageSize='+pageSize_estaciones;
@@ -1102,7 +964,6 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
           }
         }
 
-
         if(numEstaciones > 0)
         {
           $('#estaciones_select').html(contenido);
@@ -1147,7 +1008,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
 
       function DateFalsa()
       {
-        return new Date("2018-02-19 00:00:00");
+        return new Date("2018-03-07 00:00:00");
       }
 
       function llenarConstaminantes(url, parametro)
@@ -1160,7 +1021,6 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
           {
             if(data.results.length > 0)
             {
-
               if('PM10' == parametro)
               {
                 arrPM10 = data;
@@ -1188,8 +1048,6 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
               {
                 arrSO2 = data;
               }
-
-
             }
             else
             {
@@ -1258,12 +1116,11 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
 
         dPasada.setHours(dActual.getHours() - horas);
 
-        var url = 'https://api.datos.gob.mx/v1/sinaica-30?estacionesid='+id_estacion+'&parametro='+parametro+'&pageSize='+pageSize_estaciones; 
-        // var url = 'https://api.datos.gob.mx/v1/sinaica?parametro=[text:'+parametro+']&estacionesid='+id_estacion+'&date-insert=[range:'+getFormatDateAPI(dPasada)+'%7C'+getFormatDateAPI(dActual)+']&pageSize='+pageSize_estaciones;
+        var url = 'https://api.datos.gob.mx/v2/sinaica?parametro='+parametro+'&estacionesid='+id_estacion+'&date-insert>'+getFormatDateAPI(dPasada)+'&date-insert<'+getFormatDateAPI(dActual)+'&pagesize='+1000;
 
         return url;
       }
-      
+
       function buscarOtroParametro()
       {
 
@@ -1297,6 +1154,143 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
           $('#botonSO224').trigger('click');
           $('#myModal').modal('show');
           $('.forLoader').removeClass('hide').slideUp();
+        }
+      }
+
+      function cambioParametro(parametro, horas,id,titulo,lb)
+      {
+        if(!($('#'+id).hasClass('bloqueado')))
+        {
+          console.log(titulo);
+
+          cambioBotonActivo(id);
+          var estado =  $('#estado_primer_select').val();
+          var estacion =  $('#estaciones_select').val();
+
+          $('#contaminante_detalle').html(parametro);
+          $('#contaminante_grafica').html(parametro);
+          $('#tituloTexto').html(parametro);
+          $('#textoTitulo').html(titulo);
+
+          //porEstaciones(estado,estacion,parametro,horas);
+          var promedioFinal = 0;
+          var maximoL = 0;
+          var label = "";
+          if('PM10' == parametro)
+          {
+            promedioFinal = sacaDatoDiario(arrPM10,horas,158);
+            dataLocal = arrPM10;
+            maximoL = 158;
+            label = 'µg/m³';
+          }
+          else if('PM2.5' == parametro)
+          {
+            promedioFinal = sacaDatoDiario(arrPM2,horas,158);
+            dataLocal = arrPM2;
+            maximoL = 158;
+            label = 'µg/m³';
+          }
+          else if('NO2' == parametro)
+          {
+            promedioFinal = sacaDatoDiario(arrNO2,horas, 0.315);
+            dataLocal = arrNO2;
+            maximoL = 0.315;
+            label = 'ppm';
+          }
+          else if('CO' == parametro)
+          {
+            promedioFinal = sacaDatoDiario(arrCO,horas,16.5);
+            dataLocal = arrCO;
+            maximoL = 16.5;
+            label = 'ppm';
+          }
+          else if('O3' == parametro)
+          {
+            promedioFinal = sacaDatoDiario(arrO3,horas,0.181);
+            dataLocal = arrO3;
+            maximoL = 0.181;
+            label = 'ppm';
+          }
+          else if('SO2' == parametro)
+          {
+            promedioFinal = sacaDatoDiario(arrSO2,horas,0.32);
+            dataLocal = arrSO2;
+            maximoL = 0.32;
+            label = 'ppm';
+          }
+
+          if(promedioFinal > 0)
+          {
+            putGrafica(parametro, horas, promedioFinal);
+            $('.chart-gauge').html('');
+            $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:promedioFinal.toFixed(2),label:label,gaugeMaxValue:maximoL});
+
+          }
+
+        }
+
+        //poner el promedio donde debe
+        //llamar funcion del historico
+
+      }
+
+      function sacaDatoDiario(data,horas,max)
+      {
+        if(horas != 'D')
+        {
+          const dActual = DateFalsa();
+          var dPasada = DateFalsa();
+
+          // const dActual = new Date();
+          // var dPasada = new Date();
+
+          dPasada.setHours(dActual.getHours() - horas);
+
+          var datos =  data.results;
+          var arrTemp = [];
+          for (let index = datos.length - 1; index >= 0;  index--)
+          {
+
+            var fechaValida = new Date(hacerFechaValida(datos[index]['date-insert']));
+
+            console.log(fechaValida);
+            console.log(fechaValida.getTime());
+
+            if(fechaValida.getTime() >= dPasada.getTime() )
+            {
+              arrTemp.push(datos[index]);
+            }
+            else
+            {
+              break;
+            }
+          }
+
+          var promedio = 0;
+          var acumulado = 0;
+          for (let index = 0; index < arrTemp.length; index++)
+          {
+            if(arrTemp[index].valororig < max && arrTemp[index].validoorig == 1)
+            {
+              acumulado += arrTemp[index].valororig;
+              promedio++;
+            }
+          }
+
+          if((arrTemp.length * .75) < promedio)
+          {
+            return acumulado/promedio;
+          }
+          else
+          {
+            // no jalo no se que hacer
+            return 0;
+          }
+
+        }
+        else
+        {
+           return data.results[data.results.length-1].valororig;
         }
       }
 
