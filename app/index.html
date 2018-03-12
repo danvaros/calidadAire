@@ -615,11 +615,11 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
 
       function porEstaciones(estado,id_estacion,parametro,horas)
       {
-        // const dActual = new Date();
-        // var dPasada = new Date();
+        const dActual = new Date();
+        var dPasada = new Date();
 
-        const dActual = DateFalsa();
-        var dPasada = DateFalsa();
+        // const dActual = DateFalsa();
+        // var dPasada = DateFalsa();
 
         var isDatoHorario =  (horas == 'D') ? true : false;
 
@@ -1111,8 +1111,11 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
       function generaUrl(parametro,id_estacion,horas)
       {
         // cambiar estas horas con = new Date();
-        const dActual = DateFalsa();
-        var dPasada = DateFalsa();
+        // const dActual = DateFalsa();
+        // var dPasada = DateFalsa();
+
+        const dActual = new Date();
+        var dPasada = new Date();
 
         dPasada.setHours(dActual.getHours() - horas);
 
@@ -1226,6 +1229,10 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
             $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:promedioFinal.toFixed(2),label:label,gaugeMaxValue:maximoL});
 
           }
+          else
+          {
+            alert("No es po sible obtener el valor solicitado para este día");
+          }
 
         }
 
@@ -1238,11 +1245,11 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
       {
         if(horas != 'D')
         {
-          const dActual = DateFalsa();
-          var dPasada = DateFalsa();
+          // const dActual = DateFalsa();
+          // var dPasada = DateFalsa();
 
-          // const dActual = new Date();
-          // var dPasada = new Date();
+          const dActual = new Date();
+          var dPasada = new Date();
 
           dPasada.setHours(dActual.getHours() - horas);
 
@@ -1283,7 +1290,6 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
           }
           else
           {
-            // no jalo no se que hacer
             return 0;
           }
 
