@@ -80,7 +80,7 @@
         </div>
         <div class="col-xs-3">
           <div class="input-field col s6 m2 l2">
-            <select  name="estados" class="form-control" onchange="cambiaCoor()">
+            <select  id="estados" name="estados" class="form-control" onchange="cambiaCoor()">
               <option value="Aguascalientes">Aguascalientes</option>
               <option value="Baja California">Baja California</option>
               <option value="Baja California Sur">Baja California Sur</option>
@@ -88,7 +88,7 @@
               <option value="Chiapas">Chiapas</option>
               <option value="Chihuahua">Chihuahua</option>
               <option value="Ciudad de México">Ciudad de México</option>
-              <option value="Coahuila de Zaragoza">Coahuila de Zaragoza</option>
+              <option value="Coahuila">Coahuila</option>
               <option value="Colima">Colima</option>
               <option value="Durango">Durango</option>
               <option value="Guanajuato">Guanajuato</option>
@@ -96,13 +96,13 @@
               <option value="Hidalgo">Hidalgo</option>
               <option value="Jalisco">Jalisco</option>
               <option value="México">México</option>
-              <option value="Michoacán de Ocampo">Michoacán de Ocampo</option>
+              <option value="Michoacán">Michoacán</option>
               <option value="Morelos">Morelos</option>
               <option value="Nayarit">Nayarit</option>
               <option value="Nuevo León">Nuevo León</option>
               <option value="Oaxaca">Oaxaca</option>
               <option value="Puebla">Puebla</option>
-              <option value="Querétaro de Arteaga">Querétaro de Arteaga</option>
+              <option value="Querétaro">Querétaro</option>
               <option value="Quintana Roo">Quintana Roo</option>
               <option value="San Luis Potosí">San Luis Potosí</option>
               <option value="Sinaloa">Sinaloa</option>
@@ -110,7 +110,7 @@
               <option value="Tabasco">Tabasco</option>
               <option value="Tamaulipas">Tamaulipas</option>
               <option value="Tlaxcala">Tlaxcala</option>
-              <option value="Veracruz de Ignacio de la Llave">Veracruz de Ignacio de la Llave</option>
+              <option value="Veracruz">Veracruz</option>
               <option value="Yucatán">Yucatán</option>
               <option value="Zacatecas">Zacatecas</option>
             </select>
@@ -186,6 +186,12 @@
             <!-- esto sera el modal -->
 
               <div class="row ">
+                <div class="col-xs-12">
+                    <div id="alerta" class="alert alert-danger" style="display: none">
+                      No es posible obtener el valor solicitado para este día.
+                    </div>
+                </div>
+                  
                 <div class="col-xs-3 hidden-xs">
                   <div class="col-xs-4">
                     <img class="img-responsive" src="imagenes/fecha.png">
@@ -361,6 +367,26 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
 
       $(document).ready(function()
       {
+        $("#myModal").on("hidden.bs.modal", function () {
+
+          $('.boton_pop').each(function(){
+            $(this).removeClass("bloqueado");
+          });
+
+          var arr_vacio = [];
+          chart.data.datasets[0].data =  arr_vacio;
+          chart.data.datasets[1].data =  arr_vacio;
+          chart.data.labels =  arr_vacio;
+          chart.update();
+          poner_botones(arr_vacio);
+
+          $('.chart-gauge').html('');
+          $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:0,gaugeMaxValue:10});
+
+          $("#alerta").hide();
+
+        });
+
         $('[data-toggle="tooltip"]').tooltip();
 
 	      // Oculta Loader
@@ -735,8 +761,8 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
           },
           error: function (xhr, ajaxOptions, thrownError)
           {
-            alert(xhr.status);
-            alert(thrownError);
+            console.log(xhr.status);
+            console.log(thrownError);
           },
           xhrFields: {
             withCredentials: false
@@ -784,8 +810,8 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
           },
           error: function (xhr, ajaxOptions, thrownError)
           {
-            alert(xhr.status);
-            alert(thrownError);
+            console.log(xhr.status);
+            console.log(thrownError);
           },
           xhrFields: {
             withCredentials: false
@@ -797,8 +823,6 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
 
       function putGrafica(parametro,horas,promedio2)
       {
-        console.log('vamos a hacer todos los datos, tomando el dataLocal');
-        console.log(dataLocal);
         var data = dataLocal;
         var maximo = 1580;
               var estacionesid = $('#estacion_id').val();
@@ -995,13 +1019,11 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
       {
           var seleccionado = document.getElementById("estados").value;
 
-          console.log(seleccionado);
           jQuery.each( coor_estado, function( i, val )
           {
             if(seleccionado == val.estado)
             {
                 mymap.setView([val.lat, val.long], (val.zoom-1));
-                console.log('entro');
             }
           });
       }
@@ -1097,8 +1119,8 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
           },
           error: function (xhr, ajaxOptions, thrownError)
           {
-            alert(xhr.status);
-            alert(thrownError);
+            console.log(xhr.status);
+            console.log(thrownError);
           },
           xhrFields: {
             withCredentials: false
@@ -1162,6 +1184,7 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
 
       function cambioParametro(parametro, horas,id,titulo,lb)
       {
+        $("#alerta").hide();
         if(!($('#'+id).hasClass('bloqueado')))
         {
           console.log(titulo);
@@ -1231,7 +1254,10 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
           }
           else
           {
-            alert("No es po sible obtener el valor solicitado para este día");
+            $("#alerta").show();
+            putGrafica(parametro, horas, promedioFinal);
+            $('.chart-gauge').html('');
+            $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:0,label:label,gaugeMaxValue:maximoL});
           }
 
         }
