@@ -36,6 +36,18 @@ $(document).ready(function()
         
         $('.forLoader').show();
 
+        //ponemos los parametros en la ventana
+        $('#fecha_detalle').html(convertDate(new Date()));
+        $('#contaminante_detalle').html("PM10");
+        $('#contaminante_grafica').html("PM10");
+
+        var objEstacion = buscarEstacion(estacion);
+
+        $('#titulo_detalle').html(buscarCiudad(estacion));
+        $('#estacion_detalle').html(objEstacion.nombre);
+        $('#tituloTexto').html("PM10");
+        $('#textoTitulo').html("Las partículas menores o iguales a 2.5 micras (PM2.5) están formadas primordialmente por gases y por material proveniente de la combustión. Se depositan fundamentalmente en la región traqueobronquial (tráquea hasta bronquiolo terminal), aunque pueden ingresar a los alvéolos.");
+
         //vamos a llenar los arreglos de todos los coantaminantes
         llenarConstaminantes(generaUrl('PM10', estacion, (24*28)),'PM10');
         llenarConstaminantes(generaUrl('PM2.5', estacion, (24*28)),'PM2.5');
