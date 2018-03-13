@@ -1,55 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <title>Calidad del Aire</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
 
-  <link rel="import" href="bower_components/polymer/polymer.html">
-  <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <!-- Latest compiled and minified JavaScript -->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
-  <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="shortcut icon" href="https://framework-gb.cdn.gob.mx/favicon.ico">
+  <link href="https://framework-gb.cdn.gob.mx/assets/styles/main.css" rel="stylesheet">
 
   <!-- Optional theme -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
-  <link rel="stylesheet" href="http://cdn.datos.gob.mx/qa/bower_components/dgm-style/main.css" />
-
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="import" href="https://cdn.datos.gob.mx/bower_components/dgm-navbar/dgm-navbar.html">
-  <link rel="import" href="https://cdn.datos.gob.mx/bower_components/dgm-footer/dgm-footer.html">
-
   <!-- Fuente Roboto-->
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,700" rel="stylesheet">
+
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
 
-  <style>
-    .datos-nav{
-      display: none;
-    }
-
-    .main-container .style-scope .dgm-footer{
-    	display: none;
-    }
-
+  <style>  
+        /*
+    ** Formatos de datos
+    */
+    .dataset-format{font-size:12px;font-weight:700;color:#fff;text-transform:uppercase;border-radius:0;padding:3px 5px}.dataset-format[data-format="csv"],.dataset-format[data-format="CSV"]{background-color:#ffd100}.dataset-format[data-format="kml"],.dataset-format[data-format="KML"]{background-color:#474747}.dataset-format[data-format="geojson"],.dataset-format[data-format="GEOJSON"],.dataset-format[data-format="json"],.dataset-format[data-format="JSON"]{background-color:#33ffd1}.dataset-format[data-format="pdf"],.dataset-format[data-format="PDF"]{background-color:#ff2200}.dataset-format[data-format="arcgis"],.dataset-format[data-format="ARCGIS"]{background-color:#d100FF}.dataset-format[data-format="xlsx"],.dataset-format[data-format="xls"],.dataset-format[data-format="excel"],.dataset-format[data-format="vnd.ms-excel"],.dataset-format[data-format="EXCEL"],.dataset-format[data-format="VND.MS-EXCEL"],.dataset-format[data-format="XLS"],.dataset-format[data-format="XLSX"]{background-color:#00d100}.dataset-format[data-format="xml"],.dataset-format[data-format="XML"]{background-color:#0000d1}.dataset-format[data-format="oracle"],.dataset-format[data-format="ORACLE"]{background-color:#55bada}.dataset-format[data-format="shp"],.dataset-format[data-format="SHP"]{background-color:#bada55}.dataset-format[data-format="kmz"],.dataset-format[data-format="KMZ"]{background-color:#55adab}.dataset-format[data-format="zip"],.dataset-format[data-format="ZIP"]{background-color:#669999}
+    
   </style>
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
 </head>
 
-<body class="front" cz-shortcut-listen="true" >
+<body class="page" cz-shortcut-listen="true" >
+   
+<main>
 
-  <dgm-navbar></dgm-navbar>
-  <main>
-
-<!--
-    <div class="forLoader" id="forLoader1">
-        <div class="loader"></div>
-    </div>
--->
 <div class="container">
   <div class="row">
      <div class="col-xs-12">
@@ -78,7 +63,8 @@
  </div>
   <div class="row">
       <div class="col-xs-12">
-          <h1>Glosario de terminos</h1>
+          <h3>Glosario de terminos</h3>
+          <hr class="red">
       </div>
   </div>
    <div class="row">
@@ -604,6 +590,7 @@
 
 
   </main>
-  <dgm-footer></dgm-footer>
+
+<script src="https://framework-gb.cdn.gob.mx/gobmx.js"></script>
   </body>
 </html>
