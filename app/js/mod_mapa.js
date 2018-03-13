@@ -31,77 +31,31 @@ $(document).ready(function()
 
     $(document).on('click', '.modal_mapa', function()
     {
-
-        // //sacar la estacion en particular solo id
+        //sacar la estacion en particular solo id
         var estacion = $(this).data().id;
-        //porEstaciones(estado, estacion, parametro, horas);
-        porEstaciones('', estacion, 'PM10', 24); //llamada a la estación
+        
+        $('.forLoader').show();
 
-        $('#myModal').modal('show'); // mandar a llamar al modal
-        // var ciudad;
+        //ponemos los parametros en la ventana
+        $('#fecha_detalle').html(convertDate(new Date()));
+        $('#contaminante_detalle').html("PM10");
+        $('#contaminante_grafica').html("PM10");
 
-        // boton_activo.removeClass('active_graf');
-        // boton_activo = $('#valPM1024H');
-        // boton_activo.addClass('active_graf');
+        var objEstacion = buscarEstacion(estacion);
 
-        // for (var i = 0; i < estaciones_global.length; i++) {
-        //   if(id_estacion ==  estaciones_global[i].estacionesid){
-        //    ciudad  =  estaciones_global[i].city;
-        //    break;
-        //   }
-        // }
+        $('#titulo_detalle').html(buscarCiudad(estacion));
+        $('#estacion_detalle').html(objEstacion.nombre);
+        $('#tituloTexto').html("PM10");
+        $('#textoTitulo').html("Las partículas menores o iguales a 2.5 micras (PM2.5) están formadas primordialmente por gases y por material proveniente de la combustión. Se depositan fundamentalmente en la región traqueobronquial (tráquea hasta bronquiolo terminal), aunque pueden ingresar a los alvéolos.");
 
-        // put_contaminantes(ciudad,id_estacion);
-        // //cruzar el id con estaciones obscuras
-        // var estacion = [];
-        // for (var i = 0; i < estaciones_json.length; i++) {
-        //     if(estaciones_json[i].id == id_estacion){
-        //       estacion  = estaciones_json[i];
-        //       break;
-        //     }
-        // }
-
-        // var hoy =  convertDate(DateFalsa());
-
-        // $.ajax({
-        //   type: 'GET',
-        //   url: "https://api.datos.gob.mx/v1/sinaica?parametro=PM10&city="+ciudad +"&fecha="+hoy+"&pageSize=12000",
-        //   data: {},
-        //   success: function( data, textStatus, jqxhr ) {
-        //     var lectura_alta = [];
-        //     if(data.results.length > 0)
-        //     {
-        //       for (var i = 0; i < data.results.length; i++) {
-        //         if(lectura_alta[i]>0 && data.results[i].valororig >lectura_alta[0].valororig ){
-        //           lectura_alta[0] = data.results[i];
-
-        //         }else{
-        //           lectura_alta[0] = data.results[i];
-
-        //         }
-        //       }
-
-
-        //       $('#titulo_detalle').html(lectura_alta[0].city);
-        //       $('#fecha_detalle').html(lectura_alta[0].fecha);
-        //       $('#contaminante_detalle').html(lectura_alta[0].parametro);
-        //       $('#estacion_detalle').html(estacion.nombre);
-        //       $('#contaminante_grafica').html(lectura_alta[0].parametro);
-
-        //       //llamar pon historial
-        //       put_his_estacion_val_max(lectura_alta[0],estacion);
-        //     }else{
-        //       alert('La estación no tiene mediciones este día');
-        //     }
-
-        //   },
-        //   xhrFields: {
-        //     withCredentials: false
-        //   },
-        //   crossDomain: true,
-        //   async:false
-        // });
-      });
+        //vamos a llenar los arreglos de todos los coantaminantes
+        llenarConstaminantes(generaUrl('PM10', estacion, (24*28)),'PM10');
+        llenarConstaminantes(generaUrl('PM2.5', estacion, (24*28)),'PM2.5');
+        llenarConstaminantes(generaUrl('NO2', estacion, (24*28)),'NO2');
+        llenarConstaminantes(generaUrl('SO2', estacion, (24*28)),'SO2');
+        llenarConstaminantes(generaUrl('O3', estacion, (24*28)),'O3');
+        llenarConstaminantes(generaUrl('CO', estacion, (24*28)),'CO');
+    });
 
 
 });
