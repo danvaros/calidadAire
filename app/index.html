@@ -8,6 +8,13 @@
   <link rel="shortcut icon" href="https://framework-gb.cdn.gob.mx/favicon.ico">
   <link href="https://framework-gb.cdn.gob.mx/assets/styles/main.css" rel="stylesheet">
 
+  <!-- Respond.js soporte de media queries para Internet Explorer 8 -->
+  <!-- ie8.js EventTarget para cada nodo en Internet Explorer 8 -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ie8/0.2.2/ie8.js"></script>
+  <![endif]-->
+
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
@@ -40,7 +47,7 @@
       <source src="imagenes/nubes.mp4" type="video/mp4">
       </video>
       <div class="section no-pad-bot">
-        <div class="container" style="margin-top:-600px;">
+        <div class="container move-up">
           <div class="row">
             <div class="col-xs-12 text-center">
               <h2>Calidad de Aire MX</h2>
@@ -58,14 +65,16 @@
                     <option value="0">2.-Selecciona una estación</option>
                 </select>
 
-                <select class="browser-default contaminantes" name="" id="contaminantes" style="display: none;">
+                <select class="browser-default contaminantes hidden" name="" id="contaminantes">
                   <option value="0">3.-Selecciona un contaminate</option>
                 </select>
               </div>
 
             </div>
             <div class="col-xs-12 text-center">
-              <h5 class="white-text"><span id="contaminante_titulo"><a style="color: white" href="preguntas.html">Preguntas frecuentes </a>|<a style="color: white" href="glosario.html"> Glosario</a> </span></h5>
+              <h5 class="white-text">
+                <a href="preguntas.html">Preguntas frecuentes </a>|<a href="glosario.html"> Glosario</a>
+              </h5>
             </div>
           </div>
         </div>
@@ -132,7 +141,7 @@
 	      <div class="col col-xs-12">
           <h3>Datos</h3>
           <hr class="red">
-	        <div class="data-table" style="color: black; margin-bottom: 50px;">
+	        <div class="data-table">
               <table class="table">
                 <thead>
                   <tr>
@@ -168,7 +177,7 @@
             El parámetro seleccionado no cuenta con lecturas
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn" data-dismiss="modal" style="color:#fff; background-color: #87c8f3;"> Aceptar</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal"> Aceptar</button>
           </div>
         </div>
       </div>
@@ -187,7 +196,7 @@
 
               <div class="row ">
                 <div class="col-xs-12">
-                    <div id="alerta" class="alert alert-danger" style="display: none">
+                    <div id="alerta" class="alert alert-danger">
                       No es posible obtener el valor solicitado para este día.
                     </div>
                 </div>

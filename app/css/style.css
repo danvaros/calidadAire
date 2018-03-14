@@ -26,7 +26,6 @@
 	display: none;
 }
 
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,700');
 body{
   font-family: 'Roboto', sans-serif;
   padding-top: 46px !important;
@@ -110,6 +109,7 @@ p {
 }
 
 .data-table {
+  margin-bottom: 50px;
   background-color: #f0f0f0;
   padding: 15px;
 }
@@ -283,7 +283,7 @@ hr.red {
   font-size: 11pt;
   font-weight: bold;
   width: 160px;
-  height: 25px;
+  height: auto;
 }
 
 .chart-gauge2 .chart-gauge1 .chart-gauge3{
@@ -474,6 +474,16 @@ option {
   color: #333333;
 }
 
+/*
+   Estilos que estaban en el HTML
+*/
+
+.move-up {
+  margin-top:-600px;
+}
+
+.white-text,
+.white-text a { color: #fff; }
 
 
 /*
