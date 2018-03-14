@@ -515,32 +515,38 @@ function llenarConstaminantes(url, parametro)
     {
       if(data.results.length > 0)
       {
+        $('#myModal').modal('show');
+        $('.forLoader').removeClass('hide').slideUp();
+
         if('PM10' == parametro)
         {
           arrPM10 = data;
           $('#botonPM10').trigger('click');
-          $('#myModal').modal('show');
-          $('.forLoader').removeClass('hide').slideUp();
         }
         else if('PM2.5' == parametro)
         {
           arrPM2 = data;
+          $('#botonPM25').trigger('click');
         }
         else if('NO2' == parametro)
         {
           arrNO2 = data;
+          $('#botonNO2').trigger('click');
         }
         else if('CO' == parametro)
         {
           arrCO = data;
+          $('#botonCO').trigger('click');
         }
         else if('O3' == parametro)
         {
           arrO3 = data;
+          $('#botonO3D').trigger('click');
         }
         else if('SO2' == parametro)
         {
           arrSO2 = data;
+          $('#botonSO2D').trigger('click');
         }
       }
       else
@@ -618,32 +624,32 @@ function buscarOtroParametro()
   if(arrPM2.results.length > 0)
   {
     $('#botonPM25').trigger('click');
-    $('#myModal').modal('show');
-    $('.forLoader').removeClass('hide').slideUp();
+    // $('#myModal').modal('show');
+    // $('.forLoader').removeClass('hide').slideUp();
   }
   else if(arrNO2.results.length > 0)
   {
     $('#botonNO2').trigger('click');
-    $('#myModal').modal('show');
-    $('.forLoader').removeClass('hide').slideUp();
+    // $('#myModal').modal('show');
+    // $('.forLoader').removeClass('hide').slideUp();
   }
   else if(arrCO.results.length > 0)
   {
     $('#botonCO').trigger('click');
-    $('#myModal').modal('show');
-    $('.forLoader').removeClass('hide').slideUp();
+    // $('#myModal').modal('show');
+    // $('.forLoader').removeClass('hide').slideUp();
   }
   else if(arrO3.results.length > 0)
   {
     $('#botonO38').trigger('click');
-    $('#myModal').modal('show');
-    $('.forLoader').removeClass('hide').slideUp();
+    // $('#myModal').modal('show');
+    // $('.forLoader').removeClass('hide').slideUp();
   }
   else if(arrSO2.results.length > 0)
   {
     $('#botonSO224').trigger('click');
-    $('#myModal').modal('show');
-    $('.forLoader').removeClass('hide').slideUp();
+    // $('#myModal').modal('show');
+    // $('.forLoader').removeClass('hide').slideUp();
   }
 }
 
