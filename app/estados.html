@@ -100,8 +100,7 @@
 
   window.onload = function() {
 
-    $('#contaminante_sel').change(function(){
-      console.log($(this).val());
+    $('#contaminante_sel').change(function() {
       if($(this).val() == 'PM10'){
         get_top('PM10',24,12,152,9);
       }

@@ -34,7 +34,6 @@ function get_fecha_corta(d){
 function put_temperatura(estacion,contenedor){
   var fActual = new Date();
   var url =  "https://api.datos.gob.mx/v1/sinaica?parametro=TMP&fecha="+get_fecha_corta(fActual)+"&estacionesid="+estacion;
-  console.log(url);
   $.ajax({
     type: 'GET',
     url: url,

@@ -48,8 +48,6 @@
             left: 30
           };
 
-          console.log(el[0][0].offsetWidth);
-
           if (options.forceWidth == 'default'){
             width = 195;
           }else{
@@ -287,7 +285,6 @@
             var progress = (1 - percentOfPercent) * oldValue;
 
             if(progress > options.gaugeMaxValue){
-              console.log('Mayor');
               progress =  options.gaugeMaxValue;
             }
 
@@ -301,8 +298,6 @@
           return function(percentOfPercent) {
             var progress = percentOfPercent * perc;
             //var progress = perc;
-            //console.log('Progress');
-            //console.log(progress);
 
             repaintGauge(progress);
 

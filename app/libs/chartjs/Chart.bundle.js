@@ -4026,7 +4026,6 @@ function configFromStringAndFormat(config) {
     for (i = 0; i < tokens.length; i++) {
         token = tokens[i];
         parsedInput = (string.match(getParseRegexForToken(token, config)) || [])[0];
-        // console.log('token', token, 'parsedInput', parsedInput,
         //         'regex', getParseRegexForToken(token, config));
         if (parsedInput) {
             skipped = string.substr(0, string.indexOf(parsedInput));
