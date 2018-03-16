@@ -18,7 +18,7 @@ var dia = deis[d.getDate()];
 
 //catalogo de constantes de configuración
 const pageSize_estaciones = 2000;
-var arrPM2 = arrPM2 = arrNO2 = arrCO = arrO3 = arrSO2 = [];
+var arrPM10 = arrPM2 = arrNO2 = arrCO = arrO3 = arrSO2 = [];
 
 //emulacion de states
 var pm10Vacio = false;
@@ -84,10 +84,12 @@ $(document).ready(function()
 
     //ponemos los parametros en la ventana
     $('#fecha_detalle').html(convertDate(new Date()));
+    $('#fecha_detalle_m').html(convertDate(new Date()));
     $('#contaminante_detalle').html(parametro);
     $('#contaminante_grafica').html(parametro);
     $('#titulo_detalle').html(buscarCiudad(estacion));
     $('#estacion_detalle').html($('#estaciones_select option:selected').text());
+    $('#estacion_detalle_m').html('<b>'+$('#estaciones_select option:selected').text()+'</b>');
     $('#tituloTexto').html(parametro);
     $('#textoTitulo').html($('#'+id).attr('data-original-title'));
 
@@ -294,33 +296,11 @@ function desabilitarGrafica()
   $('.botonera').hide();
 }
 
-function createArrayGrafica(url, parametro, horas,promedio)
+function putGrafica(parametro,horas,promedio2,maximo)
 {
-  $.ajax({
-    type: 'GET',
-    url: url,
-    data: {},
-    success: function( data, textStatus, jqxhr )
-    {
-      arrPM10 = data;
-      dataLocal = data;
-      putGrafica(parametro, horas,promedio);
-      // Oculta Loader
-      $('.forLoader').removeClass('show').slideUp();
-    },
-    xhrFields: {
-      withCredentials: false
-    },
-    crossDomain: true,
-    async:true
-  });
-}
-
-function putGrafica(parametro,horas,promedio2)
-{
-  var data = dataLocal;
-  var maximo = 1580;
-        var estacionesid = $('#estacion_id').val();
+    var data = dataLocal;
+  
+        //var estacionesid = $('#estacion_id').val();
         var his_estacion =  [];
         var labels_temp = [];
         var values_temp = [];
@@ -335,29 +315,35 @@ function putGrafica(parametro,horas,promedio2)
               labels_temp.push(data.results[i].fecha);
             }
 
-            //validacion desde el api para valores correctos
-            if(data.results[i].validoorig == 1){
-              his_estacion[data.results[i].fecha].push(data.results[i]);
-            }
-
+            his_estacion[data.results[i].fecha].push(data.results[i]);
           }
-
         }
 
+        var conTemp = 0;
         for (var i = 0; i < labels_temp.length; i++)
         {
           var promedio = his_estacion[labels_temp[i]].length;
           var suma = 0;
           var arreglo = his_estacion[labels_temp[i]];
           for (var j = 0; j < promedio; j++) {
-            if(arreglo[j].valororig < maximo)
+            if(arreglo[j].valororig < maximo && data.results[i].validoorig == 1){
               suma += arreglo[j].valororig;
+              conTemp++;
+            }
+              
           }
 
-          if(parametro ==  'PM10' || parametro == 'PM2.5')
-            values_temp.push((suma/promedio).toFixed(1));
+          if((conTemp * .75) > (promedio * .75))
+          {
+            if(parametro ==  'PM10' || parametro == 'PM2.5')
+              values_temp.push((suma/promedio).toFixed(1));
+            else
+              values_temp.push((suma/promedio).toFixed(3));
+          }
           else
-            values_temp.push((suma/promedio).toFixed(3));
+          {
+            values_temp.push(0); 
+          }
         }
 
         valores = values_temp;
@@ -504,7 +490,7 @@ function DateFalsa()
 {
   return new Date("2018-03-07 00:00:00");
 }
-
+var contador_vacios = 0;
 function llenarConstaminantes(url, parametro)
 {
   $.ajax({
@@ -551,49 +537,69 @@ function llenarConstaminantes(url, parametro)
       }
       else
       {
+        //cuenta los contaminantes que no reporttan valores
+        contador_vacios++;
 
+        //se desabilita para móvil
         $('#conataminatesMovil option').each(function(e)
           {
-            if($(this).val().includes(parametro))
+            
+            if($(this).val().indexOf('string'))
             {
               $(this).attr('disabled','disabled');
             }
           }
         );
 
+        //desabilitamos el boton del parametro que estamos consultando
         if('PM2.5' == parametro)
         {
+          arrPM25 = data;
           $('#botonPM25').addClass('bloqueado');
         }
         else if('PM10' == parametro)
         {
+          arrPM10 = data;
           $('#botonPM10').addClass('bloqueado');
-          setTimeout(function()
-            {
-              buscarOtroParametro();
-            }, 5000);
+          // setTimeout(function()
+          //   {
+          //     buscarOtroParametro();
+          //   }, 5000);
         }
         else if('NO2' == parametro)
         {
+          arrNO2 = data;
           $('#botonNO2').addClass('bloqueado');
         }
         else if('CO' == parametro)
         {
+          arrCO = data;
           $('#botonCO').addClass('bloqueado');
         }
         else if('O3' == parametro)
         {
+          arrO3 = data;
           $('#botonO38').addClass('bloqueado');
           $('#botonO3D').addClass('bloqueado');
         }
         else if('SO2' == parametro)
         {
+          arrSO2 = data;
           $('#botonSO2D').addClass('bloqueado');
           $('#botonSO28').addClass('bloqueado');
           $('#botonSO224').addClass('bloqueado');
         }
       }
 
+      if(contador_vacios == 5)
+      {
+        $('.forLoader').removeClass('hide').slideUp();
+        $('#alertModal').modal('show');
+        contador_vacios = 0;
+        $('.boton_pop').each(function(){
+          $(this).removeClass("bloqueado");
+        });
+      }
     },
     xhrFields: {
       withCredentials: false
@@ -619,39 +625,43 @@ function generaUrl(parametro,id_estacion,horas)
   return url;
 }
 
-function buscarOtroParametro()
-{
-  if(arrPM2.results.length > 0)
-  {
-    $('#botonPM25').trigger('click');
-    // $('#myModal').modal('show');
-    // $('.forLoader').removeClass('hide').slideUp();
-  }
-  else if(arrNO2.results.length > 0)
-  {
-    $('#botonNO2').trigger('click');
-    // $('#myModal').modal('show');
-    // $('.forLoader').removeClass('hide').slideUp();
-  }
-  else if(arrCO.results.length > 0)
-  {
-    $('#botonCO').trigger('click');
-    // $('#myModal').modal('show');
-    // $('.forLoader').removeClass('hide').slideUp();
-  }
-  else if(arrO3.results.length > 0)
-  {
-    $('#botonO38').trigger('click');
-    // $('#myModal').modal('show');
-    // $('.forLoader').removeClass('hide').slideUp();
-  }
-  else if(arrSO2.results.length > 0)
-  {
-    $('#botonSO224').trigger('click');
-    // $('#myModal').modal('show');
-    // $('.forLoader').removeClass('hide').slideUp();
-  }
-}
+// function buscarOtroParametro()
+// {
+//   if(arrPM2.results.length > 0)
+//   {
+//     $('#botonPM25').trigger('click');
+//     // $('#myModal').modal('show');
+//     // $('.forLoader').removeClass('hide').slideUp();
+//   }
+//   else if(arrNO2.results.length > 0)
+//   {
+//     $('#botonNO2').trigger('click');
+//     // $('#myModal').modal('show');
+//     // $('.forLoader').removeClass('hide').slideUp();
+//   }
+//   else if(arrCO.results.length > 0)
+//   {
+//     $('#botonCO').trigger('click');
+//     // $('#myModal').modal('show');
+//     // $('.forLoader').removeClass('hide').slideUp();
+//   }
+//   else if(arrO3.results.length > 0)
+//   {
+//     $('#botonO38').trigger('click');
+//     // $('#myModal').modal('show');
+//     // $('.forLoader').removeClass('hide').slideUp();
+//   }
+//   else if(arrSO2.results.length > 0)
+//   {
+//     $('#botonSO224').trigger('click');
+//     // $('#myModal').modal('show');
+//     // $('.forLoader').removeClass('hide').slideUp();
+//   }
+//   else
+//   {
+//     alert('no tenemos lecturas recientes en esta estación')
+//   }
+// }
 
 function cambioParametro(parametro, horas,id,titulo,lb)
 {
@@ -727,7 +737,7 @@ function cambioParametro(parametro, horas,id,titulo,lb)
         promedioFinalFix = promedioFinal.toFixed(4);
       }
       
-      putGrafica(parametro, horas, promedioFinalFix);
+      putGrafica(parametro, horas, promedioFinalFix,maximoL);
       $('.chart-gauge').html('');
       $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:promedioFinalFix,label:label,gaugeMaxValue:maximoL});
     }
@@ -735,7 +745,7 @@ function cambioParametro(parametro, horas,id,titulo,lb)
     {
       $("#alerta").show();
     
-      putGrafica(parametro, horas, promedioFinal);
+      putGrafica(parametro, horas, promedioFinal,maximoL);
       $('.chart-gauge').html('');
       $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:0,label:label,gaugeMaxValue:maximoL});
     }
