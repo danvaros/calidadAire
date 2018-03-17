@@ -30,3 +30,4 @@ var coor_estado = [{estado:"Aguascalientes",         lat:"22.0413262	",long:"-10
 {estado:"Veracruz",               lat:"19.806030",long:"-96.260524",zoom:9},
 {estado:"Yucatán",                lat:"21.0813697",long:"-91.0507671",zoom:9},
 {estado:"Zacatecas",              lat:"23.0821245",long:"-103.6689643",zoom:9}]
+

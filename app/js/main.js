@@ -18,7 +18,9 @@ var dia = deis[d.getDate()];
 
 //catalogo de constantes de configuración
 const pageSize_estaciones = 2000;
+
 var arrPM10 = arrPM2 = arrNO2 = arrCO = arrO3 = arrSO2 = [];
+
 
 //emulacion de states
 var pm10Vacio = false;
@@ -84,7 +86,9 @@ $(document).ready(function()
 
     //ponemos los parametros en la ventana
     $('#fecha_detalle').html(convertDate(new Date()));
+
     $('#fecha_detalle_m').html(convertDate(new Date()));
+
     $('#contaminante_detalle').html(parametro);
     $('#contaminante_grafica').html(parametro);
     $('#titulo_detalle').html(buscarCiudad(estacion));
@@ -296,11 +300,13 @@ function desabilitarGrafica()
   $('.botonera').hide();
 }
 
+
 function putGrafica(parametro,horas,promedio2,maximo)
 {
     var data = dataLocal;
   
         //var estacionesid = $('#estacion_id').val();
+
         var his_estacion =  [];
         var labels_temp = [];
         var values_temp = [];
@@ -314,7 +320,6 @@ function putGrafica(parametro,horas,promedio2,maximo)
               his_estacion[data.results[i].fecha] = [];
               labels_temp.push(data.results[i].fecha);
             }
-
             his_estacion[data.results[i].fecha].push(data.results[i]);
           }
         }
@@ -344,6 +349,7 @@ function putGrafica(parametro,horas,promedio2,maximo)
           {
             values_temp.push(0); 
           }
+
         }
 
         valores = values_temp;
@@ -490,7 +496,9 @@ function DateFalsa()
 {
   return new Date("2018-03-07 00:00:00");
 }
+
 var contador_vacios = 0;
+
 function llenarConstaminantes(url, parametro)
 {
   $.ajax({
@@ -551,6 +559,7 @@ function llenarConstaminantes(url, parametro)
           }
         );
 
+
         //desabilitamos el boton del parametro que estamos consultando
         if('PM2.5' == parametro)
         {
@@ -559,6 +568,7 @@ function llenarConstaminantes(url, parametro)
         }
         else if('PM10' == parametro)
         {
+
           arrPM10 = data;
           $('#botonPM10').addClass('bloqueado');
           // setTimeout(function()
@@ -573,23 +583,29 @@ function llenarConstaminantes(url, parametro)
         }
         else if('CO' == parametro)
         {
+
           arrCO = data;
+
           $('#botonCO').addClass('bloqueado');
         }
         else if('O3' == parametro)
         {
+
           arrO3 = data;
           $('#botonO38').addClass('bloqueado');
           $('#botonO3D').addClass('bloqueado');
         }
         else if('SO2' == parametro)
         {
+
           arrSO2 = data;
+
           $('#botonSO2D').addClass('bloqueado');
           $('#botonSO28').addClass('bloqueado');
           $('#botonSO224').addClass('bloqueado');
         }
       }
+
 
       if(contador_vacios == 5)
       {
@@ -662,6 +678,7 @@ function generaUrl(parametro,id_estacion,horas)
 //     alert('no tenemos lecturas recientes en esta estación')
 //   }
 // }
+
 
 function cambioParametro(parametro, horas,id,titulo,lb)
 {
@@ -738,6 +755,7 @@ function cambioParametro(parametro, horas,id,titulo,lb)
       }
       
       putGrafica(parametro, horas, promedioFinalFix,maximoL);
+
       $('.chart-gauge').html('');
       $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:promedioFinalFix,label:label,gaugeMaxValue:maximoL});
     }
@@ -745,6 +763,7 @@ function cambioParametro(parametro, horas,id,titulo,lb)
     {
       $("#alerta").show();
     
+
       putGrafica(parametro, horas, promedioFinal,maximoL);
       $('.chart-gauge').html('');
       $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:0,label:label,gaugeMaxValue:maximoL});
@@ -766,7 +785,6 @@ function sacaDatoDiario(data,horas,max)
 
     var datos =  data.results;
     var arrTemp = [];
-    
     for (let index = datos.length - 1; index >= 0;  index--)
     {
 
@@ -775,6 +793,7 @@ function sacaDatoDiario(data,horas,max)
       if(fechaValida.getTime() >= dPasada.getTime() )
       {
         console.log('prueba explorer');
+
         arrTemp.push(datos[index]);
       }
       else
@@ -782,6 +801,9 @@ function sacaDatoDiario(data,horas,max)
         break;
       }
     }
+
+    var promedio = 0;
+    var acumulado = 0;
 
     for (let index = 0; index < arrTemp.length; index++)
     {
