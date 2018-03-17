@@ -766,6 +766,7 @@ function sacaDatoDiario(data,horas,max)
 
     var datos =  data.results;
     var arrTemp = [];
+    
     for (let index = datos.length - 1; index >= 0;  index--)
     {
 
@@ -773,6 +774,7 @@ function sacaDatoDiario(data,horas,max)
 
       if(fechaValida.getTime() >= dPasada.getTime() )
       {
+        console.log('prueba explorer');
         arrTemp.push(datos[index]);
       }
       else
@@ -781,8 +783,6 @@ function sacaDatoDiario(data,horas,max)
       }
     }
 
-    var promedio = 0;
-    var acumulado = 0;
     for (let index = 0; index < arrTemp.length; index++)
     {
       if(arrTemp[index].valororig < max && arrTemp[index].validoorig == 1)
@@ -791,8 +791,8 @@ function sacaDatoDiario(data,horas,max)
         promedio++;
       }
     }
-
-    if((arrTemp.length * .75) < promedio)
+  
+    if((arrTemp.length * .75) < promedio )
     {
       return acumulado/promedio;
     }
