@@ -524,12 +524,8 @@ function llenarConstaminantes(url, parametro)
     data: {},
     success: function( data, textStatus, jqxhr )
     {
-      console.log(data.results.length);
-      
       if(data.results.length > 0)
       {
-        console.log('si tiene datos');
-        
         $('#myModal').modal('show');
         $('.forLoader').removeClass('hide').slideUp();
 
@@ -566,9 +562,6 @@ function llenarConstaminantes(url, parametro)
       }
       else
       {
-
-        console.log('no tiene datos');
-        console.log(parametro);
         //cuenta los contaminantes que no reporttan valores
         contador_vacios++;
 
