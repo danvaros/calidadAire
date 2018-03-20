@@ -47,6 +47,15 @@ $(document).ready(function()
     $('.chart-gauge').html('');
     $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:0,gaugeMaxValue:10});
 
+
+     //se desabilita para móvil
+    $('#conataminatesMovil option').each(function(e)
+      {
+        $(this).attr('disabled',false); 
+      }
+    );
+
+
     $("#alerta").hide();
 
   });
@@ -559,8 +568,7 @@ function llenarConstaminantes(url, parametro)
         //se desabilita para móvil
         $('#conataminatesMovil option').each(function(e)
           {
-            
-            if($(this).val().indexOf(parametro))
+            if($(this).val().indexOf(parametro) > -1)
             { 
               $(this).attr('disabled','disabled');
             }
