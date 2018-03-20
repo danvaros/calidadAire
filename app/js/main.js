@@ -47,6 +47,15 @@ $(document).ready(function()
     $('.chart-gauge').html('');
     $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:0,gaugeMaxValue:10});
 
+
+     //se desabilita para móvil
+    $('#conataminatesMovil option').each(function(e)
+      {
+        $(this).attr('disabled',false); 
+      }
+    );
+
+
     $("#alerta").hide();
 
   });
@@ -515,8 +524,12 @@ function llenarConstaminantes(url, parametro)
     data: {},
     success: function( data, textStatus, jqxhr )
     {
+      console.log(data.results.length);
+      
       if(data.results.length > 0)
       {
+        console.log('si tiene datos');
+        
         $('#myModal').modal('show');
         $('.forLoader').removeClass('hide').slideUp();
 
@@ -553,14 +566,16 @@ function llenarConstaminantes(url, parametro)
       }
       else
       {
+
+        console.log('no tiene datos');
+        console.log(parametro);
         //cuenta los contaminantes que no reporttan valores
         contador_vacios++;
 
         //se desabilita para móvil
         $('#conataminatesMovil option').each(function(e)
           {
-            
-            if($(this).val().indexOf(parametro))
+            if($(this).val().indexOf(parametro) > -1)
             { 
               $(this).attr('disabled','disabled');
             }
