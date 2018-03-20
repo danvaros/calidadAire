@@ -32,24 +32,23 @@ body{
 }
 
 #videoBlock {
-    width: 100vw;
-    min-height: 800px;
-   /* Set the height to match that of the viewport. */
-    height: 800px;
-    padding:0!important;
-    margin: 0!important;
-    background-color: gray;
-    position: relative;
-    color: #fff;
+  width: 100vw;
+  height: 100vh;
+  padding:0!important;
+  margin: -46px 0 0 0!important;
+  top: 0;
+  background-color: gray;
+  position: relative;
+  color: #fff;
 }
 #videoBlock h2 { font-size: 60px; }
 #video{
-    width: 100vw;
-    height: 800px;
-    object-fit: cover;
-    left: 0px;
-    top: 0px;
-    z-index: 1;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  left: 0;
+  top: 0;
+  z-index: 1;
 }
 
 .titulo_hd{
@@ -481,7 +480,21 @@ option {
 */
 
 .move-up {
-  margin-top:-600px;
+  position: absolute;
+  display: table;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+.move-up > .container {
+  display: table-cell;
+  vertical-align: middle;
+  padding-top: 46px;
+}
+@media (max-width: 438px) {
+  .move-up select { width: 100%; }
+  .base_botones{ display: block; }
+  #videoBlock h2 { font-size: 40px; }
 }
 
 .white-text,
