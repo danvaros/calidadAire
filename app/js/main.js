@@ -18,7 +18,9 @@ var dia = deis[d.getDate()];
 
 //catalogo de constantes de configuración
 const pageSize_estaciones = 2000;
+
 var arrPM10 = arrPM2 = arrNO2 = arrCO = arrO3 = arrSO2 = [];
+
 
 //emulacion de states
 var pm10Vacio = false;
@@ -84,7 +86,9 @@ $(document).ready(function()
 
     //ponemos los parametros en la ventana
     $('#fecha_detalle').html(convertDate(new Date()));
+
     $('#fecha_detalle_m').html(convertDate(new Date()));
+
     $('#contaminante_detalle').html(parametro);
     $('#contaminante_grafica').html(parametro);
     $('#titulo_detalle').html(buscarCiudad(estacion));
@@ -253,8 +257,16 @@ function hacerFechaValida(fecha)
 {
   var fechaPartida = fecha.split("T");
   var tiempoPartido =  fechaPartida[1].split(".");
+  
+  var year = fechaPartida[0].split('-')[0];
+  var mes = fechaPartida[0].split('-')[1];
+  var dia = fechaPartida[0].split('-')[2];
 
-  return fechaPartida[0]+' '+tiempoPartido[0];
+  var hora = tiempoPartido[0].split(':')[0];
+  var minuto = tiempoPartido[0].split(':')[1];
+  var segundo = tiempoPartido[0].split(':')[2];
+
+  return new Date(year, mes, dia, hora, minuto, segundo);
 }
 
 function convertDate(inputFormat)
@@ -296,11 +308,13 @@ function desabilitarGrafica()
   $('.botonera').hide();
 }
 
+
 function putGrafica(parametro,horas,promedio2,maximo)
 {
     var data = dataLocal;
   
         //var estacionesid = $('#estacion_id').val();
+
         var his_estacion =  [];
         var labels_temp = [];
         var values_temp = [];
@@ -314,7 +328,6 @@ function putGrafica(parametro,horas,promedio2,maximo)
               his_estacion[data.results[i].fecha] = [];
               labels_temp.push(data.results[i].fecha);
             }
-
             his_estacion[data.results[i].fecha].push(data.results[i]);
           }
         }
@@ -344,6 +357,7 @@ function putGrafica(parametro,horas,promedio2,maximo)
           {
             values_temp.push(0); 
           }
+
         }
 
         valores = values_temp;
@@ -490,7 +504,9 @@ function DateFalsa()
 {
   return new Date("2018-03-07 00:00:00");
 }
+
 var contador_vacios = 0;
+
 function llenarConstaminantes(url, parametro)
 {
   $.ajax({
@@ -544,8 +560,8 @@ function llenarConstaminantes(url, parametro)
         $('#conataminatesMovil option').each(function(e)
           {
             
-            if($(this).val().indexOf('string'))
-            {
+            if($(this).val().indexOf(parametro))
+            { 
               $(this).attr('disabled','disabled');
             }
           }
@@ -559,6 +575,7 @@ function llenarConstaminantes(url, parametro)
         }
         else if('PM10' == parametro)
         {
+
           arrPM10 = data;
           $('#botonPM10').addClass('bloqueado');
           // setTimeout(function()
@@ -573,23 +590,29 @@ function llenarConstaminantes(url, parametro)
         }
         else if('CO' == parametro)
         {
+
           arrCO = data;
+
           $('#botonCO').addClass('bloqueado');
         }
         else if('O3' == parametro)
         {
+
           arrO3 = data;
           $('#botonO38').addClass('bloqueado');
           $('#botonO3D').addClass('bloqueado');
         }
         else if('SO2' == parametro)
         {
+
           arrSO2 = data;
+
           $('#botonSO2D').addClass('bloqueado');
           $('#botonSO28').addClass('bloqueado');
           $('#botonSO224').addClass('bloqueado');
         }
       }
+
 
       if(contador_vacios == 5)
       {
@@ -611,7 +634,6 @@ function llenarConstaminantes(url, parametro)
 
 function generaUrl(parametro,id_estacion,horas)
 {
-  // cambiar estas horas con = new Date();
   // const dActual = DateFalsa();
   // var dPasada = DateFalsa();
 
@@ -620,7 +642,7 @@ function generaUrl(parametro,id_estacion,horas)
 
   dPasada.setHours(dActual.getHours() - horas);
 
-  var url = 'https://api.datos.gob.mx/v2/sinaica?parametro='+parametro+'&estacionesid='+id_estacion+'&date-insert>'+getFormatDateAPI(dPasada)+'&date-insert<'+getFormatDateAPI(dActual)+'&pagesize='+1000;
+  var url = 'https://api.datos.gob.mx/v2/sinaica?parametro='+parametro+'&estacionesid='+id_estacion+'&date-insert>'+getFormatDateAPI(dPasada)+'&date-insert<'+getFormatDateAPI(dActual)+'&pageSize='+1000;
 
   return url;
 }
@@ -662,6 +684,7 @@ function generaUrl(parametro,id_estacion,horas)
 //     alert('no tenemos lecturas recientes en esta estación')
 //   }
 // }
+
 
 function cambioParametro(parametro, horas,id,titulo,lb)
 {
@@ -738,6 +761,7 @@ function cambioParametro(parametro, horas,id,titulo,lb)
       }
       
       putGrafica(parametro, horas, promedioFinalFix,maximoL);
+
       $('.chart-gauge').html('');
       $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:promedioFinalFix,label:label,gaugeMaxValue:maximoL});
     }
@@ -745,6 +769,7 @@ function cambioParametro(parametro, horas,id,titulo,lb)
     {
       $("#alerta").show();
     
+
       putGrafica(parametro, horas, promedioFinal,maximoL);
       $('.chart-gauge').html('');
       $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:0,label:label,gaugeMaxValue:maximoL});
@@ -766,11 +791,11 @@ function sacaDatoDiario(data,horas,max)
 
     var datos =  data.results;
     var arrTemp = [];
+
     for (let index = datos.length - 1; index >= 0;  index--)
     {
-
-      var fechaValida = new Date(hacerFechaValida(datos[index]['date-insert']));
-
+      var fechaValida = hacerFechaValida(datos[index]['date-insert']);
+     
       if(fechaValida.getTime() >= dPasada.getTime() )
       {
         arrTemp.push(datos[index]);
@@ -783,21 +808,25 @@ function sacaDatoDiario(data,horas,max)
 
     var promedio = 0;
     var acumulado = 0;
+
+    
     for (let index = 0; index < arrTemp.length; index++)
     {
+    
       if(arrTemp[index].valororig < max && arrTemp[index].validoorig == 1)
       {
         acumulado += arrTemp[index].valororig;
         promedio++;
+    
       }
     }
-
-    if((arrTemp.length * .75) < promedio)
+    
+    if((arrTemp.length * .75) < promedio )
     {
       return acumulado/promedio;
     }
     else
-    {
+    {  
       return 0;
     }
 
