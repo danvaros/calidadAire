@@ -257,8 +257,16 @@ function hacerFechaValida(fecha)
 {
   var fechaPartida = fecha.split("T");
   var tiempoPartido =  fechaPartida[1].split(".");
+  
+  var year = fechaPartida[0].split('-')[0];
+  var mes = fechaPartida[0].split('-')[1];
+  var dia = fechaPartida[0].split('-')[2];
 
-  return fechaPartida[0]+' '+tiempoPartido[0];
+  var hora = tiempoPartido[0].split(':')[0];
+  var minuto = tiempoPartido[0].split(':')[1];
+  var segundo = tiempoPartido[0].split(':')[2];
+
+  return new Date(year, mes, dia, hora, minuto, segundo);
 }
 
 function convertDate(inputFormat)
@@ -552,13 +560,12 @@ function llenarConstaminantes(url, parametro)
         $('#conataminatesMovil option').each(function(e)
           {
             
-            if($(this).val().indexOf('string'))
-            {
+            if($(this).val().indexOf(parametro))
+            { 
               $(this).attr('disabled','disabled');
             }
           }
         );
-
 
         //desabilitamos el boton del parametro que estamos consultando
         if('PM2.5' == parametro)
@@ -627,7 +634,6 @@ function llenarConstaminantes(url, parametro)
 
 function generaUrl(parametro,id_estacion,horas)
 {
-  // cambiar estas horas con = new Date();
   // const dActual = DateFalsa();
   // var dPasada = DateFalsa();
 
@@ -636,7 +642,7 @@ function generaUrl(parametro,id_estacion,horas)
 
   dPasada.setHours(dActual.getHours() - horas);
 
-  var url = 'https://api.datos.gob.mx/v2/sinaica?parametro='+parametro+'&estacionesid='+id_estacion+'&date-insert>'+getFormatDateAPI(dPasada)+'&date-insert<'+getFormatDateAPI(dActual)+'&pagesize='+1000;
+  var url = 'https://api.datos.gob.mx/v2/sinaica?parametro='+parametro+'&estacionesid='+id_estacion+'&date-insert>'+getFormatDateAPI(dPasada)+'&date-insert<'+getFormatDateAPI(dActual)+'&pageSize='+1000;
 
   return url;
 }
@@ -785,15 +791,13 @@ function sacaDatoDiario(data,horas,max)
 
     var datos =  data.results;
     var arrTemp = [];
+
     for (let index = datos.length - 1; index >= 0;  index--)
     {
-
-      var fechaValida = new Date(hacerFechaValida(datos[index]['date-insert']));
-
+      var fechaValida = hacerFechaValida(datos[index]['date-insert']);
+     
       if(fechaValida.getTime() >= dPasada.getTime() )
       {
-        console.log('prueba explorer');
-
         arrTemp.push(datos[index]);
       }
       else
@@ -805,21 +809,24 @@ function sacaDatoDiario(data,horas,max)
     var promedio = 0;
     var acumulado = 0;
 
+    
     for (let index = 0; index < arrTemp.length; index++)
     {
+    
       if(arrTemp[index].valororig < max && arrTemp[index].validoorig == 1)
       {
         acumulado += arrTemp[index].valororig;
         promedio++;
+    
       }
     }
-  
+    
     if((arrTemp.length * .75) < promedio )
     {
       return acumulado/promedio;
     }
     else
-    {
+    {  
       return 0;
     }
 
