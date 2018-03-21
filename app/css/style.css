@@ -26,9 +26,10 @@
 	display: none;
 }
 
-body{
+body {
   font-family: 'Roboto', sans-serif;
   padding-top: 46px !important;
+  overflow-x: hidden;
 }
 
 #videoBlock {
@@ -41,7 +42,7 @@ body{
   position: relative;
   color: #fff;
 }
-#videoBlock h2 { font-size: 60px; }
+#videoBlock h2 { font-size: 60px; margin-top: 0; }
 #video{
   width: 100vw;
   height: 100vh;
@@ -499,6 +500,49 @@ option {
 
 .white-text,
 .white-text a { color: #fff; }
+
+
+/* BETA TAG
+********************/
+.beta {
+  position: absolute;
+  top: 59px;
+  right: -115px;
+  width: 300px;
+  padding: 10px;
+  font-weight: bold;
+  text-align: center;
+  color: #000;
+  background-color: #0c9;
+  z-index: 999;
+  -moz-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  -sand-transform: rotate(40deg);
+  transform: rotate(45deg);
+}
+
+/* GO MAP
+********************/
+
+#go-map {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  width: 50px;
+  height: 50px;
+  padding: 6px;
+  margin-left: -25px;
+  color: #000;
+  border-radius: 50%;
+  line-height: 3.7;
+  background-color: #fff;
+  z-index: 999;
+}
+#go-map:hover { background-color: #c6c6c6; cursor: pointer; }
+#go-map i { font-size: 40px }
+
+@media (max-width: 767px) { #go-map { display: none; } }
 
 
 /*
