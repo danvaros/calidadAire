@@ -236,6 +236,15 @@ $(document).ready(function()
       cambioParametro('CO',8,'botonCO','Es un gas incoloro e inodoro que en concentraciones altas puede ser letal ya que forma carboxihemoglobina, la cual impide la oxígenación de la sangre.','CO (ppm)');
     }
   });
+
+  // go-map action
+  $('#go-map').click(function(e) {
+    e.preventDefault();
+
+    var mapSecPos = $('#map-section').position().top;
+
+    $('html, body').animate({scrollTop: mapSecPos}, 300);
+  });
 }); // fin de document ready
 
 function buscarCiudad(idEstacion)
