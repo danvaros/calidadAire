@@ -29,7 +29,11 @@
 body {
   font-family: 'Roboto', sans-serif;
   padding-top: 46px !important;
-  overflow-x: hidden;
+}
+
+main {
+ position: relative;
+ overflow: hidden; 
 }
 
 #videoBlock {
@@ -506,7 +510,7 @@ option {
 ********************/
 .beta {
   position: absolute;
-  top: 59px;
+  top: 19px;
   right: -115px;
   width: 300px;
   padding: 10px;
