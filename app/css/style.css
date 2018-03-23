@@ -39,7 +39,8 @@ main {
 #videoBlock {
   width: 100%;
   height: 100%;
-  padding:0!important;
+  overflow: hidden;
+  padding: 0!important;
   margin: -46px 0 0 0!important;
   top: 0;
   background-color: gray;
@@ -50,7 +51,6 @@ main {
 #video{
   width: 100%;
   height: 100%;
-  object-fit: cover;
   left: 0;
   top: 0;
   z-index: 1;
