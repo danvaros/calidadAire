@@ -249,9 +249,32 @@ $(document).ready(function()
 
   // Cover video-background
   function setCoverVideo() {
-    var wHeight = $(window).height();
+    var desition, h_original, height, rest, setting, w_original, width;
+    width = $(window).width();
+    height = $(window).height();
+    rest = width / height;
+    w_original = 846;
+    h_original = 476;
+    setting = w_original / h_original;
+    desition = height / h_original;
 
-    $('#videoBlock, #video').css('height', wHeight);
+    if (rest >= setting) {
+      desition = width / w_original;
+    }
+    
+    if (width < 569) {
+      $('#video').css({
+        width: 1600,
+        height: 970
+      });
+    } else {
+      $('#video').css({
+        width: desition * w_original,
+        height: desition * h_original
+      });
+    }
+
+    $('#videoBlock').css('height', height);
   }
   $(window).resize(function() { setCoverVideo(); });
   setCoverVideo();
