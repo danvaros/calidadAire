@@ -31,8 +31,9 @@ $(document).ready(function()
 {
   $('.forLoader').removeClass('hide').slideUp();
   
-  $("#myModal").on("hidden.bs.modal", function () {
-
+  $("#myModal").on("hidden.bs.modal", function () 
+  {
+    contador_vacios = 0;
     $('.boton_pop').each(function(){
       $(this).removeClass("bloqueado");
     });
@@ -235,6 +236,15 @@ $(document).ready(function()
     {
       cambioParametro('CO',8,'botonCO','Es un gas incoloro e inodoro que en concentraciones altas puede ser letal ya que forma carboxihemoglobina, la cual impide la oxígenación de la sangre.','CO (ppm)');
     }
+  });
+
+  // go-map action
+  $('#go-map').click(function(e) {
+    e.preventDefault();
+
+    var mapSecPos = $('#map-section').position().top;
+
+    $('html, body').animate({scrollTop: mapSecPos}, 300);
   });
 }); // fin de document ready
 
@@ -524,12 +534,8 @@ function llenarConstaminantes(url, parametro)
     data: {},
     success: function( data, textStatus, jqxhr )
     {
-      console.log(data.results.length);
-      
       if(data.results.length > 0)
       {
-        console.log('si tiene datos');
-        
         $('#myModal').modal('show');
         $('.forLoader').removeClass('hide').slideUp();
 
@@ -566,9 +572,6 @@ function llenarConstaminantes(url, parametro)
       }
       else
       {
-
-        console.log('no tiene datos');
-        console.log(parametro);
         //cuenta los contaminantes que no reporttan valores
         contador_vacios++;
 
