@@ -246,6 +246,15 @@ $(document).ready(function()
 
     $('html, body').animate({scrollTop: mapSecPos}, 300);
   });
+
+  // Cover video-background
+  function setCoverVideo() {
+    var wHeight = $(window).height();
+
+    $('#videoBlock, #video').css('height', wHeight);
+  }
+  $(window).resize(function() { setCoverVideo(); });
+  setCoverVideo();
 }); // fin de document ready
 
 function buscarCiudad(idEstacion)
