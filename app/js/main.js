@@ -31,8 +31,9 @@ $(document).ready(function()
 {
   $('.forLoader').removeClass('hide').slideUp();
   
-  $("#myModal").on("hidden.bs.modal", function () {
-
+  $("#myModal").on("hidden.bs.modal", function () 
+  {
+    contador_vacios = 0;
     $('.boton_pop').each(function(){
       $(this).removeClass("bloqueado");
     });
