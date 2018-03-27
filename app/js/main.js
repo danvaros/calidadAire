@@ -734,7 +734,27 @@ function generaUrl(parametro,id_estacion,horas)
 //     alert('no tenemos lecturas recientes en esta estación')
 //   }
 // }
-
+function changeMovilOption(parametro,horas)
+{
+  if(parametro == 'PM10')
+    $("#conataminatesMovil").val('PM10');
+  if(parametro == 'PM2.5')
+    $("#conataminatesMovil").val('PM2.5');
+  if(parametro == 'NO2')
+    $("#conataminatesMovil").val('NO2');
+  if(parametro == 'S02' && horas == 'D')
+    $("#conataminatesMovil").val('SO2D');
+  if(parametro == 'S02' && horas == '8')
+    $("#conataminatesMovil").val('SO28');
+  if(parametro == 'S02' && horas == '24')
+    $("#conataminatesMovil").val('SO224');
+  if(parametro == 'O3' && horas == 'D')
+    $("#conataminatesMovil").val('O3D');
+  if(parametro == 'O3' && horas == '8')
+    $("#conataminatesMovil").val('O38');
+  if(parametro == 'CO')
+    $("#conataminatesMovil").val('CO8');
+}
 
 function cambioParametro(parametro, horas,id,titulo,lb)
 {
@@ -742,6 +762,7 @@ function cambioParametro(parametro, horas,id,titulo,lb)
   if(!($('#'+id).hasClass('bloqueado')))
   {
     cambioBotonActivo(id);
+    changeMovilOption(parametro,horas);
     var estado =  $('#estado_primer_select').val();
     var estacion =  $('#estaciones_select').val();
 
