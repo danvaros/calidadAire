@@ -742,11 +742,11 @@ function changeMovilOption(parametro,horas)
     $("#conataminatesMovil").val('PM2.5');
   if(parametro == 'NO2')
     $("#conataminatesMovil").val('NO2');
-  if(parametro == 'S02' && horas == 'D')
+  if(parametro == 'SO2' && horas == 'D')
     $("#conataminatesMovil").val('SO2D');
-  if(parametro == 'S02' && horas == '8')
+  if(parametro == 'SO2' && horas == '8')
     $("#conataminatesMovil").val('SO28');
-  if(parametro == 'S02' && horas == '24')
+  if(parametro == 'SO2' && horas == '24')
     $("#conataminatesMovil").val('SO224');
   if(parametro == 'O3' && horas == 'D')
     $("#conataminatesMovil").val('O3D');
