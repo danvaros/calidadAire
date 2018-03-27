@@ -248,7 +248,8 @@ $(document).ready(function()
   });
 
   // Cover video-background
-  function setCoverVideo() {
+  function setCoverVideo() 
+  {
     var desition, h_original, height, rest, setting, w_original, width;
     width = $(window).width();
     height = $(window).height();
@@ -276,6 +277,7 @@ $(document).ready(function()
 
     $('#videoBlock').css('height', height);
   }
+  
   $(window).resize(function() { setCoverVideo(); });
   setCoverVideo();
 }); // fin de document ready
@@ -358,7 +360,6 @@ function desabilitarGrafica()
   //ocultamos la botonera para que no se pueda utilizar
   $('.botonera').hide();
 }
-
 
 function putGrafica(parametro,horas,promedio2,maximo)
 {
@@ -697,43 +698,6 @@ function generaUrl(parametro,id_estacion,horas)
   return url;
 }
 
-// function buscarOtroParametro()
-// {
-//   if(arrPM2.results.length > 0)
-//   {
-//     $('#botonPM25').trigger('click');
-//     // $('#myModal').modal('show');
-//     // $('.forLoader').removeClass('hide').slideUp();
-//   }
-//   else if(arrNO2.results.length > 0)
-//   {
-//     $('#botonNO2').trigger('click');
-//     // $('#myModal').modal('show');
-//     // $('.forLoader').removeClass('hide').slideUp();
-//   }
-//   else if(arrCO.results.length > 0)
-//   {
-//     $('#botonCO').trigger('click');
-//     // $('#myModal').modal('show');
-//     // $('.forLoader').removeClass('hide').slideUp();
-//   }
-//   else if(arrO3.results.length > 0)
-//   {
-//     $('#botonO38').trigger('click');
-//     // $('#myModal').modal('show');
-//     // $('.forLoader').removeClass('hide').slideUp();
-//   }
-//   else if(arrSO2.results.length > 0)
-//   {
-//     $('#botonSO224').trigger('click');
-//     // $('#myModal').modal('show');
-//     // $('.forLoader').removeClass('hide').slideUp();
-//   }
-//   else
-//   {
-//     alert('no tenemos lecturas recientes en esta estación')
-//   }
-// }
 function changeMovilOption(parametro,horas)
 {
   if(parametro == 'PM10')
