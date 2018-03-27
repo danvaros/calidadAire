@@ -26,7 +26,6 @@ var arrPM10 = arrPM2 = arrNO2 = arrCO = arrO3 = arrSO2 = [];
 var pm10Vacio = false;
 var indicadorMostrado = false;
 
-
 $(document).ready(function()
 {
   $('.forLoader').removeClass('hide').slideUp();
