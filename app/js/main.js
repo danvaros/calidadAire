@@ -31,8 +31,9 @@ $(document).ready(function()
 {
   $('.forLoader').removeClass('hide').slideUp();
   
-  $("#myModal").on("hidden.bs.modal", function () {
-
+  $("#myModal").on("hidden.bs.modal", function () 
+  {
+    contador_vacios = 0;
     $('.boton_pop').each(function(){
       $(this).removeClass("bloqueado");
     });
@@ -46,6 +47,15 @@ $(document).ready(function()
 
     $('.chart-gauge').html('');
     $('.chart-gauge').gaugeIt({selector:'.chart-gauge',value:0,gaugeMaxValue:10});
+
+
+     //se desabilita para móvil
+    $('#conataminatesMovil option').each(function(e)
+      {
+        $(this).attr('disabled',false); 
+      }
+    );
+
 
     $("#alerta").hide();
 
@@ -227,6 +237,47 @@ $(document).ready(function()
       cambioParametro('CO',8,'botonCO','Es un gas incoloro e inodoro que en concentraciones altas puede ser letal ya que forma carboxihemoglobina, la cual impide la oxígenación de la sangre.','CO (ppm)');
     }
   });
+
+  // go-map action
+  $('#go-map').click(function(e) {
+    e.preventDefault();
+
+    var mapSecPos = $('#map-section').position().top;
+
+    $('html, body').animate({scrollTop: mapSecPos}, 300);
+  });
+
+  // Cover video-background
+  function setCoverVideo() {
+    var desition, h_original, height, rest, setting, w_original, width;
+    width = $(window).width();
+    height = $(window).height();
+    rest = width / height;
+    w_original = 846;
+    h_original = 476;
+    setting = w_original / h_original;
+    desition = height / h_original;
+
+    if (rest >= setting) {
+      desition = width / w_original;
+    }
+    
+    if (width < 569) {
+      $('#video').css({
+        width: 1600,
+        height: 970
+      });
+    } else {
+      $('#video').css({
+        width: desition * w_original,
+        height: desition * h_original
+      });
+    }
+
+    $('#videoBlock').css('height', height);
+  }
+  $(window).resize(function() { setCoverVideo(); });
+  setCoverVideo();
 }); // fin de document ready
 
 function buscarCiudad(idEstacion)
@@ -257,8 +308,16 @@ function hacerFechaValida(fecha)
 {
   var fechaPartida = fecha.split("T");
   var tiempoPartido =  fechaPartida[1].split(".");
+  
+  var year = fechaPartida[0].split('-')[0];
+  var mes = fechaPartida[0].split('-')[1];
+  var dia = fechaPartida[0].split('-')[2];
 
-  return fechaPartida[0]+' '+tiempoPartido[0];
+  var hora = tiempoPartido[0].split(':')[0];
+  var minuto = tiempoPartido[0].split(':')[1];
+  var segundo = tiempoPartido[0].split(':')[2];
+
+  return new Date(year, mes, dia, hora, minuto, segundo);
 }
 
 function convertDate(inputFormat)
@@ -551,14 +610,12 @@ function llenarConstaminantes(url, parametro)
         //se desabilita para móvil
         $('#conataminatesMovil option').each(function(e)
           {
-            
-            if($(this).val().indexOf('string'))
-            {
+            if($(this).val().indexOf(parametro) > -1)
+            { 
               $(this).attr('disabled','disabled');
             }
           }
         );
-
 
         //desabilitamos el boton del parametro que estamos consultando
         if('PM2.5' == parametro)
@@ -627,7 +684,6 @@ function llenarConstaminantes(url, parametro)
 
 function generaUrl(parametro,id_estacion,horas)
 {
-  // cambiar estas horas con = new Date();
   // const dActual = DateFalsa();
   // var dPasada = DateFalsa();
 
@@ -636,7 +692,7 @@ function generaUrl(parametro,id_estacion,horas)
 
   dPasada.setHours(dActual.getHours() - horas);
 
-  var url = 'https://api.datos.gob.mx/v2/sinaica?parametro='+parametro+'&estacionesid='+id_estacion+'&date-insert>'+getFormatDateAPI(dPasada)+'&date-insert<'+getFormatDateAPI(dActual)+'&pagesize='+1000;
+  var url = 'https://api.datos.gob.mx/v2/sinaica?parametro='+parametro+'&estacionesid='+id_estacion+'&date-insert>'+getFormatDateAPI(dPasada)+'&date-insert<'+getFormatDateAPI(dActual)+'&pageSize='+1000;
 
   return url;
 }
@@ -678,7 +734,27 @@ function generaUrl(parametro,id_estacion,horas)
 //     alert('no tenemos lecturas recientes en esta estación')
 //   }
 // }
-
+function changeMovilOption(parametro,horas)
+{
+  if(parametro == 'PM10')
+    $("#conataminatesMovil").val('PM10');
+  if(parametro == 'PM2.5')
+    $("#conataminatesMovil").val('PM2.5');
+  if(parametro == 'NO2')
+    $("#conataminatesMovil").val('NO2');
+  if(parametro == 'S02' && horas == 'D')
+    $("#conataminatesMovil").val('SO2D');
+  if(parametro == 'S02' && horas == '8')
+    $("#conataminatesMovil").val('SO28');
+  if(parametro == 'S02' && horas == '24')
+    $("#conataminatesMovil").val('SO224');
+  if(parametro == 'O3' && horas == 'D')
+    $("#conataminatesMovil").val('O3D');
+  if(parametro == 'O3' && horas == '8')
+    $("#conataminatesMovil").val('O38');
+  if(parametro == 'CO')
+    $("#conataminatesMovil").val('CO8');
+}
 
 function cambioParametro(parametro, horas,id,titulo,lb)
 {
@@ -686,6 +762,7 @@ function cambioParametro(parametro, horas,id,titulo,lb)
   if(!($('#'+id).hasClass('bloqueado')))
   {
     cambioBotonActivo(id);
+    changeMovilOption(parametro,horas);
     var estado =  $('#estado_primer_select').val();
     var estacion =  $('#estaciones_select').val();
 
@@ -785,15 +862,13 @@ function sacaDatoDiario(data,horas,max)
 
     var datos =  data.results;
     var arrTemp = [];
+
     for (let index = datos.length - 1; index >= 0;  index--)
     {
-
-      var fechaValida = new Date(hacerFechaValida(datos[index]['date-insert']));
-
+      var fechaValida = hacerFechaValida(datos[index]['date-insert']);
+     
       if(fechaValida.getTime() >= dPasada.getTime() )
       {
-        console.log('prueba explorer');
-
         arrTemp.push(datos[index]);
       }
       else
@@ -805,21 +880,24 @@ function sacaDatoDiario(data,horas,max)
     var promedio = 0;
     var acumulado = 0;
 
+    
     for (let index = 0; index < arrTemp.length; index++)
     {
+    
       if(arrTemp[index].valororig < max && arrTemp[index].validoorig == 1)
       {
         acumulado += arrTemp[index].valororig;
         promedio++;
+    
       }
     }
-  
+    
     if((arrTemp.length * .75) < promedio )
     {
       return acumulado/promedio;
     }
     else
-    {
+    {  
       return 0;
     }
 
