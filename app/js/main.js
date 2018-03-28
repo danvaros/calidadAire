@@ -764,9 +764,7 @@ function cambioParametro(parametro, horas,id,titulo,lb)
 
   $('#pinta_primero').addClass('active');
 
-  
-  
-  
+
   if(!($('#'+id).hasClass('bloqueado')))
   {
     cambioBotonActivo(id);
@@ -786,9 +784,10 @@ function cambioParametro(parametro, horas,id,titulo,lb)
 
     if('PM10' == parametro)
     {
-      promedioFinal = sacaDatoDiario(arrPM10,horas,158);
+      promedioFinal = sacaDatoDiario(arrPM10,horas,370);
       dataLocal = arrPM10;
       maximoL = 158;
+      maximoP = 
       label = 'µg/m³';
     }
     else if('PM2.5' == parametro)
@@ -848,7 +847,11 @@ function cambioParametro(parametro, horas,id,titulo,lb)
 
     if(promedioFinal > 0)
     {
-      
+      if(promedioFinal > maximoP)
+      {
+        //mostrar las recomendaciones
+      }
+
       var promedioFinalFix = promedioFinal;
       if(parametro ==  "PM10" || parametro ==  "PM2.5")
       {
@@ -867,7 +870,6 @@ function cambioParametro(parametro, horas,id,titulo,lb)
     else
     {
       $("#alerta").show();
-    
 
       putGrafica(parametro, horas, promedioFinal,maximoL);
       $('.chart-gauge').html('');
