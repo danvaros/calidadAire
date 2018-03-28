@@ -19,7 +19,7 @@ var dia = deis[d.getDate()];
 //catalogo de constantes de configuración
 const pageSize_estaciones = 2000;
 
-var arrPM10 = arrPM2 = arrNO2 = arrCO = arrO3 = arrSO2 = [];
+var arrPM10 = arrPM2 = arrNO2 = arrCO = arrO3 = arrO3D = arrSO2 = arrSO2_24 = arrSO2D = [];
 
 
 //emulacion de states
@@ -110,12 +110,15 @@ $(document).ready(function()
     cambioBotonActivo(id);
 
     //vamos a llenar los arreglos de todos los coantaminantes
-    llenarConstaminantes(generaUrl('PM10', estacion, (24*28)),'PM10');
-    llenarConstaminantes(generaUrl('PM2.5', estacion, (24*28)),'PM2.5');
-    llenarConstaminantes(generaUrl('NO2', estacion, (24*28)),'NO2');
-    llenarConstaminantes(generaUrl('SO2', estacion, (24*28)),'SO2');
-    llenarConstaminantes(generaUrl('O3', estacion, (24*28)),'O3');
-    llenarConstaminantes(generaUrl('CO', estacion, (24*28)),'CO');
+    llenarConstaminantes(generaUrl('PM10', estacion, 24),'PM10', 24);
+    llenarConstaminantes(generaUrl('PM2.5', estacion, 24),'PM2.5', 24);
+    llenarConstaminantes(generaUrl('NO2', estacion, 'D'),'NO2', 'D');
+    llenarConstaminantes(generaUrl('O3', estacion, 'D'), 'O3', 'D');
+    llenarConstaminantes(generaUrl('O3', estacion, 8), 'O3', 8);
+    llenarConstaminantes(generaUrl('SO2', estacion, 'D'), 'SO2', 'D');
+    llenarConstaminantes(generaUrl('SO2', estacion, 24), 'SO2', 24);
+    llenarConstaminantes(generaUrl('SO2', estacion, 8), 'SO2', 8);
+    llenarConstaminantes(generaUrl('CO', estacion, 8),'CO', 8);
   });
 
   /*instancia de la grafica*/
@@ -556,9 +559,9 @@ function DateFalsa()
   return new Date("2018-03-07 00:00:00");
 }
 
-var contador_vacios = 0;
+// var contador_vacios = 0;
 
-function llenarConstaminantes(url, parametro)
+function llenarConstaminantes(url, parametro, hora)
 {
   $.ajax({
     type: 'GET',
@@ -566,11 +569,13 @@ function llenarConstaminantes(url, parametro)
     data: {},
     success: function( data, textStatus, jqxhr )
     {
-      if(data.results.length > 0)
-      {
+      if ($('#myModal').not('.in')) {
         $('#myModal').modal('show');
         $('.forLoader').removeClass('hide').slideUp();
+      }
 
+      if(data.results.length > 0)
+      {
         if('PM10' == parametro)
         {
           arrPM10 = data;
@@ -593,19 +598,32 @@ function llenarConstaminantes(url, parametro)
         }
         else if('O3' == parametro)
         {
-          arrO3 = data;
-          $('#botonO3D').trigger('click');
+          if (hora === 'D') {
+            arrO3D = data;
+            $('#botonO3D').trigger('click');
+          } else {
+            arrO3 = data;
+            $('#botonO38').trigger('click');
+          }
         }
         else if('SO2' == parametro)
         {
-          arrSO2 = data;
-          $('#botonSO2D').trigger('click');
+          if (hora === 'D') {
+            arrSO2D = data;
+            $('#botonSO2D').trigger('click');
+          } else if (hora === 24) {
+            arrSO2_24 = data;
+            $('#botonSO224').trigger('click'); 
+          } else {
+            arrSO2 = data;
+            $('#botonSO28').trigger('click'); 
+          }
         }
       }
       else
       {
         //cuenta los contaminantes que no reporttan valores
-        contador_vacios++;
+        // contador_vacios++;
 
         //se desabilita para móvil
         $('#conataminatesMovil option').each(function(e)
@@ -647,32 +665,39 @@ function llenarConstaminantes(url, parametro)
         }
         else if('O3' == parametro)
         {
-
-          arrO3 = data;
-          $('#botonO38').addClass('bloqueado');
-          $('#botonO3D').addClass('bloqueado');
+          if (hora === 'D') {
+            arrO3D = data;
+            $('#botonO3D').addClass('bloqueado');
+          } else {
+            arrO3 = data;
+            $('#botonO38').addClass('bloqueado');
+          }
         }
         else if('SO2' == parametro)
         {
-
-          arrSO2 = data;
-
-          $('#botonSO2D').addClass('bloqueado');
-          $('#botonSO28').addClass('bloqueado');
-          $('#botonSO224').addClass('bloqueado');
+          if (hora === 'D') {
+            arrSO2D = data;
+            $('#botonSO2D').addClass('bloqueado');
+          } else if (hora === 24) {
+            arrSO2_24 = data;
+            $('#botonSO224').addClass('bloqueado');
+          } else {
+            arrSO2 = data;
+            $('#botonSO28').addClass('bloqueado');
+          }
         }
       }
 
 
-      if(contador_vacios == 5)
-      {
-        $('.forLoader').removeClass('hide').slideUp();
-        $('#alertModal').modal('show');
-        contador_vacios = 0;
-        $('.boton_pop').each(function(){
-          $(this).removeClass("bloqueado");
-        });
-      }
+      // if(contador_vacios == 5)
+      // {
+      //   $('.forLoader').removeClass('hide').slideUp();
+      //   $('#alertModal').modal('show');
+      //   contador_vacios = 0;
+      //   $('.boton_pop').each(function(){
+      //     $(this).removeClass("bloqueado");
+      //   });
+      // }
     },
     xhrFields: {
       withCredentials: false
@@ -689,10 +714,21 @@ function generaUrl(parametro,id_estacion,horas)
 
   const dActual = new Date();
   var dPasada = new Date();
+  var actualHour = dActual.getHours();
+  var url;
 
-  dPasada.setHours(dActual.getHours() - horas);
+  if (horas === "D") {
+    url = 'https://api.datos.gob.mx/v2/sinaica-30?parametro=' + parametro + '&estacionesid=' + id_estacion + '&pageSize=' + 1000;
+  } else if (horas === 24) {
+    url = 'https://api.datos.gob.mx/v2/sinaica-24h?parametro=' + parametro + '&estacionesid=' + id_estacion + '&pageSize=' + 1000;
+  } else {
+    dActual.setHours(actualHour - 8);
+    url = 'https://api.datos.gob.mx/v2/sinaica-24h?parametro=' + parametro + '&estacionesid=' + id_estacion + '&date>' + getFormatDateAPI(dActual) + '&pageSize=' + 1000;
+  }
 
-  var url = 'https://api.datos.gob.mx/v2/sinaica?parametro='+parametro+'&estacionesid='+id_estacion+'&date-insert>'+getFormatDateAPI(dPasada)+'&date-insert<'+getFormatDateAPI(dActual)+'&pageSize='+1000;
+  // dPasada.setHours(dActual.getHours() - horas);
+
+  // var url = 'https://api.datos.gob.mx/v2/sinaica?parametro='+parametro+'&estacionesid='+id_estacion+'&date-insert>'+getFormatDateAPI(dPasada)+'&date-insert<'+getFormatDateAPI(dActual)+'&pageSize='+1000;
 
   return url;
 }
@@ -738,6 +774,7 @@ function cambioParametro(parametro, horas,id,titulo,lb)
     var promedioFinal = 0;
     var maximoL = 0;
     var label = "";
+
     if('PM10' == parametro)
     {
       promedioFinal = sacaDatoDiario(arrPM10,horas,158);
@@ -768,17 +805,36 @@ function cambioParametro(parametro, horas,id,titulo,lb)
     }
     else if('O3' == parametro)
     {
-      promedioFinal = sacaDatoDiario(arrO3,horas,0.181);
-      dataLocal = arrO3;
-      maximoL = 0.181;
-      label = 'ppm';
+      if (horas === 'D') {
+        promedioFinal = sacaDatoDiario(arrO3D, horas, 0.181);
+        dataLocal = arrO3D;
+        maximoL = 0.181;
+        label = 'ppm';
+      } else {
+        promedioFinal = sacaDatoDiario(arrO3, horas, 0.181);
+        dataLocal = arrO3;
+        maximoL = 0.181;
+        label = 'ppm';
+      }
     }
     else if('SO2' == parametro)
     {
-      promedioFinal = sacaDatoDiario(arrSO2,horas,0.32);
-      dataLocal = arrSO2;
-      maximoL = 0.32;
-      label = 'ppm';
+      if (horas === 'D') {
+        promedioFinal = sacaDatoDiario(arrSO2D, horas, 0.32);
+        dataLocal = arrSO2D;
+        maximoL = 0.32;
+        label = 'ppm';
+      } else if (horas === 24) {
+        promedioFinal = sacaDatoDiario(arrSO2_24, horas, 0.32);
+        dataLocal = arrSO2_24;
+        maximoL = 0.32;
+        label = 'ppm';
+      } else {
+        promedioFinal = sacaDatoDiario(arrSO2, horas, 0.32);
+        dataLocal = arrSO2;
+        maximoL = 0.32;
+        label = 'ppm';
+      }
     }
 
     if(promedioFinal > 0)
