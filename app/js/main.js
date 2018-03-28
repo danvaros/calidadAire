@@ -763,6 +763,7 @@ function cambioParametro(parametro, horas,id,titulo,lb)
     $(this).removeClass('active');
   });
 
+  $('#recomendaciones').hide();
   $('#pinta_primero').addClass('active');
   
   if(!($('#'+id).hasClass('bloqueado')))
@@ -784,9 +785,10 @@ function cambioParametro(parametro, horas,id,titulo,lb)
     var label = "";
     if('PM10' == parametro)
     {
-      promedioFinal = sacaDatoDiario(arrPM10,horas,158);
+      promedioFinal = sacaDatoDiario(arrPM10,horas,370);
       dataLocal = arrPM10;
       maximoL = 158;
+      maximoP = 75;
       label = 'µg/m³';
     }
     else if('PM2.5' == parametro)
@@ -794,6 +796,7 @@ function cambioParametro(parametro, horas,id,titulo,lb)
       promedioFinal = sacaDatoDiario(arrPM2,horas,158);
       dataLocal = arrPM2;
       maximoL = 158;
+      maximoP = 45;
       label = 'µg/m³';
     }
     else if('NO2' == parametro)
@@ -801,6 +804,7 @@ function cambioParametro(parametro, horas,id,titulo,lb)
       promedioFinal = sacaDatoDiario(arrNO2,horas, 0.315);
       dataLocal = arrNO2;
       maximoL = 0.315;
+      maximoP = 0.21;
       label = 'ppm';
     }
     else if('CO' == parametro)
@@ -808,6 +812,7 @@ function cambioParametro(parametro, horas,id,titulo,lb)
       promedioFinal = sacaDatoDiario(arrCO,horas,16.5);
       dataLocal = arrCO;
       maximoL = 16.5;
+      maximoP = 11;
       label = 'ppm';
     }
     else if('O3' == parametro)
@@ -815,6 +820,12 @@ function cambioParametro(parametro, horas,id,titulo,lb)
       promedioFinal = sacaDatoDiario(arrO3,horas,0.181);
       dataLocal = arrO3;
       maximoL = 0.181;
+
+      if(horas == 'D')
+        maximoP = 0.095;
+      else if(horas == 8)  
+        maximoP = 0.07;
+
       label = 'ppm';
     }
     else if('SO2' == parametro)
@@ -822,12 +833,24 @@ function cambioParametro(parametro, horas,id,titulo,lb)
       promedioFinal = sacaDatoDiario(arrSO2,horas,0.32);
       dataLocal = arrSO2;
       maximoL = 0.32;
+      maximoL = 158;
+      
+      if(horas == 'D')
+        maximoP = 0.025;
+      else if(horas == 8)  
+        maximoP = 0.2;
+      else if(horas == 24)    
+        maximoP = 0.11;
+      
       label = 'ppm';
     }
-
+    
     if(promedioFinal > 0)
     {
+      if(maximoP < promedioFinal)
+        $('#recomendaciones').show();
       
+
       var promedioFinalFix = promedioFinal;
       if(parametro ==  "PM10" || parametro ==  "PM2.5")
       {
