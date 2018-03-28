@@ -246,6 +246,38 @@ $(document).ready(function()
 
     $('html, body').animate({scrollTop: mapSecPos}, 300);
   });
+
+  // Cover video-background
+  function setCoverVideo() {
+    var desition, h_original, height, rest, setting, w_original, width;
+    width = $(window).width();
+    height = $(window).height();
+    rest = width / height;
+    w_original = 846;
+    h_original = 476;
+    setting = w_original / h_original;
+    desition = height / h_original;
+
+    if (rest >= setting) {
+      desition = width / w_original;
+    }
+    
+    if (width < 569) {
+      $('#video').css({
+        width: 1600,
+        height: 970
+      });
+    } else {
+      $('#video').css({
+        width: desition * w_original,
+        height: desition * h_original
+      });
+    }
+
+    $('#videoBlock').css('height', height);
+  }
+  $(window).resize(function() { setCoverVideo(); });
+  setCoverVideo();
 }); // fin de document ready
 
 function buscarCiudad(idEstacion)
@@ -702,14 +734,42 @@ function generaUrl(parametro,id_estacion,horas)
 //     alert('no tenemos lecturas recientes en esta estación')
 //   }
 // }
-
+function changeMovilOption(parametro,horas)
+{
+  if(parametro == 'PM10')
+    $("#conataminatesMovil").val('PM10');
+  if(parametro == 'PM2.5')
+    $("#conataminatesMovil").val('PM2.5');
+  if(parametro == 'NO2')
+    $("#conataminatesMovil").val('NO2');
+  if(parametro == 'SO2' && horas == 'D')
+    $("#conataminatesMovil").val('SO2D');
+  if(parametro == 'SO2' && horas == '8')
+    $("#conataminatesMovil").val('SO28');
+  if(parametro == 'SO2' && horas == '24')
+    $("#conataminatesMovil").val('SO224');
+  if(parametro == 'O3' && horas == 'D')
+    $("#conataminatesMovil").val('O3D');
+  if(parametro == 'O3' && horas == '8')
+    $("#conataminatesMovil").val('O38');
+  if(parametro == 'CO')
+    $("#conataminatesMovil").val('CO8');
+}
 
 function cambioParametro(parametro, horas,id,titulo,lb)
 {
   $("#alerta").hide();
+  $('.parametro').each(function(){
+    $(this).removeClass('active');
+  });
+
+  $('#pinta_primero').addClass('active');
+  
   if(!($('#'+id).hasClass('bloqueado')))
   {
+    
     cambioBotonActivo(id);
+    changeMovilOption(parametro,horas);
     var estado =  $('#estado_primer_select').val();
     var estacion =  $('#estaciones_select').val();
 
