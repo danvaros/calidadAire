@@ -763,12 +763,6 @@ function cambioParametro(parametro, horas,id,titulo,lb)
   });
 
   $('#pinta_primero').addClass('active');
-<<<<<<< HEAD
-=======
-
-  
-  
->>>>>>> develop
   
   if(!($('#'+id).hasClass('bloqueado')))
   {
