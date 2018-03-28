@@ -761,6 +761,7 @@ function cambioParametro(parametro, horas,id,titulo,lb)
   $("#alerta").hide();
   if(!($('#'+id).hasClass('bloqueado')))
   {
+    
     cambioBotonActivo(id);
     changeMovilOption(parametro,horas);
     var estado =  $('#estado_primer_select').val();
