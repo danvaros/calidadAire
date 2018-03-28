@@ -45,9 +45,8 @@
 
     <div id="videoBlock" class="cabezera">
 
-      <video preload="preload"  id="video" autoplay="autoplay" loop="loop" playsinline muted>
-
-        <source src="imagenes/nubes_low.mp4" type="video/mp4">
+      <video preload="preload"  id="video" autoplay="autoplay" loop="loop" playsinline muted poster="imagenes/back.jpg">
+          <source src="imagenes/nubes.mp4" type="video/mp4">
       </video>
 
 
@@ -337,12 +336,12 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
                 <div class="col-xs-12 offset-m1 offset-l2">
                   <canvas id="myChart"></canvas>
                 </div>
-                <!-- <div class="col-xs-12 botonera">
+                <div class="col-xs-12 botonera">
                   <a href="#" class="parametro">boton 1</a>
                   <a href="#" class="parametro">boton 1</a>
                   <a href="#" class="parametro">boton 1</a>
                   <a href="#" id="pinta_primero" class="parametro active">boton 1</a>
-                </div> -->
+                </div>
                 <input type="hidden" name="estacion" id="estacion_id" value="">
                 <input type="hidden" name="ciudad" id="ciudad" value="">
               </div>
@@ -376,5 +375,6 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
     <script src="js/estados_mexico.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/estaciones_json.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/mod_mapa.js" type="text/javascript" charset="utf-8"></script>
+
   </body>
 </html>
