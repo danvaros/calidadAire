@@ -759,6 +759,12 @@ function changeMovilOption(parametro,horas)
 function cambioParametro(parametro, horas,id,titulo,lb)
 {
   $("#alerta").hide();
+  $('.parametro').each(function(){
+    $(this).removeClass('active');
+  });
+
+  $('#pinta_primero').addClass('active');
+  
   if(!($('#'+id).hasClass('bloqueado')))
   {
     
