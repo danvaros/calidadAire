@@ -414,7 +414,7 @@ function putGrafica(parametro,horas,promedio2,maximo)
         valores = values_temp;
         //forzamos el primer valor
         valores[values_temp.length-1] = promedio2;
-        rangoInecc(parametro,horas);
+        var valoresRango = rangoInecc(parametro,horas,valores);
         var labels_temp2 = [];
         for (var i = 0; i < labels_temp.length; i++)
         {
@@ -422,10 +422,10 @@ function putGrafica(parametro,horas,promedio2,maximo)
         }
         etiquetas =  labels_temp2;
 
-        actualizar_grafica_detalle(valores, etiquetas);
+        actualizar_grafica_detalle(valores, etiquetas, valoresRango);
 }
 
-function rangoInecc(parametro, horas)
+function rangoInecc(parametro, horas, valores)
 {
     var rango = 0;
     var cadena = parametro+''+horas;
@@ -463,16 +463,26 @@ function rangoInecc(parametro, horas)
             rango = 0;
     }
 
-    for(var i = 0; i< valores.length; i++)
+    console.log('previo a llenar los rangos');
+    console.log(valores.length);
+
+    var valoresRango = [];
+    for(var i = 0; i < valores.length; i++)
     {
       valoresRango[i] = rango;
     }
+
+    return valoresRango;
 }
 
-function actualizar_grafica_detalle(valores,etiquetas)
+function actualizar_grafica_detalle(valores,etiquetas, valoresRango)
 {
   chart.data.datasets[0].data =  valores;
   chart.data.datasets[1].data =  valoresRango;
+
+  console.log(valores.length);
+  console.log(valoresRango.length);
+
   chart.data.labels =  etiquetas;
   chart.update();
   poner_botones(valores);
@@ -850,7 +860,6 @@ function cambioParametro(parametro, horas,id,titulo,lb)
       if(maximoP < promedioFinal)
         $('#recomendaciones').show();
       
-
       var promedioFinalFix = promedioFinal;
       if(parametro ==  "PM10" || parametro ==  "PM2.5")
       {
