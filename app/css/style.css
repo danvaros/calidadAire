@@ -276,6 +276,10 @@ hr.red {
 }
 
 .modal_mapa { cursor: pointer; }
+.modal-body { padding: 40px 20px 20px; }
+@media screen and (min-width: 768px) and (max-width: 991px) {
+  .modal-dialog { width: 760px; }
+}
 /*hacer le over del boton o no por que es mobile*/
 
 .titulo_mapa{
@@ -426,6 +430,13 @@ justify-content: center;
 
   svg {
     font: 10px sans-serif;
+  }
+
+  #max-value-label {
+    display: block;
+    margin-top: -27px;
+    margin-bottom: 30px;
+    font-size: 14px;
   }
 
   .parallax img{
