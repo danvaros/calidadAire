@@ -66,9 +66,9 @@
             <div class="col-xs-12 text-center margen_arriba_g">
 
              <div class="base_botones">
-                <select class="browser-default contaminantes" name="" onchange="ponEstacionesSel()" id="estado_primer_select"></select>
+                <select class="browser-default contaminantes" name="" id="estado_primer_select"></select>
 
-                <select class="browser-default contaminantes" name="" onchange="ponContaminantesSel()" id="estaciones_select">
+                <select class="browser-default contaminantes" name="" id="estaciones_select">
                     <option value="0">2.-Selecciona una estación</option>
                 </select>
 
@@ -101,7 +101,7 @@
         </div>
         <div class="col-xs-3">
           <div class="input-field col s6 m2 l2">
-            <select  id="estados" name="estados" class="form-control" onchange="cambiaCoor()">
+            <select  id="estados" name="estados" class="form-control">
               <option value="Aguascalientes">Aguascalientes</option>
               <option value="Baja California">Baja California</option>
               <option value="Baja California Sur">Baja California Sur</option>
@@ -264,7 +264,7 @@
                         </div>
                         <div class="col-xs-4">
                           <p data-toggle="tooltip" data-id="PM2.5" data-hour="24" data-placement="bottom" data-code="'PM2.5 (µg/m&sup3;)'" data-title="Las partículas menores o iguales a 2.5 micras (PM2.5) están formadas primordialmente por gases y por material proveniente de la combustión. Se depositan fundamentalmente en la región traqueobronquial (tráquea hasta bronquiolo terminal), aunque pueden ingresar a los alvéolos."
-                            class="boton_pop" id="botonPM25">PM2.5 (µg/m&sup3;</p>
+                            class="boton_pop" id="botonPM25">PM2.5 (µg/m&sup3;)</p>
                         </div>
                         <div class="col-xs-4">
                           <p data-toggle="tooltip" data-id="NO2" data-hour="D" data-placement="bottom" data-code="NO2 (ppm)" data-title="El dióxido de nitrógeno es un compuesto químico gaseoso de color marrón amarillento, es un gas tóxico e irritante. La exposición a este gas disminuye la capacidad de difusión pulmonar."
@@ -281,7 +281,7 @@
                             class="boton_pop" id="botonSO28">SO2 (ppm)</p>
                         </div>
                         <div class="col-xs-4">
-                          <p data-toggle="tooltip" data-id="S02" data-hour="24" data-placement="bottom" data-code="SO2 (ppm)" data-title="Gas incoloro que se forman al quemar azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios."
+                          <p data-toggle="tooltip" data-id="SO2" data-hour="24" data-placement="bottom" data-code="SO2 (ppm)" data-title="Gas incoloro que se forman al quemar azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios."
                             class="boton_pop" id="botonSO224">SO2 (ppm)</p>
                         </div>
                       </div>

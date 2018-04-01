@@ -74,6 +74,13 @@ $(document).ready(function()
     );
   });
 
+  // Get states selected
+  $('#estado_primer_select').on('change', function() { ponEstacionesSel() });
+  // Get station selected
+  $('#estaciones_select').on('change', function () { ponContaminantesSel() });
+  // Get states map selected
+  $('#estados').on('change', function () { cambiaCoor() });
+
   /* instancia del mapa*/
   mymap.panTo(new L.LatLng(24.8, -100));
 
