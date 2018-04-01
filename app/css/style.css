@@ -36,6 +36,13 @@ main {
  overflow: hidden; 
 }
 
+.alert.alert-warning.warning-nav {
+  position: absolute;
+  width: 100%;
+  top: 46px;
+  z-index: 1;
+}
+
 #videoBlock {
   width: 100%;
   height: 100%;
