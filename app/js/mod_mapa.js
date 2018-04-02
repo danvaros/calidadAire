@@ -1,20 +1,10 @@
-var estaciones_global =  [];
-
-
 $(document).ready(function()
 {
     var marker_mymap;
-    var test
     var myFeatureGroup = L.featureGroup().addTo(mymap).on("click", groupClick);
     var greenIcon = L.icon({
         iconUrl: 'imagenes/punto.png',
-        //shadowUrl: 'imagenes/leaf-shadow.png',
-
-        // iconSize:     [20, 50], // size of the icon
-        // shadowSize:   [30, 38], // size of the shadow
-        iconAnchor:   [12, 24], // point of the icon which will correspond to marker's location
-        // shadowAnchor: [4, 36],  // the same for the shadow
-        // popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+        iconAnchor:   [12, 24], // point of the icon which will correspond to 
     });
 
     //recorremos las estaciones para pintarlas en el mapa
@@ -47,8 +37,8 @@ $(document).ready(function()
 
         $('#titulo_detalle').html(buscarCiudad(estacion));
 
-        $('#estacion_detalle').html('<b>'+objEstacion.nombre+'/b>');
-        $('#estacion_detalle_m').html(objEstacion.nombre);
+        $('#estacion_detalle').html(objEstacion.nombre);
+        $('#estacion_detalle_m').html('<b>'+objEstacion.nombre+'</b>');
 
         $('#tituloTexto').html("PM10");
         $('#textoTitulo').html("Las partículas menores o iguales a 2.5 micras (PM2.5) están formadas primordialmente por gases y por material proveniente de la combustión. Se depositan fundamentalmente en la región traqueobronquial (tráquea hasta bronquiolo terminal), aunque pueden ingresar a los alvéolos.");
@@ -75,32 +65,4 @@ function groupClick(event)
 
   popup.setContent(info);
   popup.update();
-}
-
-function get_estaciones()
-{
-    var datedate = anio+"-"+mes+"-"+dia;
-
-    $.ajax({
-        type: 'GET',
-        url: "https://api.datos.gob.mx/v1/sinaica?fecha="+datedate+"&pageSize=12000",
-        data: {},
-        success: function( data, textStatus, jqxhr )
-        {
-            var estations = [];
-
-            for (var i = 0; i < data.results.length; i++) {
-                estations.push(data.results[i]);
-            }
-            //estaciones.push(data.results.parametro);
-
-            estaciones_global = estations;
-        },
-        xhrFields:
-        {
-            withCredentials: false
-        },
-        crossDomain: true,
-        async:false
-    });
 }
