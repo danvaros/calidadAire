@@ -16,16 +16,9 @@ var anio = d.getFullYear();
 var mes = meis[d.getMonth()];
 var dia = deis[d.getDate()];
 
-//catalogo de constantes de configuración
-const pageSize_estaciones = 2000;
-
 var arrPM10 = arrPM2 = arrNO2 = arrCO = arrO3 = arrSO2 = [];
 
-
-//emulacion de states
-var pm10Vacio = false;
-var indicadorMostrado = false;
-
+var contador_vacios = 0;
 
 $(document).ready(function()
 {
@@ -583,8 +576,6 @@ function DateFalsa()
 {
   return new Date("2018-03-07 00:00:00");
 }
-
-var contador_vacios = 0;
 
 function llenarConstaminantes(url, parametro)
 {
