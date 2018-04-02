@@ -720,48 +720,11 @@ function generaUrl(parametro,id_estacion,horas)
 
   dPasada.setHours(dActual.getHours() - horas);
 
-  var url = 'https://api.datos.gob.mx/v2/sinaica?parametro='+parametro+'&estacionesid='+id_estacion+'&date-insert>'+getFormatDateAPI(dPasada)+'&date-insert<'+getFormatDateAPI(dActual)+'&pageSize='+1000;
+  var url = 'https://api.datos.gob.mx/v2/sinaica-30?parametro='+parametro+'&estacionesid='+id_estacion+'&date>'+getFormatDateAPI(dPasada)+'&date<'+getFormatDateAPI(dActual)+'&validoorig=1&pageSize='+1000;
 
   return url;
 }
 
-// function buscarOtroParametro()
-// {
-//   if(arrPM2.results.length > 0)
-//   {
-//     $('#botonPM25').trigger('click');
-//     // $('#myModal').modal('show');
-//     // $('.forLoader').removeClass('hide').slideUp();
-//   }
-//   else if(arrNO2.results.length > 0)
-//   {
-//     $('#botonNO2').trigger('click');
-//     // $('#myModal').modal('show');
-//     // $('.forLoader').removeClass('hide').slideUp();
-//   }
-//   else if(arrCO.results.length > 0)
-//   {
-//     $('#botonCO').trigger('click');
-//     // $('#myModal').modal('show');
-//     // $('.forLoader').removeClass('hide').slideUp();
-//   }
-//   else if(arrO3.results.length > 0)
-//   {
-//     $('#botonO38').trigger('click');
-//     // $('#myModal').modal('show');
-//     // $('.forLoader').removeClass('hide').slideUp();
-//   }
-//   else if(arrSO2.results.length > 0)
-//   {
-//     $('#botonSO224').trigger('click');
-//     // $('#myModal').modal('show');
-//     // $('.forLoader').removeClass('hide').slideUp();
-//   }
-//   else
-//   {
-//     alert('no tenemos lecturas recientes en esta estación')
-//   }
-// }
 function changeMovilOption(parametro,horas)
 {
   if(parametro == 'PM10')
@@ -819,6 +782,7 @@ function cambioParametro(parametro, horas,id,titulo,lb)
     //porEstaciones(estado,estacion,parametro,horas);
     var promedioFinal = 0;
     var maximoL = 0;
+    var maximoP = 0;
     var label = "";
     if('PM10' == parametro)
     {
@@ -870,7 +834,6 @@ function cambioParametro(parametro, horas,id,titulo,lb)
       promedioFinal = sacaDatoDiario(arrSO2,horas,0.32);
       dataLocal = arrSO2;
       maximoL = 0.32;
-      maximoL = 158;
       
       if(horas == 'D')
         maximoP = 0.025;
