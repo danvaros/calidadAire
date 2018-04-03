@@ -690,15 +690,6 @@ function changeMovilOption(parametro,horas)
     $("#conataminatesMovil").val("CO8");
 }
 
-function set_max_value_label(horas) {
-  if (horas.toString() === "8")
-    $("#max-value-label").text("Promedio por 8 horas");
-  else if (horas.toString() === "24")
-    $("#max-value-label").text("Promedio por 24 horas");
-  else
-    $("#max-value-label").text("Última medición");
-}
-
 function cambioParametro(parametro, horas,id,titulo,lb)
 {
   $("#alerta").hide();
@@ -804,8 +795,6 @@ function cambioParametro(parametro, horas,id,titulo,lb)
 
       $(".chart-gauge").html("");
       $(".chart-gauge").gaugeIt({selector:".chart-gauge",value:promedioFinalFix,label:label,gaugeMaxValue:maximoL});
-      
-      set_max_value_label(horas);
     }
     else
     {
@@ -814,8 +803,6 @@ function cambioParametro(parametro, horas,id,titulo,lb)
       putGrafica(parametro, horas, promedioFinal,maximoL);
       $(".chart-gauge").html("");
       $(".chart-gauge").gaugeIt({ selector: ".chart-gauge", value: 0, label: label, gaugeMaxValue: maximoL});
-      
-      set_max_value_label(horas)
     }
   }
 }
