@@ -696,7 +696,7 @@ function set_max_value_label(horas) {
   else if (horas.toString() === "24")
     $("#max-value-label").text("Promedio por 24 horas");
   else
-    $("#max-value-label").text("Dato horario");
+    $("#max-value-label").text("Última medición");
 }
 
 function cambioParametro(parametro, horas,id,titulo,lb)
