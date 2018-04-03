@@ -3,7 +3,7 @@ $(document).ready(function()
     var marker_mymap;
     var myFeatureGroup = L.featureGroup().addTo(mymap).on("click", groupClick);
     var greenIcon = L.icon({
-        iconUrl: 'imagenes/punto.png',
+        iconUrl: "imagenes/punto.png",
         iconAnchor:   [12, 24], // point of the icon which will correspond to 
     });
 
@@ -19,37 +19,37 @@ $(document).ready(function()
         }
     }
 
-    $(document).on('click', '.modal_mapa', function()
+    $(document).on("click", ".modal_mapa", function()
     {
         //sacar la estacion en particular solo id
         var estacion = $(this).data().id;
         
-        $('.forLoader').show();
+        $(".forLoader").show();
 
         //ponemos los parametros en la ventana
-        $('#fecha_detalle').html(convertDate(new Date()));
-        $('#fecha_detalle_m').html(convertDate(new Date()));
+        $("#fecha_detalle").html(convertDate(new Date()));
+        $("#fecha_detalle_m").html(convertDate(new Date()));
 
-        $('#contaminante_detalle').html("PM10");
-        $('#contaminante_grafica').html("PM10");
+        $("#contaminante_detalle").html("PM10");
+        $("#contaminante_grafica").html("PM10");
 
         var objEstacion = buscarEstacion(estacion);
 
-        $('#titulo_detalle').html(buscarCiudad(estacion));
+        $("#titulo_detalle").html(buscarCiudad(estacion));
 
-        $('#estacion_detalle').html(objEstacion.nombre);
-        $('#estacion_detalle_m').html('<b>'+objEstacion.nombre+'</b>');
+        $("#estacion_detalle").html(objEstacion.nombre);
+        $("#estacion_detalle_m").html("<b>"+objEstacion.nombre+"</b>");
 
-        $('#tituloTexto').html("PM10");
-        $('#textoTitulo').html("Las partículas menores o iguales a 2.5 micras (PM2.5) están formadas primordialmente por gases y por material proveniente de la combustión. Se depositan fundamentalmente en la región traqueobronquial (tráquea hasta bronquiolo terminal), aunque pueden ingresar a los alvéolos.");
+        $("#tituloTexto").html("PM10");
+        $("#textoTitulo").html("Las partículas menores o iguales a 2.5 micras (PM2.5) están formadas primordialmente por gases y por material proveniente de la combustión. Se depositan fundamentalmente en la región traqueobronquial (tráquea hasta bronquiolo terminal), aunque pueden ingresar a los alvéolos.");
 
         //vamos a llenar los arreglos de todos los coantaminantes
-        llenarConstaminantes(generaUrl('PM10', estacion, (24*28)),'PM10');
-        llenarConstaminantes(generaUrl('PM2.5', estacion, (24*28)),'PM2.5');
-        llenarConstaminantes(generaUrl('NO2', estacion, (24*28)),'NO2');
-        llenarConstaminantes(generaUrl('SO2', estacion, (24*28)),'SO2');
-        llenarConstaminantes(generaUrl('O3', estacion, (24*28)),'O3');
-        llenarConstaminantes(generaUrl('CO', estacion, (24*28)),'CO');
+        llenarConstaminantes(generaUrl("PM10", estacion, (24*28)),"PM10");
+        llenarConstaminantes(generaUrl("PM2.5", estacion, (24*28)),"PM2.5");
+        llenarConstaminantes(generaUrl("NO2", estacion, (24*28)),"NO2");
+        llenarConstaminantes(generaUrl("SO2", estacion, (24*28)),"SO2");
+        llenarConstaminantes(generaUrl("O3", estacion, (24*28)),"O3");
+        llenarConstaminantes(generaUrl("CO", estacion, (24*28)),"CO");
     });
 
 
@@ -61,7 +61,7 @@ function groupClick(event)
   var estacion  = event.layer.idestacion;
   var array  = event.layer.idarray;
 
-  var info = '<b>Estación:</b> '+estaciones_json[array].id+'<br><b>Nombre: </b>'+ estaciones_json[array].nombre +'<br><b>Codigo: </b>'+estaciones_json[array].codigo+'<br><div style="margin-bottom: 25px; margin-top: 25px;" class="botonera"><a class="modal_mapa" data-id="'+ estaciones_json[array].id +'">Detalle Estación</a></div>';
+  var info = "<b>Estación:</b> "+estaciones_json[array].id+"<br><b>Nombre: </b>"+ estaciones_json[array].nombre +"<br><b>Codigo: </b>"+estaciones_json[array].codigo+'<br><div style="margin-bottom: 25px; margin-top: 25px;" class="botonera"><a class="modal_mapa" data-id=""+ estaciones_json[array].id +"">Detalle Estación</a></div>';
 
   popup.setContent(info);
   popup.update();
