@@ -26,7 +26,6 @@ $(document).ready(function()
     {
         //sacar la estacion en particular solo id
         var estacion = $(this).data().id;
-        console.log(estacion);
         
         $(".forLoader").show();
 
@@ -38,10 +37,7 @@ $(document).ready(function()
         $("#contaminante_grafica").html("PM10");
 
         var objEstacion = buscarEstacion(estacion);
-        console.log(objEstacion);
         
-        console.log(estacion);
-        console.log(buscarCiudad(estacion));
         $("#titulo_detalle").html(buscarCiudad(estacion));
 
         $("#estacion_detalle").html(objEstacion.nombre);
