@@ -733,7 +733,7 @@ function cambioParametro(parametro, horas,id,titulo,lb)
     {
       promedioFinal = sacaDatoDiario(arrPM10,horas,370);
       dataLocal = arrPM10;
-      maximoL = 158;
+      maximoL = 370;
       maximoP = 75;
       label = "µg/m³";
     }
