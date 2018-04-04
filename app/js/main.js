@@ -93,9 +93,7 @@ $(document).ready(function()
     //ponemos los parametros en la ventana 
     $('#fecha_detalle').html(convertDate(new Date())); 
     $('#fecha_detalle_m').html(convertDate(new Date())); 
- 
-    console.log(estacion);
-    console.log(buscarCiudad(estacion));
+    var objEstacion = buscarEstacion(estacion);
     
     $('#titulo_detalle').html(buscarCiudad(estacion)); 
     $('#estacion_detalle').html($('#estaciones_select option:selected').text()); 
@@ -282,7 +280,7 @@ function buscarCiudad(idEstacion)
   var city = "";
   for (let index = 0; index < estaciones_json.length; index++) {
     const element = estaciones_json[index];
-    if(element.id === idEstacion)
+    if(element.id == idEstacion)
     {
       city =  element.city;
       break;
