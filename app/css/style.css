@@ -42,6 +42,12 @@ main {
   top: 46px;
   z-index: 1;
 }
+@media screen and (min-width: 768px) and (max-width: 991px) {
+  .alert.alert-warning.warning-nav { padding: 5px; }
+}
+@media screen and (max-width: 767px) {
+  .alert.alert-warning.warning-nav { font-size: 10px; padding: 5px; }
+}
 
 #videoBlock {
   width: 100%;
@@ -540,8 +546,36 @@ option {
   -moz-transform: rotate(45deg);
   -o-transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
-  -sand-transform: rotate(40deg);
+  -sand-transform: rotate(45deg);
   transform: rotate(45deg);
+}
+@media screen and (min-width: 422px) and (max-width: 767px) {
+  .beta {
+    top: 42px;
+    right: 0;
+    width: 100%;
+    padding: 5px;
+    font-size: 10px;
+    -moz-transform: none;
+    -o-transform: none;
+    -webkit-transform: none;
+    -sand-transform: none;
+    transform: none;
+  }
+}
+@media screen and (max-width: 421px) {
+  .beta {
+    top: 55px;
+    right: 0;
+    width: 100%;
+    padding: 5px;
+    font-size: 10px;
+    -moz-transform: none;
+    -o-transform: none;
+    -webkit-transform: none;
+    -sand-transform: none;
+    transform: none;
+  }
 }
 
 /* GO MAP
