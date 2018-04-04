@@ -140,7 +140,7 @@ $(document).ready(function()
           ticks: {
             autoSkip: false,
             maxRotation: 90,
-            minRotation: 90
+            minRotation: 0
           }
         }]
       }
