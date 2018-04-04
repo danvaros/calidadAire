@@ -130,6 +130,7 @@ p {
   background-color: #f0f0f0;
   padding: 15px;
 }
+.data-table > .table > thead > tr > th { font-weight: bold; }
 
 @media only screen and (max-width : 992px) {
   .parallax-container .section {
