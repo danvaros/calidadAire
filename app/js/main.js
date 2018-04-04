@@ -638,7 +638,7 @@ function llenarConstaminantes(url, parametro)
         }
       }
       
-      if(contador_vacios === 5)
+      if(contador_vacios === 6)
       {
         $(".forLoader").removeClass("hide").slideUp();
         $("#alertModal").modal("show");
