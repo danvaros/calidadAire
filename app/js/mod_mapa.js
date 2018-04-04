@@ -13,9 +13,12 @@ $(document).ready(function()
         //v 2.0 validacion de la actividad de la estación
         if(estaciones_json[i].activa)
         {
-            marker_mymap  = L.marker([estaciones_json[i].lat, estaciones_json[i].long],{icon: greenIcon}).addTo(myFeatureGroup).bindPopup("Cargando...");;
-            marker_mymap.idestacion = estaciones_json[i].id;
-            marker_mymap.idarray = i;
+            if(estaciones_json[i].lat !== 0 && estaciones_json[i].lat !== 0)
+            {
+                marker_mymap  = L.marker([estaciones_json[i].lat, estaciones_json[i].long],{icon: greenIcon}).addTo(myFeatureGroup).bindPopup("Cargando...");;
+                marker_mymap.idestacion = estaciones_json[i].id;
+                marker_mymap.idarray = i;
+            }
         }
     }
 
@@ -23,6 +26,7 @@ $(document).ready(function()
     {
         //sacar la estacion en particular solo id
         var estacion = $(this).data().id;
+        console.log(estacion);
         
         $(".forLoader").show();
 
@@ -34,7 +38,8 @@ $(document).ready(function()
         $("#contaminante_grafica").html("PM10");
 
         var objEstacion = buscarEstacion(estacion);
-
+        console.log(objEstacion);
+        
         $("#titulo_detalle").html(buscarCiudad(estacion));
 
         $("#estacion_detalle").html(objEstacion.nombre);
@@ -61,7 +66,7 @@ function groupClick(event)
   var estacion  = event.layer.idestacion;
   var array  = event.layer.idarray;
 
-  var info = "<b>Estación:</b> "+estaciones_json[array].id+"<br><b>Nombre: </b>"+ estaciones_json[array].nombre +"<br><b>Codigo: </b>"+estaciones_json[array].codigo+'<br><div style="margin-bottom: 25px; margin-top: 25px;" class="botonera"><a class="modal_mapa" data-id=""+ estaciones_json[array].id +"">Detalle Estación</a></div>';
+  var info = "<b>Estación:</b> "+estaciones_json[array].id+"<br><b>Nombre: </b>"+ estaciones_json[array].nombre +"<br><b>Codigo: </b>"+estaciones_json[array].codigo+'<br><div style="margin-bottom: 25px; margin-top: 25px;" class="botonera"><a class="modal_mapa" data-id="'+ estaciones_json[array].id +'">Detalle Estación</a></div>';
 
   popup.setContent(info);
   popup.update();
