@@ -94,6 +94,9 @@ $(document).ready(function()
     $('#fecha_detalle').html(convertDate(new Date())); 
     $('#fecha_detalle_m').html(convertDate(new Date())); 
  
+    console.log(estacion);
+    console.log(buscarCiudad(estacion));
+    
     $('#titulo_detalle').html(buscarCiudad(estacion)); 
     $('#estacion_detalle').html($('#estaciones_select option:selected').text()); 
     $('#estacion_detalle_m').html('<b>'+$('#estaciones_select option:selected').text()+'</b>'); 
@@ -733,7 +736,7 @@ function cambioParametro(parametro, horas,id,titulo,lb)
     {
       promedioFinal = sacaDatoDiario(arrPM10,horas,370);
       dataLocal = arrPM10;
-      maximoL = 158;
+      maximoL = 370;
       maximoP = 75;
       label = "µg/m³";
     }

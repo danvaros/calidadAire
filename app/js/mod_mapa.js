@@ -40,6 +40,8 @@ $(document).ready(function()
         var objEstacion = buscarEstacion(estacion);
         console.log(objEstacion);
         
+        console.log(estacion);
+        console.log(buscarCiudad(estacion));
         $("#titulo_detalle").html(buscarCiudad(estacion));
 
         $("#estacion_detalle").html(objEstacion.nombre);
