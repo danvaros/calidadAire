@@ -90,6 +90,20 @@ $(document).ready(function()
     $(".forLoader").show();
     var estacion =  $('#estaciones_select').val();
 
+    //ponemos los parametros en la ventana 
+    $('#fecha_detalle').html(convertDate(new Date())); 
+    $('#fecha_detalle_m').html(convertDate(new Date())); 
+ 
+    $('#titulo_detalle').html(buscarCiudad(estacion)); 
+    $('#estacion_detalle').html($('#estaciones_select option:selected').text()); 
+    $('#estacion_detalle_m').html('<b>'+$('#estaciones_select option:selected').text()+'</b>'); 
+    
+    $('#textoTitulo').html($('#'+id).attr('data-original-title')); 
+ 
+    var id = 'botonPM10'; 
+    cambioBotonActivo(id); 
+
+
     //vamos a llenar los arreglos de todos los coantaminantes
     llenarConstaminantes(generaUrl('PM10', estacion, (24*28)),'PM10');
     llenarConstaminantes(generaUrl('PM2.5', estacion, (24*28)),'PM2.5');
@@ -842,12 +856,10 @@ function sacaDatoDiario(data,horas,max)
     
     for (let index = 0; index < arrTemp.length; index++)
     {
-    
       if(arrTemp[index].valororig < max && arrTemp[index].validoorig === 1)
       {
         acumulado += arrTemp[index].valororig;
         promedio++;
-    
       }
     }
     
@@ -863,7 +875,10 @@ function sacaDatoDiario(data,horas,max)
   }
   else
   {
-     return data.results[data.results.length-1].valororig;
+    if(data.results[data.results.length-1].valororig < max)
+      return data.results[data.results.length-1].valororig;
+    else
+      return 0;    
   }
 }
 
