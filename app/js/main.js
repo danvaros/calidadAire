@@ -280,7 +280,7 @@ function buscarCiudad(idEstacion)
   var city = "";
   for (let index = 0; index < estaciones_json.length; index++) {
     const element = estaciones_json[index];
-    if(element.id == idEstacion)
+    if(element.id.toString() === idEstacion.toString())
     {
       city =  element.city;
       break;
