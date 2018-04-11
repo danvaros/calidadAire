@@ -131,13 +131,15 @@ $(document).ready(function()
           borderColor: window.chartColors.blue,
           pointBackgroundColor: window.chartColors.blue,
           data: [0, 10, 5, 2, 20, 30, 45],
+          pointRadius: 1,
         },
           {
               label: "Valores máximos",
               borderColor: window.chartColors.red,
               backgroundColor: window.chartColors.red,
               fill: false,
-              data:[10, 10, 10, 10, 10, 10, 10]
+              data:[10, 10, 10, 10, 10, 10, 10],
+              pointRadius: 1,
           }
       ]
     },
@@ -362,57 +364,68 @@ function putGrafica(parametro,horas,promedio2,maximo)
         var labels_temp = [];
         var values_temp = [];
 
-        for (var i = 0; i < data.results.length; i++)
-        {
-          if(data.results[i].parametro === parametro)
-          {
-            if(!Array.isArray(his_estacion[data.results[i].fecha]))
-            {
-              his_estacion[data.results[i].fecha] = [];
-              labels_temp.push(data.results[i].fecha);
-            }
-            his_estacion[data.results[i].fecha].push(data.results[i]);
-          }
-        }
+        // for (var i = 0; i < data.results.length; i++)
+        // {
+        //   if(data.results[i].parametro === parametro)
+        //   {
+        //     if(!Array.isArray(his_estacion[data.results[i].fecha]))
+        //     {
+        //       his_estacion[data.results[i].fecha] = [];
+        //       labels_temp.push(data.results[i].fecha);
+        //     }
+        //     his_estacion[data.results[i].fecha].push(data.results[i]);
+        //   }
+        // }
 
-        var conTemp = 0;
-        for (var i = 0; i < labels_temp.length; i++)
-        {
-          var promedio = his_estacion[labels_temp[i]].length;
-          var suma = 0;
-          var arreglo = his_estacion[labels_temp[i]];
-          for (var j = 0; j < promedio; j++) {
-            if(arreglo[j].valororig < maximo && data.results[i].validoorig == 1){
-              suma += arreglo[j].valororig;
-              conTemp++;
-            }
+        // var conTemp = 0;
+        // for (var i = 0; i < labels_temp.length; i++)
+        // {
+        //   var promedio = his_estacion[labels_temp[i]].length;
+        //   var suma = 0;
+        //   var arreglo = his_estacion[labels_temp[i]];
+        //   for (var j = 0; j < promedio; j++) {
+        //     if(arreglo[j].valororig < maximo && data.results[i].validoorig == 1){
+        //       suma += arreglo[j].valororig;
+        //       conTemp++;
+        //     }
               
-          }
+        //   }
 
-          if((conTemp * .75) > (promedio * .75))
-          {
-            if(parametro ===  "PM10" || parametro === "PM2.5")
-              values_temp.push((suma/promedio).toFixed(1));
-            else
-              values_temp.push((suma/promedio).toFixed(3));
-          }
-          else
-          {
-            values_temp.push(0); 
-          }
+        //   if((conTemp * .75) > (promedio * .75))
+        //   {
+        //     if(parametro ===  "PM10" || parametro === "PM2.5")
+        //       values_temp.push((suma/promedio).toFixed(1));
+        //     else
+        //       values_temp.push((suma/promedio).toFixed(3));
+        //   }
+        //   else
+        //   {
+        //     values_temp.push(0); 
+        //   }
 
+        // }
+
+        // valores = values_temp;
+        // //forzamos el primer valor
+        // valores[values_temp.length-1] = promedio2;
+
+        var valores = [];
+        etiquetas = [];
+        for (let index = 0; index < data.results.length; index++) 
+        {
+          valores.push(data.results[index].valororig); 
+          if(index % 23 == 0)
+            etiquetas.push(data.results[index].fecha);
+          else 
+            etiquetas.push(''); 
         }
-
-        valores = values_temp;
-        //forzamos el primer valor
-        valores[values_temp.length-1] = promedio2;
+        
         var valoresRango = rangoInecc(parametro,horas,valores);
         var labels_temp2 = [];
         for (var i = 0; i < labels_temp.length; i++)
         {
           labels_temp2[i] = get_fecha_formato(labels_temp[i]);
         }
-        etiquetas =  labels_temp2;
 
         actualizar_grafica_detalle(valores, etiquetas, valoresRango);
 }
