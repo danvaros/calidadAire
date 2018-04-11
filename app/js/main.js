@@ -139,7 +139,7 @@ $(document).ready(function()
               backgroundColor: window.chartColors.red,
               fill: false,
               data:[10, 10, 10, 10, 10, 10, 10],
-              pointRadius: 1,
+              pointRadius: 0.5,
           }
       ]
     },
@@ -154,13 +154,19 @@ $(document).ready(function()
       },
       scales: {
         xAxes: [{
+          
+            gridLines: {
+              display: true,
+              drawBorder: true,
+              drawOnChartArea: false,
+            },
           ticks: {
             autoSkip: false,
             maxRotation: 90,
             minRotation: 0
           }
         }]
-      }
+      },
     },
   });
   // fin de instancia de la grafica
