@@ -422,11 +422,16 @@ function putGrafica(parametro,horas,promedio2,maximo)
     }          
   }
 
-  var valoresRango = rangoInecc(parametro,horas,valores);
+  var rango = rangoInecc(parametro,horas);
+  var valoresRango = [];
+  for(var i = 0; i < valores.length; i++)
+  {
+    valoresRango[i] = rango;
+  }
   actualizar_grafica_detalle(valores, etiquetas, valoresRango, promediosMoviles);
 }
 
-function rangoInecc(parametro, horas, valores)
+function rangoInecc(parametro, horas)
 {
     var rango = 0;
     var cadena = parametro+""+horas;
@@ -463,14 +468,7 @@ function rangoInecc(parametro, horas, valores)
         default:
             rango = 0;
     }
-
-    var valoresRango = [];
-    for(var i = 0; i < valores.length; i++)
-    {
-      valoresRango[i] = rango;
-    }
-
-    return valoresRango;
+    return rango;
 }
 
 function actualizar_grafica_detalle(valores,etiquetas, valoresRango,promediosMoviles)
@@ -742,62 +740,52 @@ function cambioParametro(parametro, horas,id,titulo,lb)
     var label = "";
     if("PM10" === parametro)
     {
-      promedioFinal = sacaDatoDiario(arrPM10,horas,370);
+      maximoL = 600;
+      promedioFinal = sacaDatoDiario(arrPM10,horas,maximoL);
       dataLocal = arrPM10;
-      maximoL = 370;
-      maximoP = 75;
+      maximoP = rangoInecc(parametro,horas);
       label = "µg/m³";
     }
     else if("PM2.5" === parametro)
     {
-      promedioFinal = sacaDatoDiario(arrPM2,horas,158);
+      maximoL = 175;
+      promedioFinal = sacaDatoDiario(arrPM2,horas,maximoL);
       dataLocal = arrPM2;
-      maximoL = 158;
-      maximoP = 45;
+      maximoP = rangoInecc(parametro,horas);
       label = "µg/m³";
     }
     else if("NO2" === parametro)
     {
-      promedioFinal = sacaDatoDiario(arrNO2,horas, 0.315);
+      maximoL = 0.21;
+      promedioFinal = sacaDatoDiario(arrNO2,horas, maximoL);
       dataLocal = arrNO2;
-      maximoL = 0.315;
-      maximoP = 0.21;
+      maximoP = rangoInecc(parametro,horas);
       label = "ppm";
     }
     else if("CO" === parametro)
     {
-      promedioFinal = sacaDatoDiario(arrCO,horas,16.5);
+      maximoL = 15;
+      promedioFinal = sacaDatoDiario(arrCO,horas,maximoL);
       dataLocal = arrCO;
-      maximoL = 16.5;
-      maximoP = 11;
+      maximoP = rangoInecc(parametro,horas);
       label = "ppm";
     }
     else if("O3" === parametro)
     {
-      promedioFinal = sacaDatoDiario(arrO3,horas,0.181);
+      maximoL = 0.2;
+      promedioFinal = sacaDatoDiario(arrO3,horas,0.2);
       dataLocal = arrO3;
-      maximoL = 0.181;
-
-      if(horas === "D")
-        maximoP = 0.095;
-      else if(horas === "8")  
-        maximoP = 0.07;
-
+      maximoP = rangoInecc(parametro,horas);
+    
       label = "ppm";
     }
     else if("SO2" === parametro)
     {
-      promedioFinal = sacaDatoDiario(arrSO2,horas,0.32);
+      maximoL = 0.2;
+      promedioFinal = sacaDatoDiario(arrSO2,horas,maximoL);
       dataLocal = arrSO2;
-      maximoL = 0.32;
-      
-      if(horas === "D")
-        maximoP = 0.025;
-      else if(horas === "8")  
-        maximoP = 0.2;
-      else if(horas === "24")    
-        maximoP = 0.11;
-        
+      maximoP = rangoInecc(parametro,horas);
+
       label = "ppm";
     }
     
