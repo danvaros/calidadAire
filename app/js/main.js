@@ -131,16 +131,25 @@ $(document).ready(function()
           borderColor: window.chartColors.blue,
           pointBackgroundColor: window.chartColors.blue,
           data: [0, 10, 5, 2, 20, 30, 45],
-          pointRadius: 1,
+          fill: false,
+          pointRadius: 0.2,
         },
-          {
-              label: "Valores máximos",
-              borderColor: window.chartColors.red,
-              backgroundColor: window.chartColors.red,
-              fill: false,
-              data:[10, 10, 10, 10, 10, 10, 10],
-              pointRadius: 0.5,
-          }
+        {
+          label: "Valores máximos",
+          borderColor: window.chartColors.red,
+          backgroundColor: window.chartColors.red,
+          fill: false,
+          data:[10, 10, 10, 10, 10, 10, 10],
+          pointRadius: 0.2,
+        },
+        {
+          label: "Promedios moviles",
+          borderColor: window.chartColors.green,
+          backgroundColor: window.chartColors.green,
+          fill: false,
+          data:[10, 10, 10, 10, 10, 10, 10],
+          pointRadius: 0.2,
+        }
       ]
     },
     options:
@@ -150,18 +159,7 @@ $(document).ready(function()
         display: false
       },
       tooltips: {
-        enabled: true,
-        mode: 'single',
-        callbacks: {
-          label: function(tooltipItem, data) {
-            let label = data.datasets[tooltipItem.datasetIndex].label;
-            let value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-            return label + ': ' + value;
-          },
-          footer: function(tooltipItems, data) {
-            return ['new line', 'another line'];
-          }
-        }
+        enabled: true
       },
       scales: {
         xAxes: [{
@@ -181,11 +179,6 @@ $(document).ready(function()
     },
   });
   // fin de instancia de la grafica
-
-  var myBarChart = new Chart(ctx).Bar(data, {
-    tooltipTemplate: "<%= value %> Files"
-  });
-
 
   $(".parametro").click(function()
   {
@@ -381,75 +374,56 @@ function desabilitarGrafica()
 
 function putGrafica(parametro,horas,promedio2,maximo)
 {
-        var data = dataLocal;
-        var his_estacion =  [];
-        var labels_temp = [];
-        var values_temp = [];
+  var data = dataLocal;
+  var valores = [];
+  var promediosMoviles = [];
+  etiquetas = [];
 
-        // for (var i = 0; i < data.results.length; i++)
-        // {
-        //   if(data.results[i].parametro === parametro)
-        //   {
-        //     if(!Array.isArray(his_estacion[data.results[i].fecha]))
-        //     {
-        //       his_estacion[data.results[i].fecha] = [];
-        //       labels_temp.push(data.results[i].fecha);
-        //     }
-        //     his_estacion[data.results[i].fecha].push(data.results[i]);
-        //   }
-        // }
+  for (let index = 0; index < data.results.length; index++) 
+  {
+    if(data.results[index].valororig < maximo)
+      valores.push(data.results[index].valororig); 
+    else
+      valores.push(null); 
 
-        // var conTemp = 0;
-        // for (var i = 0; i < labels_temp.length; i++)
-        // {
-        //   var promedio = his_estacion[labels_temp[i]].length;
-        //   var suma = 0;
-        //   var arreglo = his_estacion[labels_temp[i]];
-        //   for (var j = 0; j < promedio; j++) {
-        //     if(arreglo[j].valororig < maximo && data.results[i].validoorig == 1){
-        //       suma += arreglo[j].valororig;
-        //       conTemp++;
-        //     }
-              
-        //   }
+    if(index % 23 === 0)
+      etiquetas.push(data.results[index].fecha);
+    else 
+     etiquetas.push('');
 
-        //   if((conTemp * .75) > (promedio * .75))
-        //   {
-        //     if(parametro ===  "PM10" || parametro === "PM2.5")
-        //       values_temp.push((suma/promedio).toFixed(1));
-        //     else
-        //       values_temp.push((suma/promedio).toFixed(3));
-        //   }
-        //   else
-        //   {
-        //     values_temp.push(0); 
-        //   }
-
-        // }
-
-        // valores = values_temp;
-        // //forzamos el primer valor
-        // valores[values_temp.length-1] = promedio2;
-
-        var valores = [];
-        etiquetas = [];
-        for (let index = 0; index < data.results.length; index++) 
+    if(horas != "D")
+    {
+      if(index >= horas-1)
+      {
+        var acumulado = 0;
+        var numValoresValidos = 0;
+        for (let l = index; l > index - (horas-1); l--) 
         {
-          valores.push(data.results[index].valororig); 
-          if(index % 23 == 0)
-            etiquetas.push(data.results[index].fecha);
-          else 
-            etiquetas.push(''); 
-        }
-        
-        var valoresRango = rangoInecc(parametro,horas,valores);
-        var labels_temp2 = [];
-        for (var i = 0; i < labels_temp.length; i++)
-        {
-          labels_temp2[i] = get_fecha_formato(labels_temp[i]);
+          if(data.results[l].valororig < maximo)
+          {
+            acumulado += data.results[l].valororig;
+            numValoresValidos++;
+          }
         }
 
-        actualizar_grafica_detalle(valores, etiquetas, valoresRango);
+        if(numValoresValidos  > (horas * .75)) 
+          promediosMoviles.push(acumulado/horas);
+        else
+          promediosMoviles.push(null); 
+      }
+      else
+      {
+        promediosMoviles.push(null);
+      }
+    }
+    else
+    {
+      promediosMoviles.push(null); 
+    }          
+  }
+
+  var valoresRango = rangoInecc(parametro,horas,valores);
+  actualizar_grafica_detalle(valores, etiquetas, valoresRango, promediosMoviles);
 }
 
 function rangoInecc(parametro, horas, valores)
@@ -499,10 +473,11 @@ function rangoInecc(parametro, horas, valores)
     return valoresRango;
 }
 
-function actualizar_grafica_detalle(valores,etiquetas, valoresRango)
+function actualizar_grafica_detalle(valores,etiquetas, valoresRango,promediosMoviles)
 {
   chart.data.datasets[0].data =  valores;
   chart.data.datasets[1].data =  valoresRango;
+  chart.data.datasets[2].data =  promediosMoviles;
 
   chart.data.labels =  etiquetas;
   chart.update();
