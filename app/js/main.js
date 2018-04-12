@@ -150,7 +150,18 @@ $(document).ready(function()
         display: false
       },
       tooltips: {
-        enabled: true
+        enabled: true,
+        mode: 'single',
+        callbacks: {
+          label: function(tooltipItem, data) {
+            let label = data.datasets[tooltipItem.datasetIndex].label;
+            let value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+            return label + ': ' + value;
+          },
+          footer: function(tooltipItems, data) {
+            return ['new line', 'another line'];
+          }
+        }
       },
       scales: {
         xAxes: [{
@@ -170,6 +181,11 @@ $(document).ready(function()
     },
   });
   // fin de instancia de la grafica
+
+  var myBarChart = new Chart(ctx).Bar(data, {
+    tooltipTemplate: "<%= value %> Files"
+  });
+
 
   $(".parametro").click(function()
   {
