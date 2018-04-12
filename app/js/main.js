@@ -132,7 +132,8 @@ $(document).ready(function()
           pointBackgroundColor: window.chartColors.blue,
           data: [0, 10, 5, 2, 20, 30, 45],
           fill: false,
-          pointRadius: 0.2,
+          pointRadius: 1.3,
+          borderWidth: 1,
         },
         {
           label: "Valores máximos",
@@ -140,7 +141,8 @@ $(document).ready(function()
           backgroundColor: window.chartColors.red,
           fill: false,
           data:[10, 10, 10, 10, 10, 10, 10],
-          pointRadius: 0.2,
+          pointRadius: 1.3,
+          borderWidth: 1,
         },
         {
           label: "Promedios moviles",
@@ -148,7 +150,8 @@ $(document).ready(function()
           backgroundColor: window.chartColors.green,
           fill: false,
           data:[10, 10, 10, 10, 10, 10, 10],
-          pointRadius: 0.2,
+          pointRadius: 1.3,
+          borderWidth: 1,
         }
       ]
     },
@@ -163,12 +166,11 @@ $(document).ready(function()
       },
       scales: {
         xAxes: [{
-          
-            gridLines: {
-              display: true,
-              drawBorder: true,
-              drawOnChartArea: false,
-            },
+          gridLines: {
+            display: true,
+            drawBorder: true,
+            drawOnChartArea: false,
+          },
           ticks: {
             autoSkip: false,
             maxRotation: 90,
