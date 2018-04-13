@@ -13,6 +13,8 @@ var lbls = {
 };
 
 var ant_val_arr = [];
+var ant_val_arr_rango = [];
+var ant_val_arr_promedio = [];
 var ant_lab_arr = [];
 var ant_lab_arr_dias = [];
 var ant_lab_arr_horas = [];
@@ -21,6 +23,7 @@ var arrPM10 = arrPM2 = arrNO2 = arrCO = arrO3 = arrSO2 = [];
 
 var contador_vacios = 0;
 var ant = 0;
+var banderaPromedios = true;
 
 $(document).ready(function()
 {
@@ -110,7 +113,6 @@ $(document).ready(function()
  
     var id = 'botonPM10'; 
     cambioBotonActivo(id); 
-
 
     //vamos a llenar los arreglos de todos los coantaminantes
     llenarConstaminantes(generaUrl('PM10', estacion, (24*28)),'PM10');
@@ -217,8 +219,8 @@ $(document).ready(function()
       var tam =  ant - boton;
       for (var i = 0; i < tam; i++) {
         ant_val_arr.push(chart.data.datasets[0].data.splice(0, 1));
-        ant_val_arr.push(chart.data.datasets[1].data.splice(0, 1));
-        ant_val_arr.push(chart.data.datasets[2].data.splice(0, 1));
+        ant_val_arr_rango.push(chart.data.datasets[1].data.splice(0, 1));
+        ant_val_arr_promedio.push(chart.data.datasets[2].data.splice(0, 1));
         
         ant_lab_arr.push(chart.data.labels.splice(0,1));
         ant_lab_arr_dias.push(chart.data.labels.dias.splice(0,1));
@@ -229,8 +231,8 @@ $(document).ready(function()
       var tam = boton - ant;
       for (var i = 0; i < tam; i++) {
         chart.data.datasets[0].data.unshift(ant_val_arr.pop()[0]);
-        chart.data.datasets[1].data.unshift(ant_val_arr.pop()[0]);
-        chart.data.datasets[2].data.unshift(ant_val_arr.pop()[0]);
+        chart.data.datasets[1].data.unshift(ant_val_arr_rango.pop()[0]);
+        chart.data.datasets[2].data.unshift(ant_val_arr_promedio.pop()[0]);
         
         chart.data.labels.unshift(ant_lab_arr.pop()[0]);
         chart.data.labels.dias.unshift(ant_lab_arr_dias.pop()[0]);
@@ -473,9 +475,9 @@ function putGrafica(parametro,horas,promedio2,maximo)
 
   //crear la label a mostrar
   if(horas != "D")
-    var label =  "promedio movil de "+parametro+" en "+horas+" horas";
+    var label =  "Promedio móvil de "+parametro+" en "+horas+" horas";
   else  
-    var label =  "No aplica el promedio móvil";
+    var label =  horas;
     
   actualizar_grafica_detalle(valores, etiquetas, lbls, valoresRango, promediosMoviles, label);
 }
@@ -522,16 +524,41 @@ function rangoInecc(parametro, horas)
 
 function actualizar_grafica_detalle(valores,etiquetas, lbls, valoresRango,promediosMoviles,label)
 {
-  chart.data.datasets[2].label =  label;
-
   chart.data.datasets[0].data =  valores;
   chart.data.datasets[1].data =  valoresRango;
-  chart.data.datasets[2].data =  promediosMoviles;
+  
+  if(label != "D" && banderaPromedios ===  true)
+  {
+    chart.data.datasets[2].data =  promediosMoviles;
+    chart.data.datasets[2].label =  label;
+  }
+  else if(label != "D" && banderaPromedios ===  false)
+  {
+    var objtemp = 
+    {
+      label: label,
+      borderColor: window.chartColors.green,
+      backgroundColor: window.chartColors.green,
+      fill: false,
+      data:promediosMoviles,
+      pointRadius: 1.3,
+      borderWidth: 1,
+    };
 
+    chart.data.datasets.push(objtemp);
+    banderaPromedios = true;
+  }
+  else if(label === "D" && banderaPromedios ===  true)
+  {
+    chart.data.datasets.pop();
+    banderaPromedios = false;
+  }
+  
   chart.data.labels =  etiquetas;
   chart.data.labels.dias = lbls.days;
   chart.data.labels.horas = lbls.hours;
   chart.update();
+
   poner_botones(valores);
 }
 
@@ -877,9 +904,6 @@ function sacaDatoDiario(data,horas,max)
 {
   if(horas != "D")
   {
-    // const dActual = DateFalsa();
-    // var dPasada = DateFalsa();
-
     const dActual = new Date();
     var dPasada = new Date();
 
