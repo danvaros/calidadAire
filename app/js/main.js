@@ -171,6 +171,11 @@ $(document).ready(function()
             return data.labels.dias[tooltipItem[0]['index']] + "  --  " +
                    data.labels.horas[tooltipItem[0]['index']] + ' hrs';
           },
+          label: function(tooltipItem, data) {
+            var dat = data.datasets[tooltipItem.datasetIndex].data[tooltipItem['index']].toString();
+            return data.datasets[tooltipItem.datasetIndex].label + ': ' +
+                   dat.substring(0, dat.indexOf('.') + 4);
+          },
         },
       },
       scales: {
