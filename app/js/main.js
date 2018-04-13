@@ -14,10 +14,13 @@ var lbls = {
 
 var ant_val_arr = [];
 var ant_lab_arr = [];
+var ant_lab_arr_dias = [];
+var ant_lab_arr_horas = [];
 
 var arrPM10 = arrPM2 = arrNO2 = arrCO = arrO3 = arrSO2 = [];
 
 var contador_vacios = 0;
+var ant = 0;
 
 $(document).ready(function()
 {
@@ -163,7 +166,7 @@ $(document).ready(function()
     {
       legend:
       {
-        display: false
+        display: true
       },
       tooltips: {
         callbacks: {
@@ -207,19 +210,55 @@ $(document).ready(function()
     $( this ).addClass("active");
 
     var boton = parseInt($( this ).val(), 10);
+    var tam_dataset = (chart.data.datasets[0].data.length);
+    console.log('====================================');
+    console.log(tam_dataset);
+    console.log(chart.data.datasets[0].data.length);
+    console.log('====================================');
+    
+
+    console.log('====================================');
+    console.log(chart.data.datasets[0].data);
+    console.log(chart.data.labels);
+    console.log('====================================');
+
+    
+    chart.data.labels =  etiquetas;
+    
+
+
     if(ant > boton){
       var tam =  ant - boton;
       for (var i = 0; i < tam; i++) {
         ant_val_arr.push(chart.data.datasets[0].data.splice(0, 1));
-        ant_lab_arr.push(chart.data.labels.splice(0, 1));
+        ant_val_arr.push(chart.data.datasets[1].data.splice(0, 1));
+        ant_val_arr.push(chart.data.datasets[2].data.splice(0, 1));
+        
+        ant_lab_arr.push(chart.data.labels.splice(0,1));
+        ant_lab_arr_dias.push(chart.data.labels.dias.splice(0,1));
+        ant_lab_arr_horas.push(chart.data.labels.horas.splice(0,1));
+         
       }
     }else if(ant < boton){
       var tam = boton - ant;
       for (var i = 0; i < tam; i++) {
         chart.data.datasets[0].data.unshift(ant_val_arr.pop()[0]);
+        chart.data.datasets[1].data.unshift(ant_val_arr.pop()[0]);
+        chart.data.datasets[2].data.unshift(ant_val_arr.pop()[0]);
+        
         chart.data.labels.unshift(ant_lab_arr.pop()[0]);
+        chart.data.labels.dias.unshift(ant_lab_arr_dias.pop()[0]);
+        chart.data.labels.horas.unshift(ant_lab_arr_horas.pop()[0]);
       }
+      
     }
+
+    
+
+    console.log('====================================');
+    console.log(ant_val_arr);
+    console.log(ant_lab_arr);
+    console.log('====================================');
 
     ant = boton;
     chart.update();
@@ -452,7 +491,14 @@ function putGrafica(parametro,horas,promedio2,maximo)
   {
     valoresRango[i] = rango;
   }
-  actualizar_grafica_detalle(valores, etiquetas, lbls, valoresRango, promediosMoviles);
+
+  //crear la label a mostrar
+  if(horas != "D")
+    var label =  "promedio movil de "+parametro+" en "+horas+" horas";
+  else  
+    var label =  "No aplica el promedio móvil";
+    
+  actualizar_grafica_detalle(valores, etiquetas, lbls, valoresRango, promediosMoviles, label);
 }
 
 function rangoInecc(parametro, horas)
@@ -495,8 +541,12 @@ function rangoInecc(parametro, horas)
     return rango;
 }
 
-function actualizar_grafica_detalle(valores,etiquetas, lbls, valoresRango,promediosMoviles)
+function actualizar_grafica_detalle(valores,etiquetas, lbls, valoresRango,promediosMoviles,label)
 {
+  console.log(chart.data.datasets[0]);
+  
+  chart.data.datasets[2].label =  label;
+
   chart.data.datasets[0].data =  valores;
   chart.data.datasets[1].data =  valoresRango;
   chart.data.datasets[2].data =  promediosMoviles;
@@ -833,7 +883,7 @@ function cambioParametro(parametro, horas,id,titulo,lb)
       putGrafica(parametro, horas, promedioFinalFix,maximoL);
 
       $(".chart-gauge").html("");
-      $(".chart-gauge").gaugeIt({selector:".chart-gauge",value:promedioFinalFix,label:label,gaugeMaxValue:maximoL});
+      $(".chart-gauge").gaugeIt({selector:".chart-gauge",value:promedioFinalFix,label:label,gaugeMaxValue:maximoP*2});
     }
     else
     {
@@ -841,7 +891,7 @@ function cambioParametro(parametro, horas,id,titulo,lb)
     
       putGrafica(parametro, horas, promedioFinal,maximoL);
       $(".chart-gauge").html("");
-      $(".chart-gauge").gaugeIt({ selector: ".chart-gauge", value: 0, label: label, gaugeMaxValue: maximoL});
+      $(".chart-gauge").gaugeIt({ selector: ".chart-gauge", value: 0, label: label, gaugeMaxValue: maximoP*2});
     }
   }
 }
