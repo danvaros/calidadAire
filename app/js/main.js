@@ -7,6 +7,10 @@ var mymap = L.map("mapid").setView([16.8889,-100], 5);
 var valores = [];
 var valoresRango = [];
 var etiquetas = [];
+var lbls = {
+  days: [],
+  hours: []
+};
 
 var ant_val_arr = [];
 var ant_lab_arr = [];
@@ -162,7 +166,12 @@ $(document).ready(function()
         display: false
       },
       tooltips: {
-        enabled: true
+        callbacks: {
+          title: function (tooltipItem, data) {
+            return data.labels.dias[tooltipItem[0]['index']] + "  --  " +
+                   data.labels.horas[tooltipItem[0]['index']] + ' hrs';
+          },
+        },
       },
       scales: {
         xAxes: [{
@@ -368,7 +377,7 @@ function desabilitarGrafica()
       valores[i] =  null;
       valoresRango[i] = null;
   }
-  actualizar_grafica_detalle(valores, etiquetas);
+  actualizar_grafica_detalle(valores, etiquetas, lbls);
   //ocultamos la botonera para que no se pueda utilizar
   $(".botonera").hide();
 }
@@ -380,6 +389,8 @@ function putGrafica(parametro,horas,promedio2,maximo)
   var valores = [];
   var promediosMoviles = [];
   etiquetas = [];
+  lbls.days = [];
+  lbls.hours = [];
 
   for (let index = 0; index < data.results.length; index++) 
   {
@@ -387,6 +398,11 @@ function putGrafica(parametro,horas,promedio2,maximo)
       valores.push(data.results[index].valororig); 
     else
       valores.push(null); 
+
+    // Agrega todas las fechas
+    lbls.days.push(data.results[index].fecha);
+    // Agrega todas las horas
+    lbls.hours.push(data.results[index].date.substring(11, 16));
 
     if(index % 23 === 0)
       etiquetas.push(data.results[index].fecha);
@@ -430,7 +446,7 @@ function putGrafica(parametro,horas,promedio2,maximo)
   {
     valoresRango[i] = rango;
   }
-  actualizar_grafica_detalle(valores, etiquetas, valoresRango, promediosMoviles);
+  actualizar_grafica_detalle(valores, etiquetas, lbls, valoresRango, promediosMoviles);
 }
 
 function rangoInecc(parametro, horas)
@@ -473,13 +489,15 @@ function rangoInecc(parametro, horas)
     return rango;
 }
 
-function actualizar_grafica_detalle(valores,etiquetas, valoresRango,promediosMoviles)
+function actualizar_grafica_detalle(valores,etiquetas, lbls, valoresRango,promediosMoviles)
 {
   chart.data.datasets[0].data =  valores;
   chart.data.datasets[1].data =  valoresRango;
   chart.data.datasets[2].data =  promediosMoviles;
 
   chart.data.labels =  etiquetas;
+  chart.data.labels.dias = lbls.days;
+  chart.data.labels.horas = lbls.hours;
   chart.update();
   poner_botones(valores);
 }
