@@ -401,9 +401,10 @@ function putGrafica(parametro,horas,promedio2,maximo)
         var numValoresValidos = 0;
         for (let l = index; l > index - (horas-1); l--) 
         {
-          if(data.results[l].valororig < maximo)
+          var valororig = data.results[l].valororig;
+          if(valororig < maximo)
           {
-            acumulado += data.results[l].valororig;
+            acumulado += valororig;
             numValoresValidos++;
           }
         }
