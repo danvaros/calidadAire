@@ -513,7 +513,7 @@ function poner_botones(valores)
   var parametro =  valores.length/4
 
   $(".parametro").each(function(index){
-    $( this ).text(Math.round(parametro*(index+1))+" días");
+    $( this ).text(Math.round(parametro*(index+1) / 23)+" días");
     $( this ).val(Math.round(parametro*(index+1)));
   });
 }
