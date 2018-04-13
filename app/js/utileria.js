@@ -48,6 +48,15 @@ function reset_botones(){
   });
 
   $('#pinta_primero').addClass('active');
+
+  ant_val_arr = [];
+  ant_val_arr_rango = [];
+  ant_val_arr_promedio = [];
+  
+  ant_lab_arr = [];
+  ant_lab_arr_dias = [];
+  ant_lab_arr_horas = [];
+
 }
 
 function get_fecha_formato(fecha)
