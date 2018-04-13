@@ -201,13 +201,10 @@ $(document).ready(function()
   });
   // fin de instancia de la grafica
 
-  $(".parametro").click(function()
+  $(".parametro").click(function(event)
   {
     event.preventDefault();
-
-    $(".parametro").each(function(index){
-      $( this ).removeClass("active");
-    });
+    $(".parametro").removeClass("active");
 
     $( this ).addClass("active");
 
@@ -220,7 +217,9 @@ $(document).ready(function()
       for (var i = 0; i < tam; i++) {
         ant_val_arr.push(chart.data.datasets[0].data.splice(0, 1));
         ant_val_arr_rango.push(chart.data.datasets[1].data.splice(0, 1));
-        ant_val_arr_promedio.push(chart.data.datasets[2].data.splice(0, 1));
+        if (chart.data.datasets.length > 2) {
+          ant_val_arr_promedio.push(chart.data.datasets[2].data.splice(0, 1));
+        }
         
         ant_lab_arr.push(chart.data.labels.splice(0,1));
         ant_lab_arr_dias.push(chart.data.labels.dias.splice(0,1));
@@ -232,7 +231,9 @@ $(document).ready(function()
       for (var i = 0; i < tam; i++) {
         chart.data.datasets[0].data.unshift(ant_val_arr.pop()[0]);
         chart.data.datasets[1].data.unshift(ant_val_arr_rango.pop()[0]);
-        chart.data.datasets[2].data.unshift(ant_val_arr_promedio.pop()[0]);
+        if (chart.data.datasets.length > 2) {
+          chart.data.datasets[2].data.unshift(ant_val_arr_promedio.pop()[0]);
+        }
         
         chart.data.labels.unshift(ant_lab_arr.pop()[0]);
         chart.data.labels.dias.unshift(ant_lab_arr_dias.pop()[0]);
