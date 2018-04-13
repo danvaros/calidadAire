@@ -211,22 +211,8 @@ $(document).ready(function()
 
     var boton = parseInt($( this ).val(), 10);
     var tam_dataset = (chart.data.datasets[0].data.length);
-    console.log('====================================');
-    console.log(tam_dataset);
-    console.log(chart.data.datasets[0].data.length);
-    console.log('====================================');
-    
-
-    console.log('====================================');
-    console.log(chart.data.datasets[0].data);
-    console.log(chart.data.labels);
-    console.log('====================================');
-
-    
     chart.data.labels =  etiquetas;
     
-
-
     if(ant > boton){
       var tam =  ant - boton;
       for (var i = 0; i < tam; i++) {
@@ -252,13 +238,6 @@ $(document).ready(function()
       }
       
     }
-
-    
-
-    console.log('====================================');
-    console.log(ant_val_arr);
-    console.log(ant_lab_arr);
-    console.log('====================================');
 
     ant = boton;
     chart.update();
@@ -543,8 +522,6 @@ function rangoInecc(parametro, horas)
 
 function actualizar_grafica_detalle(valores,etiquetas, lbls, valoresRango,promediosMoviles,label)
 {
-  console.log(chart.data.datasets[0]);
-  
   chart.data.datasets[2].label =  label;
 
   chart.data.datasets[0].data =  valores;
