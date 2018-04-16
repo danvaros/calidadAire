@@ -359,7 +359,7 @@ function hacerFechaValida(fecha)
   var tiempoPartido =  fechaPartida[1].split(".");
   
   var year = fechaPartida[0].split("-")[0];
-  var mes = fechaPartida[0].split("-")[1];
+  var mes = parseInt(fechaPartida[0].split("-")[1], 10) - 1;
   var dia = fechaPartida[0].split("-")[2];
 
   var hora = tiempoPartido[0].split(":")[0];
@@ -909,20 +909,28 @@ function sacaDatoDiario(data,horas,max)
     var dPasada = new Date();
     dPasada.setHours(dActual.getHours() - horas);
 
-
     console.log('-------------------');
     console.log('------- Horas -------');
     console.log('-------------------');
     console.log(dActual);
     console.log(dPasada);
 
+    console.log('-------------------');
+    console.log('------- Horas a evaluar -------');
+    console.log('-------------------');
 
     var datos =  data.results;
     var arrTemp = [];
 
-    for (let index = datos.length - 1; index >= 0;  index--)
+
+
+    var fecha_evaluar = datos[0]["date"];
+    var fechaValida = hacerFechaValida(fecha_evaluar);
+
+
+    for (let index = datos.length - 1; index > 0;  index--)
     {
-      var fechaValida = hacerFechaValida(datos[index]["date-insert"]);
+      var fechaValida = hacerFechaValida(datos[index]["date"]);
       console.log(fechaValida);
       if(fechaValida.getTime() >= dPasada.getTime() )
       {
