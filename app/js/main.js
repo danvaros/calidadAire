@@ -907,8 +907,15 @@ function sacaDatoDiario(data,horas,max)
   {
     const dActual = new Date();
     var dPasada = new Date();
-
     dPasada.setHours(dActual.getHours() - horas);
+
+
+    console.log('-------------------');
+    console.log('------- Horas -------');
+    console.log('-------------------');
+    console.log(dActual);
+    console.log(dPasada);
+
 
     var datos =  data.results;
     var arrTemp = [];
@@ -916,7 +923,7 @@ function sacaDatoDiario(data,horas,max)
     for (let index = datos.length - 1; index >= 0;  index--)
     {
       var fechaValida = hacerFechaValida(datos[index]["date-insert"]);
-     
+      console.log(fechaValida);
       if(fechaValida.getTime() >= dPasada.getTime() )
       {
         arrTemp.push(datos[index]);
@@ -933,12 +940,53 @@ function sacaDatoDiario(data,horas,max)
     
     for (let index = 0; index < arrTemp.length; index++)
     {
+      
       if(arrTemp[index].valororig < max && arrTemp[index].validoorig === 1)
-      {
+      {    
+
+        // console.log(datos[index].valororig);
+        // console.log(datos[index].date);
+
         acumulado += arrTemp[index].valororig;
         promedio++;
       }
     }
+    console.log('-------------------');
+    console.log('------- Uno -------');
+    console.log('-------------------');
+    
+    console.log(promedio);
+    console.log(acumulado);
+    console.log(acumulado/promedio);
+    
+    console.log('-------------------');
+
+    promedio = 0;
+    acumulado = 0;
+    var tamDatos = datos.length-1;
+    for (let l = tamDatos; l > tamDatos - horas; l--)
+    {    
+      if(datos[l].valororig < max && datos[l].validoorig === 1)
+      {
+        // console.log(datos[l].valororig);
+        // console.log(datos[l].date);  
+        
+        acumulado += datos[l].valororig;
+        promedio++;
+      } 
+    }
+    
+
+    console.log('-------------------');
+    console.log('------- dos -------');
+    console.log('-------------------');
+    
+    console.log(promedio);
+    console.log(acumulado);
+    console.log(acumulado/promedio);
+    
+    console.log('-------------------');
+
     
     if((arrTemp.length * .75) < promedio )
     {
