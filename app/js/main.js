@@ -414,6 +414,7 @@ function putGrafica(parametro,horas,promedio2,maximo)
   var data = dataLocal;
   var valores = [];
   var promediosMoviles = [];
+  const hora = 3600000;
   etiquetas = [];
   lbls.days = [];
   lbls.hours = [];
@@ -441,14 +442,21 @@ function putGrafica(parametro,horas,promedio2,maximo)
       {
         var acumulado = 0;
         var numValoresValidos = 0;
-        for (let l = index; l > index - (horas-1); l--) 
+        const dActual = hacerFechaValida(data.results[index].date).getTime();
+        var dPasada = dActual - (hora * horas);
+
+        for (let l = index; l >= index - (horas-1); l--) 
         {
-          var valororig = data.results[l].valororig;
-          if(valororig < maximo)
+          var fechaValidar = hacerFechaValida(data.results[l].date);
+          if(fechaValidar.getTime() > dPasada && fechaValidar.getTime() <= dActual)
           {
-            acumulado += valororig;
-            numValoresValidos++;
-          }
+            var valororig = data.results[l].valororig;
+            if(valororig < maximo)
+            {
+              acumulado += valororig;
+              numValoresValidos++;
+            }
+          }         
         }
 
         if(numValoresValidos  > (horas * .75)) 
@@ -909,30 +917,14 @@ function sacaDatoDiario(data,horas,max)
     var dPasada = new Date();
     dPasada.setHours(dActual.getHours() - horas);
 
-    console.log('-------------------');
-    console.log('------- Horas -------');
-    console.log('-------------------');
-    console.log(dActual);
-    console.log(dPasada);
-
-    console.log('-------------------');
-    console.log('------- Horas a evaluar -------');
-    console.log('-------------------');
-
     var datos =  data.results;
     var arrTemp = [];
-
-
-
-    var fecha_evaluar = datos[0]["date"];
-    var fechaValida = hacerFechaValida(fecha_evaluar);
-
 
     for (let index = datos.length - 1; index > 0;  index--)
     {
       var fechaValida = hacerFechaValida(datos[index]["date"]);
-      console.log(fechaValida);
-      if(fechaValida.getTime() >= dPasada.getTime() )
+      
+      if(fechaValida.getTime() >= dPasada.getTime() && fechaValida.getTime() <= dActual.getTime())
       {
         arrTemp.push(datos[index]);
       }
@@ -952,22 +944,12 @@ function sacaDatoDiario(data,horas,max)
       if(arrTemp[index].valororig < max && arrTemp[index].validoorig === 1)
       {    
 
-        // console.log(datos[index].valororig);
-        // console.log(datos[index].date);
 
         acumulado += arrTemp[index].valororig;
         promedio++;
       }
     }
-    console.log('-------------------');
-    console.log('------- Uno -------');
-    console.log('-------------------');
-    
-    console.log(promedio);
-    console.log(acumulado);
-    console.log(acumulado/promedio);
-    
-    console.log('-------------------');
+
 
     promedio = 0;
     acumulado = 0;
@@ -975,25 +957,12 @@ function sacaDatoDiario(data,horas,max)
     for (let l = tamDatos; l > tamDatos - horas; l--)
     {    
       if(datos[l].valororig < max && datos[l].validoorig === 1)
-      {
-        // console.log(datos[l].valororig);
-        // console.log(datos[l].date);  
-        
+      {   
         acumulado += datos[l].valororig;
         promedio++;
       } 
     }
     
-
-    console.log('-------------------');
-    console.log('------- dos -------');
-    console.log('-------------------');
-    
-    console.log(promedio);
-    console.log(acumulado);
-    console.log(acumulado/promedio);
-    
-    console.log('-------------------');
 
     
     if((arrTemp.length * .75) < promedio )
