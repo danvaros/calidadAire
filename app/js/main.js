@@ -11,6 +11,7 @@ var lbls = {
   days: [],
   hours: []
 };
+var lastAverageOrData = 0;
 
 var ant_val_arr = [];
 var ant_val_arr_rango = [];
@@ -395,7 +396,7 @@ function desabilitarGrafica()
   var valor = 0;
   var maximo = 100;
   $(".chart-gauge").html("");
-  $(".chart-gauge").gaugeIt({selector:".chart-gauge",value:valor,gaugeMaxValue:maximo});
+  $(".chart-gauge").gaugeIt({ selector: ".chart-gauge", value: lastAverageOrData,gaugeMaxValue:maximo});
 
   //vaciamos la grafica para mostrar que no tenemos lectura
   for(var i=0; i< valores.length; i++)
@@ -474,6 +475,16 @@ function putGrafica(parametro,horas,promedio2,maximo)
       promediosMoviles.push(null); 
     }          
   }
+
+  // Obtiene el último dato o promedio
+  if (promediosMoviles[promediosMoviles.length - 1] === null) {
+    lastAverageOrData = data.results[data.results.length - 1].valororig;
+  } else {
+    lastAverageOrData = promediosMoviles[promediosMoviles.length - 1];
+  }
+  // Corta el valor a sólo 3 decimales
+  lastAverageOrData = lastAverageOrData.toString();
+  lastAverageOrData = lastAverageOrData.substring(0, lastAverageOrData.indexOf('.') + 4);
 
   var rango = rangoInecc(parametro,horas);
   var valoresRango = [];
@@ -896,7 +907,7 @@ function cambioParametro(parametro, horas,id,titulo,lb)
       putGrafica(parametro, horas, promedioFinalFix,maximoL);
 
       $(".chart-gauge").html("");
-      $(".chart-gauge").gaugeIt({selector:".chart-gauge",value:promedioFinalFix,label:label,gaugeMaxValue:maximoP*2});
+      $(".chart-gauge").gaugeIt({ selector: ".chart-gauge", value: lastAverageOrData,label:label,gaugeMaxValue:maximoP*2});
     }
     else
     {
@@ -904,7 +915,7 @@ function cambioParametro(parametro, horas,id,titulo,lb)
     
       putGrafica(parametro, horas, promedioFinal,maximoL);
       $(".chart-gauge").html("");
-      $(".chart-gauge").gaugeIt({ selector: ".chart-gauge", value: 0, label: label, gaugeMaxValue: maximoP*2});
+      $(".chart-gauge").gaugeIt({ selector: ".chart-gauge", value: lastAverageOrData, label: label, gaugeMaxValue: maximoP*2});
     }
   }
 }
@@ -922,9 +933,11 @@ function sacaDatoDiario(data,horas,max)
 
     for (let index = datos.length - 1; index > 0;  index--)
     {
+
       var fechaValida = hacerFechaValida(datos[index]["date"]);
       
       if(fechaValida.getTime() >= dPasada.getTime() && fechaValida.getTime() <= dActual.getTime())
+
       {
         arrTemp.push(datos[index]);
       }
@@ -942,15 +955,12 @@ function sacaDatoDiario(data,horas,max)
     {
       
       if(arrTemp[index].valororig < max && arrTemp[index].validoorig === 1)
+
       {    
-
-
         acumulado += arrTemp[index].valororig;
         promedio++;
       }
     }
-
-
     promedio = 0;
     acumulado = 0;
     var tamDatos = datos.length-1;
@@ -958,13 +968,11 @@ function sacaDatoDiario(data,horas,max)
     {    
       if(datos[l].valororig < max && datos[l].validoorig === 1)
       {   
+
         acumulado += datos[l].valororig;
         promedio++;
       } 
     }
-    
-
-    
     if((arrTemp.length * .75) < promedio )
     {
       return acumulado/promedio;
