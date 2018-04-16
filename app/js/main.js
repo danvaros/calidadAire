@@ -907,8 +907,15 @@ function sacaDatoDiario(data,horas,max)
   {
     const dActual = new Date();
     var dPasada = new Date();
-
     dPasada.setHours(dActual.getHours() - horas);
+
+
+    console.log('-------------------');
+    console.log('------- Horas -------');
+    console.log('-------------------');
+    console.log(dActual);
+    console.log(dPasada);
+
 
     var datos =  data.results;
     var arrTemp = [];
@@ -916,7 +923,7 @@ function sacaDatoDiario(data,horas,max)
     for (let index = datos.length - 1; index >= 0;  index--)
     {
       var fechaValida = hacerFechaValida(datos[index]["date-insert"]);
-     
+      console.log(fechaValida);
       if(fechaValida.getTime() >= dPasada.getTime() )
       {
         arrTemp.push(datos[index]);
@@ -937,8 +944,8 @@ function sacaDatoDiario(data,horas,max)
       if(arrTemp[index].valororig < max && arrTemp[index].validoorig === 1)
       {    
 
-        console.log(datos[index].valororig);
-        console.log(datos[index].date);
+        // console.log(datos[index].valororig);
+        // console.log(datos[index].date);
 
         acumulado += arrTemp[index].valororig;
         promedio++;
