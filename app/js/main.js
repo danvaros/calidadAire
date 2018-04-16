@@ -360,7 +360,7 @@ function hacerFechaValida(fecha)
   var tiempoPartido =  fechaPartida[1].split(".");
   
   var year = fechaPartida[0].split("-")[0];
-  var mes = fechaPartida[0].split("-")[1];
+  var mes = parseInt(fechaPartida[0].split("-")[1], 10) - 1;
   var dia = fechaPartida[0].split("-")[2];
 
   var hora = tiempoPartido[0].split(":")[0];
@@ -415,6 +415,7 @@ function putGrafica(parametro,horas,promedio2,maximo)
   var data = dataLocal;
   var valores = [];
   var promediosMoviles = [];
+  const hora = 3600000;
   etiquetas = [];
   lbls.days = [];
   lbls.hours = [];
@@ -442,14 +443,21 @@ function putGrafica(parametro,horas,promedio2,maximo)
       {
         var acumulado = 0;
         var numValoresValidos = 0;
-        for (let l = index; l > index - (horas-1); l--) 
+        const dActual = hacerFechaValida(data.results[index].date).getTime();
+        var dPasada = dActual - (hora * horas);
+
+        for (let l = index; l >= index - (horas-1); l--) 
         {
-          var valororig = data.results[l].valororig;
-          if(valororig < maximo)
+          var fechaValidar = hacerFechaValida(data.results[l].date);
+          if(fechaValidar.getTime() > dPasada && fechaValidar.getTime() <= dActual)
           {
-            acumulado += valororig;
-            numValoresValidos++;
-          }
+            var valororig = data.results[l].valororig;
+            if(valororig < maximo)
+            {
+              acumulado += valororig;
+              numValoresValidos++;
+            }
+          }         
         }
 
         if(numValoresValidos  > (horas * .75)) 
@@ -923,10 +931,13 @@ function sacaDatoDiario(data,horas,max)
     var datos =  data.results;
     var arrTemp = [];
 
-    for (let index = datos.length - 1; index >= 0;  index--)
+    for (let index = datos.length - 1; index > 0;  index--)
     {
-      var fechaValida = hacerFechaValida(datos[index]["date-insert"]);
-      if(fechaValida.getTime() >= dPasada.getTime() )
+
+      var fechaValida = hacerFechaValida(datos[index]["date"]);
+      
+      if(fechaValida.getTime() >= dPasada.getTime() && fechaValida.getTime() <= dActual.getTime())
+
       {
         arrTemp.push(datos[index]);
       }
@@ -944,25 +955,24 @@ function sacaDatoDiario(data,horas,max)
     {
       
       if(arrTemp[index].valororig < max && arrTemp[index].validoorig === 1)
-      {
 
+      {    
         acumulado += arrTemp[index].valororig;
         promedio++;
       }
     }
-
     promedio = 0;
     acumulado = 0;
     var tamDatos = datos.length-1;
     for (let l = tamDatos; l > tamDatos - horas; l--)
     {    
       if(datos[l].valororig < max && datos[l].validoorig === 1)
-      { 
+      {   
+
         acumulado += datos[l].valororig;
         promedio++;
       } 
     }
-
     if((arrTemp.length * .75) < promedio )
     {
       return acumulado/promedio;
