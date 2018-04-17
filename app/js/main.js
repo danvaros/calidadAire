@@ -458,7 +458,7 @@ function getNewDatas(data) {
     } else {
       newData.push({
         date: val.date,
-        'date-insert': val['data-insert'],
+        'date-insert': val['date-insert'],
         fecha: val.fecha,
         hora: val.hora,
         parametro: val.parametro,
