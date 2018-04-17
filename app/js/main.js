@@ -409,10 +409,53 @@ function desabilitarGrafica()
   $(".botonera").hide();
 }
 
+function getNewDatas(data) {
+  var newData = [];
+  var missing = 0;
+
+  data.results.forEach(function(val, ind) {
+    if (ind < data.results.length - 1) {
+      missing = data.results[ind + 1].hora - val.hora - 1;
+
+      newData.push(val);
+
+      if (missing >= 1) {
+        for (var i = 1; i <= missing; i++) {
+          newData.push({
+            date: val.date,
+            'date-insert': val['data-insert'],
+            fecha: val.fecha,
+            hora: val.hora + i,
+            parametro: val.parametro,
+            validoorig: val.validoorig,
+            valororig: null
+          });
+        }
+      }
+
+      if (val.hora <= 23 && data.results[ind + 1].hora === 0) {
+        for (var i = val.hora + 1; i <= 23; i++) {
+          newData.push({
+            date: val.date,
+            'date-insert': val['data-insert'],
+            fecha: val.fecha,
+            hora: i,
+            parametro: val.parametro,
+            validoorig: val.validoorig,
+            valororig: null
+          });
+        }
+      }
+    }
+  });
+
+  return newData;
+}
 
 function putGrafica(parametro,horas,promedio2,maximo)
 {
-  var data = dataLocal;
+  //var data = dataLocal;
+  var data = getNewDatas(dataLocal);
   var valores = [];
   var promediosMoviles = [];
   const hora = 3600000;
@@ -420,20 +463,20 @@ function putGrafica(parametro,horas,promedio2,maximo)
   lbls.days = [];
   lbls.hours = [];
 
-  for (let index = 0; index < data.results.length; index++) 
+  for (let index = 0; index < data.length; index++) 
   {
-    if(data.results[index].valororig < maximo)
-      valores.push(data.results[index].valororig); 
+    if(data[index].valororig < maximo)
+      valores.push(data[index].valororig); 
     else
       valores.push(null); 
 
     // Agrega todas las fechas
-    lbls.days.push(data.results[index].fecha);
+    lbls.days.push(data[index].fecha);
     // Agrega todas las horas
-    lbls.hours.push(data.results[index].date.substring(11, 16));
+    lbls.hours.push(data[index].date.substring(11, 16));
 
     if(index % 23 === 0)
-      etiquetas.push(data.results[index].fecha);
+      etiquetas.push(data[index].fecha);
     else 
      etiquetas.push('');
 
@@ -443,15 +486,15 @@ function putGrafica(parametro,horas,promedio2,maximo)
       {
         var acumulado = 0;
         var numValoresValidos = 0;
-        const dActual = hacerFechaValida(data.results[index].date).getTime();
+        const dActual = hacerFechaValida(data[index].date).getTime();
         var dPasada = dActual - (hora * horas);
 
         for (let l = index; l >= index - (horas-1); l--) 
         {
-          var fechaValidar = hacerFechaValida(data.results[l].date);
+          var fechaValidar = hacerFechaValida(data[l].date);
           if(fechaValidar.getTime() > dPasada && fechaValidar.getTime() <= dActual)
           {
-            var valororig = data.results[l].valororig;
+            var valororig = data[l].valororig;
             if(valororig < maximo)
             {
               acumulado += valororig;
@@ -478,7 +521,7 @@ function putGrafica(parametro,horas,promedio2,maximo)
 
   // Obtiene el último dato o promedio
   if (promediosMoviles[promediosMoviles.length - 1] === null) {
-    lastAverageOrData = data.results[data.results.length - 1].valororig;
+    lastAverageOrData = data[data.length - 1].valororig;
   } else {
     lastAverageOrData = promediosMoviles[promediosMoviles.length - 1];
   }
