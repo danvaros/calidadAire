@@ -423,7 +423,7 @@ function getNewDatas(data) {
         for (var i = 1; i <= missing; i++) {
           newData.push({
             date: val.date,
-            'date-insert': val['data-insert'],
+            'date-insert': val['date-insert'],
             fecha: val.fecha,
             hora: val.hora + i,
             parametro: val.parametro,
@@ -435,7 +435,7 @@ function getNewDatas(data) {
         for (var i = val.hora + 1; i <= 23; i++) {
           newData.push({
             date: val.date,
-            'date-insert': val['data-insert'],
+            'date-insert': val['date-insert'],
             fecha: val.fecha,
             hora: i,
             parametro: val.parametro,
@@ -446,8 +446,8 @@ function getNewDatas(data) {
         for (var i = 0; i <= data.results[ind + 1].hora - 1; i++) {
           newData.push({
             date: data.results[ind + 1].date,
-            'date-insert': val['data-insert'],
-            fecha: val.fecha,
+            'date-insert': val['date-insert'],
+            fecha: data.results[ind + 1].fecha,
             hora: i,
             parametro: val.parametro,
             validoorig: val.validoorig,
@@ -458,7 +458,7 @@ function getNewDatas(data) {
     } else {
       newData.push({
         date: val.date,
-        'date-insert': val['data-insert'],
+        'date-insert': val['date-insert'],
         fecha: val.fecha,
         hora: val.hora,
         parametro: val.parametro,
@@ -473,9 +473,8 @@ function getNewDatas(data) {
 
 function putGrafica(parametro,horas,promedio2,maximo)
 {
-  //var data = dataLocal;
-  var data = getNewDatas(dataLocal);
-  console.log(data);
+  dataLocal.results = getNewDatas(dataLocal);
+  var data = dataLocal.results;
   var valores = [];
   var promediosMoviles = [];
   const hora = 3600000;
@@ -483,6 +482,7 @@ function putGrafica(parametro,horas,promedio2,maximo)
   lbls.days = [];
   lbls.hours = [];
 
+  var newInd = 0;
   for (let index = 0; index < data.length; index++) 
   {
     if(data[index].valororig < maximo)
@@ -495,10 +495,13 @@ function putGrafica(parametro,horas,promedio2,maximo)
     // Agrega todas las horas
     lbls.hours.push(data[index].date.substring(11, 16));
 
-    if(index % 23 === 0)
+    if(newInd === 23) {
       etiquetas.push(data[index].fecha);
-    else 
+      newInd = 0;
+    } else { 
      etiquetas.push('');
+     newInd++;
+    }
 
     if(horas != "D")
     {
@@ -666,7 +669,7 @@ function actualizar_grafica_detalle(valores,etiquetas, lbls, valoresRango,promed
 function poner_botones(valores)
 {
   ant = valores.length;
-  var parametro =  valores.length/4
+  var parametro = valores.length / 4;
 
   $(".parametro").each(function(index){
     $( this ).text(Math.round(parametro*(index+1) / 23)+" días");
