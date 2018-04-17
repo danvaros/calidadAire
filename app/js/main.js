@@ -475,6 +475,7 @@ function putGrafica(parametro,horas,promedio2,maximo)
 {
   //var data = dataLocal;
   var data = getNewDatas(dataLocal);
+  console.log(data);
   var valores = [];
   var promediosMoviles = [];
   const hora = 3600000;
@@ -507,25 +508,43 @@ function putGrafica(parametro,horas,promedio2,maximo)
         var numValoresValidos = 0;
         const dActual = hacerFechaValida(data[index].date).getTime();
         var dPasada = dActual - (hora * horas);
+        console.log('---------------');
+        console.log('---------------');
+
 
         for (let l = index; l >= index - (horas-1); l--) 
         {
           var fechaValidar = hacerFechaValida(data[l].date);
-          if(fechaValidar.getTime() > dPasada && fechaValidar.getTime() <= dActual)
+          if(fechaValidar.getTime() > dPasada && fechaValidar.getTime() <= dActual )
           {
             var valororig = data[l].valororig;
-            if(valororig < maximo)
+            if(valororig < maximo && valororig !== null)
             {
+       
               acumulado += valororig;
               numValoresValidos++;
+
+              console.log('fecha: '+fechaValidar +', valor: '+ valororig);
+
             }
           }         
         }
 
-        if(numValoresValidos  > (horas * .75)) 
-          promediosMoviles.push(acumulado/horas);
-        else
+        console.log('promedio: '+numValoresValidos +', 75% : '+ (horas * .75));
+        
+        if(numValoresValidos  >= (horas * .75)) 
+        {
+          promediosMoviles.push(acumulado/numValoresValidos);
+          console.log('Promedio:  ' + (acumulado/numValoresValidos));
+        }
+        else{
           promediosMoviles.push(null); 
+          console.log('Promedio:  null');
+        }
+          
+
+        console.log('---------------');
+        console.log('---------------');
       }
       else
       {
