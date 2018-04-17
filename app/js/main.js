@@ -473,8 +473,8 @@ function getNewDatas(data) {
 
 function putGrafica(parametro,horas,promedio2,maximo)
 {
-  dataLocal = getNewDatas(dataLocal);
-  var data = dataLocal;
+  dataLocal.results = getNewDatas(dataLocal);
+  var data = dataLocal.results;
   var valores = [];
   var promediosMoviles = [];
   const hora = 3600000;
@@ -647,7 +647,7 @@ function actualizar_grafica_detalle(valores,etiquetas, lbls, valoresRango,promed
 function poner_botones(valores)
 {
   ant = valores.length;
-  var parametro =  valores.length/4
+  var parametro = valores.length / 4;
 
   $(".parametro").each(function(index){
     $( this ).text(Math.round(parametro*(index+1) / 23)+" días");
