@@ -431,9 +431,7 @@ function getNewDatas(data) {
             valororig: null
           });
         }
-      }
-
-      if (val.hora <= 23 && data.results[ind + 1].hora === 0) {
+      } else if (data.results[ind + 1].hora >= 0 && data.results[ind + 1].fecha !== val.fecha) {
         for (var i = val.hora + 1; i <= 23; i++) {
           newData.push({
             date: val.date,
@@ -445,7 +443,28 @@ function getNewDatas(data) {
             valororig: null
           });
         }
+        for (var i = 0; i <= data.results[ind + 1].hora - 1; i++) {
+          newData.push({
+            date: data.results[ind + 1].date,
+            'date-insert': val['data-insert'],
+            fecha: val.fecha,
+            hora: i,
+            parametro: val.parametro,
+            validoorig: val.validoorig,
+            valororig: null
+          });
+        }
       }
+    } else {
+      newData.push({
+        date: val.date,
+        'date-insert': val['data-insert'],
+        fecha: val.fecha,
+        hora: val.hora,
+        parametro: val.parametro,
+        validoorig: val.validoorig,
+        valororig: val.valororig
+      });
     }
   });
 
