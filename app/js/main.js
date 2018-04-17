@@ -482,6 +482,7 @@ function putGrafica(parametro,horas,promedio2,maximo)
   lbls.days = [];
   lbls.hours = [];
 
+  var newInd = 0;
   for (let index = 0; index < data.length; index++) 
   {
     if(data[index].valororig < maximo)
@@ -494,10 +495,13 @@ function putGrafica(parametro,horas,promedio2,maximo)
     // Agrega todas las horas
     lbls.hours.push(data[index].date.substring(11, 16));
 
-    if(index % 23 === 0)
+    if(newInd === 23) {
       etiquetas.push(data[index].fecha);
-    else 
+      newInd = 0;
+    } else { 
      etiquetas.push('');
+     newInd++;
+    }
 
     if(horas != "D")
     {
