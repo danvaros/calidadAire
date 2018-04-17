@@ -423,7 +423,7 @@ function getNewDatas(data) {
         for (var i = 1; i <= missing; i++) {
           newData.push({
             date: val.date,
-            'date-insert': val['data-insert'],
+            'date-insert': val['date-insert'],
             fecha: val.fecha,
             hora: val.hora + i,
             parametro: val.parametro,
@@ -435,7 +435,7 @@ function getNewDatas(data) {
         for (var i = val.hora + 1; i <= 23; i++) {
           newData.push({
             date: val.date,
-            'date-insert': val['data-insert'],
+            'date-insert': val['date-insert'],
             fecha: val.fecha,
             hora: i,
             parametro: val.parametro,
@@ -446,8 +446,8 @@ function getNewDatas(data) {
         for (var i = 0; i <= data.results[ind + 1].hora - 1; i++) {
           newData.push({
             date: data.results[ind + 1].date,
-            'date-insert': val['data-insert'],
-            fecha: val.fecha,
+            'date-insert': val['date-insert'],
+            fecha: data.results[ind + 1].fecha,
             hora: i,
             parametro: val.parametro,
             validoorig: val.validoorig,
@@ -473,8 +473,8 @@ function getNewDatas(data) {
 
 function putGrafica(parametro,horas,promedio2,maximo)
 {
-  //var data = dataLocal;
-  var data = getNewDatas(dataLocal);
+  dataLocal = getNewDatas(dataLocal);
+  var data = dataLocal;
   var valores = [];
   var promediosMoviles = [];
   const hora = 3600000;
