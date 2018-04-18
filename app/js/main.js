@@ -475,6 +475,7 @@ function putGrafica(parametro,horas,promedio2,maximo)
 {
   dataLocal.results = getNewDatas(dataLocal);
   var data = dataLocal.results;
+  console.log(data);
   var valores = [];
   var promediosMoviles = [];
   const hora = 3600000;
@@ -514,6 +515,8 @@ function putGrafica(parametro,horas,promedio2,maximo)
         console.log('---------------');
         console.log('---------------');
 
+        console.log('horas entrada ' + new Date(dActual));
+        console.log('hora salida ' + new Date(dPasada));
 
         for (let l = index; l >= index - (horas-1); l--) 
         {
