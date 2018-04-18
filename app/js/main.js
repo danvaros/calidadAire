@@ -672,11 +672,35 @@ function actualizar_grafica_detalle(valores,etiquetas, lbls, valoresRango,promed
 function poner_botones(valores)
 {
   ant = valores.length;
-  var parametro = valores.length / 4;
+  // Convierte parámetro en valor exacto, sin englobal
+  var parametro = (valores.length / 4).toString();
+  parametro = parseInt(parametro.substring(0, parametro.indexOf(".")));
+  var daysData = etiquetas.dias.reverse();
+  var numDays = [
+    { scope: (parametro * 1), num: -1 },
+    { scope: (parametro * 2), num: 0 },
+    { scope: (parametro * 3), num: 0 },
+    { scope: (parametro * 4), num: 0 }
+  ];
+  var currentDay = "";
+  var ind = 0;
 
-  $(".parametro").each(function(index){
-    $( this ).text(Math.round(parametro*(index+1) / 23)+" días");
-    $( this ).val(Math.round(parametro*(index+1)));
+  // Observa los cambios de fechas de acuerdo al parámetro
+  daysData.forEach(function(val, i) {
+    if (val !== currentDay && i <= numDays[ind].scope) {
+      numDays[ind].num += 1;
+      currentDay = val;
+    }
+
+    if (numDays[ind].scope === i && ind < 3) {
+      ind += 1;
+      numDays[ind].num += numDays[ind - 1].num;
+    }
+  });
+
+  $(".parametro").each(function(index) {
+    $( this ).text(numDays[index].num + " días");
+    $(this).val(numDays[index].scope);
   });
 }
 
