@@ -7,13 +7,23 @@ var mymap = L.map("mapid").setView([16.8889,-100], 5);
 var valores = [];
 var valoresRango = [];
 var etiquetas = [];
+var lbls = {
+  days: [],
+  hours: []
+};
 
 var ant_val_arr = [];
+var ant_val_arr_rango = [];
+var ant_val_arr_promedio = [];
 var ant_lab_arr = [];
+var ant_lab_arr_dias = [];
+var ant_lab_arr_horas = [];
 
 var arrPM10 = arrPM2 = arrNO2 = arrCO = arrO3 = arrSO2 = [];
 
 var contador_vacios = 0;
+var ant = 0;
+var banderaPromedios = true;
 
 $(document).ready(function()
 {
@@ -104,7 +114,6 @@ $(document).ready(function()
     var id = 'botonPM10'; 
     cambioBotonActivo(id); 
 
-
     //vamos a llenar los arreglos de todos los coantaminantes
     llenarConstaminantes(generaUrl('PM10', estacion, (24*28)),'PM10');
     llenarConstaminantes(generaUrl('PM2.5', estacion, (24*28)),'PM2.5');
@@ -131,61 +140,106 @@ $(document).ready(function()
           borderColor: window.chartColors.blue,
           pointBackgroundColor: window.chartColors.blue,
           data: [0, 10, 5, 2, 20, 30, 45],
+          fill: false,
+          pointRadius: 1.3,
+          borderWidth: 1,
         },
-          {
-              label: "Valores máximos",
-              borderColor: window.chartColors.red,
-              backgroundColor: window.chartColors.red,
-              fill: false,
-              data:[10, 10, 10, 10, 10, 10, 10]
-          }
+        {
+          label: "Valores máximos",
+          borderColor: window.chartColors.red,
+          backgroundColor: window.chartColors.red,
+          fill: false,
+          data:[10, 10, 10, 10, 10, 10, 10],
+          pointRadius: 1.3,
+          borderWidth: 1,
+        },
+        {
+          label: "Promedios moviles",
+          borderColor: window.chartColors.green,
+          backgroundColor: window.chartColors.green,
+          fill: false,
+          data:[10, 10, 10, 10, 10, 10, 10],
+          pointRadius: 1.3,
+          borderWidth: 1,
+        }
       ]
     },
     options:
     {
       legend:
       {
-        display: false
+        display: true
       },
       tooltips: {
-        enabled: true
+        callbacks: {
+          title: function (tooltipItem, data) {
+            return data.labels.dias[tooltipItem[0]['index']] + "  --  " +
+                   data.labels.horas[tooltipItem[0]['index']] + ' hrs';
+          },
+          label: function(tooltipItem, data) {
+            var dat = data.datasets[tooltipItem.datasetIndex].data[tooltipItem['index']].toString();
+            return data.datasets[tooltipItem.datasetIndex].label + ': ' +
+                   dat.substring(0, dat.indexOf('.') + 4);
+          },
+        },
       },
       scales: {
         xAxes: [{
+          gridLines: {
+            display: true,
+            drawBorder: true,
+            drawOnChartArea: false,
+          },
           ticks: {
             autoSkip: false,
             maxRotation: 90,
             minRotation: 0
           }
         }]
-      }
+      },
     },
   });
   // fin de instancia de la grafica
 
-  $(".parametro").click(function()
+  $(".parametro").click(function(event)
   {
     event.preventDefault();
-
-    $(".parametro").each(function(index){
-      $( this ).removeClass("active");
-    });
+    $(".parametro").removeClass("active");
 
     $( this ).addClass("active");
 
     var boton = parseInt($( this ).val(), 10);
+    var tam_dataset = (chart.data.datasets[0].data.length);
+    chart.data.labels =  etiquetas;
+    
     if(ant > boton){
       var tam =  ant - boton;
       for (var i = 0; i < tam; i++) {
         ant_val_arr.push(chart.data.datasets[0].data.splice(0, 1));
-        ant_lab_arr.push(chart.data.labels.splice(0, 1));
+        ant_val_arr_rango.push(chart.data.datasets[1].data.splice(0, 1));
+        if (chart.data.datasets.length > 2) {
+          ant_val_arr_promedio.push(chart.data.datasets[2].data.splice(0, 1));
+        }
+        
+        ant_lab_arr.push(chart.data.labels.splice(0,1));
+        ant_lab_arr_dias.push(chart.data.labels.dias.splice(0,1));
+        ant_lab_arr_horas.push(chart.data.labels.horas.splice(0,1));
+         
       }
     }else if(ant < boton){
       var tam = boton - ant;
       for (var i = 0; i < tam; i++) {
         chart.data.datasets[0].data.unshift(ant_val_arr.pop()[0]);
+        chart.data.datasets[1].data.unshift(ant_val_arr_rango.pop()[0]);
+        if (chart.data.datasets.length > 2) {
+          chart.data.datasets[2].data.unshift(ant_val_arr_promedio.pop()[0]);
+        }
+        
         chart.data.labels.unshift(ant_lab_arr.pop()[0]);
+        chart.data.labels.dias.unshift(ant_lab_arr_dias.pop()[0]);
+        chart.data.labels.horas.unshift(ant_lab_arr_horas.pop()[0]);
       }
+      
     }
 
     ant = boton;
@@ -209,15 +263,15 @@ $(document).ready(function()
     }
     else if("SO2D" === $(this).val())
     {
-      cambioParametro("SO2","D","botonSO2D","Gas incoloro que se forman al quemar azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.","SO2 (ppm)")
+      cambioParametro("SO2","D","botonSO2D","Gas incoloro que se origina durante la combustión de carburantes fósiles que contienen azufre (petróleo, carbón, entre otros). La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.","SO2 (ppm)")
     }
     else if("SO28" === $(this).val())
     {
-      cambioParametro("SO2","8","botonSO28","Gas incoloro que se forman al quemar azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.","SO2 (ppm)");
+      cambioParametro("SO2","8","botonSO28","Gas incoloro que se origina durante la combustión de carburantes fósiles que contienen azufre (petróleo, carbón, entre otros). La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.","SO2 (ppm)");
     }
     else if("SO224" === $(this).val())
     {
-      cambioParametro("SO2","24","botonSO224","Gas incoloro que se forman al quemar azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.","SO2 (ppm)");
+      cambioParametro("SO2","24","botonSO224","Gas incoloro que se origina durante la combustión de carburantes fósiles que contienen azufre (petróleo, carbón, entre otros). La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.","SO2 (ppm)");
     }
     else if("O3D" === $(this).val())
     {
@@ -349,7 +403,7 @@ function desabilitarGrafica()
       valores[i] =  null;
       valoresRango[i] = null;
   }
-  actualizar_grafica_detalle(valores, etiquetas);
+  actualizar_grafica_detalle(valores, etiquetas, lbls);
   //ocultamos la botonera para que no se pueda utilizar
   $(".botonera").hide();
 }
@@ -357,67 +411,79 @@ function desabilitarGrafica()
 
 function putGrafica(parametro,horas,promedio2,maximo)
 {
-        var data = dataLocal;
-        var his_estacion =  [];
-        var labels_temp = [];
-        var values_temp = [];
+  var data = dataLocal;
+  var valores = [];
+  var promediosMoviles = [];
+  etiquetas = [];
+  lbls.days = [];
+  lbls.hours = [];
 
-        for (var i = 0; i < data.results.length; i++)
+  for (let index = 0; index < data.results.length; index++) 
+  {
+    if(data.results[index].valororig < maximo)
+      valores.push(data.results[index].valororig); 
+    else
+      valores.push(null); 
+
+    // Agrega todas las fechas
+    lbls.days.push(data.results[index].fecha);
+    // Agrega todas las horas
+    lbls.hours.push(data.results[index].date.substring(11, 16));
+
+    if(index % 23 === 0)
+      etiquetas.push(data.results[index].fecha);
+    else 
+     etiquetas.push('');
+
+    if(horas != "D")
+    {
+      if(index >= horas-1)
+      {
+        var acumulado = 0;
+        var numValoresValidos = 0;
+        for (let l = index; l > index - (horas-1); l--) 
         {
-          if(data.results[i].parametro === parametro)
+          var valororig = data.results[l].valororig;
+          if(valororig < maximo)
           {
-            if(!Array.isArray(his_estacion[data.results[i].fecha]))
-            {
-              his_estacion[data.results[i].fecha] = [];
-              labels_temp.push(data.results[i].fecha);
-            }
-            his_estacion[data.results[i].fecha].push(data.results[i]);
+            acumulado += valororig;
+            numValoresValidos++;
           }
         }
 
-        var conTemp = 0;
-        for (var i = 0; i < labels_temp.length; i++)
-        {
-          var promedio = his_estacion[labels_temp[i]].length;
-          var suma = 0;
-          var arreglo = his_estacion[labels_temp[i]];
-          for (var j = 0; j < promedio; j++) {
-            if(arreglo[j].valororig < maximo && data.results[i].validoorig == 1){
-              suma += arreglo[j].valororig;
-              conTemp++;
-            }
-              
-          }
+        if(numValoresValidos  > (horas * .75)) 
+          promediosMoviles.push(acumulado/horas);
+        else
+          promediosMoviles.push(null); 
+      }
+      else
+      {
+        promediosMoviles.push(null);
+      }
+    }
+    else
+    {
+      promediosMoviles.push(null); 
+    }          
+  }
 
-          if((conTemp * .75) > (promedio * .75))
-          {
-            if(parametro ===  "PM10" || parametro === "PM2.5")
-              values_temp.push((suma/promedio).toFixed(1));
-            else
-              values_temp.push((suma/promedio).toFixed(3));
-          }
-          else
-          {
-            values_temp.push(0); 
-          }
+  var rango = rangoInecc(parametro,horas);
+  var valoresRango = [];
+  for(var i = 0; i < valores.length; i++)
+  {
+    valoresRango[i] = rango;
+  }
 
-        }
-
-        valores = values_temp;
-        //forzamos el primer valor
-        valores[values_temp.length-1] = promedio2;
-        var valoresRango = rangoInecc(parametro,horas,valores);
-        var labels_temp2 = [];
-        for (var i = 0; i < labels_temp.length; i++)
-        {
-          labels_temp2[i] = get_fecha_formato(labels_temp[i]);
-        }
-        etiquetas =  labels_temp2;
-
-        actualizar_grafica_detalle(valores, etiquetas, valoresRango);
+  //crear la label a mostrar
+  if(horas != "D")
+    var label =  "Promedio móvil de "+parametro+" en "+horas+" horas";
+  else  
+    var label =  horas;
+    
+  actualizar_grafica_detalle(valores, etiquetas, lbls, valoresRango, promediosMoviles, label);
 }
 
-function rangoInecc(parametro, horas, valores)
+function rangoInecc(parametro, horas)
 {
     var rango = 0;
     var cadena = parametro+""+horas;
@@ -454,23 +520,46 @@ function rangoInecc(parametro, horas, valores)
         default:
             rango = 0;
     }
-
-    var valoresRango = [];
-    for(var i = 0; i < valores.length; i++)
-    {
-      valoresRango[i] = rango;
-    }
-
-    return valoresRango;
+    return rango;
 }
 
-function actualizar_grafica_detalle(valores,etiquetas, valoresRango)
+function actualizar_grafica_detalle(valores,etiquetas, lbls, valoresRango,promediosMoviles,label)
 {
   chart.data.datasets[0].data =  valores;
   chart.data.datasets[1].data =  valoresRango;
+  
+  if(label != "D" && banderaPromedios ===  true)
+  {
+    chart.data.datasets[2].data =  promediosMoviles;
+    chart.data.datasets[2].label =  label;
+  }
+  else if(label != "D" && banderaPromedios ===  false)
+  {
+    var objtemp = 
+    {
+      label: label,
+      borderColor: window.chartColors.green,
+      backgroundColor: window.chartColors.green,
+      fill: false,
+      data:promediosMoviles,
+      pointRadius: 1.3,
+      borderWidth: 1,
+    };
 
+    chart.data.datasets.push(objtemp);
+    banderaPromedios = true;
+  }
+  else if(label === "D" && banderaPromedios ===  true)
+  {
+    chart.data.datasets.pop();
+    banderaPromedios = false;
+  }
+  
   chart.data.labels =  etiquetas;
+  chart.data.labels.dias = lbls.days;
+  chart.data.labels.horas = lbls.hours;
   chart.update();
+
   poner_botones(valores);
 }
 
@@ -480,7 +569,7 @@ function poner_botones(valores)
   var parametro =  valores.length/4
 
   $(".parametro").each(function(index){
-    $( this ).text(Math.round(parametro*(index+1))+" días");
+    $( this ).text(Math.round(parametro*(index+1) / 23)+" días");
     $( this ).val(Math.round(parametro*(index+1)));
   });
 }
@@ -732,62 +821,52 @@ function cambioParametro(parametro, horas,id,titulo,lb)
     var label = "";
     if("PM10" === parametro)
     {
-      promedioFinal = sacaDatoDiario(arrPM10,horas,370);
+      maximoL = 600;
+      promedioFinal = sacaDatoDiario(arrPM10,horas,maximoL);
       dataLocal = arrPM10;
-      maximoL = 370;
-      maximoP = 75;
+      maximoP = rangoInecc(parametro,horas);
       label = "µg/m³";
     }
     else if("PM2.5" === parametro)
     {
-      promedioFinal = sacaDatoDiario(arrPM2,horas,158);
+      maximoL = 175;
+      promedioFinal = sacaDatoDiario(arrPM2,horas,maximoL);
       dataLocal = arrPM2;
-      maximoL = 158;
-      maximoP = 45;
+      maximoP = rangoInecc(parametro,horas);
       label = "µg/m³";
     }
     else if("NO2" === parametro)
     {
-      promedioFinal = sacaDatoDiario(arrNO2,horas, 0.315);
+      maximoL = 0.21;
+      promedioFinal = sacaDatoDiario(arrNO2,horas, maximoL);
       dataLocal = arrNO2;
-      maximoL = 0.315;
-      maximoP = 0.21;
+      maximoP = rangoInecc(parametro,horas);
       label = "ppm";
     }
     else if("CO" === parametro)
     {
-      promedioFinal = sacaDatoDiario(arrCO,horas,16.5);
+      maximoL = 15;
+      promedioFinal = sacaDatoDiario(arrCO,horas,maximoL);
       dataLocal = arrCO;
-      maximoL = 16.5;
-      maximoP = 11;
+      maximoP = rangoInecc(parametro,horas);
       label = "ppm";
     }
     else if("O3" === parametro)
     {
-      promedioFinal = sacaDatoDiario(arrO3,horas,0.181);
+      maximoL = 0.2;
+      promedioFinal = sacaDatoDiario(arrO3,horas,0.2);
       dataLocal = arrO3;
-      maximoL = 0.181;
-
-      if(horas === "D")
-        maximoP = 0.095;
-      else if(horas === "8")  
-        maximoP = 0.07;
-
+      maximoP = rangoInecc(parametro,horas);
+    
       label = "ppm";
     }
     else if("SO2" === parametro)
     {
-      promedioFinal = sacaDatoDiario(arrSO2,horas,0.32);
+      maximoL = 0.2;
+      promedioFinal = sacaDatoDiario(arrSO2,horas,maximoL);
       dataLocal = arrSO2;
-      maximoL = 0.32;
-      
-      if(horas === "D")
-        maximoP = 0.025;
-      else if(horas === "8")  
-        maximoP = 0.2;
-      else if(horas === "24")    
-        maximoP = 0.11;
-        
+      maximoP = rangoInecc(parametro,horas);
+
       label = "ppm";
     }
     
@@ -809,7 +888,7 @@ function cambioParametro(parametro, horas,id,titulo,lb)
       putGrafica(parametro, horas, promedioFinalFix,maximoL);
 
       $(".chart-gauge").html("");
-      $(".chart-gauge").gaugeIt({selector:".chart-gauge",value:promedioFinalFix,label:label,gaugeMaxValue:maximoL});
+      $(".chart-gauge").gaugeIt({selector:".chart-gauge",value:promedioFinalFix,label:label,gaugeMaxValue:maximoP*2});
     }
     else
     {
@@ -817,7 +896,7 @@ function cambioParametro(parametro, horas,id,titulo,lb)
     
       putGrafica(parametro, horas, promedioFinal,maximoL);
       $(".chart-gauge").html("");
-      $(".chart-gauge").gaugeIt({ selector: ".chart-gauge", value: 0, label: label, gaugeMaxValue: maximoL});
+      $(".chart-gauge").gaugeIt({ selector: ".chart-gauge", value: 0, label: label, gaugeMaxValue: maximoP*2});
     }
   }
 }
@@ -826,9 +905,6 @@ function sacaDatoDiario(data,horas,max)
 {
   if(horas != "D")
   {
-    // const dActual = DateFalsa();
-    // var dPasada = DateFalsa();
-
     const dActual = new Date();
     var dPasada = new Date();
 
@@ -888,9 +964,9 @@ function ponContaminantesSel()
       var options = '<option value="0">3.-Selecciona Contaminate</option>'+
       '<option value="PM10_24" title="Las partículas menores o iguales a 2.5 micras (PM2.5) están formadas primordialmente por gases y por material proveniente de la combustión. Se depositan fundamentalmente en la región traqueobronquial (tráquea hasta bronquiolo terminal), aunque pueden ingresar a los alvéolos.">PM 10 µg/m&sup3;</option>'+
           '<option value="PM2.5_24" title="Las partículas menores o iguales a 2.5 micras (PM2.5) están formadas primordialmente por gases y por material proveniente de la combustión. Se depositan fundamentalmente en la región traqueobronquial (tráquea hasta bronquiolo terminal), aunque pueden ingresar a los alvéolos.">PM 2.5 µg/m&sup3;</option>'+
-          '<option value="SO2_24" title="Gas incoloro que se forman al quemar azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.">SO2 (ppm) Promedio 24 horas</option>'+
-          '<option value="SO2_8" title="Gas incoloro que se forman al quemar azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.">SO2 (ppm) Promedio 8 horas</option>'+
-          '<option value="SO2_D" title="Gas incoloro que se forman al quemar azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.">SO2 (ppm) Dato horario</option>'+
+          '<option value="SO2_24" title="Gas incoloro que se origina durante la combustión de carburantes fósiles que contienen azufre (petróleo, carbón, entre otros). La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.">SO2 (ppm) Promedio 24 horas</option>'+
+          '<option value="SO2_8" title="Gas incoloro que se origina durante la combustión de carburantes fósiles que contienen azufre (petróleo, carbón, entre otros). La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.">SO2 (ppm) Promedio 8 horas</option>'+
+          '<option value="SO2_D" title="Gas incoloro que se origina durante la combustión de carburantes fósiles que contienen azufre (petróleo, carbón, entre otros). La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.">SO2 (ppm) Dato horario</option>'+
           '<option value="O3_8" title="Es un compuesto gaseoso incoloro, que posee la capacidad de oxidar materiales, y causa irritación ocular y en las vías respiratorias.">Ozono (O3)(ppm) Promedio 8 horas</option>'+
           '<option value="O3_D" title="Es un compuesto gaseoso incoloro, que posee la capacidad de oxidar materiales, y causa irritación ocular y en las vías respiratorias.">Ozono (O3)(ppm) Dato horario</option>'+
           '<option value="NO2_24" title="El dióxido de nitrógeno es un compuesto químico gaseoso de color marrón amarillento, es un gas tóxico e irritante. La exposición a este gas disminuye la capacidad de difusión pulmonar.">NO2 (ppm)</option>'+
