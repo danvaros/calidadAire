@@ -450,10 +450,8 @@ function getNewDatas(data) {
           });
         }
         for (var i = 0; i <= data.results[ind + 1].hora - 1; i++) {
-         // console.log(getFormatDateMasUno(data.results[ind].date,i));
-           
           newData.push({
-            date: getFormatDateMasUno(new Date(data.results[ind].date),i),
+            date: data.results[ind].date,
             'date-insert': val['date-insert'],
             fecha: data.results[ind + 1].fecha,
             hora: i,
@@ -484,7 +482,6 @@ function putGrafica(parametro,horas,maximo)
   dataLocal.results = getNewDatas(dataLocal);
   
   var data = dataLocal.results;
-  console.log(data);
   var valores = [];
   var promediosMoviles = [];
   const hora = 3600000;
@@ -525,15 +522,14 @@ function putGrafica(parametro,horas,maximo)
         for (let l = index; l >= index - (horas-1); l--) 
         {
           var fechaValidar = hacerFechaValida(data[l].date);
-          if(fechaValidar.getTime() > dPasada && fechaValidar.getTime() <= dActual)
-          {
+       
             var valororig = data[l].valororig;
-            if(valororig < maximo)
+            if(valororig < maximo && valororig !== null)
             {
               acumulado += valororig;
               numValoresValidos++;
             }
-          }         
+                
         }
 
         if(numValoresValidos  > (horas * .75)) 
@@ -707,11 +703,11 @@ function getFormatDateAPI(d)
   return fecha;
 }
 
-function getFormatDateMasUno(d,h)
-{
-  var fecha = d.getFullYear()+'-'+ (d.getMonth()+1) +'-'+((d.getDate() < 10?'0':'') + d.getDate())      +'T'+ ( (h < 10?'0':'') + h ) +':'+( (d.getMinutes()<10?'0':'') + d.getMinutes() )+':00';
-  return fecha;
-}
+// function getFormatDateMasUno(d,h)
+// {
+//   var fecha = d.getFullYear()+'-'+ (d.getMonth()+1) +'-'+((d.getDate() < 10?'0':'') + d.getDate())      +'T'+ ( (h < 10?'0':'') + h ) +':'+( (d.getMinutes()<10?'0':'') + d.getMinutes() )+':00';
+//   return fecha;
+// }
 
 function ponEstacionesSel()
 {
