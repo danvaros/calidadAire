@@ -389,26 +389,6 @@ function options_estado()
   return options;
 }
 
-function desabilitarGrafica()
-{
-  $("#alertModal").modal("show");
-  $("#alertModal").css({"display":"flex","align-items":"center"});
-  var valor = 0;
-  var maximo = 100;
-  $(".chart-gauge").html("");
-  $(".chart-gauge").gaugeIt({ selector: ".chart-gauge", value: lastAverageOrData,gaugeMaxValue:maximo});
-
-  //vaciamos la grafica para mostrar que no tenemos lectura
-  for(var i=0; i< valores.length; i++)
-  {
-      valores[i] =  null;
-      valoresRango[i] = null;
-  }
-  actualizar_grafica_detalle(valores, etiquetas, lbls);
-  //ocultamos la botonera para que no se pueda utilizar
-  $(".botonera").hide();
-}
-
 function dateMasUno(dateEvaluar, horas)
 {
   
@@ -650,7 +630,7 @@ function actualizar_grafica_detalle(valores,etiquetas, lbls, valoresRango,promed
   chart.data.labels.dias = lbls.days;
   chart.data.labels.horas = lbls.hours;
   chart.update();
-
+  
   poner_botones(valores);
 }
 
@@ -984,27 +964,12 @@ function cambioParametro(parametro, horas,id,titulo,lb)
     {
       if(maximoP < promedioFinal)
         $("#recomendaciones").show();
-      
-      // var promedioFinalFix = promedioFinal;
-      // if(parametro ===  "PM10" || parametro ===  "PM2.5")
-      // {
-      //   promedioFinalFix = promedioFinal.toFixed(2);
-      // }
-      // else
-      // {
-      //   promedioFinalFix = promedioFinal.toFixed(4);
-      // }
-      
-      
 
       $(".chart-gauge").html("");
       $(".chart-gauge").gaugeIt({ selector: ".chart-gauge", value: lastAverageOrData,label:label,gaugeMaxValue:maximoP*2});
     }
     else
     {
-      $("#alerta").show();
-    
-      putGrafica(parametro, horas, promedioFinal,maximoL);
       $(".chart-gauge").html("");
       $(".chart-gauge").gaugeIt({ selector: ".chart-gauge", value: lastAverageOrData, label: label, gaugeMaxValue: maximoP*2});
     }
