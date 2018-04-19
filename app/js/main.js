@@ -409,6 +409,12 @@ function desabilitarGrafica()
   $(".botonera").hide();
 }
 
+function dateMasUno(dateEvaluar, horas)
+{
+  
+  return date;
+}
+
 function getNewDatas(data) {
   var newData = [];
   var missing = 0;
@@ -444,6 +450,7 @@ function getNewDatas(data) {
           });
         }
         for (var i = 0; i <= data.results[ind + 1].hora - 1; i++) {
+          var dateMasUno(data.results[ind].date,i); 
           newData.push({
             date: data.results[ind + 1].date,
             'date-insert': val['date-insert'],
@@ -471,11 +478,10 @@ function getNewDatas(data) {
   return newData;
 }
 
-function putGrafica(parametro,horas,promedio2,maximo)
+function putGrafica(parametro,horas,maximo)
 {
   dataLocal.results = getNewDatas(dataLocal);
   var data = dataLocal.results;
-  console.log(data);
   var valores = [];
   var promediosMoviles = [];
   const hora = 3600000;
@@ -512,45 +518,25 @@ function putGrafica(parametro,horas,promedio2,maximo)
         var numValoresValidos = 0;
         const dActual = hacerFechaValida(data[index].date).getTime();
         var dPasada = dActual - (hora * horas);
-        console.log('---------------');
-        console.log('---------------');
-
-        console.log('horas entrada ' + new Date(dActual));
-        console.log('hora salida ' + new Date(dPasada));
 
         for (let l = index; l >= index - (horas-1); l--) 
         {
           var fechaValidar = hacerFechaValida(data[l].date);
-          if(fechaValidar.getTime() > dPasada && fechaValidar.getTime() <= dActual )
+          if(fechaValidar.getTime() > dPasada && fechaValidar.getTime() <= dActual)
           {
             var valororig = data[l].valororig;
-            if(valororig < maximo && valororig !== null)
+            if(valororig < maximo)
             {
-       
               acumulado += valororig;
               numValoresValidos++;
-
-              console.log('fecha: '+fechaValidar +', valor: '+ valororig);
-
             }
           }         
         }
 
-        console.log('promedio: '+numValoresValidos +', 75% : '+ (horas * .75));
-        
-        if(numValoresValidos  >= (horas * .75)) 
-        {
-          promediosMoviles.push(acumulado/numValoresValidos);
-          console.log('Promedio:  ' + (acumulado/numValoresValidos));
-        }
-        else{
+        if(numValoresValidos  > (horas * .75)) 
+          promediosMoviles.push(acumulado/horas);
+        else
           promediosMoviles.push(null); 
-          console.log('Promedio:  null');
-        }
-          
-
-        console.log('---------------');
-        console.log('---------------');
       }
       else
       {
@@ -672,31 +658,27 @@ function actualizar_grafica_detalle(valores,etiquetas, lbls, valoresRango,promed
 function poner_botones(valores)
 {
   ant = valores.length;
-  // Convierte parámetro en valor exacto, sin englobal
-  var parametro = (valores.length / 4).toString();
-  parametro = parseInt(parametro.substring(0, parametro.indexOf(".")));
-  var daysData = etiquetas.dias.reverse();
+  var parametro = valores.length / 4;
   var numDays = [
-    { scope: (parametro * 1), num: -1 },
-    { scope: (parametro * 2), num: 0 },
-    { scope: (parametro * 3), num: 0 },
-    { scope: (parametro * 4), num: 0 }
+    { scope: Math.round(parametro * 1), num: 0 },
+    { scope: Math.round(parametro * 2), num: 0 },
+    { scope: Math.round(parametro * 3), num: 0 },
+    { scope: Math.round(parametro * 4), num: 0 }
   ];
-  var currentDay = "";
   var ind = 0;
 
-  // Observa los cambios de fechas de acuerdo al parámetro
-  daysData.forEach(function(val, i) {
-    if (val !== currentDay && i <= numDays[ind].scope) {
+  // Suma únicamente las fechas que se muestran en la gráfica
+  // de acuerdo a su parámetro
+  for (var i = etiquetas.length - 1; i >= 0; i--) {
+    if (etiquetas[i] !== "" && i >= (etiquetas.length - 1) - numDays[ind].scope) {
       numDays[ind].num += 1;
-      currentDay = val;
     }
 
-    if (numDays[ind].scope === i && ind < 3) {
+    if ((etiquetas.length - 1) - numDays[ind].scope === i) {
       ind += 1;
       numDays[ind].num += numDays[ind - 1].num;
     }
-  });
+  }
 
   $(".parametro").each(function(index) {
     $( this ).text(numDays[index].num + " días");
@@ -952,7 +934,6 @@ function cambioParametro(parametro, horas,id,titulo,lb)
     if("PM10" === parametro)
     {
       maximoL = 600;
-      promedioFinal = sacaDatoDiario(arrPM10,horas,maximoL);
       dataLocal = arrPM10;
       maximoP = rangoInecc(parametro,horas);
       label = "µg/m³";
@@ -960,7 +941,6 @@ function cambioParametro(parametro, horas,id,titulo,lb)
     else if("PM2.5" === parametro)
     {
       maximoL = 175;
-      promedioFinal = sacaDatoDiario(arrPM2,horas,maximoL);
       dataLocal = arrPM2;
       maximoP = rangoInecc(parametro,horas);
       label = "µg/m³";
@@ -968,7 +948,6 @@ function cambioParametro(parametro, horas,id,titulo,lb)
     else if("NO2" === parametro)
     {
       maximoL = 0.21;
-      promedioFinal = sacaDatoDiario(arrNO2,horas, maximoL);
       dataLocal = arrNO2;
       maximoP = rangoInecc(parametro,horas);
       label = "ppm";
@@ -976,7 +955,6 @@ function cambioParametro(parametro, horas,id,titulo,lb)
     else if("CO" === parametro)
     {
       maximoL = 15;
-      promedioFinal = sacaDatoDiario(arrCO,horas,maximoL);
       dataLocal = arrCO;
       maximoP = rangoInecc(parametro,horas);
       label = "ppm";
@@ -984,7 +962,6 @@ function cambioParametro(parametro, horas,id,titulo,lb)
     else if("O3" === parametro)
     {
       maximoL = 0.2;
-      promedioFinal = sacaDatoDiario(arrO3,horas,0.2);
       dataLocal = arrO3;
       maximoP = rangoInecc(parametro,horas);
     
@@ -993,29 +970,33 @@ function cambioParametro(parametro, horas,id,titulo,lb)
     else if("SO2" === parametro)
     {
       maximoL = 0.2;
-      promedioFinal = sacaDatoDiario(arrSO2,horas,maximoL);
       dataLocal = arrSO2;
       maximoP = rangoInecc(parametro,horas);
 
       label = "ppm";
     }
     
+
+    putGrafica(parametro, horas,maximoL);
+    promedioFinal =  lastAverageOrData;
+
+
     if(promedioFinal > 0)
     {
       if(maximoP < promedioFinal)
         $("#recomendaciones").show();
       
-      var promedioFinalFix = promedioFinal;
-      if(parametro ===  "PM10" || parametro ===  "PM2.5")
-      {
-        promedioFinalFix = promedioFinal.toFixed(2);
-      }
-      else
-      {
-        promedioFinalFix = promedioFinal.toFixed(4);
-      }
+      // var promedioFinalFix = promedioFinal;
+      // if(parametro ===  "PM10" || parametro ===  "PM2.5")
+      // {
+      //   promedioFinalFix = promedioFinal.toFixed(2);
+      // }
+      // else
+      // {
+      //   promedioFinalFix = promedioFinal.toFixed(4);
+      // }
       
-      putGrafica(parametro, horas, promedioFinalFix,maximoL);
+      
 
       $(".chart-gauge").html("");
       $(".chart-gauge").gaugeIt({ selector: ".chart-gauge", value: lastAverageOrData,label:label,gaugeMaxValue:maximoP*2});
