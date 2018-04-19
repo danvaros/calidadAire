@@ -450,9 +450,10 @@ function getNewDatas(data) {
           });
         }
         for (var i = 0; i <= data.results[ind + 1].hora - 1; i++) {
-          var dateMasUno(data.results[ind].date,i); 
+         // console.log(getFormatDateMasUno(data.results[ind].date,i));
+           
           newData.push({
-            date: data.results[ind + 1].date,
+            date: getFormatDateMasUno(new Date(data.results[ind].date),i),
             'date-insert': val['date-insert'],
             fecha: data.results[ind + 1].fecha,
             hora: i,
@@ -481,7 +482,9 @@ function getNewDatas(data) {
 function putGrafica(parametro,horas,maximo)
 {
   dataLocal.results = getNewDatas(dataLocal);
+  
   var data = dataLocal.results;
+  console.log(data);
   var valores = [];
   var promediosMoviles = [];
   const hora = 3600000;
@@ -698,15 +701,15 @@ function convertDate(date)
   return yyyy + "-" + (mmChars[1]?mm:"0"+mmChars[0]) + "-" + (ddChars[1]?dd:"0"+ddChars[0]);
 }
 
-function sumarDias(fecha, dias)
+function getFormatDateAPI(d)
 {
-  fecha.setDate(fecha.getDate() + dias);
+  var fecha = d.getFullYear()+"-"+ meis[d.getMonth()] +"-"+((d.getDate() < 10?"0":"") + d.getDate())      +"T"+ ( (d.getHours() < 10?"0":"") + d.getHours() ) +":"+( (d.getMinutes()<10?"0":"") + d.getMinutes() )+":00"; 
   return fecha;
 }
 
-function getFormatDateAPI(d)
+function getFormatDateMasUno(d,h)
 {
-  var fecha = d.getFullYear()+"-"+ meis[d.getMonth()] +"-"+((d.getDate() < 10?"0":"") + d.getDate())      +"T"+ ( (d.getHours() < 10?"0":"") + d.getHours() ) +":"+( (d.getMinutes()<10?"0":"") + d.getMinutes() )+":00";
+  var fecha = d.getFullYear()+'-'+ (d.getMonth()+1) +'-'+((d.getDate() < 10?'0':'') + d.getDate())      +'T'+ ( (h < 10?'0':'') + h ) +':'+( (d.getMinutes()<10?'0':'') + d.getMinutes() )+':00';
   return fecha;
 }
 
