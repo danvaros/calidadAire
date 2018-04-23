@@ -185,6 +185,11 @@ $(document).ready(function()
         },
       },
       scales: {
+        yAxes: [{
+          ticks: {
+            min: 0
+          }
+        }],
         xAxes: [{
           gridLines: {
             display: true,
@@ -472,7 +477,7 @@ function putGrafica(parametro,horas,maximo)
   var newInd = 0;
   for (let index = 0; index < data.length; index++) 
   {
-    if(data[index].valororig < maximo)
+    if(data[index].valororig < maximo && data[index].valororig !== null && data[index].valororig >= 0 )
       valores.push(data[index].valororig); 
     else
       valores.push(null); 
@@ -482,7 +487,7 @@ function putGrafica(parametro,horas,maximo)
     // Agrega todas las horas
     lbls.hours.push(data[index].date.substring(11, 16));
 
-    if(newInd === 23) {
+    if(data[index].hora === 0) {
       etiquetas.push(data[index].fecha);
       newInd = 0;
     } else { 
@@ -504,7 +509,7 @@ function putGrafica(parametro,horas,maximo)
           var fechaValidar = hacerFechaValida(data[l].date);
        
             var valororig = data[l].valororig;
-            if(valororig < maximo && valororig !== null)
+            if(valororig < maximo && valororig !== null  && valororig >= 0)
             {
               acumulado += valororig;
               numValoresValidos++;
@@ -528,12 +533,36 @@ function putGrafica(parametro,horas,maximo)
     }          
   }
 
-  // Obtiene el último dato o promedio
-  if (promediosMoviles[promediosMoviles.length - 1] === null) {
-    lastAverageOrData = data[data.length - 1].valororig;
-  } else {
-    lastAverageOrData = promediosMoviles[promediosMoviles.length - 1];
+//validamos si es dato horario
+  if(horas != "D")
+  {
+    // Obtiene el último promedio
+    if(promediosMoviles[promediosMoviles.length - 1] !== null  && promediosMoviles[promediosMoviles.length - 1] >= 0 )
+    {
+      lastAverageOrData =  promediosMoviles[promediosMoviles.length - 1] ;
+      $('.chart-gauge').show();
+    }
+    else
+    {
+      lastAverageOrData =  0;
+      $('.chart-gauge').hide();
+    }
+    
+  }else
+  {
+    // Obtiene el último dato horario
+    if( valores[valores.length - 1] !== null && valores[valores.length - 1] >= 0 )
+    {
+      lastAverageOrData =  data[data.length - 1].valororig  ;
+      $('.chart-gauge').show();
+    }
+    else
+    {
+      lastAverageOrData =  0;
+      $('.chart-gauge').hide();
+    }
   }
+
   // Corta el valor a sólo 3 decimales
   lastAverageOrData = lastAverageOrData.toString();
   lastAverageOrData = lastAverageOrData.substring(0, lastAverageOrData.indexOf('.') + 4);
@@ -682,12 +711,6 @@ function getFormatDateAPI(d)
   var fecha = d.getFullYear()+"-"+ meis[d.getMonth()] +"-"+((d.getDate() < 10?"0":"") + d.getDate())      +"T"+ ( (d.getHours() < 10?"0":"") + d.getHours() ) +":"+( (d.getMinutes()<10?"0":"") + d.getMinutes() )+":00"; 
   return fecha;
 }
-
-// function getFormatDateMasUno(d,h)
-// {
-//   var fecha = d.getFullYear()+'-'+ (d.getMonth()+1) +'-'+((d.getDate() < 10?'0':'') + d.getDate())      +'T'+ ( (h < 10?'0':'') + h ) +':'+( (d.getMinutes()<10?'0':'') + d.getMinutes() )+':00';
-//   return fecha;
-// }
 
 function ponEstacionesSel()
 {
