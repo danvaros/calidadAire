@@ -479,22 +479,22 @@ function crearArrCompleto()
   //llevamos la fecha a cero minutos y cero segundos
   fecha = redondearFecha(fecha);
   const horasTotales = 24*28;
-
+  const limiteIndex = horasTotales-1;
   for (let i = 0; i < horasTotales; i++) 
   {
     var hora = fecha.getHours();
    
-    a.push(
+    a[limiteIndex-i] = 
       {
-        date: fecha+'',
+        date: getFormatDateAPI(fecha)+'',
         'date-insert':fecha+'',
-        fecha: fecha+'',
+        fecha: convertDate(fecha)+'',
         hora: hora,
         parametro: null,
         validoorig: null,
         valororig: null
       }
-    );
+    ;
     
     //restamos una hora y volvemos a crear la fecha
     fecha = new Date(fecha.getTime() - 3600000);
@@ -503,16 +503,18 @@ function crearArrCompleto()
   return a;
 }
 
-function fusionar()
+function fusionar(a)
 {
-  for (let i = 0; i < arrCompleto.length; i++) 
+  for (let i = 0; i < a.length; i++) 
   {
-    var r  = buscaData(new Date(arrCompleto[i].date).getTime())
+    var r  = buscaData(new Date(a[i].date).getTime())
     if( r !== 0)
     {
-      arrCompleto[i] = r;
+      a[i] = r;
     }
   }
+  
+  return a;
 }
 
 function buscaData(time)
@@ -533,8 +535,8 @@ function buscaData(time)
 function putGrafica(parametro,horas,maximo)
 {
   //dataLocal.results = getNewDatas(dataLocal);
-  fusionar();
-  var data = dataLocal.results;
+  var a = crearArrCompleto();
+  var data = fusionar(a);
   var valores = [];
   var promediosMoviles = [];
   const hora = 3600000;
@@ -544,7 +546,7 @@ function putGrafica(parametro,horas,maximo)
   
   for (let index = 0; index < data.length; index++) 
   {
-    if(data[index].valororig < maximo)
+    if(data[index].valororig < maximo && data[index].valororig !== null)
       valores.push(data[index].valororig); 
     else
       valores.push(null); 
@@ -597,13 +599,18 @@ function putGrafica(parametro,horas,maximo)
       promediosMoviles.push(null); 
     }          
   }
-
-  // Obtiene el último dato o promedio
-  if (promediosMoviles[promediosMoviles.length - 1] === null) {
-    lastAverageOrData = data[data.length - 1].valororig;
-  } else {
-    lastAverageOrData = promediosMoviles[promediosMoviles.length - 1];
+  
+  //validamos si es dato horario
+  if(horas != "D")
+  {
+    // Obtiene el último promedio
+    lastAverageOrData = promediosMoviles[promediosMoviles.length - 1] !== null? promediosMoviles[promediosMoviles.length - 1] : 0;
+  }else
+  {
+    // Obtiene el último dato horario
+    lastAverageOrData = data[data.length - 1].valororig !== null ?data[data.length - 1].valororig : 0 ;
   }
+  
   // Corta el valor a sólo 3 decimales
   lastAverageOrData = lastAverageOrData.toString();
   lastAverageOrData = lastAverageOrData.substring(0, lastAverageOrData.indexOf('.') + 4);
@@ -752,12 +759,6 @@ function getFormatDateAPI(d)
   var fecha = d.getFullYear()+"-"+ meis[d.getMonth()] +"-"+((d.getDate() < 10?"0":"") + d.getDate())      +"T"+ ( (d.getHours() < 10?"0":"") + d.getHours() ) +":"+( (d.getMinutes()<10?"0":"") + d.getMinutes() )+":00"; 
   return fecha;
 }
-
-// function getFormatDateMasUno(d,h)
-// {
-//   var fecha = d.getFullYear()+'-'+ (d.getMonth()+1) +'-'+((d.getDate() < 10?'0':'') + d.getDate())      +'T'+ ( (h < 10?'0':'') + h ) +':'+( (d.getMinutes()<10?'0':'') + d.getMinutes() )+':00';
-//   return fecha;
-// }
 
 function ponEstacionesSel()
 {
