@@ -546,7 +546,7 @@ function putGrafica(parametro,horas,maximo)
   
   for (let index = 0; index < data.length; index++) 
   {
-    if(data[index].valororig < maximo && data[index].valororig !== null)
+    if(data[index].valororig < maximo && data[index].valororig !== null && data[index].valororig >= 0)
       valores.push(data[index].valororig); 
     else
       valores.push(null); 
@@ -576,7 +576,7 @@ function putGrafica(parametro,horas,maximo)
           var fechaValidar = hacerFechaValida(data[l].date);
        
             var valororig = data[l].valororig;
-            if(valororig < maximo && valororig !== null)
+            if(valororig < maximo && valororig !== null &&  valororig >= 0 )
             {
               acumulado += valororig;
               numValoresValidos++;
@@ -584,7 +584,7 @@ function putGrafica(parametro,horas,maximo)
                 
         }
 
-        if(numValoresValidos  > (horas * .75)) 
+        if(numValoresValidos  >= (horas * .75)) 
           promediosMoviles.push(acumulado/horas);
         else
           promediosMoviles.push(null); 
@@ -599,18 +599,41 @@ function putGrafica(parametro,horas,maximo)
       promediosMoviles.push(null); 
     }          
   }
-  
+
   //validamos si es dato horario
   if(horas != "D")
   {
     // Obtiene el último promedio
-    lastAverageOrData = promediosMoviles[promediosMoviles.length - 1] !== null? promediosMoviles[promediosMoviles.length - 1] : 0;
+    if(promediosMoviles[promediosMoviles.length - 1] !== null  && promediosMoviles[promediosMoviles.length - 1] >= 0 )
+    {
+      lastAverageOrData =  promediosMoviles[promediosMoviles.length - 1] ;
+      $('.chart-gauge').show();
+    }
+    else
+    {
+      lastAverageOrData =  0;
+      $('.chart-gauge').hide();
+    }
+    
   }else
   {
     // Obtiene el último dato horario
-    lastAverageOrData = data[data.length - 1].valororig !== null ?data[data.length - 1].valororig : 0 ;
+    if( valores[valores.length - 1] !== null && valores[valores.length - 1] >= 0 )
+    {
+      lastAverageOrData =  data[data.length - 1] ;
+      $('.chart-gauge').show();
+    }
+    else
+    {
+      lastAverageOrData =  0;
+      $('.chart-gauge').hide();
+    }
   }
   
+  if(lastAverageOrData == 0)
+  {
+
+  }
   // Corta el valor a sólo 3 decimales
   lastAverageOrData = lastAverageOrData.toString();
   lastAverageOrData = lastAverageOrData.substring(0, lastAverageOrData.indexOf('.') + 4);
@@ -716,9 +739,9 @@ function poner_botones(valores)
   ant = valores.length;
   var parametro = valores.length / 4;
   var numDays = [
+    { scope: Math.round(parametro * .4), num: 0 },
     { scope: Math.round(parametro * 1), num: 0 },
     { scope: Math.round(parametro * 2), num: 0 },
-    { scope: Math.round(parametro * 3), num: 0 },
     { scope: Math.round(parametro * 4), num: 0 }
   ];
   var ind = 0;
