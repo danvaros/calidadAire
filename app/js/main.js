@@ -25,6 +25,7 @@ var arrPM10 = arrPM2 = arrNO2 = arrCO = arrO3 = arrSO2 = [];
 var contador_vacios = 0;
 var ant = 0;
 var banderaPromedios = true;
+var arrCompleto = [];
 
 $(document).ready(function()
 {
@@ -32,6 +33,7 @@ $(document).ready(function()
   
   $("#myModal").on("hidden.bs.modal", function () 
   {
+    arrCompleto = [];
     contador_vacios = 0;
     $(".boton_pop").each(function(){
       $(this).removeClass("bloqueado");
@@ -122,6 +124,8 @@ $(document).ready(function()
     llenarConstaminantes(generaUrl('SO2', estacion, (24*28)),'SO2');
     llenarConstaminantes(generaUrl('O3', estacion, (24*28)),'O3');
     llenarConstaminantes(generaUrl('CO', estacion, (24*28)),'CO');
+
+    arrCompleto = crearArrCompleto();
   });
 
   /*instancia de la grafica*/
@@ -457,10 +461,79 @@ function getNewDatas(data) {
   return newData;
 }
 
+function redondearFecha(fecha)
+{
+  var mm = fecha.getMonth() + 1; // getMonth() is zero-based
+  var dd = fecha.getDate();
+  var yy = fecha.getFullYear();
+  var hh = fecha.getHours();
+
+  return new Date(yy+'-'+mm+'-'+dd+' '+hh+':00:00');
+}
+
+function crearArrCompleto()
+{
+  var a = [];
+  //tomar la fecha actual
+  var fecha =  new Date();
+  //llevamos la fecha a cero minutos y cero segundos
+  fecha = redondearFecha(fecha);
+  const horasTotales = 24*28;
+
+  for (let i = 0; i < horasTotales; i++) 
+  {
+    var hora = fecha.getHours();
+   
+    a.push(
+      {
+        date: fecha+'',
+        'date-insert':fecha+'',
+        fecha: fecha+'',
+        hora: hora,
+        parametro: null,
+        validoorig: null,
+        valororig: null
+      }
+    );
+    
+    //restamos una hora y volvemos a crear la fecha
+    fecha = new Date(fecha.getTime() - 3600000);
+  }
+
+  return a;
+}
+
+function fusionar()
+{
+  for (let i = 0; i < arrCompleto.length; i++) 
+  {
+    var r  = buscaData(new Date(arrCompleto[i].date).getTime())
+    if( r !== 0)
+    {
+      arrCompleto[i] = r;
+    }
+  }
+}
+
+function buscaData(time)
+{ 
+  var d = dataLocal.results;
+  for (let i = 0; i < d.length; i++) 
+  {
+    if(hacerFechaValida(d[i].date).getTime() === time)
+    {
+      return d[i];
+      break;
+    }    
+  }
+
+  return 0;
+}
+
 function putGrafica(parametro,horas,maximo)
 {
-  dataLocal.results = getNewDatas(dataLocal);
-  
+  //dataLocal.results = getNewDatas(dataLocal);
+  fusionar();
   var data = dataLocal.results;
   var valores = [];
   var promediosMoviles = [];
@@ -468,8 +541,7 @@ function putGrafica(parametro,horas,maximo)
   etiquetas = [];
   lbls.days = [];
   lbls.hours = [];
-
-  var newInd = 0;
+  
   for (let index = 0; index < data.length; index++) 
   {
     if(data[index].valororig < maximo)
@@ -482,12 +554,10 @@ function putGrafica(parametro,horas,maximo)
     // Agrega todas las horas
     lbls.hours.push(data[index].date.substring(11, 16));
 
-    if(newInd === 23) {
+    if(data[index].hora === 0) {
       etiquetas.push(data[index].fecha);
-      newInd = 0;
     } else { 
      etiquetas.push('');
-     newInd++;
     }
 
     if(horas != "D")
@@ -778,7 +848,7 @@ function llenarConstaminantes(url, parametro)
       }
       else
       {
-        //cuenta los contaminantes que no reporttan valores
+        //cuenta los contaminantes que no reportan valores
         contador_vacios++;
 
         //se desabilita para móvil
@@ -810,23 +880,18 @@ function llenarConstaminantes(url, parametro)
         }
         else if("CO" === parametro)
         {
-
           arrCO = data;
-
           $("#botonCO").addClass("bloqueado");
         }
         else if("O3" === parametro)
         {
-
           arrO3 = data;
           $("#botonO38").addClass("bloqueado");
           $("#botonO3D").addClass("bloqueado");
         }
         else if("SO2" === parametro)
         {
-
           arrSO2 = data;
-
           $("#botonSO2D").addClass("bloqueado");
           $("#botonSO28").addClass("bloqueado");
           $("#botonSO224").addClass("bloqueado");
