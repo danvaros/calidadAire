@@ -404,7 +404,6 @@ function getNewDatas(data) {
   prevDate.setMinutes(0);
   prevDate.setSeconds(0);
   prevDate.setMilliseconds(0);
-  var dateToAdd = new Date(data[0].date);
 
   // console.log("data[0].date -----");
   // console.dir(dateToAdd);
@@ -419,30 +418,26 @@ function getNewDatas(data) {
   // console.log("prevDate (hora) -----");
   // console.log(prevDate.getHours());
 
-  var currentDate = hacerFechaValida(data[0].date);
-  console.log(currentDate);
-  console.log(currentDate.getHours());
+  for (var i = 0; i <= 671; i++) {
+    var currentDate = hacerFechaValida(data[i].date);
 
-  data.forEach(function(val, ind) {
-    var currentDate = hacerFechaValida(val.date);
-
-    if (currentDate.toLocaleDateString() === prevDate.toLocaleDateString() &&
-        currentDate.toHours() === prevDate.getHours()) {
-      console.log("entró!!!!");
+    if (prevDate.toLocaleDateString() === currentDate.toLocaleDateString() &&
+        prevDate.getHours() === currentDate.getHours()) {
       newData.push({
-        date: val.date,
-        'date-insert': val['date-insert'],
-        fecha: val.fecha,
-        hora: val.hora,
-        parametro: val.parametro,
-        validoorig: val.validoorig,
-        valororig: val.valororig
+        date: data[i].date,
+        'date-insert': data[i]['date-insert'],
+        fecha: data[i].fecha,
+        hora: data[i].hora,
+        parametro: data[i].parametro,
+        validoorig: data[i].validoorig,
+        valororig: data[i].valororig
       });
 
       prevDate.setHours(prevDate.getHours() + 1);
     } else {
-      while (currentDate.toLocaleDateString() !== prevDate.toLocaleDateString() &&
-             currentDate.getHours() !== prevDate.getHours()) {
+      var h = i;
+
+      do {
         var fecha = prevDate.toLocaleDateString().split("/");
 
         newData.push({
@@ -458,9 +453,52 @@ function getNewDatas(data) {
         });
 
         prevDate.setHours(prevDate.getHours() + 1);
-      }
+        h++;
+      } while (prevDate.toLocaleDateString() === currentDate.toLocaleDateString() &&
+               prevDate.getHours() === currentDate.getHours());
+
+      i = h;
     }
-  });
+  }
+
+  // data.forEach(function(val, ind) {
+  //   var currentDate = hacerFechaValida(val.date);
+
+  //   if (currentDate.toLocaleDateString() === prevDate.toLocaleDateString() &&
+  //       currentDate.getHours() === prevDate.getHours()) {
+  //     console.log("entró!!!!");
+  //     newData.push({
+  //       date: val.date,
+  //       'date-insert': val['date-insert'],
+  //       fecha: val.fecha,
+  //       hora: val.hora,
+  //       parametro: val.parametro,
+  //       validoorig: val.validoorig,
+  //       valororig: val.valororig
+  //     });
+
+  //     prevDate.setHours(prevDate.getHours() + 1);
+  //   } else {
+  //     while (currentDate.toLocaleDateString() !== prevDate.toLocaleDateString() &&
+  //            currentDate.getHours() !== prevDate.getHours()) {
+  //       var fecha = prevDate.toLocaleDateString().split("/");
+
+  //       newData.push({
+  //         date: prevDate.toISOString(),
+  //         'date-insert': dateInsert.toISOString(),
+  //         fecha: fecha[2] + "-" +
+  //                (fecha[1] < 10 ? "0" + fecha[1] : fecha[1]) + "-" +
+  //                (fecha[0] < 10 ? "0" + fecha[0] : fecha[0]),
+  //         hora: prevDate.getHours(),
+  //         parametro: null,
+  //         validoorig: null,
+  //         valororig: null
+  //       });
+
+  //       prevDate.setHours(prevDate.getHours() + 1);
+  //     }
+  //   }
+  // });
 
   // data.forEach(function(val, ind) {
   //   if (ind < data.length - 1) {
