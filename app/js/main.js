@@ -397,51 +397,38 @@ function dateMasUno(dateEvaluar, horas)
 
 function getNewDatas(data) {
   var newData = [];
-  var missing = 0;
+  var totalHoursMonth = 672; // 24 hrs * 28 days
+  var dateInsert = new Date();
+  var prevDate = new Date();
+  prevDate.setHours(prevDate.getHours() - totalHoursMonth);
+  prevDate.setMinutes(0);
+  prevDate.setSeconds(0);
+  prevDate.setMilliseconds(0);
+  var dateToAdd = new Date(data[0].date);
 
-  data.results.forEach(function(val, ind) {
-    if (ind < data.results.length - 1) {
-      missing = data.results[ind + 1].hora - val.hora - 1;
+  // console.log("data[0].date -----");
+  // console.dir(dateToAdd);
+  // console.log("data[0].date (localDate) -----");
+  // console.log(dateToAdd.toLocaleDateString());
+  // console.log("data[0].date (hora) -----");
+  // console.log(dateToAdd.getHours());
+  // console.log("prevDate -----");
+  // console.dir(prevDate);
+  // console.log("prevDate (localDate) -----");
+  // console.log(prevDate.toLocaleDateString());
+  // console.log("prevDate (hora) -----");
+  // console.log(prevDate.getHours());
 
-      newData.push(val);
+  var currentDate = hacerFechaValida(data[0].date);
+  console.log(currentDate);
+  console.log(currentDate.getHours());
 
-      if (missing >= 1) {
-        for (var i = 1; i <= missing; i++) {
-          newData.push({
-            date: val.date,
-            'date-insert': val['date-insert'],
-            fecha: val.fecha,
-            hora: val.hora + i,
-            parametro: val.parametro,
-            validoorig: val.validoorig,
-            valororig: null
-          });
-        }
-      } else if (data.results[ind + 1].hora >= 0 && data.results[ind + 1].fecha !== val.fecha) {
-        for (var i = val.hora + 1; i <= 23; i++) {
-          newData.push({
-            date: val.date,
-            'date-insert': val['date-insert'],
-            fecha: val.fecha,
-            hora: i,
-            parametro: val.parametro,
-            validoorig: val.validoorig,
-            valororig: null
-          });
-        }
-        for (var i = 0; i <= data.results[ind + 1].hora - 1; i++) {
-          newData.push({
-            date: data.results[ind].date,
-            'date-insert': val['date-insert'],
-            fecha: data.results[ind + 1].fecha,
-            hora: i,
-            parametro: val.parametro,
-            validoorig: val.validoorig,
-            valororig: null
-          });
-        }
-      }
-    } else {
+  data.forEach(function(val, ind) {
+    var currentDate = hacerFechaValida(val.date);
+
+    if (currentDate.toLocaleDateString() === prevDate.toLocaleDateString() &&
+        currentDate.toHours() === prevDate.getHours()) {
+      console.log("entró!!!!");
       newData.push({
         date: val.date,
         'date-insert': val['date-insert'],
@@ -451,15 +438,93 @@ function getNewDatas(data) {
         validoorig: val.validoorig,
         valororig: val.valororig
       });
+
+      prevDate.setHours(prevDate.getHours() + 1);
+    } else {
+      while (currentDate.toLocaleDateString() !== prevDate.toLocaleDateString() &&
+             currentDate.getHours() !== prevDate.getHours()) {
+        var fecha = prevDate.toLocaleDateString().split("/");
+
+        newData.push({
+          date: prevDate.toISOString(),
+          'date-insert': dateInsert.toISOString(),
+          fecha: fecha[2] + "-" +
+                 (fecha[1] < 10 ? "0" + fecha[1] : fecha[1]) + "-" +
+                 (fecha[0] < 10 ? "0" + fecha[0] : fecha[0]),
+          hora: prevDate.getHours(),
+          parametro: null,
+          validoorig: null,
+          valororig: null
+        });
+
+        prevDate.setHours(prevDate.getHours() + 1);
+      }
     }
   });
+
+  // data.forEach(function(val, ind) {
+  //   if (ind < data.length - 1) {
+  //     missing = data[ind + 1].hora - val.hora - 1;
+
+  //     newData.push(val);
+
+  //     if (missing >= 1) {
+  //       for (var i = 1; i <= missing; i++) {
+  //         newData.push({
+  //           date: val.date,
+  //           'date-insert': val['date-insert'],
+  //           fecha: val.fecha,
+  //           hora: val.hora + i,
+  //           parametro: val.parametro,
+  //           validoorig: val.validoorig,
+  //           valororig: null
+  //         });
+  //       }
+  //     } else if (data[ind + 1].hora >= 0 && data[ind + 1].fecha !== val.fecha) {
+  //       for (var i = val.hora + 1; i <= 23; i++) {
+  //         newData.push({
+  //           date: val.date,
+  //           'date-insert': val['date-insert'],
+  //           fecha: val.fecha,
+  //           hora: i,
+  //           parametro: val.parametro,
+  //           validoorig: val.validoorig,
+  //           valororig: null
+  //         });
+  //       }
+  //       for (var i = 0; i <= data[ind + 1].hora - 1; i++) {
+  //         newData.push({
+  //           date: data[ind].date,
+  //           'date-insert': val['date-insert'],
+  //           fecha: data[ind + 1].fecha,
+  //           hora: i,
+  //           parametro: val.parametro,
+  //           validoorig: val.validoorig,
+  //           valororig: null
+  //         });
+  //       }
+  //     }
+  //   } else {
+  //     newData.push({
+  //       date: val.date,
+  //       'date-insert': val['date-insert'],
+  //       fecha: val.fecha,
+  //       hora: val.hora,
+  //       parametro: val.parametro,
+  //       validoorig: val.validoorig,
+  //       valororig: val.valororig
+  //     });
+  //   }
+  // });
+
+  console.dir(newData);
 
   return newData;
 }
 
 function putGrafica(parametro,horas,maximo)
 {
-  dataLocal.results = getNewDatas(dataLocal);
+  dataLocal.results = getNewDatas(dataLocal.results);
   
   var data = dataLocal.results;
   var valores = [];
@@ -480,7 +545,7 @@ function putGrafica(parametro,horas,maximo)
     // Agrega todas las fechas
     lbls.days.push(data[index].fecha);
     // Agrega todas las horas
-    lbls.hours.push(data[index].date.substring(11, 16));
+    lbls.hours.push((data[index].hora).toString() + ":00");
 
     if(newInd === 23) {
       etiquetas.push(data[index].fecha);
@@ -535,8 +600,10 @@ function putGrafica(parametro,horas,maximo)
     lastAverageOrData = promediosMoviles[promediosMoviles.length - 1];
   }
   // Corta el valor a sólo 3 decimales
-  lastAverageOrData = lastAverageOrData.toString();
-  lastAverageOrData = lastAverageOrData.substring(0, lastAverageOrData.indexOf('.') + 4);
+  if (lastAverageOrData !== null) {
+    lastAverageOrData = lastAverageOrData.toString();
+    lastAverageOrData = lastAverageOrData.substring(0, lastAverageOrData.indexOf('.') + 4);
+  }
 
   var rango = rangoInecc(parametro,horas);
   var valoresRango = [];
@@ -679,7 +746,7 @@ function convertDate(date)
 
 function getFormatDateAPI(d)
 {
-  var fecha = d.getFullYear()+"-"+ meis[d.getMonth()] +"-"+((d.getDate() < 10?"0":"") + d.getDate())      +"T"+ ( (d.getHours() < 10?"0":"") + d.getHours() ) +":"+( (d.getMinutes()<10?"0":"") + d.getMinutes() )+":00"; 
+  var fecha = d.getFullYear()+"-"+ meis[d.getMonth()] +"-"+((d.getDate() < 10?"0":"") + d.getDate())      +"T"+ ( (d.getHours() < 10?"0":"") + d.getHours() ) +":"+( (d.getMinutes()<10?"0":"") )+"00:00"; 
   return fecha;
 }
 
