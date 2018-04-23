@@ -25,6 +25,7 @@ var arrPM10 = arrPM2 = arrNO2 = arrCO = arrO3 = arrSO2 = [];
 var contador_vacios = 0;
 var ant = 0;
 var banderaPromedios = true;
+var arrCompleto = [];
 
 $(document).ready(function()
 {
@@ -32,6 +33,7 @@ $(document).ready(function()
   
   $("#myModal").on("hidden.bs.modal", function () 
   {
+    arrCompleto = [];
     contador_vacios = 0;
     $(".boton_pop").each(function(){
       $(this).removeClass("bloqueado");
@@ -122,6 +124,8 @@ $(document).ready(function()
     llenarConstaminantes(generaUrl('SO2', estacion, (24*28)),'SO2');
     llenarConstaminantes(generaUrl('O3', estacion, (24*28)),'O3');
     llenarConstaminantes(generaUrl('CO', estacion, (24*28)),'CO');
+
+    arrCompleto = crearArrCompleto();
   });
 
   /*instancia de la grafica*/
@@ -457,22 +461,92 @@ function getNewDatas(data) {
   return newData;
 }
 
+function redondearFecha(fecha)
+{
+  var mm = fecha.getMonth() + 1; // getMonth() is zero-based
+  var dd = fecha.getDate();
+  var yy = fecha.getFullYear();
+  var hh = fecha.getHours();
+
+  return new Date(yy+'-'+mm+'-'+dd+' '+hh+':00:00');
+}
+
+function crearArrCompleto()
+{
+  var a = [];
+  //tomar la fecha actual
+  var fecha =  new Date();
+  //llevamos la fecha a cero minutos y cero segundos
+  fecha = redondearFecha(fecha);
+  const horasTotales = 24*28;
+  const limiteIndex = horasTotales-1;
+  for (let i = 0; i < horasTotales; i++) 
+  {
+    var hora = fecha.getHours();
+   
+    a[limiteIndex-i] = 
+      {
+        date: getFormatDateAPI(fecha)+'',
+        'date-insert':fecha+'',
+        fecha: convertDate(fecha)+'',
+        hora: hora,
+        parametro: null,
+        validoorig: null,
+        valororig: null
+      }
+    ;
+    
+    //restamos una hora y volvemos a crear la fecha
+    fecha = new Date(fecha.getTime() - 3600000);
+  }
+
+  return a;
+}
+
+function fusionar(a)
+{
+  for (let i = 0; i < a.length; i++) 
+  {
+    var r  = buscaData(new Date(a[i].date).getTime())
+    if( r !== 0)
+    {
+      a[i] = r;
+    }
+  }
+  
+  return a;
+}
+
+function buscaData(time)
+{ 
+  var d = dataLocal.results;
+  for (let i = 0; i < d.length; i++) 
+  {
+    if(hacerFechaValida(d[i].date).getTime() === time)
+    {
+      return d[i];
+      break;
+    }    
+  }
+
+  return 0;
+}
+
 function putGrafica(parametro,horas,maximo)
 {
-  dataLocal.results = getNewDatas(dataLocal);
-  
-  var data = dataLocal.results;
+  //dataLocal.results = getNewDatas(dataLocal);
+  var a = crearArrCompleto();
+  var data = fusionar(a);
   var valores = [];
   var promediosMoviles = [];
   const hora = 3600000;
   etiquetas = [];
   lbls.days = [];
   lbls.hours = [];
-
-  var newInd = 0;
+  
   for (let index = 0; index < data.length; index++) 
   {
-    if(data[index].valororig < maximo)
+    if(data[index].valororig < maximo && data[index].valororig !== null)
       valores.push(data[index].valororig); 
     else
       valores.push(null); 
@@ -482,12 +556,10 @@ function putGrafica(parametro,horas,maximo)
     // Agrega todas las horas
     lbls.hours.push(data[index].date.substring(11, 16));
 
-    if(newInd === 23) {
+    if(data[index].hora === 0) {
       etiquetas.push(data[index].fecha);
-      newInd = 0;
     } else { 
      etiquetas.push('');
-     newInd++;
     }
 
     if(horas != "D")
@@ -527,13 +599,18 @@ function putGrafica(parametro,horas,maximo)
       promediosMoviles.push(null); 
     }          
   }
-
-  // Obtiene el último dato o promedio
-  if (promediosMoviles[promediosMoviles.length - 1] === null) {
-    lastAverageOrData = data[data.length - 1].valororig;
-  } else {
-    lastAverageOrData = promediosMoviles[promediosMoviles.length - 1];
+  
+  //validamos si es dato horario
+  if(horas != "D")
+  {
+    // Obtiene el último promedio
+    lastAverageOrData = promediosMoviles[promediosMoviles.length - 1] !== null? promediosMoviles[promediosMoviles.length - 1] : 0;
+  }else
+  {
+    // Obtiene el último dato horario
+    lastAverageOrData = data[data.length - 1].valororig !== null ?data[data.length - 1].valororig : 0 ;
   }
+  
   // Corta el valor a sólo 3 decimales
   lastAverageOrData = lastAverageOrData.toString();
   lastAverageOrData = lastAverageOrData.substring(0, lastAverageOrData.indexOf('.') + 4);
@@ -683,12 +760,6 @@ function getFormatDateAPI(d)
   return fecha;
 }
 
-// function getFormatDateMasUno(d,h)
-// {
-//   var fecha = d.getFullYear()+'-'+ (d.getMonth()+1) +'-'+((d.getDate() < 10?'0':'') + d.getDate())      +'T'+ ( (h < 10?'0':'') + h ) +':'+( (d.getMinutes()<10?'0':'') + d.getMinutes() )+':00';
-//   return fecha;
-// }
-
 function ponEstacionesSel()
 {
   var x = document.getElementById("estado_primer_select").value;
@@ -778,7 +849,7 @@ function llenarConstaminantes(url, parametro)
       }
       else
       {
-        //cuenta los contaminantes que no reporttan valores
+        //cuenta los contaminantes que no reportan valores
         contador_vacios++;
 
         //se desabilita para móvil
@@ -810,23 +881,18 @@ function llenarConstaminantes(url, parametro)
         }
         else if("CO" === parametro)
         {
-
           arrCO = data;
-
           $("#botonCO").addClass("bloqueado");
         }
         else if("O3" === parametro)
         {
-
           arrO3 = data;
           $("#botonO38").addClass("bloqueado");
           $("#botonO3D").addClass("bloqueado");
         }
         else if("SO2" === parametro)
         {
-
           arrSO2 = data;
-
           $("#botonSO2D").addClass("bloqueado");
           $("#botonSO28").addClass("bloqueado");
           $("#botonSO224").addClass("bloqueado");
