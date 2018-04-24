@@ -400,162 +400,62 @@ function getNewDatas(data) {
   var totalHoursMonth = 672; // 24 hrs * 28 days
   var dateInsert = new Date();
   var prevDate = new Date();
-  prevDate.setHours(prevDate.getHours() - totalHoursMonth);
   prevDate.setMinutes(0);
   prevDate.setSeconds(0);
   prevDate.setMilliseconds(0);
+  prevDate.setHours(prevDate.getHours() - totalHoursMonth);
 
-  // console.log("data[0].date -----");
-  // console.dir(dateToAdd);
-  // console.log("data[0].date (localDate) -----");
-  // console.log(dateToAdd.toLocaleDateString());
-  // console.log("data[0].date (hora) -----");
-  // console.log(dateToAdd.getHours());
-  // console.log("prevDate -----");
-  // console.dir(prevDate);
-  // console.log("prevDate (localDate) -----");
-  // console.log(prevDate.toLocaleDateString());
-  // console.log("prevDate (hora) -----");
-  // console.log(prevDate.getHours());
+  function addNullValues(prevD) {
+    var fecha = prevD.toLocaleDateString().split("/");
 
-  for (var i = 0; i <= 671; i++) {
-    var currentDate = hacerFechaValida(data[i].date);
+    newData.push({
+      date: prevD.toISOString(),
+      'date-insert': dateInsert.toISOString(),
+      fecha: fecha[2] + "-" +
+        (fecha[1] < 10 ? "0" + fecha[1] : fecha[1]) + "-" +
+        (fecha[0] < 10 ? "0" + fecha[0] : fecha[0]),
+      hora: prevD.getHours(),
+      parametro: null,
+      validoorig: null,
+      valororig: null
+    });
 
-    if (prevDate.toLocaleDateString() === currentDate.toLocaleDateString() &&
-        prevDate.getHours() === currentDate.getHours()) {
-      newData.push({
-        date: data[i].date,
-        'date-insert': data[i]['date-insert'],
-        fecha: data[i].fecha,
-        hora: data[i].hora,
-        parametro: data[i].parametro,
-        validoorig: data[i].validoorig,
-        valororig: data[i].valororig
-      });
-
-      prevDate.setHours(prevDate.getHours() + 1);
-    } else {
-      var h = i;
-
-      do {
-        var fecha = prevDate.toLocaleDateString().split("/");
-
-        newData.push({
-          date: prevDate.toISOString(),
-          'date-insert': dateInsert.toISOString(),
-          fecha: fecha[2] + "-" +
-                 (fecha[1] < 10 ? "0" + fecha[1] : fecha[1]) + "-" +
-                 (fecha[0] < 10 ? "0" + fecha[0] : fecha[0]),
-          hora: prevDate.getHours(),
-          parametro: null,
-          validoorig: null,
-          valororig: null
-        });
-
-        prevDate.setHours(prevDate.getHours() + 1);
-        h++;
-      } while (prevDate.toLocaleDateString() === currentDate.toLocaleDateString() &&
-               prevDate.getHours() === currentDate.getHours());
-
-      i = h;
-    }
+    prevD.setHours(prevD.getHours() + 1);
   }
 
-  // data.forEach(function(val, ind) {
-  //   var currentDate = hacerFechaValida(val.date);
+  data.forEach(function(val, ind) {
+    var f = val.fecha.split("-");
+    var h = val.hora;
+    var currentDate = new Date(f[0], (parseInt(f[1]) - 1), f[02], h, 0, 0, 0);
 
-  //   if (currentDate.toLocaleDateString() === prevDate.toLocaleDateString() &&
-  //       currentDate.getHours() === prevDate.getHours()) {
-  //     console.log("entró!!!!");
-  //     newData.push({
-  //       date: val.date,
-  //       'date-insert': val['date-insert'],
-  //       fecha: val.fecha,
-  //       hora: val.hora,
-  //       parametro: val.parametro,
-  //       validoorig: val.validoorig,
-  //       valororig: val.valororig
-  //     });
+    if (currentDate.toLocaleDateString() === prevDate.toLocaleDateString() &&
+        currentDate.getHours() === prevDate.getHours()) {
+      newData.push(val);
+      prevDate.setHours(prevDate.getHours() + 1);
+    } else {
+      // Llena el array de datos nulos hasta coincidir con las fechas del array original
+      while (currentDate.toLocaleDateString() !== prevDate.toLocaleDateString()) {
+        addNullValues(prevDate);
+      }
 
-  //     prevDate.setHours(prevDate.getHours() + 1);
-  //   } else {
-  //     while (currentDate.toLocaleDateString() !== prevDate.toLocaleDateString() &&
-  //            currentDate.getHours() !== prevDate.getHours()) {
-  //       var fecha = prevDate.toLocaleDateString().split("/");
+      // Llena el array de datos nulos hasta coincidir con la hora del array original
+      if (currentDate.getHours() !== prevDate.getHours()) {
+        while (prevDate.getHours() !== currentDate.getHours()) {
+          addNullValues(prevDate);
+        }
+      }
 
-  //       newData.push({
-  //         date: prevDate.toISOString(),
-  //         'date-insert': dateInsert.toISOString(),
-  //         fecha: fecha[2] + "-" +
-  //                (fecha[1] < 10 ? "0" + fecha[1] : fecha[1]) + "-" +
-  //                (fecha[0] < 10 ? "0" + fecha[0] : fecha[0]),
-  //         hora: prevDate.getHours(),
-  //         parametro: null,
-  //         validoorig: null,
-  //         valororig: null
-  //       });
+      newData.push(val);
+      prevDate.setHours(prevDate.getHours() + 1);
+    }
+  });
 
-  //       prevDate.setHours(prevDate.getHours() + 1);
-  //     }
-  //   }
-  // });
-
-  // data.forEach(function(val, ind) {
-  //   if (ind < data.length - 1) {
-  //     missing = data[ind + 1].hora - val.hora - 1;
-
-  //     newData.push(val);
-
-  //     if (missing >= 1) {
-  //       for (var i = 1; i <= missing; i++) {
-  //         newData.push({
-  //           date: val.date,
-  //           'date-insert': val['date-insert'],
-  //           fecha: val.fecha,
-  //           hora: val.hora + i,
-  //           parametro: val.parametro,
-  //           validoorig: val.validoorig,
-  //           valororig: null
-  //         });
-  //       }
-  //     } else if (data[ind + 1].hora >= 0 && data[ind + 1].fecha !== val.fecha) {
-  //       for (var i = val.hora + 1; i <= 23; i++) {
-  //         newData.push({
-  //           date: val.date,
-  //           'date-insert': val['date-insert'],
-  //           fecha: val.fecha,
-  //           hora: i,
-  //           parametro: val.parametro,
-  //           validoorig: val.validoorig,
-  //           valororig: null
-  //         });
-  //       }
-  //       for (var i = 0; i <= data[ind + 1].hora - 1; i++) {
-  //         newData.push({
-  //           date: data[ind].date,
-  //           'date-insert': val['date-insert'],
-  //           fecha: data[ind + 1].fecha,
-  //           hora: i,
-  //           parametro: val.parametro,
-  //           validoorig: val.validoorig,
-  //           valororig: null
-  //         });
-  //       }
-  //     }
-  //   } else {
-  //     newData.push({
-  //       date: val.date,
-  //       'date-insert': val['date-insert'],
-  //       fecha: val.fecha,
-  //       hora: val.hora,
-  //       parametro: val.parametro,
-  //       validoorig: val.validoorig,
-  //       valororig: val.valororig
-  //     });
-  //   }
-  // });
-
-  console.dir(newData);
+  // Llena los últimos datos nulos hasta la fecha actual
+  if (newData.length < totalHoursMonth) {
+    for (var i = newData.length; i <= totalHoursMonth - 1; i++) {
+      addNullValues(prevDate);
+    }
+  }
 
   return newData;
 }
