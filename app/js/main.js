@@ -428,32 +428,34 @@ function getNewDatas(data) {
     prevD.setHours(prevD.getHours() + 1);
   }
 
-  data.forEach(function(val, ind) {
-    var f = val.fecha.split("-");
-    var h = val.hora;
-    var currentDate = new Date(f[0], (parseInt(f[1]) - 1), f[02], h, 0, 0, 0);
+  if (data.length < 1) {
+    data.forEach(function (val, ind) {
+      var f = val.fecha.split("-");
+      var h = val.hora;
+      var currentDate = new Date(f[0], (parseInt(f[1]) - 1), f[02], h, 0, 0, 0);
 
-    if (currentDate.toLocaleDateString() === prevDate.toLocaleDateString() &&
+      if (currentDate.toLocaleDateString() === prevDate.toLocaleDateString() &&
         currentDate.getHours() === prevDate.getHours()) {
-      newData.push(val);
-      prevDate.setHours(prevDate.getHours() + 1);
-    } else {
-      // Llena el array de datos nulos hasta coincidir con las fechas del array original
-      while (currentDate.toLocaleDateString() !== prevDate.toLocaleDateString()) {
-        addNullValues(prevDate);
-      }
-
-      // Llena el array de datos nulos hasta coincidir con la hora del array original
-      if (currentDate.getHours() !== prevDate.getHours()) {
-        while (prevDate.getHours() !== currentDate.getHours()) {
+        newData.push(val);
+        prevDate.setHours(prevDate.getHours() + 1);
+      } else {
+        // Llena el array de datos nulos hasta coincidir con las fechas del array original
+        while (currentDate.toLocaleDateString() !== prevDate.toLocaleDateString()) {
           addNullValues(prevDate);
         }
-      }
 
-      newData.push(val);
-      prevDate.setHours(prevDate.getHours() + 1);
-    }
-  });
+        // Llena el array de datos nulos hasta coincidir con la hora del array original
+        if (currentDate.getHours() !== prevDate.getHours()) {
+          while (prevDate.getHours() !== currentDate.getHours()) {
+            addNullValues(prevDate);
+          }
+        }
+
+        newData.push(val);
+        prevDate.setHours(prevDate.getHours() + 1);
+      }
+    });
+  }
 
   // Llena los últimos datos nulos hasta la fecha actual
   if (newData.length < totalHoursMonth) {
@@ -468,6 +470,9 @@ function getNewDatas(data) {
 function putGrafica(parametro,horas,maximo)
 {
   dataLocal.results = getNewDatas(dataLocal.results);
+  if (dataLocal.results.length < 1) {
+    dataLocal.results = getNewDatas(dataLocal.results);
+  }
   
   var data = dataLocal.results;
   var valores = [];
@@ -747,6 +752,7 @@ function DateFalsa()
 
 function llenarConstaminantes(url, parametro)
 {
+  console.log(url);
   $.ajax({
     type: "GET",
     url: url,
