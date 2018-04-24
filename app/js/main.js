@@ -469,7 +469,6 @@ function getNewDatas(data) {
 
 function putGrafica(parametro,horas,maximo)
 {
-  dataLocal.results = getNewDatas(dataLocal.results);
   if (dataLocal.results.length < 1) {
     dataLocal.results = getNewDatas(dataLocal.results);
   }
