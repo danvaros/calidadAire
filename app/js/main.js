@@ -671,30 +671,15 @@ function actualizar_grafica_detalle(valores,etiquetas, lbls, valoresRango,promed
 function poner_botones(valores)
 {
   ant = valores.length;
-  var parametro = valores.length / 4;
   var numDays = [
-    { scope: Math.round(parametro * 1), num: 0 },
-    { scope: Math.round(parametro * 2), num: 0 },
-    { scope: Math.round(parametro * 3), num: 0 },
-    { scope: Math.round(parametro * 4), num: 0 }
+    { scope: Math.round(24 * 3), num: 3 },
+    { scope: Math.round(24 * 7), num: 7 },
+    { scope: Math.round(24 * 14), num: 14 },
+    { scope: Math.round(24 * 28), num: 28 }
   ];
-  var ind = 0;
 
-  // Suma únicamente las fechas que se muestran en la gráfica
-  // de acuerdo a su parámetro
-  for (var i = etiquetas.length - 1; i >= 0; i--) {
-    if (etiquetas[i] !== "" && i >= (etiquetas.length - 1) - numDays[ind].scope) {
-      numDays[ind].num += 1;
-    }
-
-    if ((etiquetas.length - 1) - numDays[ind].scope === i) {
-      ind += 1;
-      numDays[ind].num += numDays[ind - 1].num;
-    }
-  }
-
-  $(".parametro").each(function(index) {
-    $( this ).text(numDays[index].num + " días");
+  $(".parametro").each(function (index) {
+    $(this).text(numDays[index].num + " días");
     $(this).val(numDays[index].scope);
   });
 }
