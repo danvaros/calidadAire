@@ -751,7 +751,6 @@ function DateFalsa()
 
 function llenarConstaminantes(url, parametro)
 {
-  console.log(url);
   $.ajax({
     type: "GET",
     url: url,
