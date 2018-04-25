@@ -189,6 +189,11 @@ $(document).ready(function()
         },
       },
       scales: {
+        yAxes: [{
+          ticks: {
+            min: 0
+          }
+        }],
         xAxes: [{
           gridLines: {
             display: true,
@@ -401,62 +406,68 @@ function dateMasUno(dateEvaluar, horas)
 
 function getNewDatas(data) {
   var newData = [];
-  var missing = 0;
+  var totalHoursMonth = 672; // 24 hrs * 28 days
+  var dateInsert = new Date();
+  var prevDate = new Date();
+  prevDate.setMinutes(0);
+  prevDate.setSeconds(0);
+  prevDate.setMilliseconds(0);
+  prevDate.setHours(prevDate.getHours() - totalHoursMonth);
 
-  data.results.forEach(function(val, ind) {
-    if (ind < data.results.length - 1) {
-      missing = data.results[ind + 1].hora - val.hora - 1;
+  function addNullValues(prevD) {
+    var fecha = prevD.toLocaleDateString().split("/");
+
+    newData.push({
+      date: prevD.toISOString(),
+      'date-insert': dateInsert.toISOString(),
+      fecha: fecha[2] + "-" +
+        (fecha[1] < 10 ? "0" + fecha[1] : fecha[1]) + "-" +
+        (fecha[0] < 10 ? "0" + fecha[0] : fecha[0]),
+      hora: prevD.getHours(),
+      parametro: null,
+      validoorig: null,
+      valororig: null
+    });
+
+    prevD.setHours(prevD.getHours() + 1);
+  }
+
+  data.forEach(function (val, ind) {
+    var f = val.fecha.split("-");
+    var h = val.hora;
+    var currentDate = new Date(f[0], (parseInt(f[1]) - 1), f[2], h, 0, 0, 0);
+
+    // Condición exclusiva para el 1 de abr de 2018 a la hora 2
+    // ya que al crear este día, la hora aumenta su valor
+    // en vez de 2, genera la hora 3 e impacta en las secuencias posteriores
+    if (val.fecha === "2018-04-01" && h === 2) {
+      newData.push(val);
+    } else if (currentDate.toLocaleDateString() === prevDate.toLocaleDateString() &&
+      currentDate.getHours() === prevDate.getHours()) {
+      newData.push(val);
+      prevDate.setHours(prevDate.getHours() + 1);
+    } else {
+      // Llena el array de datos nulos hasta coincidir con las fechas del array original
+      while (currentDate.toLocaleDateString() !== prevDate.toLocaleDateString()) {
+        addNullValues(prevDate);
+      }
+
+      // Llena el array de datos nulos hasta coincidir con la hora del array original
+      while (prevDate.getHours() !== currentDate.getHours()) {
+        addNullValues(prevDate);
+      }
 
       newData.push(val);
-
-      if (missing >= 1) {
-        for (var i = 1; i <= missing; i++) {
-          newData.push({
-            date: val.date,
-            'date-insert': val['date-insert'],
-            fecha: val.fecha,
-            hora: val.hora + i,
-            parametro: val.parametro,
-            validoorig: val.validoorig,
-            valororig: null
-          });
-        }
-      } else if (data.results[ind + 1].hora >= 0 && data.results[ind + 1].fecha !== val.fecha) {
-        for (var i = val.hora + 1; i <= 23; i++) {
-          newData.push({
-            date: val.date,
-            'date-insert': val['date-insert'],
-            fecha: val.fecha,
-            hora: i,
-            parametro: val.parametro,
-            validoorig: val.validoorig,
-            valororig: null
-          });
-        }
-        for (var i = 0; i <= data.results[ind + 1].hora - 1; i++) {
-          newData.push({
-            date: data.results[ind].date,
-            'date-insert': val['date-insert'],
-            fecha: data.results[ind + 1].fecha,
-            hora: i,
-            parametro: val.parametro,
-            validoorig: val.validoorig,
-            valororig: null
-          });
-        }
-      }
-    } else {
-      newData.push({
-        date: val.date,
-        'date-insert': val['date-insert'],
-        fecha: val.fecha,
-        hora: val.hora,
-        parametro: val.parametro,
-        validoorig: val.validoorig,
-        valororig: val.valororig
-      });
+      prevDate.setHours(prevDate.getHours() + 1);
     }
   });
+
+  // Llena los últimos datos nulos hasta la fecha actual
+  if (newData.length < totalHoursMonth) {
+    for (var i = newData.length; i <= totalHoursMonth - 1; i++) {
+      addNullValues(prevDate);
+    }
+  }
 
   return newData;
 }
@@ -534,9 +545,11 @@ function buscaData(time)
 
 function putGrafica(parametro,horas,maximo)
 {
-  //dataLocal.results = getNewDatas(dataLocal);
-  var a = crearArrCompleto();
-  var data = fusionar(a);
+  if (dataLocal.results.length > 0) {
+    dataLocal.results = getNewDatas(dataLocal.results);
+  }
+
+  var data = dataLocal.results;
   var valores = [];
   var promediosMoviles = [];
   const hora = 3600000;
@@ -546,7 +559,7 @@ function putGrafica(parametro,horas,maximo)
   
   for (let index = 0; index < data.length; index++) 
   {
-    if(data[index].valororig < maximo && data[index].valororig !== null)
+    if(data[index].valororig < maximo && data[index].valororig !== null && data[index].valororig >= 0 )
       valores.push(data[index].valororig); 
     else
       valores.push(null); 
@@ -554,7 +567,7 @@ function putGrafica(parametro,horas,maximo)
     // Agrega todas las fechas
     lbls.days.push(data[index].fecha);
     // Agrega todas las horas
-    lbls.hours.push(data[index].date.substring(11, 16));
+    lbls.hours.push((data[index].hora).toString() + ":00");
 
     if(data[index].hora === 0) {
       etiquetas.push(data[index].fecha);
@@ -576,7 +589,7 @@ function putGrafica(parametro,horas,maximo)
           var fechaValidar = hacerFechaValida(data[l].date);
        
             var valororig = data[l].valororig;
-            if(valororig < maximo && valororig !== null)
+            if(valororig < maximo && valororig !== null  && valororig >= 0)
             {
               acumulado += valororig;
               numValoresValidos++;
@@ -599,21 +612,42 @@ function putGrafica(parametro,horas,maximo)
       promediosMoviles.push(null); 
     }          
   }
-  
-  //validamos si es dato horario
+
+//validamos si es dato horario
   if(horas != "D")
   {
     // Obtiene el último promedio
-    lastAverageOrData = promediosMoviles[promediosMoviles.length - 1] !== null? promediosMoviles[promediosMoviles.length - 1] : 0;
+    if(promediosMoviles[promediosMoviles.length - 1] !== null  && promediosMoviles[promediosMoviles.length - 1] >= 0 )
+    {
+      lastAverageOrData =  promediosMoviles[promediosMoviles.length - 1] ;
+      $('.chart-gauge').show();
+    }
+    else
+    {
+      lastAverageOrData =  0;
+      $('.chart-gauge').hide();
+    }
+    
   }else
   {
     // Obtiene el último dato horario
-    lastAverageOrData = data[data.length - 1].valororig !== null ?data[data.length - 1].valororig : 0 ;
+    if( valores[valores.length - 1] !== null && valores[valores.length - 1] >= 0 )
+    {
+      lastAverageOrData =  data[data.length - 1].valororig  ;
+      $('.chart-gauge').show();
+    }
+    else
+    {
+      lastAverageOrData =  0;
+      $('.chart-gauge').hide();
+    }
   }
-  
+
   // Corta el valor a sólo 3 decimales
-  lastAverageOrData = lastAverageOrData.toString();
-  lastAverageOrData = lastAverageOrData.substring(0, lastAverageOrData.indexOf('.') + 4);
+  if (lastAverageOrData !== null) {
+    lastAverageOrData = lastAverageOrData.toString();
+    lastAverageOrData = lastAverageOrData.substring(0, lastAverageOrData.indexOf('.') + 4);
+  }
 
   var rango = rangoInecc(parametro,horas);
   var valoresRango = [];
@@ -714,30 +748,15 @@ function actualizar_grafica_detalle(valores,etiquetas, lbls, valoresRango,promed
 function poner_botones(valores)
 {
   ant = valores.length;
-  var parametro = valores.length / 4;
   var numDays = [
-    { scope: Math.round(parametro * 1), num: 0 },
-    { scope: Math.round(parametro * 2), num: 0 },
-    { scope: Math.round(parametro * 3), num: 0 },
-    { scope: Math.round(parametro * 4), num: 0 }
+    { scope: Math.round(24 * 3), num: 3 },
+    { scope: Math.round(24 * 7), num: 7 },
+    { scope: Math.round(24 * 14), num: 14 },
+    { scope: Math.round(24 * 28), num: 28 }
   ];
-  var ind = 0;
 
-  // Suma únicamente las fechas que se muestran en la gráfica
-  // de acuerdo a su parámetro
-  for (var i = etiquetas.length - 1; i >= 0; i--) {
-    if (etiquetas[i] !== "" && i >= (etiquetas.length - 1) - numDays[ind].scope) {
-      numDays[ind].num += 1;
-    }
-
-    if ((etiquetas.length - 1) - numDays[ind].scope === i) {
-      ind += 1;
-      numDays[ind].num += numDays[ind - 1].num;
-    }
-  }
-
-  $(".parametro").each(function(index) {
-    $( this ).text(numDays[index].num + " días");
+  $(".parametro").each(function (index) {
+    $(this).text(numDays[index].num + " días");
     $(this).val(numDays[index].scope);
   });
 }
@@ -756,7 +775,7 @@ function convertDate(date)
 
 function getFormatDateAPI(d)
 {
-  var fecha = d.getFullYear()+"-"+ meis[d.getMonth()] +"-"+((d.getDate() < 10?"0":"") + d.getDate())      +"T"+ ( (d.getHours() < 10?"0":"") + d.getHours() ) +":"+( (d.getMinutes()<10?"0":"") + d.getMinutes() )+":00"; 
+  var fecha = d.getFullYear()+"-"+ meis[d.getMonth()] +"-"+((d.getDate() < 10?"0":"") + d.getDate())      +"T"+ ( (d.getHours() < 10?"0":"") + d.getHours() ) +":"+( (d.getMinutes()<10?"0":"") )+"00:00"; 
   return fecha;
 }
 
