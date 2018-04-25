@@ -428,34 +428,35 @@ function getNewDatas(data) {
     prevD.setHours(prevD.getHours() + 1);
   }
 
-  if (data.length < 1) {
-    data.forEach(function (val, ind) {
-      var f = val.fecha.split("-");
-      var h = val.hora;
-      var currentDate = new Date(f[0], (parseInt(f[1]) - 1), f[02], h, 0, 0, 0);
+  data.forEach(function (val, ind) {
+    var f = val.fecha.split("-");
+    var h = val.hora;
+    var currentDate = new Date(f[0], (parseInt(f[1]) - 1), f[2], h, 0, 0, 0);
 
-      if (currentDate.toLocaleDateString() === prevDate.toLocaleDateString() &&
-        currentDate.getHours() === prevDate.getHours()) {
-        newData.push(val);
-        prevDate.setHours(prevDate.getHours() + 1);
-      } else {
-        // Llena el array de datos nulos hasta coincidir con las fechas del array original
-        while (currentDate.toLocaleDateString() !== prevDate.toLocaleDateString()) {
-          addNullValues(prevDate);
-        }
-
-        // Llena el array de datos nulos hasta coincidir con la hora del array original
-        if (currentDate.getHours() !== prevDate.getHours()) {
-          while (prevDate.getHours() !== currentDate.getHours()) {
-            addNullValues(prevDate);
-          }
-        }
-
-        newData.push(val);
-        prevDate.setHours(prevDate.getHours() + 1);
+    // Condición exclusiva para el 1 de abr de 2018 a la hora 2
+    // ya que al crear este día, la hora aumenta su valor
+    // en vez de 2, genera la hora 3 e impacta en las secuencias posteriores
+    if (val.fecha === "2018-04-01" && h === 2) {
+      newData.push(val);
+    } else if (currentDate.toLocaleDateString() === prevDate.toLocaleDateString() &&
+      currentDate.getHours() === prevDate.getHours()) {
+      newData.push(val);
+      prevDate.setHours(prevDate.getHours() + 1);
+    } else {
+      // Llena el array de datos nulos hasta coincidir con las fechas del array original
+      while (currentDate.toLocaleDateString() !== prevDate.toLocaleDateString()) {
+        addNullValues(prevDate);
       }
-    });
-  }
+
+      // Llena el array de datos nulos hasta coincidir con la hora del array original
+      while (prevDate.getHours() !== currentDate.getHours()) {
+        addNullValues(prevDate);
+      }
+
+      newData.push(val);
+      prevDate.setHours(prevDate.getHours() + 1);
+    }
+  });
 
   // Llena los últimos datos nulos hasta la fecha actual
   if (newData.length < totalHoursMonth) {
