@@ -28,6 +28,7 @@ var banderaPromedios = true;
 
 $(document).ready(function()
 {
+  $('#estados').val("Aguascalientes");
   $(".forLoader").removeClass("hide").slideUp();
   
   $("#myModal").on("hidden.bs.modal", function () 
