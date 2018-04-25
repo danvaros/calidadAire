@@ -25,7 +25,6 @@ var arrPM10 = arrPM2 = arrNO2 = arrCO = arrO3 = arrSO2 = [];
 var contador_vacios = 0;
 var ant = 0;
 var banderaPromedios = true;
-var arrCompleto = [];
 var ultimosEstados = [];
 
 $(document).ready(function()
@@ -127,8 +126,6 @@ $(document).ready(function()
     llenarConstaminantes(generaUrl('SO2', estacion, (24*28)),'SO2');
     llenarConstaminantes(generaUrl('O3', estacion, (24*28)),'O3');
     llenarConstaminantes(generaUrl('CO', estacion, (24*28)),'CO');
-
-    arrCompleto = crearArrCompleto();
   });
 
   /*instancia de la grafica*/
@@ -486,8 +483,14 @@ function crearArrCompleto()
   for (let i = 0; i < horasTotales; i++) 
   {
     var hora = fecha.getHours();
-   
-    a[limiteIndex-i] = 
+    var r  = buscaData(new Date(getFormatDateAPI(fecha)).getTime())
+    if( r !== 0)
+    {
+      a[limiteIndex-i] = r;
+    }
+    else
+    {
+      a[limiteIndex-i] = 
       {
         date: getFormatDateAPI(fecha)+'',
         'date-insert':fecha+'',
@@ -496,9 +499,9 @@ function crearArrCompleto()
         parametro: null,
         validoorig: null,
         valororig: null
-      }
-    ;
-    
+      };
+    }
+
     //restamos una hora y volvemos a crear la fecha
     fecha = new Date(fecha.getTime() - 3600000);
   }
@@ -523,6 +526,7 @@ function fusionar(a)
 function buscaData(time)
 { 
   var d = dataLocal.results;
+  
   for (let i = 0; i < d.length; i++) 
   {
     if(hacerFechaValida(d[i].date).getTime() === time)
@@ -551,8 +555,9 @@ function existeUltimoPromedio(e)
 function putGrafica(parametro,horas,maximo)
 {
   //dataLocal.results = getNewDatas(dataLocal);
-  var a = crearArrCompleto();
-  var data = fusionar(a);
+  // var a = crearArrCompleto();
+  // var data = fusionar(a);
+  var data = crearArrCompleto();
   var valores = [];
   var promediosMoviles = [];
   const hora = 3600000;
