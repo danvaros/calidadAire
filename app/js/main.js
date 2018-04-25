@@ -189,6 +189,11 @@ $(document).ready(function()
         },
       },
       scales: {
+        yAxes: [{ 
+          ticks: { 
+            min: 0 
+          } 
+        }], 
         xAxes: [{
           gridLines: {
             display: true,
