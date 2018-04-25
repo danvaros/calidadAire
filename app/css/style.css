@@ -36,6 +36,19 @@ main {
  overflow: hidden; 
 }
 
+.alert.alert-warning.warning-nav {
+  position: absolute;
+  width: 100%;
+  top: 46px;
+  z-index: 1;
+}
+@media screen and (min-width: 768px) and (max-width: 991px) {
+  .alert.alert-warning.warning-nav { padding: 5px; }
+}
+@media screen and (max-width: 767px) {
+  .alert.alert-warning.warning-nav { font-size: 10px; padding: 5px; }
+}
+
 #videoBlock {
   width: 100%;
   height: 100%;
@@ -117,6 +130,7 @@ p {
   background-color: #f0f0f0;
   padding: 15px;
 }
+.data-table > .table > thead > tr > th { font-weight: bold; }
 
 @media only screen and (max-width : 992px) {
   .parallax-container .section {
@@ -276,6 +290,10 @@ hr.red {
 }
 
 .modal_mapa { cursor: pointer; }
+.modal-body { padding: 40px 20px 20px; }
+@media screen and (min-width: 768px) and (max-width: 991px) {
+  .modal-dialog { width: 760px; }
+}
 /*hacer le over del boton o no por que es mobile*/
 
 .titulo_mapa{
@@ -428,6 +446,13 @@ justify-content: center;
     font: 10px sans-serif;
   }
 
+  #max-value-label {
+    display: block;
+    margin-top: -27px;
+    margin-bottom: 30px;
+    font-size: 14px;
+  }
+
   .parallax img{
     filter: contrast(100%) brightness(70%);
   }
@@ -522,8 +547,36 @@ option {
   -moz-transform: rotate(45deg);
   -o-transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
-  -sand-transform: rotate(40deg);
+  -sand-transform: rotate(45deg);
   transform: rotate(45deg);
+}
+@media screen and (min-width: 422px) and (max-width: 767px) {
+  .beta {
+    top: 42px;
+    right: 0;
+    width: 100%;
+    padding: 5px;
+    font-size: 10px;
+    -moz-transform: none;
+    -o-transform: none;
+    -webkit-transform: none;
+    -sand-transform: none;
+    transform: none;
+  }
+}
+@media screen and (max-width: 421px) {
+  .beta {
+    top: 55px;
+    right: 0;
+    width: 100%;
+    padding: 5px;
+    font-size: 10px;
+    -moz-transform: none;
+    -o-transform: none;
+    -webkit-transform: none;
+    -sand-transform: none;
+    transform: none;
+  }
 }
 
 /* GO MAP

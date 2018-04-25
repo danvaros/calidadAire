@@ -1,7 +1,3 @@
-//poner todas las funciones
-
-//variables globales de la pagina
-var estaciones = [];
 var temporale = [];
 var avg = 0;
 var totalt = 0;
@@ -15,13 +11,6 @@ var meses_abr = ["Ene", "Feb", "Mar", "Abr", "May", "Jun",
   "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"
 ];
 
-
-//regresa la fecha con el formato que requiere el api
-function getFormatDateAPI(d){
-  var fecha = d.getFullYear()+'-'+ meis[d.getMonth()] +'-'+((d.getDate() < 10?'0':'') + d.getDate())      +'T'+ ( (d.getHours() < 10?'0':'') + d.getHours() ) +':'+( (d.getMinutes()<10?'0':'') + d.getMinutes() )+':00';
-  return fecha;
-}
-
 function restaHoras(d,h){
   return d.getHours() - h;
 }
@@ -31,7 +20,8 @@ function get_fecha_corta(d){
   return fecha;
 }
 
-function put_temperatura(estacion,contenedor){
+function put_temperatura(estacion,contenedor)
+{
   var fActual = new Date();
   var url =  "https://api.datos.gob.mx/v1/sinaica?parametro=TMP&fecha="+get_fecha_corta(fActual)+"&estacionesid="+estacion;
   $.ajax({
@@ -58,6 +48,15 @@ function reset_botones(){
   });
 
   $('#pinta_primero').addClass('active');
+
+  ant_val_arr = [];
+  ant_val_arr_rango = [];
+  ant_val_arr_promedio = [];
+  
+  ant_lab_arr = [];
+  ant_lab_arr_dias = [];
+  ant_lab_arr_horas = [];
+
 }
 
 function get_fecha_formato(fecha)

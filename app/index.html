@@ -27,9 +27,9 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,700" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
 
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="js/vendor/jquery.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="js/vendor/bootstrap.min.js"></script>
 
 </head>
 
@@ -66,9 +66,9 @@
             <div class="col-xs-12 text-center margen_arriba_g">
 
              <div class="base_botones">
-                <select class="browser-default contaminantes" name="" onchange="ponEstacionesSel()" id="estado_primer_select"></select>
+                <select class="browser-default contaminantes" name="" id="estado_primer_select"></select>
 
-                <select class="browser-default contaminantes" name="" onchange="ponContaminantesSel()" id="estaciones_select">
+                <select class="browser-default contaminantes" name="" id="estaciones_select">
                     <option value="0">2.-Selecciona una estación</option>
                 </select>
 
@@ -101,8 +101,8 @@
         </div>
         <div class="col-xs-3">
           <div class="input-field col s6 m2 l2">
-            <select  id="estados" name="estados" class="form-control" onchange="cambiaCoor()">
-              <option value="Aguascalientes">Aguascalientes</option>
+            <select id="estados" name="estados" class="form-control">
+              <option value="Aguascalientes" selected>Aguascalientes</option>
               <option value="Baja California">Baja California</option>
               <option value="Baja California Sur">Baja California Sur</option>
               <option value="Campeche">Campeche</option>
@@ -222,10 +222,9 @@
                     <img class="img-responsive" src="imagenes/fecha.png">
                   </div>
                   <div class="col-xs-8">
-                    <p><b >Fecha</b></p>
+                    <p><b>Fecha</b></p>
                     <p id="fecha_detalle">24/05/17</p>
                   </div>
-
                   <div class="col-xs-4">
                     <img class="img-responsive" src="imagenes/estacion.png">
                   </div>
@@ -233,15 +232,13 @@
                     <p><b>Estación:</b></p>
                     <p id="estacion_detalle">XAL-Xalostoc</p>
                   </div>
-
                   <div class="col-xs-4">
                     <img class="img-responsive" src="imagenes/temperatura.png">
                   </div>
                   <div class="col-xs-8">
-                    <p><b >Temperatura</b></p>
+                    <p><b>Temperatura</b></p>
                     <p id="temperatura_detalle">No disponible</p>
                   </div>
-
                   <div class="col-xs-4">
                     <img class="img-responsive" src="imagenes/contaminante.png">
                   </div>
@@ -249,45 +246,53 @@
                     <p><b >Contaminante:</b></p>
                     <p id="contaminante_detalle">PM10, 104</p>
                   </div>
-
                 </div>
                 <div class="col-xs-9 hidden-xs">
                     <div class="col-xs-12">
                         <p class="titulo"><strong>Valores máximos registrados del contaminate <span id="contaminante_grafica"> XXX </span></strong></p>
                     </div>
-                    <div class="row margenes_pop">
+                    <div id="max-values" class="margenes_pop">
                       <div class="row">
                         <div class="col-xs-4">
-                          <p data-toggle="tooltip" data-placement="bottom" title="Las partículas menores o iguales a 10 micras (PM10) se depositan en la región extratorácica del tracto respiratorio (nariz, boca, naso, oro y laringofarínge); contienen principalmente materiales de la corteza terrestre y se originan en su mayoría por procesos de desintegración de partículas más grandes. También pueden contener material biológico como
-polen, esporas, virus o bacterias o provenir de la combustión incompleta de combustibles fósiles." class="active_pop boton_pop" id="botonPM10" onclick="cambioParametro('PM10',24,'botonPM10','Las partículas menores o iguales a 10 micras (PM10) se depositan en la región extratorácica del tracto respiratorio (nariz, boca, naso, oro y laringofarínge); contienen principalmente materiales de la corteza terrestre y se originan en su mayoría por procesos de desintegración de partículas más grandes. También pueden contener material biológico como polen, esporas, virus o bacterias o provenir de la combustión incompleta de combustibles fósiles.','PM10 (µg/m&sup3;)')">PM10 (µg/m&sup3;) 24 horas</p>
+                          <p data-toggle="tooltip" data-id="PM10" data-hour="24" data-placement="bottom" data-code="'PM10 (µg/m&sup3;)'" data-title="Las partículas menores o iguales a 10 micras (PM10) se depositan en la región extratorácica del tracto respiratorio (nariz, boca, naso, oro y laringofarínge); contienen principalmente materiales de la corteza terrestre y se originan en su mayoría por procesos de desintegración de partículas más grandes. También pueden contener material biológico como
+                    polen, esporas, virus o bacterias o provenir de la combustión incompleta de combustibles fósiles." class="active_pop boton_pop"
+                            id="botonPM10">PM10 (µg/m&sup3;) 24 horas</p>
                         </div>
                         <div class="col-xs-4">
-                          <p data-toggle="tooltip" data-placement="bottom" title="Las partículas menores o iguales a 2.5 micras (PM2.5) están formadas primordialmente por gases y por material proveniente de la combustión. Se depositan fundamentalmente en la región traqueobronquial (tráquea hasta bronquiolo terminal), aunque pueden ingresar a los alvéolos." class="boton_pop" id="botonPM25" onclick="cambioParametro('PM2.5',24,'botonPM25','Las partículas menores o iguales a 2.5 micras (PM2.5) están formadas primordialmente por gases y por material proveniente de la combustión. Se depositan fundamentalmente en la región traqueobronquial (tráquea hasta bronquiolo terminal), aunque pueden ingresar a los alvéolos.', 'PM2.5 (µg/m&sup3;)')">PM2.5 (µg/m&sup3;) 24 horas</p>
+                          <p data-toggle="tooltip" data-id="PM2.5" data-hour="24" data-placement="bottom" data-code="'PM2.5 (µg/m&sup3;)'" data-title="Las partículas menores o iguales a 2.5 micras (PM2.5) están formadas primordialmente por gases y por material proveniente de la combustión. Se depositan fundamentalmente en la región traqueobronquial (tráquea hasta bronquiolo terminal), aunque pueden ingresar a los alvéolos."
+                            class="boton_pop" id="botonPM25">PM2.5 (µg/m&sup3;) 24 horas</p>
                         </div>
                         <div class="col-xs-4">
-                          <p data-toggle="tooltip" data-placement="bottom" title="El dióxido de nitrógeno es un compuesto químico gaseoso de color marrón amarillento, es un gas tóxico e irritante. La exposición a este gas disminuye la capacidad de difusión pulmonar." class="boton_pop" id="botonNO2" onclick="cambioParametro('NO2','D','botonNO2','El dióxido de nitrógeno es un compuesto químico gaseoso de color marrón amarillento, es un gas tóxico e irritante. La exposición a este gas disminuye la capacidad de difusión pulmonar.','NO2 (ppm)')">NO2 (ppm) Dato horario</p>
+                          <p data-toggle="tooltip" data-id="NO2" data-hour="D" data-placement="bottom" data-code="NO2 (ppm)" data-title="El dióxido de nitrógeno es un compuesto químico gaseoso de color marrón amarillento, es un gas tóxico e irritante. La exposición a este gas disminuye la capacidad de difusión pulmonar."
+                            class="boton_pop" id="botonNO2">NO2 (ppm) Dato horario</p>
                         </div>
                       </div>
                       <div class="row">
                         <div class=" col-xs-4">
-                          <p data-toggle="tooltip" data-placement="bottom" title="Gas incoloro que se forman al quemar azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios." class="boton_pop" id="botonSO2D" onclick="cambioParametro('SO2','D','botonSO2D','Gas incoloro que se forman al quemar azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.','SO2 (ppm)')">SO2 (ppm) Dato horario</p>
+                          <p data-toggle="tooltip" data-id="SO2" data-hour="D" data-placement="bottom" data-code="SO2 (ppm)" data-title="Gas incoloro que se origina durante la combustión de carburantes fósiles que contienen azufre (petróleo, carbón, entre otros). La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios."
+                            class="boton_pop" id="botonSO2D">SO2 (ppm) Dato horario</p>
                         </div>
                         <div class="col-xs-4">
-                          <p data-toggle="tooltip" data-placement="bottom" title="Gas incoloro que se forman al quemar azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios." class="boton_pop" id="botonSO28" onclick="cambioParametro('SO2',8,'botonSO28','Gas incoloro que se forman al quemar azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.','SO2 (ppm)')">SO2 (ppm) 8 horas</p>
+                          <p data-toggle="tooltip" data-id="SO2" data-hour="8" data-placement="bottom" data-code="SO2 (ppm)" data-title="Gas incoloro que se origina durante la combustión de carburantes fósiles que contienen azufre (petróleo, carbón, entre otros). La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios."
+                            class="boton_pop" id="botonSO28">SO2 (ppm) 8 horas</p>
                         </div>
                         <div class="col-xs-4">
-                          <p data-toggle="tooltip" data-placement="bottom" title="Gas incoloro que se forman al quemar azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios." class="boton_pop" id="botonSO224" onclick="cambioParametro('SO2',24,'botonSO224','Gas incoloro que se forman al quemar azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.','SO2 (ppm)')">SO2 (ppm) 24 horas</p>
+                          <p data-toggle="tooltip" data-id="SO2" data-hour="24" data-placement="bottom" data-code="SO2 (ppm)" data-title="Gas incoloro que se origina durante la combustión de carburantes fósiles que contienen azufre (petróleo, carbón, entre otros). La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios."
+                            class="boton_pop" id="botonSO224">SO2 (ppm) 24 horas</p>
                         </div>
                       </div>
                       <div class="row">
                         <div class="col-xs-4">
-                          <p data-toggle="tooltip" data-placement="bottom" title="Es un compuesto gaseoso incoloro, que posee la capacidad de oxidar materiales, y causa irritación ocular y en las vías respiratorias." class="boton_pop" id="botonO3D" onclick="cambioParametro('O3','D','botonO3D','Es un compuesto gaseoso incoloro, que posee la capacidad de oxidar materiales, y causa irritación ocular y en las vías respiratorias.','O3 (ppm)')">O3 (ppm) Dato horario</p>
+                          <p data-toggle="tooltip" data-id="O3" data-hour="D" data-placement="bottom" data-code="O3 (ppm)" data-title="Es un compuesto gaseoso incoloro, que posee la capacidad de oxidar materiales, y causa irritación ocular y en las vías respiratorias."
+                            class="boton_pop" id="botonO3D">O3 (ppm) Dato horario</p>
                         </div>
                         <div class="col-xs-4">
-                          <p data-toggle="tooltip" data-placement="bottom" title="Es un compuesto gaseoso incoloro, que posee la capacidad de oxidar materiales, y causa irritación ocular y en las vías respiratorias." class="boton_pop" id="botonO38" onclick="cambioParametro('O3',8,'botonO38','Es un compuesto gaseoso incoloro, que posee la capacidad de oxidar materiales, y causa irritación ocular y en las vías respiratorias.','O3 (ppm)')">O3 (ppm) 8 horas</p>
+                          <p data-toggle="tooltip" data-id="O3" data-hour="8" data-placement="bottom" data-code="O3 (ppm)" data-title="Es un compuesto gaseoso incoloro, que posee la capacidad de oxidar materiales, y causa irritación ocular y en las vías respiratorias."
+                            class="boton_pop" id="botonO38">O3 (ppm) 8 horas</p>
                         </div>
                         <div class="col-xs-4">
-                          <p data-toggle="tooltip" data-placement="bottom" title="Es un gas incoloro e inodoro que en concentraciones altas puede ser letal ya que forma carboxihemoglobina, la cual impide la oxígenación de la sangre." class="boton_pop" id="botonCO" onclick="cambioParametro('CO',8,'botonCO','Es un gas incoloro e inodoro que en concentraciones altas puede ser letal ya que forma carboxihemoglobina, la cual impide la oxígenación de la sangre.','CO (ppm)')">CO (ppm) 8 horas</p>
+                          <p data-toggle="tooltip" data-id="CO" data-hour="8" data-placement="bottom" data-code="C0 (ppm)" data-title="Es un gas incoloro e inodoro que en concentraciones altas puede ser letal ya que forma carboxihemoglobina, la cual impide la oxígenación de la sangre."
+                            class="boton_pop" id="botonCO">CO (ppm) 8 horas</p>
                         </div>
                       </div>
                     </div>
@@ -312,24 +317,24 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
               </div>
 
               <div class="row">
-                <div class="col-xs-12 col-sm-3 text-center">
+                <div class="col-xs-12 col-sm-4 text-center">
                     <div class="chart-gauge"></div>
-
                 </div>
-                <div class="col-xs-12 col-sm-9">
+                <div class="col-xs-12 col-sm-8">
                   <div class="col-xs-12">
                     <h5 id="tituloTexto">parametro</h5>
                     <p id="textoTitulo">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias, delectus voluptate error libero, repudiandae </p>
-                    <h6>Recomendaciones</h6>
-                    <p>Reducir el tiempo de exposición en exteriores, sobre todo de sectores vulnerables</p>
-                    <ul>
-                      <li>Niños</li>
-                      <li>Adultos mayores</li>
-                      <li>Mujeres embarazadas</li>
-                      <li>Personas con problemas respiratorios</li>
-                      <li>cardiovasculares</li>
-                    </ul>
-                    <p>Evitar salir a realizar actividades deportivas.</p>
+                    <div id="recomendaciones">
+                      <h6>Recomendaciones</h6>
+                      <p>Reducir el tiempo de exposición en exteriores, sobre todo de sectores vulnerables</p>
+                      <ul>
+                        <li>Niños</li>
+                        <li>Adultos mayores</li>
+                        <li>Mujeres embarazadas</li>
+                        <li>Personas con problemas respiratorios y cardiovasculares</li>
+                      </ul>
+                      <p>Evitar salir a realizar actividades deportivas.</p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -338,10 +343,10 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
                   <canvas id="myChart"></canvas>
                 </div>
                 <div class="col-xs-12 botonera">
-                  <a href="#" class="parametro">boton 1</a>
-                  <a href="#" class="parametro">boton 1</a>
-                  <a href="#" class="parametro">boton 1</a>
-                  <a href="#" id="pinta_primero" class="parametro active">boton 1</a>
+                  <a href="#" class="parametro">3 días</a>
+                  <a href="#" class="parametro">7 días</a>
+                  <a href="#" class="parametro">14 días</a>
+                  <a href="#" id="pinta_primero" class="parametro active">28 días</a>
                 </div>
                 <input type="hidden" name="estacion" id="estacion_id" value="">
                 <input type="hidden" name="ciudad" id="ciudad" value="">
@@ -360,15 +365,15 @@ polen, esporas, virus o bacterias o provenir de la combustión incompleta de com
 
     <script src="https://framework-gb.cdn.gob.mx/gobmx.js"></script>
 
-    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <!-- Leaflet-->
     <script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js"
     integrity="sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA=="
     crossorigin=""></script>
 
-    <script src="libs/chartjs/Chart.bundle.js"></script>
-    <script src="libs/chartjs/utils.js"></script>
-    <script src="js/jquery.gaugeIt.js"></script>
+    <script src="js/vendor/chartjs/Chart.bundle.js"></script>
+    <script src="js/vendor/chartjs/utils.js"></script>
+    <script src="js/vendor/jquery.gaugeIt.js"></script>
 
     <!-- local-->
     <script src="js/utileria.js" type="text/javascript" charset="utf-8"></script>
