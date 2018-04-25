@@ -469,10 +469,8 @@ function getNewDatas(data) {
 
 function putGrafica(parametro,horas,maximo)
 {
-  if (dataLocal.results.length < 1) {
-    dataLocal.results = getNewDatas(dataLocal.results);
-  }
-  
+  dataLocal.results = getNewDatas(dataLocal.results);
+
   var data = dataLocal.results;
   var valores = [];
   var promediosMoviles = [];
