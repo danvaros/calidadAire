@@ -470,7 +470,9 @@ function getNewDatas(data) {
 
 function putGrafica(parametro,horas,maximo)
 {
-  dataLocal.results = getNewDatas(dataLocal.results);
+  if (dataLocal.results.length > 0) {
+    dataLocal.results = getNewDatas(dataLocal.results);
+  }
 
   var data = dataLocal.results;
   var valores = [];
