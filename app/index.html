@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Calidad del Aire</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+
+  <link rel="shortcut icon" href="https://framework-gb.cdn.gob.mx/favicon.ico">
+  <link href="https://framework-gb.cdn.gob.mx/assets/styles/main.css" rel="stylesheet">
+
+  <!-- Respond.js soporte de media queries para Internet Explorer 8 -->
+  <!-- ie8.js EventTarget para cada nodo en Internet Explorer 8 -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ie8/0.2.2/ie8.js"></script>
+  <![endif]-->
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css"
+  integrity="sha512-wcw6ts8Anuw10Mzh9Ytw4pylW8+NAD4ch3lqm9lzAsTxg0GFeJgoAtxuCLREZSC5lUXdVyo/7yfsqFjQ4S+aKw=="
+  crossorigin=""/>
+  <!-- Fuente Roboto-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
+
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+</head>
+
+<body class="page" cz-shortcut-listen="true" >
+  <main>
+
+    <div class="beta">BETA</div>
+
+    <div class="forLoader" id="forLoader1">
+    	 <div class="loader"></div>
+     </div>
+
+
+    <div id="videoBlock" class="cabezera">
+
+
+      <video preload="preload"  id="video" autoplay="autoplay" loop="loop" playsinline muted poster="imagenes/back.jpg">
+          <source src="imagenes/nubes.mp4" type="video/mp4">
+      </video>
+
+
+      <div class="section no-pad-bot move-up">
+        <div class="container">
+          <div class="row">
+            <div class="col-xs-12 text-center">
+
+              <h2>Calidad del Aire</h2>
+
+              <p><strong><i>Selecciona tu estado y estación para obtener información</i></strong></p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-12 text-center margen_arriba_g">
+
+             <div class="base_botones">
+                <select class="browser-default contaminantes" name="" id="estado_primer_select"></select>
+
+                <select class="browser-default contaminantes" name="" id="estaciones_select">
+                    <option value="0">2.-Selecciona una estación</option>
+                </select>
+
+                <select class="browser-default contaminantes hidden" name="" id="contaminantes">
+                  <option value="0">3.-Selecciona un contaminate</option>
+                </select>
+              </div>
+
+            </div>
+            <div class="col-xs-12 text-center">
+
+              <h5 class="white-text"><span id="contaminante_titulo"><a style="color: white" href="preguntas.html">Preguntas frecuentes</a> | <a style="color: white" href="glosario.html"> Glosario </a> </span></h5>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="go-map">
+        <i class="material-icons">keyboard_arrow_down</i>
+      </div>
+
+    </div>
+
+    <div id="map-section" class="container hidden-xs">
+      <div class="row mapa_titulo">
+        <div class="col-xs-12">
+          <h2>Estaciones de medición de contaminantes</h2>
+          <hr class="red">
+        </div>
+        <div class="col-xs-3">
+          <div class="input-field col s6 m2 l2">
+            <select  id="estados" name="estados" class="form-control">
+              <option value="Aguascalientes">Aguascalientes</option>
+              <option value="Baja California">Baja California</option>
+              <option value="Baja California Sur">Baja California Sur</option>
+              <option value="Campeche">Campeche</option>
+              <option value="Chiapas">Chiapas</option>
+              <option value="Chihuahua">Chihuahua</option>
+              <option value="Ciudad de México">Ciudad de México</option>
+              <option value="Coahuila">Coahuila</option>
+              <option value="Colima">Colima</option>
+              <option value="Durango">Durango</option>
+              <option value="Guanajuato">Guanajuato</option>
+              <option value="Guerrero">Guerrero</option>
+              <option value="Hidalgo">Hidalgo</option>
+              <option value="Jalisco">Jalisco</option>
+              <option value="México">México</option>
+              <option value="Michoacán">Michoacán</option>
+              <option value="Morelos">Morelos</option>
+              <option value="Nayarit">Nayarit</option>
+              <option value="Nuevo León">Nuevo León</option>
+              <option value="Oaxaca">Oaxaca</option>
+              <option value="Puebla">Puebla</option>
+              <option value="Querétaro">Querétaro</option>
+              <option value="Quintana Roo">Quintana Roo</option>
+              <option value="San Luis Potosí">San Luis Potosí</option>
+              <option value="Sinaloa">Sinaloa</option>
+              <option value="Sonora">Sonora</option>
+              <option value="Tabasco">Tabasco</option>
+              <option value="Tamaulipas">Tamaulipas</option>
+              <option value="Tlaxcala">Tlaxcala</option>
+              <option value="Veracruz">Veracruz</option>
+              <option value="Yucatán">Yucatán</option>
+              <option value="Zacatecas">Zacatecas</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+	<div class="container">
+	    <div class="row">
+	      <div class="col col-xs-12 hidden-xs">
+	        <div id="mapid"></div>
+	      </div>
+      </div>
+	</div>
+
+	<div class="container hidden-xs">
+	    <div class="row">
+	      <div class="col col-xs-12">
+          <h3>Datos</h3>
+          <hr class="red">
+	        <div class="data-table">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Institución</th>
+                    <th>Formato</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr id="dato" data-href="https://datos.gob.mx/busca/dataset/proveedores-comercializacion-y-cultivos">
+                    <td id="nombreDato" class="">Calidad de aire</td>
+                    <td id="institucionDato" width="25%" class="">INECC</td>
+                    <td width="10%">
+                      <a
+                        href="https://datos.gob.mx/busca/organization/inecc" 
+                        id="tipoDato" 
+                        data-format="XLS" 
+                        class="dataset-format">JSON</a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+	      </div>
+	    </div>
+	</div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Mensaje</h4>
+          </div>
+          <div class="modal-body">
+            El parámetro seleccionado no cuenta con lecturas en los últimos días.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal"> Aceptar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <p class="titulo"><strong id="titulo_detalle">Ciudad Fernández</strong></p>
+          </div>
+          <div class="modal-body">
+            <!-- esto sera el modal -->
+
+              <div class="row ">
+                <div class="col-xs-12">
+                    <div id="alerta" class="alert alert-danger">
+                      No es posible obtener el valor solicitado para este día.
+                    </div>
+                </div>
+                  
+                <div class="col-xs-3 hidden-xs">
+                  <div class="col-xs-4">
+                    <img class="img-responsive" src="imagenes/fecha.png">
+                  </div>
+                  <div class="col-xs-8">
+                    <p><b>Fecha</b></p>
+                    <p id="fecha_detalle">24/05/17</p>
+                  </div>
+                  <div class="col-xs-4">
+                    <img class="img-responsive" src="imagenes/estacion.png">
+                  </div>
+                  <div class="col-xs-8">
+                    <p><b>Estación:</b></p>
+                    <p id="estacion_detalle">XAL-Xalostoc</p>
+                  </div>
+                  <div class="col-xs-4">
+                    <img class="img-responsive" src="imagenes/temperatura.png">
+                  </div>
+                  <div class="col-xs-8">
+                    <p><b>Temperatura</b></p>
+                    <p id="temperatura_detalle">No disponible</p>
+                  </div>
+                  <div class="col-xs-4">
+                    <img class="img-responsive" src="imagenes/contaminante.png">
+                  </div>
+                  <div class="col-xs-8">
+                    <p><b >Contaminante:</b></p>
+                    <p id="contaminante_detalle">PM10, 104</p>
+                  </div>
+                </div>
+                <div class="col-xs-9 hidden-xs">
+                    <div class="col-xs-12">
+                        <p class="titulo"><strong>Valores máximos registrados del contaminate <span id="contaminante_grafica"> XXX </span></strong></p>
+                    </div>
+                    <div id="max-values" class="margenes_pop">
+                      <div class="row">
+                        <div class="col-xs-4">
+                          <p data-toggle="tooltip" data-id="PM10" data-hour="24" data-placement="bottom" data-code="'PM10 (µg/m&sup3;)'" data-title="Las partículas menores o iguales a 10 micras (PM10) se depositan en la región extratorácica del tracto respiratorio (nariz, boca, naso, oro y laringofarínge); contienen principalmente materiales de la corteza terrestre y se originan en su mayoría por procesos de desintegración de partículas más grandes. También pueden contener material biológico como
+                    polen, esporas, virus o bacterias o provenir de la combustión incompleta de combustibles fósiles." class="active_pop boton_pop"
+                            id="botonPM10">PM10 (µg/m&sup3;) 24 horas</p>
+                        </div>
+                        <div class="col-xs-4">
+                          <p data-toggle="tooltip" data-id="PM2.5" data-hour="24" data-placement="bottom" data-code="'PM2.5 (µg/m&sup3;)'" data-title="Las partículas menores o iguales a 2.5 micras (PM2.5) están formadas primordialmente por gases y por material proveniente de la combustión. Se depositan fundamentalmente en la región traqueobronquial (tráquea hasta bronquiolo terminal), aunque pueden ingresar a los alvéolos."
+                            class="boton_pop" id="botonPM25">PM2.5 (µg/m&sup3;) 24 horas</p>
+                        </div>
+                        <div class="col-xs-4">
+                          <p data-toggle="tooltip" data-id="NO2" data-hour="D" data-placement="bottom" data-code="NO2 (ppm)" data-title="El dióxido de nitrógeno es un compuesto químico gaseoso de color marrón amarillento, es un gas tóxico e irritante. La exposición a este gas disminuye la capacidad de difusión pulmonar."
+                            class="boton_pop" id="botonNO2">NO2 (ppm) Dato horario</p>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class=" col-xs-4">
+                          <p data-toggle="tooltip" data-id="SO2" data-hour="D" data-placement="bottom" data-code="SO2 (ppm)" data-title="Gas incoloro que se origina durante la combustión de carburantes fósiles que contienen azufre (petróleo, carbón, entre otros). La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios."
+                            class="boton_pop" id="botonSO2D">SO2 (ppm) Dato horario</p>
+                        </div>
+                        <div class="col-xs-4">
+                          <p data-toggle="tooltip" data-id="SO2" data-hour="8" data-placement="bottom" data-code="SO2 (ppm)" data-title="Gas incoloro que se origina durante la combustión de carburantes fósiles que contienen azufre (petróleo, carbón, entre otros). La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios."
+                            class="boton_pop" id="botonSO28">SO2 (ppm) 8 horas</p>
+                        </div>
+                        <div class="col-xs-4">
+                          <p data-toggle="tooltip" data-id="SO2" data-hour="24" data-placement="bottom" data-code="SO2 (ppm)" data-title="Gas incoloro que se origina durante la combustión de carburantes fósiles que contienen azufre (petróleo, carbón, entre otros). La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios."
+                            class="boton_pop" id="botonSO224">SO2 (ppm) 24 horas</p>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xs-4">
+                          <p data-toggle="tooltip" data-id="O3" data-hour="D" data-placement="bottom" data-code="O3 (ppm)" data-title="Es un compuesto gaseoso incoloro, que posee la capacidad de oxidar materiales, y causa irritación ocular y en las vías respiratorias."
+                            class="boton_pop" id="botonO3D">O3 (ppm) Dato horario</p>
+                        </div>
+                        <div class="col-xs-4">
+                          <p data-toggle="tooltip" data-id="O3" data-hour="8" data-placement="bottom" data-code="O3 (ppm)" data-title="Es un compuesto gaseoso incoloro, que posee la capacidad de oxidar materiales, y causa irritación ocular y en las vías respiratorias."
+                            class="boton_pop" id="botonO38">O3 (ppm) 8 horas</p>
+                        </div>
+                        <div class="col-xs-4">
+                          <p data-toggle="tooltip" data-id="CO" data-hour="8" data-placement="bottom" data-code="C0 (ppm)" data-title="Es un gas incoloro e inodoro que en concentraciones altas puede ser letal ya que forma carboxihemoglobina, la cual impide la oxígenación de la sangre."
+                            class="boton_pop" id="botonCO">CO (ppm) 8 horas</p>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 hidden-sm hidden-md hidden-lg text-center">
+                  <p>
+                    <span id="estacion_detalle_m">XAL-Xalostoc </span>
+                    <span id="fecha_detalle_m"><b>24/05/17</b></span>
+                  </p>
+                  <select name="conataminatesMovil" id="conataminatesMovil">
+                    <option value="PM10">PM10 (µg/m&sup3;) 24 horas</option>
+                    <option value="PM2.5">PM2.5 (µg/m&sup3;) 24 horas</option>
+                    <option value="NO2">NO2 (ppm) Dato horario</option>
+                    <option value="SO2D">SO2 (ppm) Dato horario</option>
+                    <option value="SO28">SO2 (ppm) 8 horas</option>
+                    <option value="SO224">SO2 (ppm) 24 horas</option>
+                    <option value="O3D">O3 (ppm) Dato horario</option>
+                    <option value="O38">O3 (ppm) 8 horas</option>
+                    <option value="CO8">CO (ppm) 8 horas</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xs-12 col-sm-4 text-center">
+                    <div class="chart-gauge"></div>
+                </div>
+                <div class="col-xs-12 col-sm-8">
+                  <div class="col-xs-12">
+                    <h5 id="tituloTexto">parametro</h5>
+                    <p id="textoTitulo">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias, delectus voluptate error libero, repudiandae </p>
+                    <div id="recomendaciones">
+                      <h6>Recomendaciones</h6>
+                      <p>Reducir el tiempo de exposición en exteriores, sobre todo de sectores vulnerables</p>
+                      <ul>
+                        <li>Niños</li>
+                        <li>Adultos mayores</li>
+                        <li>Mujeres embarazadas</li>
+                        <li>Personas con problemas respiratorios y cardiovasculares</li> 
+                      </ul>
+                      <p>Evitar salir a realizar actividades deportivas.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row hidden-xs">
+                <div class="col-xs-12 offset-m1 offset-l2">
+                  <canvas id="myChart"></canvas>
+                </div>
+                <div class="col-xs-12 botonera">
+                  <a href="#" class="parametro">boton 1</a>
+                  <a href="#" class="parametro">boton 1</a>
+                  <a href="#" class="parametro">boton 1</a>
+                  <a href="#" id="pinta_primero" class="parametro active">boton 1</a>
+                </div>
+                <input type="hidden" name="estacion" id="estacion_id" value="">
+                <input type="hidden" name="ciudad" id="ciudad" value="">
+              </div>
+
+          </div> <!-- fin del body  -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+          </div>
+
+      </div>
+    </div>
+    </div>
+
+  </main>
+
+    <script src="https://framework-gb.cdn.gob.mx/gobmx.js"></script>
+
+    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <!-- Leaflet-->
+    <script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js"
+    integrity="sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA=="
+    crossorigin=""></script>
+
+    <script src="js/vendor/chartjs/Chart.bundle.js"></script>
+    <script src="js/vendor/chartjs/utils.js"></script>
+    <script src="js/vendor/jquery.gaugeIt.js"></script>
+
+    <!-- local-->
+    <script src="js/utileria.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/main.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/estados_mexico.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/estaciones_json.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/mod_mapa.js" type="text/javascript" charset="utf-8"></script>
+  </body>
+</html>

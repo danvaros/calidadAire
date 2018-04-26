@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <title>Calidad del Aire</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+
+  <link rel="shortcut icon" href="https://framework-gb.cdn.gob.mx/favicon.ico">
+  <link href="https://framework-gb.cdn.gob.mx/assets/styles/main.css" rel="stylesheet">
+
+  <!-- Respond.js soporte de media queries para Internet Explorer 8 -->
+  <!-- ie8.js EventTarget para cada nodo en Internet Explorer 8 -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ie8/0.2.2/ie8.js"></script>
+  <![endif]-->
+
+  <!-- Fuente Roboto-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,700" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
+
+  <style>  
+        /*
+    ** Formatos de datos
+    */
+    .dataset-format{font-size:12px;font-weight:700;color:#fff;text-transform:uppercase;border-radius:0;padding:3px 5px}.dataset-format[data-format="csv"],.dataset-format[data-format="CSV"]{background-color:#ffd100}.dataset-format[data-format="kml"],.dataset-format[data-format="KML"]{background-color:#474747}.dataset-format[data-format="geojson"],.dataset-format[data-format="GEOJSON"],.dataset-format[data-format="json"],.dataset-format[data-format="JSON"]{background-color:#33ffd1}.dataset-format[data-format="pdf"],.dataset-format[data-format="PDF"]{background-color:#ff2200}.dataset-format[data-format="arcgis"],.dataset-format[data-format="ARCGIS"]{background-color:#d100FF}.dataset-format[data-format="xlsx"],.dataset-format[data-format="xls"],.dataset-format[data-format="excel"],.dataset-format[data-format="vnd.ms-excel"],.dataset-format[data-format="EXCEL"],.dataset-format[data-format="VND.MS-EXCEL"],.dataset-format[data-format="XLS"],.dataset-format[data-format="XLSX"]{background-color:#00d100}.dataset-format[data-format="xml"],.dataset-format[data-format="XML"]{background-color:#0000d1}.dataset-format[data-format="oracle"],.dataset-format[data-format="ORACLE"]{background-color:#55bada}.dataset-format[data-format="shp"],.dataset-format[data-format="SHP"]{background-color:#bada55}.dataset-format[data-format="kmz"],.dataset-format[data-format="KMZ"]{background-color:#55adab}.dataset-format[data-format="zip"],.dataset-format[data-format="ZIP"]{background-color:#669999}
+    
+  </style>
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+</head>
+
+<body class="page" cz-shortcut-listen="true" >
+ 
+<main>
+
+<div class="container">
+ <div class="row">
+     <div class="col-xs-12">
+         <breadcrumb>
+             <ul class="breadcrumb">
+                 <li>
+                     <a ui-sref="landing" href="/">
+                         <i class="glyphicon glyphicon-home"></i>
+                     </a>
+                 </li>
+                 <!-- ngRepeat: crumb in crumbs -->
+                 <li ng-repeat="crumb in crumbs" class="ng-scope">
+                     <a href="index.html" class="ng-binding">
+                         Calidad del aire
+                     </a>
+                 </li>
+                 <li ng-repeat="crumb in crumbs" class="ng-scope">
+                     <a class="ng-binding">
+                          Preguntas frecuentes
+                     </a>
+                 </li>
+                <!-- end ngRepeat: crumb in crumbs -->
+             </ul>
+         </breadcrumb>
+     </div>
+ </div>
+  <div class="row">
+      <div class="col-xs-12">
+          <h3>Preguntas frecuentes</h3>
+          <hr class="red">
+      </div>
+  </div>
+   <div class="row">
+       <div class="col-xs-12">
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingOne">
+              <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  ¿Qué información puedes encontrar aquí?
+                </a>
+              </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+              <div class="panel-body">
+                <p>
+                   Los datos de calidad del aire de las últimas horas, para los principales contaminantes que afectan nuestra salud.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingTwo">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+
+                  ¿De dónde proviene la información?
+
+                </a>
+              </h4>
+            </div>
+            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+              <div class="panel-body">
+              <p>
+                  Los datos de calidad del aire son generados en las estaciones de monitoreo automáticas operadas por diversos gobiernos estatales y municipales en México.
+              </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingThree">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                  ¿Qué uso le puedo dar a los datos que arroja?
+                </a>
+              </h4>
+            </div>
+            <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+              <div class="panel-body">
+                <p>
+
+                    Esta información será de utilidad para estar informado de los niveles de contaminación del aire que hay en tu localidad.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading4">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                  ¿Con quién puedo contactar si tengo dudas sobre estos datos?
+                </a>
+              </h4>
+            </div>
+            <div id="collapse4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading4">
+              <div class="panel-body">
+                <p>
+                   En sinaica.inecc.gob.mx (página desarrollada por el Instituto Nacional de Ecología), que es la fuente que concentra los datos que aquí se reportan, se encuentra un directorio de los responsables tanto internos como los responsables en cada entidad integrada a dicho sistema.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading5">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse5" aria-expanded="false" aria-controls="collapse5">
+
+                  ¿Cuáles son los principales contaminantes que afectan mi salud?
+
+                </a>
+              </h4>
+            </div>
+            <div id="collapse5" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading5">
+              <div class="panel-body">
+                <p>
+
+                    En el glosario de términos puedes encontrar cuales son los contaminantes criterio, que son aquellos que tienen un efecto en nuestra salud, y a los cuales se les ha establecido un límite máximo como medida de protección.
+
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading6">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse6" aria-expanded="false" aria-controls="collapse6">
+
+                  ¿Cuántas estaciones de monitoreo existen en México?
+
+                </a>
+              </h4>
+            </div>
+            <div id="collapse6" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading6">
+              <div class="panel-body">
+                <p>
+                    175
+                </p>
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
+   </div>
+</div>
+
+
+  </main>
+  <script src="https://framework-gb.cdn.gob.mx/gobmx.js"></script>
+  </body>
+</html>
+
+
+
+
+
