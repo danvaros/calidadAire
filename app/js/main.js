@@ -1,4 +1,5 @@
 var dataLocal = [];
+var dataLocalCP = [];
 var chart;
 var ctx;
 var color;
@@ -479,6 +480,7 @@ function redondearFecha(fecha)
 function crearArrCompleto()
 {
   var a = [];
+  dataLocalCP = dataLocal;
   //tomar la fecha actual
   var fecha =  new Date();
   //llevamos la fecha a cero minutos y cero segundos
@@ -530,18 +532,32 @@ function fusionar(a)
 
 function buscaData(time)
 { 
-  var d = dataLocal.results;
-  
-  for (let i = 0; i < d.length; i++) 
-  {
-    if(hacerFechaValida(d[i].date).getTime() === time)
-    {
-      return d[i];
-      break;
-    }    
+  var BreakException = {};
+  var d = dataLocalCP.results;
+  var indicador = 0;
+  var objeto = 0;
+
+  try {
+    d.forEach(function(el,i) {
+      indicador = i;
+      if (time === hacerFechaValida(el.date).getTime()) throw BreakException;
+    });
+  } catch (e) {
+    if (e !== BreakException) throw e;
+    objeto = d[indicador];
+    delete dataLocalCP.results[indicador];
   }
 
-  return 0;
+  // for (let i = 0; i < d.length; i++) 
+  // {
+  //   if(hacerFechaValida(d[i].date).getTime() === time)
+  //   {
+  //     return d[i];
+  //     break;
+  //   }    
+  // }
+
+   return objeto;
 }
 
 function existeUltimoPromedio(e)
@@ -882,11 +898,6 @@ function cambiaCoor()
           mymap.setView([val.lat, val.long], (val.zoom-1));
       }
     });
-}
-
-function DateFalsa()
-{
-  return new Date("2018-03-07 00:00:00");
 }
 
 function llenarConstaminantes(url, parametro)
@@ -1244,3 +1255,69 @@ function buscarEstacion(id_estacion)
   }
   return estacion;
 }
+
+
+
+
+
+//manejo de foreach
+// function pruebaArreglo()
+// {
+//   var numbers = [
+//     {date: 1,
+//         'date-insert':'',
+//         fecha: '',
+//         hora: 1,
+//         parametro: null,
+//         validoorig: null,
+//         valororig: null},
+//         {date: 2,
+//           'date-insert':'',
+//           fecha: '',
+//           hora: 2,
+//         parametro: null,
+//         validoorig: null,
+//         valororig: null},
+//         {date: 3,
+//           'date-insert':'',
+//           fecha: '',
+//           hora: 3,
+//         parametro: null,
+//         validoorig: null,
+//         valororig: null},
+//         {date: 4,
+//           'date-insert':'',
+//           fecha: '',
+//           hora: 4,
+//         parametro: null,
+//         validoorig: null,
+//         valororig: null},
+//         {date: 5,
+//           'date-insert':'',
+//           fecha: '',
+//           hora: 5,
+//         parametro: null,
+//         validoorig: null,
+//         valororig: null}
+//   ];
+  
+
+//   var BreakException = {};
+
+//   try {
+//     numbers.forEach(function(el) {
+//       console.log(el);
+//       if (4 === el.date) throw BreakException;
+//     });
+//   } catch (e) {
+//     if (e !== BreakException) throw e;
+//     delete numbers[1];
+//   }
+
+//   console.log('cambiamos');
+
+//   numbers.forEach(function(el) {
+//     console.log(el);
+//   });
+
+// }
