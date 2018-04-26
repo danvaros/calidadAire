@@ -28,7 +28,7 @@ var banderaPromedios = true;
 
 $(document).ready(function()
 {
-  $('#estados').val("Aguascalientes");
+  // $('#estados').val("Aguascalientes");
   $(".forLoader").removeClass("hide").slideUp();
   
   $("#myModal").on("hidden.bs.modal", function () 
@@ -429,16 +429,40 @@ function getNewDatas(data) {
     prevD.setHours(prevD.getHours() + 1);
   }
 
+  function isSafari() {
+    if (/^((?!chrome|android).)*safari/i.test(navigator.userAgent))
+      return true;
+    else
+      return false;
+  }
+
+  function checkAndAddDatas(prevD) {
+    if (prevD.toLocaleDateString() === "1/4/2018" && prevD.getHours() === 1 && isSafari()) {
+      addNullValues(prevD);
+      prevD.setHours(prevD.getHours() + 2);
+    } else {
+      addNullValues(prevD);
+    }
+  }
+
   data.forEach(function (val, ind) {
     var f = val.fecha.split("-");
     var h = val.hora;
     var currentDate = new Date(f[0], (parseInt(f[1]) - 1), f[2], h, 0, 0, 0);
 
-    // Condición exclusiva para el 1 de abr de 2018 a la hora 2
-    // ya que al crear este día, la hora aumenta su valor
-    // en vez de 2, genera la hora 3 e impacta en las secuencias posteriores
-    if (val.fecha === "2018-04-01" && h === 2) {
-      newData.push(val);
+    // Condición exclusiva para el horario de verano
+    // Firefox/Chrome = hora 2 -- hora 3
+    // Safari = hora 2 -- hora 1
+    if (currentDate.getHours() !== h) {
+      if (currentDate.getHours() === 0) {
+        newData.push(val);
+        prevDate.setHours(prevDate.getHours() + 3);
+      } else if (currentDate.getHours() === 1) {
+        newData.push(val);
+        prevDate.setHours(prevDate.getHours() + 2);
+      } else if (currentDate.getHours() === 2) {
+        newData.push(val);
+      }
     } else if (currentDate.toLocaleDateString() === prevDate.toLocaleDateString() &&
       currentDate.getHours() === prevDate.getHours()) {
       newData.push(val);
@@ -446,12 +470,12 @@ function getNewDatas(data) {
     } else {
       // Llena el array de datos nulos hasta coincidir con las fechas del array original
       while (currentDate.toLocaleDateString() !== prevDate.toLocaleDateString()) {
-        addNullValues(prevDate);
+        checkAndAddDatas(prevDate);
       }
 
       // Llena el array de datos nulos hasta coincidir con la hora del array original
       while (prevDate.getHours() !== currentDate.getHours()) {
-        addNullValues(prevDate);
+        checkAndAddDatas(prevDate);
       }
 
       newData.push(val);
@@ -708,7 +732,7 @@ function getFormatDateAPI(d)
               meis[d.getMonth()] + "-" +
               ( (d.getDate() < 10?"0":"") + d.getDate() )+
               "T" +( (d.getHours() < 10?"0":"") +d.getHours() ) + ":00:00"; 
-
+              
   return fecha;
 }
 
