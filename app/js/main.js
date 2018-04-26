@@ -480,7 +480,7 @@ function redondearFecha(fecha)
 function crearArrCompleto()
 {
   var a = [];
-  dataLocalCP = dataLocal;
+  dataLocalCP = dataLocal.results.slice(0);
   //tomar la fecha actual
   var fecha =  new Date();
   //llevamos la fecha a cero minutos y cero segundos
@@ -533,7 +533,7 @@ function fusionar(a)
 function buscaData(time)
 { 
   var BreakException = {};
-  var d = dataLocalCP.results;
+  var d = dataLocalCP;
   var indicador = 0;
   var objeto = 0;
 
@@ -545,7 +545,7 @@ function buscaData(time)
   } catch (e) {
     if (e !== BreakException) throw e;
     objeto = d[indicador];
-    delete dataLocalCP.results[indicador];
+    delete dataLocalCP[indicador];
   }
 
   // for (let i = 0; i < d.length; i++) 
