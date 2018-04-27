@@ -1,4 +1,5 @@
 var dataLocal = [];
+var dataLocalCP = [];
 var chart;
 var ctx;
 var color;
@@ -29,7 +30,6 @@ var ultimosEstados = [];
 
 $(document).ready(function()
 {
-  // $('#estados').val("Aguascalientes");
   $(".forLoader").removeClass("hide").slideUp();
   
   $("#myModal").on("hidden.bs.modal", function () 
@@ -41,7 +41,6 @@ $(document).ready(function()
     $(".boton_pop").each(function(){
       $(this).removeClass("bloqueado");
     });
-
 
     var arr_vacio = [];
     chart.data.datasets[0].data =  arr_vacio;
@@ -191,11 +190,11 @@ $(document).ready(function()
         },
       },
       scales: {
-        yAxes: [{
-          ticks: {
-            min: 0
-          }
-        }],
+        yAxes: [{ 
+          ticks: { 
+            min: 0 
+          } 
+        }], 
         xAxes: [{
           gridLines: {
             display: true,
@@ -408,67 +407,159 @@ function dateMasUno(dateEvaluar, horas)
 
 function getNewDatas(data) {
   var newData = [];
-  var totalHoursMonth = 672; // 24 hrs * 28 days
-  var dateInsert = moment();
-  // Bander para realmente llenar la última hora
-  // debido al cambio de horario
-  var noReal672 = false;
-  var prevDate = moment().minutes(0).seconds(0).milliseconds(0);
-  prevDate.add(-671, 'hour'); // una hora menos aún por causa del cambio de horario
+  var missing = 0;
 
-  function addNullValues(prevD) {
-    newData.push({
-      date: prevD.format(),
-      'date-insert': dateInsert.format(),
-      fecha: prevD.format('YYYY-MM-DD'),
-      hora: prevD.get('hour'),
-      parametro: null,
-      validoorig: null,
-      valororig: null
-    });
+  data.results.forEach(function(val, ind) {
+    if (ind < data.results.length - 1) {
+      missing = data.results[ind + 1].hora - val.hora - 1;
 
-    prevD.add(1, 'hour');
-  }
-
-  data.forEach(function (val, ind) {
-    var f = val.fecha;
-    var h = val.hora;
-    var hora = h < 10 ? "0" + h : h;
-    var currentDate = moment(f + ' ' + hora + ':00:00');
-
-    // Condición exclusiva para el horario de verano
-    // la hora 2 la convierte en la hora 3, y no se agrega hora del prevDate
-    if (currentDate.get('hour') !== h) {
       newData.push(val);
-      noReal672 = true;
-    } else if (currentDate.format() === prevDate.format() ||
-              (prevDate.get('hour') === 1 && h === 2)) { // Condición exclusiva para horario de invierno
-      newData.push(val);
-      prevDate.add(1, 'hour');
-    } else {
-      // Llena el array de datos nulos hasta coincidir con 
-      while (currentDate.format() !== prevDate.format()) {
-        addNullValues(prevDate);
+
+      if (missing >= 1) {
+        for (var i = 1; i <= missing; i++) {
+          newData.push({
+            date: val.date,
+            'date-insert': val['date-insert'],
+            fecha: val.fecha,
+            hora: val.hora + i,
+            parametro: val.parametro,
+            validoorig: val.validoorig,
+            valororig: null
+          });
+        }
+      } else if (data.results[ind + 1].hora >= 0 && data.results[ind + 1].fecha !== val.fecha) {
+        for (var i = val.hora + 1; i <= 23; i++) {
+          newData.push({
+            date: val.date,
+            'date-insert': val['date-insert'],
+            fecha: val.fecha,
+            hora: i,
+            parametro: val.parametro,
+            validoorig: val.validoorig,
+            valororig: null
+          });
+        }
+        for (var i = 0; i <= data.results[ind + 1].hora - 1; i++) {
+          newData.push({
+            date: data.results[ind].date,
+            'date-insert': val['date-insert'],
+            fecha: data.results[ind + 1].fecha,
+            hora: i,
+            parametro: val.parametro,
+            validoorig: val.validoorig,
+            valororig: null
+          });
+        }
       }
-
-      newData.push(val);
-      prevDate.add(1, 'hour');
+    } else {
+      newData.push({
+        date: val.date,
+        'date-insert': val['date-insert'],
+        fecha: val.fecha,
+        hora: val.hora,
+        parametro: val.parametro,
+        validoorig: val.validoorig,
+        valororig: val.valororig
+      });
     }
   });
 
-  // Llena los últimos datos nulos hasta la fecha actual
-  if (newData.length < totalHoursMonth) {
-    for (var i = newData.length; i <= totalHoursMonth - 1; i++) {
-      addNullValues(prevDate);
+  return newData;
+}
+
+function redondearFecha(fecha)
+{
+  var mm = fecha.getMonth() + 1; // getMonth() is zero-based
+  var dd = fecha.getDate();
+  var yy = fecha.getFullYear();
+  var hh = fecha.getHours();
+
+  return new Date(yy+'/'+mm+'/'+dd+' '+hh+':00:00');
+}
+
+function crearArrCompleto()
+{
+  var a = [];
+  dataLocalCP = dataLocal.results.slice(0);
+  //tomar la fecha actual
+  var fecha =  new Date();
+  //llevamos la fecha a cero minutos y cero segundos
+  fecha = redondearFecha(fecha);
+  const horasTotales = 24*28;
+  const limiteIndex = horasTotales-1;
+  for (let i = 0; i < horasTotales; i++) 
+  {
+    var hora = fecha.getHours();
+    var r  = buscaData(new Date(getFormatDateAPI(fecha)).getTime())
+    if( r !== 0)
+    {
+      a[limiteIndex-i] = r;
+    }
+    else
+    {
+      a[limiteIndex-i] = 
+      {
+        date: getFormatDateAPI(fecha)+'',
+        'date-insert':fecha+'',
+        fecha: convertDate(fecha)+'',
+        hora: hora,
+        parametro: null,
+        validoorig: null,
+        valororig: null
+      };
+    }
+
+    //restamos una hora y volvemos a crear la fecha
+    fecha = new Date(fecha.getTime() - 3600000);
+  }
+
+  console.log(dataLocal);
+  console.log(dataLocalCP);
+  return a;
+}
+
+function fusionar(a)
+{
+  for (let i = 0; i < a.length; i++) 
+  {
+    var r  = buscaData(new Date(a[i].date).getTime())
+    if( r !== 0)
+    {
+      a[i] = r;
     }
   }
-  // Condicional exclusiva para que nos de realmente la última hora
-  // debido al cambio de horario
-  if (noReal672) {
-    addNullValues(prevDate);
-  } else if (!noReal672 && newData.length === 673) { newData.pop(); }
+  
+  return a;
+}
 
-  return newData;
+function buscaData(time)
+{ 
+  var BreakException = {};
+  var d = dataLocalCP;
+  var indicador = 0;
+  var objeto = 0;
+
+  try {
+    d.forEach(function(el,i) {
+      indicador = i;
+      if (time === hacerFechaValida(el.date).getTime()) throw BreakException;
+    });
+  } catch (e) {
+    if (e !== BreakException) throw e;
+    objeto = d[indicador];
+    delete dataLocalCP[indicador];
+  }
+
+  // for (let i = 0; i < d.length; i++) 
+  // {
+  //   if(hacerFechaValida(d[i].date).getTime() === time)
+  //   {
+  //     return d[i];
+  //     break;
+  //   }    
+  // }
+
+   return objeto;
 }
 
 function existeUltimoPromedio(e)
@@ -486,11 +577,10 @@ function existeUltimoPromedio(e)
 
 function putGrafica(parametro,horas,maximo)
 {
-  if (dataLocal.results.length > 0) {
-    dataLocal.results = getNewDatas(dataLocal.results);
-  }
-
-  var data = dataLocal.results;
+  //dataLocal.results = getNewDatas(dataLocal);
+  // var a = crearArrCompleto();
+  // var data = fusionar(a);
+  var data = crearArrCompleto();
   var valores = [];
   var promediosMoviles = [];
   const hora = 3600000;
@@ -498,16 +588,15 @@ function putGrafica(parametro,horas,maximo)
   lbls.days = [];
   lbls.hours = [];
   var e = parametro+''+horas;
-
-  var newInd = 0;
+  
   for (let index = 0; index < data.length; index++) 
   {
-    if(data[index].valororig < maximo && data[index].valororig !== null && data[index].valororig >= 0 )
-    {
+    if(data[index].valororig < maximo && data[index].valororig !== null && data[index].valororig >= 0)
+    { 
       valores.push(data[index].valororig); 
 
       var r = existeUltimoPromedio(e);
-
+          
       if(r !== -1) //si existe se sustitulle
       {
         ultimosEstados[r].valor = data[index].valororig;
@@ -521,21 +610,19 @@ function putGrafica(parametro,horas,maximo)
           valor: data[index].valororig,
         });
       }
-    }
+    } 
     else
       valores.push(null); 
 
     // Agrega todas las fechas
     lbls.days.push(data[index].fecha);
     // Agrega todas las horas
-    lbls.hours.push((data[index].hora).toString() + ":00");
+    lbls.hours.push(data[index].date.substring(11, 16));
 
     if(data[index].hora === 0) {
       etiquetas.push(data[index].fecha);
-      newInd = 0;
     } else { 
      etiquetas.push('');
-     newInd++;
     }
 
     if(horas != "D")
@@ -552,18 +639,18 @@ function putGrafica(parametro,horas,maximo)
           var fechaValidar = hacerFechaValida(data[l].date);
        
             var valororig = data[l].valororig;
-            if(valororig < maximo && valororig !== null  && valororig >= 0)
+            if(valororig < maximo && valororig !== null &&  valororig >= 0 )
             {
               acumulado += valororig;
               numValoresValidos++;
             }
-                
         }
 
-        if(numValoresValidos  > (horas * .75))
+        if(numValoresValidos  >= (horas * .75)) 
         {
           var p = acumulado/horas;
           promediosMoviles.push(p);
+
           var r = existeUltimoPromedio(e);
           
           if(r !== -1) //si existe se sustitulle
@@ -594,7 +681,7 @@ function putGrafica(parametro,horas,maximo)
     }          
   }
 
-//validamos si es dato horario
+  //validamos si es dato horario
   if(horas != "D")
   {
     // Obtiene el último promedio
@@ -614,7 +701,7 @@ function putGrafica(parametro,horas,maximo)
     // Obtiene el último dato horario
     if( valores[valores.length - 1] !== null && valores[valores.length - 1] >= 0 )
     {
-      lastAverageOrData =  data[data.length - 1].valororig  ;
+      lastAverageOrData =  data[data.length - 1] ;
       $('.chart-gauge').show();
     }
     else
@@ -623,12 +710,14 @@ function putGrafica(parametro,horas,maximo)
       $('.chart-gauge').hide();
     }
   }
+  
+  if(lastAverageOrData == 0)
+  {
 
-  // Corta el valor a sólo 3 decimales
-  if (lastAverageOrData !== null) {
-    lastAverageOrData = lastAverageOrData.toString();
-    lastAverageOrData = lastAverageOrData.substring(0, lastAverageOrData.indexOf('.') + 4);
   }
+  // Corta el valor a sólo 3 decimales
+  lastAverageOrData = lastAverageOrData.toString();
+  lastAverageOrData = lastAverageOrData.substring(0, lastAverageOrData.indexOf('.') + 4);
 
   var rango = rangoInecc(parametro,horas);
   var valoresRango = [];
@@ -729,15 +818,30 @@ function actualizar_grafica_detalle(valores,etiquetas, lbls, valoresRango,promed
 function poner_botones(valores)
 {
   ant = valores.length;
+  var parametro = valores.length / 4;
   var numDays = [
-    { scope: Math.round(24 * 3), num: 3 },
-    { scope: Math.round(24 * 7), num: 7 },
-    { scope: Math.round(24 * 14), num: 14 },
-    { scope: Math.round(24 * 28), num: 28 }
+    { scope: Math.round(parametro * .4), num: 0 },
+    { scope: Math.round(parametro * 1), num: 0 },
+    { scope: Math.round(parametro * 2), num: 0 },
+    { scope: Math.round(parametro * 4), num: 0 }
   ];
+  var ind = 0;
 
-  $(".parametro").each(function (index) {
-    $(this).text(numDays[index].num + " días");
+  // Suma únicamente las fechas que se muestran en la gráfica
+  // de acuerdo a su parámetro
+  for (var i = etiquetas.length - 1; i >= 0; i--) {
+    if (etiquetas[i] !== "" && i >= (etiquetas.length - 1) - numDays[ind].scope) {
+      numDays[ind].num += 1;
+    }
+
+    if ((etiquetas.length - 1) - numDays[ind].scope === i) {
+      ind += 1;
+      numDays[ind].num += numDays[ind - 1].num;
+    }
+  }
+
+  $(".parametro").each(function(index) {
+    $( this ).text(numDays[index].num + " días");
     $(this).val(numDays[index].scope);
   });
 }
@@ -756,11 +860,7 @@ function convertDate(date)
 
 function getFormatDateAPI(d)
 {
-  var fecha = d.getFullYear() + "-" +
-              meis[d.getMonth()] + "-" +
-              ( (d.getDate() < 10?"0":"") + d.getDate() )+
-              "T" +( (d.getHours() < 10?"0":"") +d.getHours() ) + ":00:00"; 
-              
+  var fecha = d.getFullYear()+"-"+ meis[d.getMonth()] +"-"+((d.getDate() < 10?"0":"") + d.getDate())      +"T"+ ( (d.getHours() < 10?"0":"") + d.getHours() ) +":"+( (d.getMinutes()<10?"0":"") + d.getMinutes() )+":00"; 
   return fecha;
 }
 
@@ -800,11 +900,6 @@ function cambiaCoor()
           mymap.setView([val.lat, val.long], (val.zoom-1));
       }
     });
-}
-
-function DateFalsa()
-{
-  return new Date("2018-03-07 00:00:00");
 }
 
 function llenarConstaminantes(url, parametro)
@@ -853,7 +948,7 @@ function llenarConstaminantes(url, parametro)
       }
       else
       {
-        //cuenta los contaminantes que no reporttan valores
+        //cuenta los contaminantes que no reportan valores
         contador_vacios++;
 
         //se desabilita para móvil
@@ -885,23 +980,18 @@ function llenarConstaminantes(url, parametro)
         }
         else if("CO" === parametro)
         {
-
           arrCO = data;
-
           $("#botonCO").addClass("bloqueado");
         }
         else if("O3" === parametro)
         {
-
           arrO3 = data;
           $("#botonO38").addClass("bloqueado");
           $("#botonO3D").addClass("bloqueado");
         }
         else if("SO2" === parametro)
         {
-
           arrSO2 = data;
-
           $("#botonSO2D").addClass("bloqueado");
           $("#botonSO28").addClass("bloqueado");
           $("#botonSO224").addClass("bloqueado");
@@ -963,10 +1053,10 @@ function changeMovilOption(parametro,horas)
 function cambioParametro(parametro, horas,id,titulo,lb)
 {
   $("#alerta").hide();
-  $("#recomendaciones").hide();
   
-  reset_botones();
+
   ponerReocmendaciones();
+  reset_botones();
   
   if(!($("#"+id).hasClass("bloqueado")))
   {
@@ -1167,3 +1257,69 @@ function buscarEstacion(id_estacion)
   }
   return estacion;
 }
+
+
+
+
+
+// //manejo de foreach
+// function pruebaArreglo()
+// {
+//   var numbers = [
+//     {date: 1,
+//         'date-insert':'',
+//         fecha: '',
+//         hora: 1,
+//         parametro: null,
+//         validoorig: null,
+//         valororig: null},
+//         {date: 2,
+//           'date-insert':'',
+//           fecha: '',
+//           hora: 2,
+//         parametro: null,
+//         validoorig: null,
+//         valororig: null},
+//         {date: 3,
+//           'date-insert':'',
+//           fecha: '',
+//           hora: 3,
+//         parametro: null,
+//         validoorig: null,
+//         valororig: null},
+//         {date: 4,
+//           'date-insert':'',
+//           fecha: '',
+//           hora: 4,
+//         parametro: null,
+//         validoorig: null,
+//         valororig: null},
+//         {date: 5,
+//           'date-insert':'',
+//           fecha: '',
+//           hora: 5,
+//         parametro: null,
+//         validoorig: null,
+//         valororig: null}
+//   ];
+  
+
+//   var BreakException = {};
+
+//   try {
+//     numbers.forEach(function(el) {
+//       console.log(el);
+//       if (4 === el.date) throw BreakException;
+//     });
+//   } catch (e) {
+//     if (e !== BreakException) throw e;
+//     delete numbers[1];
+//   }
+
+//   console.log('cambiamos');
+
+//   numbers.forEach(function(el) {
+//     console.log(el);
+//   });
+
+// }
