@@ -474,7 +474,7 @@ function redondearFecha(fecha)
   var yy = fecha.getFullYear();
   var hh = fecha.getHours();
 
-  return new Date(yy+'-'+mm+'-'+dd+' '+hh+':00:00');
+  return new Date(yy+'/'+mm+'/'+dd+' '+hh+':00:00');
 }
 
 function crearArrCompleto()
@@ -513,6 +513,8 @@ function crearArrCompleto()
     fecha = new Date(fecha.getTime() - 3600000);
   }
 
+  console.log(dataLocal);
+  console.log(dataLocalCP);
   return a;
 }
 
@@ -1260,7 +1262,7 @@ function buscarEstacion(id_estacion)
 
 
 
-//manejo de foreach
+// //manejo de foreach
 // function pruebaArreglo()
 // {
 //   var numbers = [
