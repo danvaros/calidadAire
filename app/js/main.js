@@ -415,7 +415,7 @@ function getNewDatas(data) {
     var fecha = prevD.toLocaleDateString().split("/");
 
     newData.push({
-      date: prevD.toISOString(),
+      date: getFormatDateAPI(prevD),
       'date-insert': dateInsert.toISOString(),
       fecha: fecha[2] + "-" +
         (fecha[1] < 10 ? "0" + fecha[1] : fecha[1]) + "-" +
