@@ -25,6 +25,7 @@ var arrPM10 = arrPM2 = arrNO2 = arrCO = arrO3 = arrSO2 = [];
 var contador_vacios = 0;
 var ant = 0;
 var banderaPromedios = true;
+var ultimosEstados = [];
 
 $(document).ready(function()
 {
@@ -33,10 +34,14 @@ $(document).ready(function()
   
   $("#myModal").on("hidden.bs.modal", function () 
   {
+    $("#recomendaciones").hide();
+    arrCompleto = [];
+    ultimosEstados = [];
     contador_vacios = 0;
     $(".boton_pop").each(function(){
       $(this).removeClass("bloqueado");
     });
+
 
     var arr_vacio = [];
     chart.data.datasets[0].data =  arr_vacio;
@@ -466,6 +471,19 @@ function getNewDatas(data) {
   return newData;
 }
 
+function existeUltimoPromedio(e)
+{  
+  for (let l = 0; l < ultimosEstados.length; l++) 
+  {  
+    if(ultimosEstados[l].etiqueta == e)
+    {
+      return l;
+      break;
+    }
+  }
+  return -1;  
+}
+
 function putGrafica(parametro,horas,maximo)
 {
   if (dataLocal.results.length > 0) {
@@ -479,12 +497,31 @@ function putGrafica(parametro,horas,maximo)
   etiquetas = [];
   lbls.days = [];
   lbls.hours = [];
+  var e = parametro+''+horas;
 
   var newInd = 0;
   for (let index = 0; index < data.length; index++) 
   {
     if(data[index].valororig < maximo && data[index].valororig !== null && data[index].valororig >= 0 )
+    {
       valores.push(data[index].valororig); 
+
+      var r = existeUltimoPromedio(e);
+
+      if(r !== -1) //si existe se sustitulle
+      {
+        ultimosEstados[r].valor = data[index].valororig;
+      }
+      else //si no existe se crea
+      { 
+        ultimosEstados.push({
+          etiqueta : e,
+          horas : horas,
+          parametro : parametro, 
+          valor: data[index].valororig,
+        });
+      }
+    }
     else
       valores.push(null); 
 
@@ -523,8 +560,26 @@ function putGrafica(parametro,horas,maximo)
                 
         }
 
-        if(numValoresValidos  > (horas * .75)) 
-          promediosMoviles.push(acumulado/horas);
+        if(numValoresValidos  > (horas * .75))
+        {
+          var p = acumulado/horas;
+          promediosMoviles.push(p);
+          var r = existeUltimoPromedio(e);
+          
+          if(r !== -1) //si existe se sustitulle
+          {
+            ultimosEstados[r].valor = p;
+          }
+          else //si no existe se crea
+          { 
+            ultimosEstados.push({
+              etiqueta : e,
+              horas : horas,
+              parametro : parametro,
+              valor: p,
+            });
+          }
+        }
         else
           promediosMoviles.push(null); 
       }
@@ -911,6 +966,7 @@ function cambioParametro(parametro, horas,id,titulo,lb)
   $("#recomendaciones").hide();
   
   reset_botones();
+  ponerReocmendaciones();
   
   if(!($("#"+id).hasClass("bloqueado")))
   {
@@ -982,8 +1038,8 @@ function cambioParametro(parametro, horas,id,titulo,lb)
 
     if(promedioFinal > 0)
     {
-      if(maximoP < promedioFinal)
-        $("#recomendaciones").show();
+      // if(maximoP < promedioFinal)
+      //   $("#recomendaciones").show();
 
       $(".chart-gauge").html("");
       $(".chart-gauge").gaugeIt({ selector: ".chart-gauge", value: lastAverageOrData,label:label,gaugeMaxValue:maximoP*2});
@@ -992,6 +1048,18 @@ function cambioParametro(parametro, horas,id,titulo,lb)
     {
       $(".chart-gauge").html("");
       $(".chart-gauge").gaugeIt({ selector: ".chart-gauge", value: lastAverageOrData, label: label, gaugeMaxValue: maximoP*2});
+    }
+  }
+}
+
+function ponerReocmendaciones()
+{
+  for (let index = 0; index < ultimosEstados.length; index++) 
+  {  
+    var r = rangoInecc(ultimosEstados[index].parametro,ultimosEstados[index].horas);
+    if(ultimosEstados[index].valor > r)
+    {
+      $("#recomendaciones").show();
     }
   }
 }
