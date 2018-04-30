@@ -493,6 +493,21 @@ function ponerReocmendaciones()
   }
 }
 
+function getUltimoRango(p)
+{
+  var valor = 0;
+  for (let index = 0; index < ultimosEstados.length; index++) 
+  {  
+    if(ultimosEstados[index].etiqueta === p)
+    {
+      valor =  ultimosEstados[index].valor;
+    }    
+  }
+
+  return valor;
+}
+
+
 function putGrafica(parametro,horas,maximo)
 {
   if (dataLocal.results.length > 0) {
@@ -611,12 +626,12 @@ function putGrafica(parametro,horas,maximo)
     if(promediosMoviles[promediosMoviles.length - 1] !== null  && promediosMoviles[promediosMoviles.length - 1] >= 0 )
     {
       lastAverageOrData =  promediosMoviles[promediosMoviles.length - 1] ;
-      $('.chart-gauge').show();
+      //$('.chart-gauge').show();
     }
     else
     {
       lastAverageOrData =  0;
-      $('.chart-gauge').hide();
+      //$('.chart-gauge').hide();
     }
     
   }else
@@ -625,12 +640,12 @@ function putGrafica(parametro,horas,maximo)
     if( valores[valores.length - 1] !== null && valores[valores.length - 1] >= 0 )
     {
       lastAverageOrData =  data[data.length - 1].valororig  ;
-      $('.chart-gauge').show();
+      //$('.chart-gauge').show();
     }
     else
     {
       lastAverageOrData =  0;
-      $('.chart-gauge').hide();
+      //$('.chart-gauge').hide();
     }
   }
 
@@ -1052,12 +1067,12 @@ function cambioParametro(parametro, horas,id,titulo,lb)
         $("#recomendaciones").show();
 
       $(".chart-gauge").html("");
-      $(".chart-gauge").gaugeIt({ selector: ".chart-gauge", value: lastAverageOrData,label:label,gaugeMaxValue:maximoP*2});
+      $(".chart-gauge").gaugeIt({ selector: ".chart-gauge", value: getUltimoRango(parametro+''+horas),label:label,gaugeMaxValue:maximoP*2});
     }
     else
     {
       $(".chart-gauge").html("");
-      $(".chart-gauge").gaugeIt({ selector: ".chart-gauge", value: lastAverageOrData, label: label, gaugeMaxValue: maximoP*2});
+      $(".chart-gauge").gaugeIt({ selector: ".chart-gauge", value: getUltimoRango(parametro+''+horas), label: label, gaugeMaxValue: maximoP*2});
     }
   }
 }
