@@ -332,6 +332,9 @@ hr.red {
   margin: 30px 30px;
 }
 
+#navbarMainCollapse {
+  background-color: #393C3E;
+}
 
 .navbar{height :30px !important;}
 .navbar-default{background : #000 !important;}
