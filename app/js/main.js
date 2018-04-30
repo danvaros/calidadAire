@@ -29,6 +29,7 @@ var arrCompleto = [];
 
 $(document).ready(function()
 {
+  $('#estados').val("Aguascalientes");
   $(".forLoader").removeClass("hide").slideUp();
   
   $("#myModal").on("hidden.bs.modal", function () 
@@ -407,58 +408,50 @@ function dateMasUno(dateEvaluar, horas)
 function getNewDatas(data) {
   var newData = [];
   var totalHoursMonth = 672; // 24 hrs * 28 days
-  var dateInsert = new Date();
-  var prevDate = new Date();
-  prevDate.setMinutes(0);
-  prevDate.setSeconds(0);
-  prevDate.setMilliseconds(0);
-  prevDate.setHours(prevDate.getHours() - totalHoursMonth);
+  var dateInsert = moment();
+  // Bander para realmente llenar la última hora
+  // debido al cambio de horario
+  var noReal672 = false;
+  var prevDate = moment().minutes(0).seconds(0).milliseconds(0);
+  prevDate.add(-671, 'hour'); // una hora menos aún por causa del cambio de horario
 
   function addNullValues(prevD) {
-    var fecha = prevD.toLocaleDateString().split("/");
-
     newData.push({
-      date: prevD.toISOString(),
-      'date-insert': dateInsert.toISOString(),
-      fecha: fecha[2] + "-" +
-        (fecha[1] < 10 ? "0" + fecha[1] : fecha[1]) + "-" +
-        (fecha[0] < 10 ? "0" + fecha[0] : fecha[0]),
-      hora: prevD.getHours(),
+      date: prevD.format(),
+      'date-insert': dateInsert.format(),
+      fecha: prevD.format('YYYY-MM-DD'),
+      hora: prevD.get('hour'),
       parametro: null,
       validoorig: null,
       valororig: null
     });
 
-    prevD.setHours(prevD.getHours() + 1);
+    prevD.add(1, 'hour');
   }
 
   data.forEach(function (val, ind) {
-    var f = val.fecha.split("-");
+    var f = val.fecha;
     var h = val.hora;
-    var currentDate = new Date(f[0], (parseInt(f[1]) - 1), f[2], h, 0, 0, 0);
+    var hora = h < 10 ? "0" + h : h;
+    var currentDate = moment(f + ' ' + hora + ':00:00');
 
-    // Condición exclusiva para el 1 de abr de 2018 a la hora 2
-    // ya que al crear este día, la hora aumenta su valor
-    // en vez de 2, genera la hora 3 e impacta en las secuencias posteriores
-    if (val.fecha === "2018-04-01" && h === 2) {
+    // Condición exclusiva para el horario de verano
+    // la hora 2 la convierte en la hora 3, y no se agrega hora del prevDate
+    if (currentDate.get('hour') !== h) {
       newData.push(val);
-    } else if (currentDate.toLocaleDateString() === prevDate.toLocaleDateString() &&
-      currentDate.getHours() === prevDate.getHours()) {
+      noReal672 = true;
+    } else if (currentDate.format() === prevDate.format() ||
+              (prevDate.get('hour') === 1 && h === 2)) { // Condición exclusiva para horario de invierno
       newData.push(val);
-      prevDate.setHours(prevDate.getHours() + 1);
+      prevDate.add(1, 'hour');
     } else {
-      // Llena el array de datos nulos hasta coincidir con las fechas del array original
-      while (currentDate.toLocaleDateString() !== prevDate.toLocaleDateString()) {
-        addNullValues(prevDate);
-      }
-
-      // Llena el array de datos nulos hasta coincidir con la hora del array original
-      while (prevDate.getHours() !== currentDate.getHours()) {
+      // Llena el array de datos nulos hasta coincidir con 
+      while (currentDate.format() !== prevDate.format()) {
         addNullValues(prevDate);
       }
 
       newData.push(val);
-      prevDate.setHours(prevDate.getHours() + 1);
+      prevDate.add(1, 'hour');
     }
   });
 
@@ -468,6 +461,11 @@ function getNewDatas(data) {
       addNullValues(prevDate);
     }
   }
+  // Condicional exclusiva para que nos de realmente la última hora
+  // debido al cambio de horario
+  if (noReal672) {
+    addNullValues(prevDate);
+  } else if (!noReal672 && newData.length === 673) { newData.pop(); }
 
   return newData;
 }
@@ -775,7 +773,11 @@ function convertDate(date)
 
 function getFormatDateAPI(d)
 {
-  var fecha = d.getFullYear()+"-"+ meis[d.getMonth()] +"-"+((d.getDate() < 10?"0":"") + d.getDate())      +"T"+ ( (d.getHours() < 10?"0":"") + d.getHours() ) +":"+( (d.getMinutes()<10?"0":"") )+"00:00"; 
+  var fecha = d.getFullYear() + "-" +
+              meis[d.getMonth()] + "-" +
+              ( (d.getDate() < 10?"0":"") + d.getDate() )+
+              "T" +( (d.getHours() < 10?"0":"") +d.getHours() ) + ":00:00"; 
+              
   return fecha;
 }
 
