@@ -493,6 +493,21 @@ function ponerReocmendaciones()
   }
 }
 
+function getUltimoRango(p)
+{
+  var valor = '';
+  for (let index = 0; index < ultimosEstados.length; index++) 
+  {  
+    if(ultimosEstados[index].etiqueta === p)
+    {
+      valor =  ultimosEstados[index];
+    }    
+  }
+
+  return valor;
+}
+
+
 function putGrafica(parametro,horas,maximo)
 {
   if (dataLocal.results.length > 0) {
@@ -516,21 +531,26 @@ function putGrafica(parametro,horas,maximo)
       valores.push(data[index].valororig); 
     
       var r = existeUltimoPromedio(e);
-
-      if(r !== -1) //si existe se sustitulle
+      if(horas == "D")
       {
-        ultimosEstados[r].valor = data[index].valororig;
-      }
-      else //si no existe se crea
-      { 
-        ultimosEstados.push({
-          etiqueta : e,
-          horas : horas,
-          parametro : parametro, 
-          valor: data[index].valororig,
-        });
-      }
-
+        if(r !== -1) //si existe se sustitulle
+        {
+          ultimosEstados[r].valor = data[index].valororig;
+          ultimosEstados[r].fecha = data[index].fecha;
+          ultimosEstados[r].hora = data[index].hora;
+        }
+        else //si no existe se crea
+        { 
+          ultimosEstados.push({
+            etiqueta : e,
+            fecha:data[index].fecha,
+            hora:data[index].hora,
+            horas : horas,
+            parametro : parametro, 
+            valor: data[index].valororig,
+          });
+        }
+      }  
     }
     else
       valores.push(null); 
@@ -579,11 +599,15 @@ function putGrafica(parametro,horas,maximo)
           if(r !== -1) //si existe se sustitulle
           {
             ultimosEstados[r].valor = p;
+            ultimosEstados[r].fecha = data[index].fecha;
+            ultimosEstados[r].hora = data[index].hora;
           }
           else //si no existe se crea
           { 
             ultimosEstados.push({
               etiqueta : e,
+              fecha:data[index].fecha,
+              hora:data[index].hora,
               horas : horas,
               parametro : parametro,
               valor: p,
@@ -611,12 +635,12 @@ function putGrafica(parametro,horas,maximo)
     if(promediosMoviles[promediosMoviles.length - 1] !== null  && promediosMoviles[promediosMoviles.length - 1] >= 0 )
     {
       lastAverageOrData =  promediosMoviles[promediosMoviles.length - 1] ;
-      $('.chart-gauge').show();
+      //$('.chart-gauge').show();
     }
     else
     {
       lastAverageOrData =  0;
-      $('.chart-gauge').hide();
+      //$('.chart-gauge').hide();
     }
     
   }else
@@ -625,12 +649,12 @@ function putGrafica(parametro,horas,maximo)
     if( valores[valores.length - 1] !== null && valores[valores.length - 1] >= 0 )
     {
       lastAverageOrData =  data[data.length - 1].valororig  ;
-      $('.chart-gauge').show();
+      //$('.chart-gauge').show();
     }
     else
     {
       lastAverageOrData =  0;
-      $('.chart-gauge').hide();
+      //$('.chart-gauge').hide();
     }
   }
 
@@ -1045,20 +1069,41 @@ function cambioParametro(parametro, horas,id,titulo,lb)
     putGrafica(parametro, horas,maximoL);
     promedioFinal =  lastAverageOrData;
 
+    var ultimoRango =  getUltimoRango(parametro+''+horas);
 
-    if(promedioFinal > 0)
+
+
+
+    if(ultimoRango !== '')
     {
-      if(maximoP < promedioFinal)
-        $("#recomendaciones").show();
-
+      var vString = ultimoRango.valor.toString();
+      vString = vString.substring(0, vString.indexOf('.') + 4);
       $(".chart-gauge").html("");
-      $(".chart-gauge").gaugeIt({ selector: ".chart-gauge", value: lastAverageOrData,label:label,gaugeMaxValue:maximoP*2});
+      $(".chart-gauge").gaugeIt({ selector: ".chart-gauge", value: vString,label:label,gaugeMaxValue:maximoP*2});
+
+      $(".date-gauge").html(ultimoRango.fecha+ "--" + ultimoRango.hora+':00:00');
     }
     else
     {
       $(".chart-gauge").html("");
-      $(".chart-gauge").gaugeIt({ selector: ".chart-gauge", value: lastAverageOrData, label: label, gaugeMaxValue: maximoP*2});
+      $(".chart-gauge").gaugeIt({ selector: ".chart-gauge", value: 0,label:label,gaugeMaxValue:maximoP*2});
+
+      $(".date-gauge").html("");
     }
+    
+    
+    // if(promedioFinal > 0)
+    // {
+    //   if(maximoP < promedioFinal)
+    //     $("#recomendaciones").show();
+
+      
+    // }
+    // else
+    // {
+    //   $(".chart-gauge").html("");
+    //   $(".chart-gauge").gaugeIt({ selector: ".chart-gauge", value: getUltimoRango(parametro+''+horas).toFixed(3), label: label, gaugeMaxValue: maximoP*2});
+    // }
   }
 }
 
