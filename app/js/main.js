@@ -536,6 +536,8 @@ function putGrafica(parametro,horas,maximo)
         if(r !== -1) //si existe se sustitulle
         {
           ultimosEstados[r].valor = data[index].valororig;
+          ultimosEstados[r].fecha = data[index].fecha;
+          ultimosEstados[r].hora = data[index].hora;
         }
         else //si no existe se crea
         { 
@@ -597,6 +599,8 @@ function putGrafica(parametro,horas,maximo)
           if(r !== -1) //si existe se sustitulle
           {
             ultimosEstados[r].valor = p;
+            ultimosEstados[r].fecha = data[index].fecha;
+            ultimosEstados[r].hora = data[index].hora;
           }
           else //si no existe se crea
           { 
@@ -1067,12 +1071,17 @@ function cambioParametro(parametro, horas,id,titulo,lb)
 
     var ultimoRango =  getUltimoRango(parametro+''+horas);
 
+
+
+
     if(ultimoRango !== '')
     {
+      var vString = ultimoRango.valor.toString();
+      vString = vString.substring(0, vString.indexOf('.') + 4);
       $(".chart-gauge").html("");
-      $(".chart-gauge").gaugeIt({ selector: ".chart-gauge", value: ultimoRango.valor.toFixed(3),label:label,gaugeMaxValue:maximoP*2});
+      $(".chart-gauge").gaugeIt({ selector: ".chart-gauge", value: vString,label:label,gaugeMaxValue:maximoP*2});
 
-      $(".date-gauge").html(ultimoRango.fecha+ " " + ultimoRango.hora+':00:00');
+      $(".date-gauge").html(ultimoRango.fecha+ "--" + ultimoRango.hora+':00:00');
     }
     else
     {
