@@ -742,6 +742,11 @@ option {
   }
 }
 
+.date-gauge {
+  margin-top: -20px;
+  margin-bottom: 35px;
+}
+
 /*
 ** Formatos de datos
 */
