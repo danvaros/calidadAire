@@ -25,7 +25,7 @@ var arrPM10 = arrPM2 = arrNO2 = arrCO = arrO3 = arrSO2 = [];
 var contador_vacios = 0;
 var ant = 0;
 var banderaPromedios = true;
-var arrCompleto = [];
+var ultimosEstados = [];
 
 $(document).ready(function()
 {
@@ -36,6 +36,7 @@ $(document).ready(function()
   {
     arrCompleto = [];
     contador_vacios = 0;
+    ultimosEstados = [];
     $(".boton_pop").each(function(){
       $(this).removeClass("bloqueado");
     });
@@ -470,75 +471,29 @@ function getNewDatas(data) {
   return newData;
 }
 
-function redondearFecha(fecha)
-{
-  var mm = fecha.getMonth() + 1; // getMonth() is zero-based
-  var dd = fecha.getDate();
-  var yy = fecha.getFullYear();
-  var hh = fecha.getHours();
-
-  return new Date(yy+'-'+mm+'-'+dd+' '+hh+':00:00');
-}
-
-function crearArrCompleto()
-{
-  var a = [];
-  //tomar la fecha actual
-  var fecha =  new Date();
-  //llevamos la fecha a cero minutos y cero segundos
-  fecha = redondearFecha(fecha);
-  const horasTotales = 24*28;
-  const limiteIndex = horasTotales-1;
-  for (let i = 0; i < horasTotales; i++) 
-  {
-    var hora = fecha.getHours();
-   
-    a[limiteIndex-i] = 
-      {
-        date: getFormatDateAPI(fecha)+'',
-        'date-insert':fecha+'',
-        fecha: convertDate(fecha)+'',
-        hora: hora,
-        parametro: null,
-        validoorig: null,
-        valororig: null
-      }
-    ;
-    
-    //restamos una hora y volvemos a crear la fecha
-    fecha = new Date(fecha.getTime() - 3600000);
-  }
-
-  return a;
-}
-
-function fusionar(a)
-{
-  for (let i = 0; i < a.length; i++) 
-  {
-    var r  = buscaData(new Date(a[i].date).getTime())
-    if( r !== 0)
+function existeUltimoPromedio(e)
+{  
+  for (let l = 0; l < ultimosEstados.length; l++) 
+  {  
+    if(ultimosEstados[l].etiqueta == e)
     {
-      a[i] = r;
+      return l;
+      break;
     }
   }
-  
-  return a;
+  return -1;  
 }
 
-function buscaData(time)
-{ 
-  var d = dataLocal.results;
-  for (let i = 0; i < d.length; i++) 
-  {
-    if(hacerFechaValida(d[i].date).getTime() === time)
+function ponerReocmendaciones()
+{
+  for (let index = 0; index < ultimosEstados.length; index++) 
+  {  
+    var r = rangoInecc(ultimosEstados[index].parametro,ultimosEstados[index].horas);
+    if(ultimosEstados[index].valor > r)
     {
-      return d[i];
-      break;
-    }    
+      $("#recomendaciones").show();
+    }
   }
-
-  return 0;
 }
 
 function putGrafica(parametro,horas,maximo)
@@ -554,11 +509,32 @@ function putGrafica(parametro,horas,maximo)
   etiquetas = [];
   lbls.days = [];
   lbls.hours = [];
-  
+  var e = parametro+''+horas;
+
+  var newInd = 0;
   for (let index = 0; index < data.length; index++) 
   {
     if(data[index].valororig < maximo && data[index].valororig !== null && data[index].valororig >= 0 )
+    {
       valores.push(data[index].valororig); 
+    
+      var r = existeUltimoPromedio(e);
+
+      if(r !== -1) //si existe se sustitulle
+      {
+        ultimosEstados[r].valor = data[index].valororig;
+      }
+      else //si no existe se crea
+      { 
+        ultimosEstados.push({
+          etiqueta : e,
+          horas : horas,
+          parametro : parametro, 
+          valor: data[index].valororig,
+        });
+      }
+
+    }
     else
       valores.push(null); 
 
@@ -596,7 +572,25 @@ function putGrafica(parametro,horas,maximo)
         }
 
         if(numValoresValidos  > (horas * .75)) 
-          promediosMoviles.push(acumulado/horas);
+        {
+          var p = acumulado/horas;
+          promediosMoviles.push(p);
+          var r = existeUltimoPromedio(e);
+          
+          if(r !== -1) //si existe se sustitulle
+          {
+            ultimosEstados[r].valor = p;
+          }
+          else //si no existe se crea
+          { 
+            ultimosEstados.push({
+              etiqueta : e,
+              horas : horas,
+              parametro : parametro,
+              valor: p,
+            });
+          }
+        }
         else
           promediosMoviles.push(null); 
       }
@@ -978,6 +972,7 @@ function cambioParametro(parametro, horas,id,titulo,lb)
   $("#recomendaciones").hide();
   
   reset_botones();
+  ponerReocmendaciones();
   
   if(!($("#"+id).hasClass("bloqueado")))
   {
