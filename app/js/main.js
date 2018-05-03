@@ -22,6 +22,12 @@ var ant_lab_arr_horas = [];
 
 var arrPM10 = arrPM2 = arrNO2 = arrCO = arrO3 = arrSO2 = [];
 
+var dataHour = {
+  "D": "1hr",
+  "8": "8hrs",
+  "24": "24hrs"
+}
+
 var contador_vacios = 0;
 var ant = 0;
 var banderaPromedios = true;
@@ -139,7 +145,7 @@ $(document).ready(function()
       datasets:
       [
         {
-          label: "Contaminantes",
+          label: "Dato horario",
           backgroundColor: color(window.chartColors.blue).alpha(0.2).rgbString(),
           borderColor: window.chartColors.blue,
           pointBackgroundColor: window.chartColors.blue,
@@ -149,7 +155,7 @@ $(document).ready(function()
           borderWidth: 1,
         },
         {
-          label: "Valores máximos",
+          label: "Límite móvil",
           borderColor: window.chartColors.red,
           backgroundColor: window.chartColors.red,
           fill: false,
@@ -671,13 +677,24 @@ function putGrafica(parametro,horas,maximo)
     valoresRango[i] = rango;
   }
 
+  var labelsData = {
+    labelInfo: "",
+    labelLimit: "",
+    label: ""
+  }
+
   //crear la label a mostrar
-  if(horas != "D")
-    var label =  "Promedio móvil de "+parametro+" en "+horas+" horas";
-  else  
-    var label =  horas;
+  if(horas != "D") {
+    labelsData.labelInfo = "Dato horario de " + parametro + " en " + horas + "hrs";
+    labelsData.labelLimit = "Límite móvil de " + horas + "hrs";
+    labelsData.label = "Promedio móvil de " + parametro + " en " + horas + " horas";
+  } else {
+    labelsData.labelInfo = "Dato horario de " + parametro + " en 1hr";
+    labelsData.labelLimit = "Límite móvil de 1hr";
+    labelsData.label = horas;
+  }
     
-  actualizar_grafica_detalle(valores, etiquetas, lbls, valoresRango, promediosMoviles, label);
+  actualizar_grafica_detalle(valores, etiquetas, lbls, valoresRango, promediosMoviles, labelsData);
 }
 
 function rangoInecc(parametro, horas)
@@ -720,21 +737,21 @@ function rangoInecc(parametro, horas)
     return rango;
 }
 
-function actualizar_grafica_detalle(valores,etiquetas, lbls, valoresRango,promediosMoviles,label)
+function actualizar_grafica_detalle(valores, etiquetas, lbls, valoresRango, promediosMoviles, labelsData)
 {
   chart.data.datasets[0].data =  valores;
   chart.data.datasets[1].data =  valoresRango;
   
-  if(label != "D" && banderaPromedios ===  true)
+  if (labelsData.label != "D" && banderaPromedios ===  true)
   {
     chart.data.datasets[2].data =  promediosMoviles;
-    chart.data.datasets[2].label =  label;
+    chart.data.datasets[2].label =  labelsData.label;
   }
-  else if(label != "D" && banderaPromedios ===  false)
+  else if (labelsData.label != "D" && banderaPromedios ===  false)
   {
     var objtemp = 
     {
-      label: label,
+      label: labelsData.label,
       borderColor: window.chartColors.green,
       backgroundColor: window.chartColors.green,
       fill: false,
@@ -746,11 +763,14 @@ function actualizar_grafica_detalle(valores,etiquetas, lbls, valoresRango,promed
     chart.data.datasets.push(objtemp);
     banderaPromedios = true;
   }
-  else if(label === "D" && banderaPromedios ===  true)
+  else if (labelsData.label === "D" && banderaPromedios ===  true)
   {
     chart.data.datasets.pop();
     banderaPromedios = false;
   }
+
+  chart.data.datasets[0].label = labelsData.labelInfo;
+  chart.data.datasets[1].label = labelsData.labelLimit;
   
   chart.data.labels =  etiquetas;
   chart.data.labels.dias = lbls.days;
