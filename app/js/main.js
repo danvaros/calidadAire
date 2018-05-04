@@ -134,6 +134,9 @@ $(document).ready(function()
     llenarConstaminantes(generaUrl('CO', estacion, (24*28)),'CO');
   });
 
+
+
+  
   /*instancia de la grafica*/
   ctx = document.getElementById('myChart').getContext('2d');
   color = Chart.helpers.color;
