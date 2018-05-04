@@ -745,16 +745,10 @@ function rangoInecc(parametro, horas)
 
 function actualizar_grafica_detalle(valores, etiquetas, lbls, valoresRango, promediosMoviles, labelsData)
 {
-  //chart.data.datasets[0].data =  valores;
   chart.data.datasets[0].data =  valoresRango;
-  
 
   if (labelsData.label != "D" && banderaPromedios ===  true)
   {
-    //chart.data.datasets[0] = [];
-    // chart.data.datasets[0].data =  [];
-    // chart.data.datasets[0].label =  [];
-
     chart.data.datasets[1].data =  promediosMoviles;
     chart.data.datasets[1].label =  labelsData.label;
     chart.data.datasets[1].backgroundColor = color(window.chartColors.green).alpha(0.2).rgbString();
@@ -769,35 +763,6 @@ function actualizar_grafica_detalle(valores, etiquetas, lbls, valoresRango, prom
     chart.data.datasets[1].borderColor = window.chartColors.blue;
     chart.data.datasets[1].pointBackgroundColor = window.chartColors.blue;
   }
-
-  
-  // if (labelsData.label != "D" && banderaPromedios ===  true)
-  // {
-  //   chart.data.datasets[2].data =  promediosMoviles;
-  //   chart.data.datasets[2].label =  labelsData.label;
-  // }
-  // else if (labelsData.label != "D" && banderaPromedios ===  false)
-  // {
-  //   var objtemp = 
-  //   {
-  //     label: labelsData.label,
-  //     borderColor: window.chartColors.green,
-  //     backgroundColor: window.chartColors.green,
-  //     fill: false,
-  //     data:promediosMoviles,
-  //     pointRadius: 1.3,
-  //     borderWidth: 1,
-  //   };
-
-  //   chart.data.datasets.push(objtemp);
-  //   banderaPromedios = true;
-  // }
-  // else if (labelsData.label === "D" && banderaPromedios ===  true)
-  // {
-  //   chart.data.datasets.pop();
-  //   banderaPromedios = false;
-  // }
-
   
   chart.data.datasets[0].label = labelsData.labelLimit;
   
