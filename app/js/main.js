@@ -689,7 +689,7 @@ function putGrafica(parametro,horas,maximo)
     labelsData.labelLimit = "Límite móvil de " + horas + "hrs";
     labelsData.label = "Promedio móvil de " + parametro + " en " + horas + " horas";
   } else {
-    labelsData.labelInfo = "Dato horario de " + parametro + " en 1hr";
+    labelsData.labelInfo = "Dato horario de " + parametro;
     labelsData.labelLimit = "Límite móvil de 1hr";
     labelsData.label = horas;
   }
