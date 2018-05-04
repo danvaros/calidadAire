@@ -21,6 +21,7 @@ var ant_lab_arr_dias = [];
 var ant_lab_arr_horas = [];
 
 var arrPM10 = arrPM2 = arrNO2 = arrCO = arrO3 = arrSO2 = [];
+var extension = "";
 
 var dataHour = {
   "D": "1hr",
@@ -196,6 +197,11 @@ $(document).ready(function()
       scales: {
         yAxes: [{
           ticks: {
+            callback: function (value, index, values) {
+              var val = value.toString();
+              return val.substring(0, val.indexOf('.') + 4) + extension;
+            },
+            padding: 5,
             min: 0
           }
         }],
@@ -693,6 +699,12 @@ function putGrafica(parametro,horas,maximo)
     labelsData.labelLimit = "Límite móvil de 1hr";
     labelsData.label = horas;
   }
+
+  // Actualiza la extensión del eje de las Y
+  if (parametro === "PM10" || parametro === "PM2.5")
+    extension = " µg/m³";
+  else
+    extension = " ppm";
     
   actualizar_grafica_detalle(valores, etiquetas, lbls, valoresRango, promediosMoviles, labelsData);
 }
