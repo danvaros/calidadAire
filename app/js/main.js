@@ -134,6 +134,9 @@ $(document).ready(function()
     llenarConstaminantes(generaUrl('CO', estacion, (24*28)),'CO');
   });
 
+
+
+  
   /*instancia de la grafica*/
   ctx = document.getElementById('myChart').getContext('2d');
   color = Chart.helpers.color;
@@ -146,16 +149,6 @@ $(document).ready(function()
       datasets:
       [
         {
-          label: "Dato horario",
-          backgroundColor: color(window.chartColors.blue).alpha(0.2).rgbString(),
-          borderColor: window.chartColors.blue,
-          pointBackgroundColor: window.chartColors.blue,
-          data: [0, 10, 5, 2, 20, 30, 45],
-          fill: false,
-          pointRadius: 1.3,
-          borderWidth: 1,
-        },
-        {
           label: "Límite móvil",
           borderColor: window.chartColors.red,
           backgroundColor: window.chartColors.red,
@@ -165,14 +158,15 @@ $(document).ready(function()
           borderWidth: 1,
         },
         {
-          label: "Promedios moviles",
-          borderColor: window.chartColors.green,
-          backgroundColor: window.chartColors.green,
+          label: "Dato horario",
+          backgroundColor: color(window.chartColors.blue).alpha(0.2).rgbString(),
+          borderColor: window.chartColors.blue,
+          pointBackgroundColor: window.chartColors.blue,
+          data: [0, 10, 5, 2, 20, 30, 45],
           fill: false,
-          data:[10, 10, 10, 10, 10, 10, 10],
           pointRadius: 1.3,
           borderWidth: 1,
-        }
+        },
       ]
     },
     options:
@@ -751,38 +745,26 @@ function rangoInecc(parametro, horas)
 
 function actualizar_grafica_detalle(valores, etiquetas, lbls, valoresRango, promediosMoviles, labelsData)
 {
-  chart.data.datasets[0].data =  valores;
-  chart.data.datasets[1].data =  valoresRango;
-  
+  chart.data.datasets[0].data =  valoresRango;
+
   if (labelsData.label != "D" && banderaPromedios ===  true)
   {
-    chart.data.datasets[2].data =  promediosMoviles;
-    chart.data.datasets[2].label =  labelsData.label;
-  }
-  else if (labelsData.label != "D" && banderaPromedios ===  false)
-  {
-    var objtemp = 
-    {
-      label: labelsData.label,
-      borderColor: window.chartColors.green,
-      backgroundColor: window.chartColors.green,
-      fill: false,
-      data:promediosMoviles,
-      pointRadius: 1.3,
-      borderWidth: 1,
-    };
-
-    chart.data.datasets.push(objtemp);
-    banderaPromedios = true;
+    chart.data.datasets[1].data =  promediosMoviles;
+    chart.data.datasets[1].label =  labelsData.label;
+    chart.data.datasets[1].backgroundColor = color(window.chartColors.green).alpha(0.2).rgbString();
+    chart.data.datasets[1].borderColor = window.chartColors.green;
+    chart.data.datasets[1].pointBackgroundColor = window.chartColors.green;
   }
   else if (labelsData.label === "D" && banderaPromedios ===  true)
   {
-    chart.data.datasets.pop();
-    banderaPromedios = false;
+    chart.data.datasets[1].data =  valores;
+    chart.data.datasets[1].label = labelsData.labelInfo;
+    chart.data.datasets[1].backgroundColor = color(window.chartColors.blue).alpha(0.2).rgbString();
+    chart.data.datasets[1].borderColor = window.chartColors.blue;
+    chart.data.datasets[1].pointBackgroundColor = window.chartColors.blue;
   }
-
-  chart.data.datasets[0].label = labelsData.labelInfo;
-  chart.data.datasets[1].label = labelsData.labelLimit;
+  
+  chart.data.datasets[0].label = labelsData.labelLimit;
   
   chart.data.labels =  etiquetas;
   chart.data.labels.dias = lbls.days;
