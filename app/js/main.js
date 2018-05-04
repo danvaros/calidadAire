@@ -1095,7 +1095,7 @@ function cambioParametro(parametro, horas,id,titulo,lb)
       $(".chart-gauge").html("");
       $(".chart-gauge").gaugeIt({ selector: ".chart-gauge", value: vString,label:label,gaugeMaxValue:maximoP*2});
 
-      $(".date-gauge").html(ultimoRango.fecha+ "--" + ultimoRango.hora+':00:00');
+      $(".date-gauge").html(ultimoRango.fecha+ " -- " + ultimoRango.hora+':00:00 CST');
     }
     else
     {
