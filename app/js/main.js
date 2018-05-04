@@ -596,7 +596,7 @@ function putGrafica(parametro,horas,maximo)
                 
         }
 
-        if(numValoresValidos  > (horas * .75)) 
+        if(numValoresValidos  >= (horas * .75)) 
         {
           var p = acumulado/horas;
           promediosMoviles.push(p);
