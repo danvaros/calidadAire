@@ -278,15 +278,15 @@ $(document).ready(function()
     }
     else if("SO2D" === $(this).val())
     {
-      cambioParametro("SO2","D","botonSO2D","Gas incoloro que se origina durante la combustión de carburantes fósiles que contienen azufre (petróleo, carbón, entre otros). La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.","SO2 (ppm)")
+      cambioParametro("SO2","D","botonSO2D","Gas incoloro que se origina durante la quema de combustibles fósiles que contienen azufre (petróleo, carbón, entre otros). La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.","SO2 (ppm)")
     }
     else if("SO28" === $(this).val())
     {
-      cambioParametro("SO2","8","botonSO28","Gas incoloro que se origina durante la combustión de carburantes fósiles que contienen azufre (petróleo, carbón, entre otros). La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.","SO2 (ppm)");
+      cambioParametro("SO2","8","botonSO28","Gas incoloro que se origina durante la quema de combustibles fósiles que contienen azufre (petróleo, carbón, entre otros). La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.","SO2 (ppm)");
     }
     else if("SO224" === $(this).val())
     {
-      cambioParametro("SO2","24","botonSO224","Gas incoloro que se origina durante la combustión de carburantes fósiles que contienen azufre (petróleo, carbón, entre otros). La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.","SO2 (ppm)");
+      cambioParametro("SO2","24","botonSO224","Gas incoloro que se origina durante la quema de combustibles fósiles que contienen azufre (petróleo, carbón, entre otros). La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.","SO2 (ppm)");
     }
     else if("O3D" === $(this).val())
     {
@@ -1195,7 +1195,7 @@ function sacaDatoDiario(data,horas,max)
 
 function ponContaminantesSel()
 {
-      var options = '<option value="0">3.-Selecciona Contaminate</option>'+
+      var options = '<option value="0">3.-Selecciona Contaminante</option>'+
       '<option value="PM10_24" title="Las partículas menores o iguales a 2.5 micras (PM2.5) están formadas primordialmente por gases y por material proveniente de la combustión. Se depositan fundamentalmente en la región traqueobronquial (tráquea hasta bronquiolo terminal), aunque pueden ingresar a los alvéolos.">PM 10 µg/m&sup3;</option>'+
           '<option value="PM2.5_24" title="Las partículas menores o iguales a 2.5 micras (PM2.5) están formadas primordialmente por gases y por material proveniente de la combustión. Se depositan fundamentalmente en la región traqueobronquial (tráquea hasta bronquiolo terminal), aunque pueden ingresar a los alvéolos.">PM 2.5 µg/m&sup3;</option>'+
           '<option value="SO2_24" title="Gas incoloro que se origina durante la quema de combustibles fósiles que contienen azufre (petróleo, carbón, entre otros). La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.">SO2 (ppm) Promedio 24 horas</option>'+
