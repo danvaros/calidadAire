@@ -53,6 +53,7 @@ $(document).ready(function()
     chart.data.labels =  arr_vacio;
     chart.update();
     poner_botones(arr_vacio);
+    $(".temperatura").show();
 
     $(".chart-gauge").html("");
     $(".chart-gauge").gaugeIt({selector:".chart-gauge",value:0,gaugeMaxValue:10});
@@ -132,11 +133,9 @@ $(document).ready(function()
     llenarConstaminantes(generaUrl('SO2', estacion, (24*28)),'SO2');
     llenarConstaminantes(generaUrl('O3', estacion, (24*28)),'O3');
     llenarConstaminantes(generaUrl('CO', estacion, (24*28)),'CO');
+    ponerTemperatura(generaUrl('TMP', estacion, (3)),'TMP');
   });
 
-
-
-  
   /*instancia de la grafica*/
   ctx = document.getElementById('myChart').getContext('2d');
   color = Chart.helpers.color;
@@ -343,6 +342,39 @@ $(document).ready(function()
   $(window).resize(function() { setCoverVideo(); });
   setCoverVideo();
 }); // fin de document ready
+
+function ponerTemperatura(url)
+{
+  $.ajax({
+    type: "GET",
+    url: url,
+    data: {},
+    success: function( data, textStatus, jqxhr )
+    {
+      var temperatura = "";
+      for (let index = 0; index < data.results.length; index++) {
+        if(data.results[index].valororig <= 60 && data.results[index].valororig >= -50)
+        {
+          temperatura = data.results[index].valororig.toFixed(2);
+        }
+      }
+
+      if(temperatura != "")
+      {
+        $("#temperatura_detalle").text(temperatura+' ℃');
+      }
+      else
+      {
+        $(".temperatura").hide();
+      }
+    },
+    xhrFields: {
+      withCredentials: false
+    },
+    crossDomain: true,
+    async:true
+  });
+}
 
 function buscarCiudad(idEstacion)
 {
