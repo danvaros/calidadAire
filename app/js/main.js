@@ -53,6 +53,7 @@ $(document).ready(function()
     chart.data.labels =  arr_vacio;
     chart.update();
     poner_botones(arr_vacio);
+    $(".temperatura").show();
 
     $(".chart-gauge").html("");
     $(".chart-gauge").gaugeIt({selector:".chart-gauge",value:0,gaugeMaxValue:10});
@@ -364,7 +365,7 @@ function ponerTemperatura(url)
       }
       else
       {
-        $("#temperatura_detalle").parent().hide();
+        $(".temperatura").hide();
       }
     },
     xhrFields: {
