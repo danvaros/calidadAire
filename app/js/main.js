@@ -87,7 +87,12 @@ $(document).ready(function()
   // Get states selected
   $("#estado_primer_select").on("change", function() { ponEstacionesSel() });
   // Get station selected
-  $("#estaciones_select").on("change", function () { ponContaminantesSel() });
+  $("#estaciones_select").on("change", function () 
+    { 
+      if($(this).val() !== "0")
+        ponContaminantesSel() 
+    }
+  );
   // Get states map selected
   $("#estados").on("change", function () { cambiaCoor() });
 
