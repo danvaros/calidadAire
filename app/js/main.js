@@ -364,7 +364,7 @@ function ponerTemperatura(url)
         }
       }
 
-      if(temperatura != "")
+      if(temperatura !== "")
       {
         $("#temperatura_detalle").text(temperatura+' ℃');
       }
@@ -611,7 +611,7 @@ function putGrafica(parametro,horas,maximo)
      newInd++;
     }
 
-    if(horas != "D")
+    if(horas !== "D")
     {
       if(index >= horas-1)
       {
@@ -672,7 +672,7 @@ function putGrafica(parametro,horas,maximo)
   }
 
 //validamos si es dato horario
-  if(horas != "D")
+  if(horas !== "D")
   {
     // Obtiene el último promedio
     if(promediosMoviles[promediosMoviles.length - 1] !== null  && promediosMoviles[promediosMoviles.length - 1] >= 0 )
@@ -721,7 +721,7 @@ function putGrafica(parametro,horas,maximo)
   }
 
   //crear la label a mostrar
-  if(horas != "D") {
+  if(horas !== "D") {
     labelsData.labelInfo = "Dato horario de " + parametro + " en " + horas + "hrs";
     labelsData.labelLimit = "Límite móvil de " + horas + "hrs";
     labelsData.label = "Promedio móvil de " + parametro + " en " + horas + " horas";
@@ -784,7 +784,7 @@ function actualizar_grafica_detalle(valores, etiquetas, lbls, valoresRango, prom
 {
   chart.data.datasets[0].data =  valoresRango;
 
-  if (labelsData.label != "D" && banderaPromedios ===  true)
+  if (labelsData.label !== "D" && banderaPromedios ===  true)
   {
     chart.data.datasets[1].data =  promediosMoviles;
     chart.data.datasets[1].label =  labelsData.label;
@@ -1018,7 +1018,7 @@ function generaUrl(parametro,id_estacion,horas)
 
   dPasada.setHours(dActual.getHours() - horas);
 
-  var url = "https://api.datos.gob.mx/v2/sinaica-30?parametro="+parametro+"&estacionesid="+id_estacion+"&date>"+getFormatDateAPI(dPasada)+"&date<"+getFormatDateAPI(dActual)+"&validoorig=1&pageSize="+1000;
+  var url = "https://api.datos.gob.mx/v2/sinaica-30?parametro="+parametro+"&estacionesid="+id_estacion+"&date>"+getFormatDateAPI(dPasada)+"&date<="+getFormatDateAPI(dActual)+"&validoorig=1&pageSize="+1000;
 
   return url;
 }
@@ -1160,7 +1160,7 @@ function cambioParametro(parametro, horas,id,titulo,lb)
 
 function sacaDatoDiario(data,horas,max)
 {
-  if(horas != "D")
+  if(horas !== "D")
   {
     const dActual = new Date();
     var dPasada = new Date();
