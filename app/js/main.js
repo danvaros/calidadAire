@@ -20,11 +20,12 @@ var ant_lab_arr = [];
 var ant_lab_arr_dias = [];
 var ant_lab_arr_horas = [];
 
-var arrPM10 = [],
-    arrPM2 = [],
-    arrNO2 = [],
-    arrCO = [],
-    arrO3 = [],arrSO2 = [];
+var arrPM10 = [];
+var arrPM2 = [];
+var arrNO2 = [];
+var arrCO = [];
+var arrO3 = [];
+var arrSO2 = [];
 var extension = "";
 
 var dataHour = {
