@@ -20,7 +20,11 @@ var ant_lab_arr = [];
 var ant_lab_arr_dias = [];
 var ant_lab_arr_horas = [];
 
-var arrPM10 = arrPM2 = arrNO2 = arrCO = arrO3 = arrSO2 = [];
+var arrPM10 = [],
+    arrPM2 = [],
+    arrNO2 = [],
+    arrCO = [],
+    arrO3 = [],arrSO2 = [];
 var extension = "";
 
 var dataHour = {
@@ -515,7 +519,7 @@ function existeUltimoPromedio(e)
 {  
   for (let l = 0; l < ultimosEstados.length; l++) 
   {  
-    if(ultimosEstados[l].etiqueta == e)
+    if(ultimosEstados[l].etiqueta === e)
     {
       return l;
       break;
@@ -574,7 +578,7 @@ function putGrafica(parametro,horas,maximo)
       valores.push(data[index].valororig); 
     
       var r = existeUltimoPromedio(e);
-      if(horas == "D")
+      if(horas === "D")
       {
         if(r !== -1) //si existe se sustitulle
         {
