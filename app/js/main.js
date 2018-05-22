@@ -435,20 +435,14 @@ function convertDate(inputFormat)
 
 function options_estado()
 {
-  var options  = '<option value="0">1.-Selecciona un estado</option>';
+  var stateOptions  = '<option value="0">1.-Selecciona un estado</option>';
   for (let index = 0; index < coor_estado.length; index++)
   {
     const element = coor_estado[index];
-    options += '<option value="'+element.estado+'">'+element.estado+'</option>'
+    stateOptions += '<option value="'+element.estado+'">'+element.estado+'</option>'
   }
 
-  return options;
-}
-
-function dateMasUno(dateEvaluar, horas)
-{
-  
-  return date;
+  return stateOptions;
 }
 
 function getNewDatas(data) {
@@ -832,11 +826,11 @@ function poner_botones(valores)
   });
 }
 
-function convertDate(date)
+function convertDate(dateToConvert)
 {
-  var yyyy = date.getFullYear().toString();
-  var mm = (date.getMonth()+1).toString();
-  var dd  = date.getDate().toString();
+  var yyyy = dateToConvert.getFullYear().toString();
+  var mm = (dateToConvert.getMonth()+1).toString();
+  var dd  = dateToConvert.getDate().toString();
 
   var mmChars = mm.split("");
   var ddChars = dd.split("");
@@ -1163,7 +1157,7 @@ function cambioParametro(parametro, horas,id,titulo,lb)
   }
 }
 
-function sacaDatoDiario(data,horas,max)
+function sacaDatoDiario(data,horas,maxValue)
 {
   if(horas !== "D")
   {
@@ -1197,7 +1191,7 @@ function sacaDatoDiario(data,horas,max)
     for (let index = 0; index < arrTemp.length; index++)
     {
       
-      if(arrTemp[index].valororig < max && arrTemp[index].validoorig === 1)
+      if(arrTemp[index].valororig < maxValue && arrTemp[index].validoorig === 1)
 
       {    
         acumulado += arrTemp[index].valororig;
@@ -1209,7 +1203,7 @@ function sacaDatoDiario(data,horas,max)
     var tamDatos = datos.length-1;
     for (let l = tamDatos; l > tamDatos - horas; l--)
     {    
-      if(datos[l].valororig < max && datos[l].validoorig === 1)
+      if(datos[l].valororig < maxValue && datos[l].validoorig === 1)
       {   
 
         acumulado += datos[l].valororig;
@@ -1228,7 +1222,7 @@ function sacaDatoDiario(data,horas,max)
   }
   else
   {
-    if(data.results[data.results.length-1].valororig < max)
+    if(data.results[data.results.length-1].valororig < maxValue)
       return data.results[data.results.length-1].valororig;
     else
       return 0;    
@@ -1237,7 +1231,7 @@ function sacaDatoDiario(data,horas,max)
 
 function ponContaminantesSel()
 {
-      var options = '<option value="0">3.-Selecciona Contaminante</option>'+
+      var pollutionOptions = '<option value="0">3.-Selecciona Contaminante</option>'+
       '<option value="PM10_24" title="Las partículas menores o iguales a 2.5 micras (PM2.5) están formadas primordialmente por gases y por material proveniente de la combustión. Se depositan fundamentalmente en la región traqueobronquial (tráquea hasta bronquiolo terminal), aunque pueden ingresar a los alvéolos.">PM 10 µg/m&sup3;</option>'+
           '<option value="PM2.5_24" title="Las partículas menores o iguales a 2.5 micras (PM2.5) están formadas primordialmente por gases y por material proveniente de la combustión. Se depositan fundamentalmente en la región traqueobronquial (tráquea hasta bronquiolo terminal), aunque pueden ingresar a los alvéolos.">PM 2.5 µg/m&sup3;</option>'+
           '<option value="SO2_24" title="Gas incoloro que se origina durante la quema de combustibles fósiles que contienen azufre (petróleo, carbón, entre otros). La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.">SO2 (ppm) Promedio 24 horas</option>'+
@@ -1248,7 +1242,7 @@ function ponContaminantesSel()
           '<option value="NO2_24" title="El dióxido de nitrógeno es un compuesto químico gaseoso de color marrón amarillento, es un gas tóxico e irritante. La exposición a este gas disminuye la capacidad de difusión pulmonar.">NO2 (ppm)</option>'+
           '<option value="CO_24" title="Es un gas incoloro e inodoro que en concentraciones altas puede ser letal ya que forma carboxihemoglobina, la cual impide la oxígenación de la sangre.">CO (ppm)</option>';
 
-    $("#contaminantes").html(options);
+    $("#contaminantes").html(pollutionOptions);
     $("#contaminantes").trigger( "change" );
 }
 
