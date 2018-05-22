@@ -41,7 +41,7 @@ var ultimosEstados = [];
 
 $(document).ready(function()
 {
-  $('#estados').val("Aguascalientes");
+  $("#estados").val("Aguascalientes");
   $(".forLoader").removeClass("hide").slideUp();
   
   $("#myModal").on("hidden.bs.modal", function () 
@@ -120,20 +120,20 @@ $(document).ready(function()
   $("#contaminantes").change(function()
   {
     $(".forLoader").show();
-    var estacion =  $('#estaciones_select').val();
+    var estacion =  $("#estaciones_select").val();
 
     //ponemos los parametros en la ventana 
-    $('#fecha_detalle').html(convertDate(new Date())); 
-    $('#fecha_detalle_m').html(convertDate(new Date())); 
+    $("#fecha_detalle").html(convertDate(new Date())); 
+    $("#fecha_detalle_m").html(convertDate(new Date())); 
     var objEstacion = buscarEstacion(estacion);
     
-    $('#titulo_detalle').html(buscarCiudad(estacion)); 
-    $('#estacion_detalle').html($('#estaciones_select option:selected').text()); 
-    $('#estacion_detalle_m').html('<b>'+$('#estaciones_select option:selected').text()+'</b>'); 
+    $("#titulo_detalle").html(buscarCiudad(estacion)); 
+    $("#estacion_detalle").html($("#estaciones_select option:selected").text()); 
+    $("#estacion_detalle_m").html('<b>'+$("#estaciones_select option:selected").text()+'</b>'); 
     
-    $('#textoTitulo').html($('#' + idPollutant).attr('data-original-title')); 
+    $("#textoTitulo").html($("#" + idPollutant).attr("data-original-title")); 
  
-    var idPollutant = 'botonPM10'; 
+    var idPollutant = "botonPM10";
     cambioBotonActivo(idPollutant); 
 
     //vamos a llenar los arreglos de todos los coantaminantes
@@ -677,12 +677,12 @@ function putGrafica(parametro,horas,maximo)
     if(promediosMoviles[promediosMoviles.length - 1] !== null  && promediosMoviles[promediosMoviles.length - 1] >= 0 )
     {
       lastAverageOrData =  promediosMoviles[promediosMoviles.length - 1] ;
-      //$('.chart-gauge').show();
+      //$(".chart-gauge").show();
     }
     else
     {
       lastAverageOrData =  0;
-      //$('.chart-gauge').hide();
+      //$(".chart-gauge").hide();
     }
     
   }else
@@ -691,12 +691,12 @@ function putGrafica(parametro,horas,maximo)
     if( valores[valores.length - 1] !== null && valores[valores.length - 1] >= 0 )
     {
       lastAverageOrData =  data[data.length - 1].valororig  ;
-      //$('.chart-gauge').show();
+      //$(".chart-gauge").show();
     }
     else
     {
       lastAverageOrData =  0;
-      //$('.chart-gauge').hide();
+      //$(".chart-gauge").hide();
     }
   }
 
