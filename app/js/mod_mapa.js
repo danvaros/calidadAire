@@ -59,13 +59,13 @@ $(document).ready(function()
 
 });
 
-function groupClick(event)
+function groupClick(e)
 {
-  var popup = event.layer._popup;
-  var estacion  = event.layer.idestacion;
-  var array  = event.layer.idarray;
+  var popup = e.layer._popup;
+  var estacion  = e.layer.idestacion;
+  var idArray  = e.layer.idarray;
 
-  var info = "<b>Estación:</b> "+estaciones_json[array].id+"<br><b>Nombre: </b>"+ estaciones_json[array].nombre +"<br><b>Código: </b>"+estaciones_json[array].codigo+'<br><div style="margin-bottom: 25px; margin-top: 25px;" class="botonera"><a class="modal_mapa" data-id="'+ estaciones_json[array].id +'">Detalle Estación</a></div>';
+  var info = "<b>Estación:</b> "+estaciones_json[idArray].id+"<br><b>Nombre: </b>"+ estaciones_json[idArray].nombre +"<br><b>Código: </b>"+estaciones_json[idArray].codigo+'<br><div style="margin-bottom: 25px; margin-top: 25px;" class="botonera"><a class="modal_mapa" data-id="'+ estaciones_json[idArray].id +'">Detalle Estación</a></div>';
 
   popup.setContent(info);
   popup.update();

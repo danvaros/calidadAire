@@ -131,10 +131,10 @@ $(document).ready(function()
     $('#estacion_detalle').html($('#estaciones_select option:selected').text()); 
     $('#estacion_detalle_m').html('<b>'+$('#estaciones_select option:selected').text()+'</b>'); 
     
-    $('#textoTitulo').html($('#'+id).attr('data-original-title')); 
+    $('#textoTitulo').html($('#' + idPollutant).attr('data-original-title')); 
  
-    var id = 'botonPM10'; 
-    cambioBotonActivo(id); 
+    var idPollutant = 'botonPM10'; 
+    cambioBotonActivo(idPollutant); 
 
     //vamos a llenar los arreglos de todos los coantaminantes
     llenarConstaminantes(generaUrl('PM10', estacion, (24*28)),'PM10');
@@ -225,9 +225,9 @@ $(document).ready(function()
   });
   // fin de instancia de la grafica
 
-  $(".parametro").click(function(event)
+  $(".parametro").click(function(e)
   {
-    event.preventDefault();
+    e.preventDefault();
     $(".parametro").removeClass("active");
 
     $( this ).addClass("active");
@@ -400,14 +400,14 @@ function buscarCiudad(idEstacion)
   return city;
 }
 
-function cambioBotonActivo(id)
+function cambioBotonActivo(idButton)
 {
   //cambio de active boton
   $(".boton_pop").each(function()
   {
     $(this).removeClass( "active_pop" )
   });
-  $("#"+id).addClass("active_pop");
+  $("#" + idButton).addClass("active_pop");
 }
 
 function hacerFechaValida(fecha)
@@ -1044,7 +1044,7 @@ function changeMovilOption(parametro,horas)
     $("#conataminatesMovil").val("CO8");
 }
 
-function cambioParametro(parametro, horas,id,titulo,lb)
+function cambioParametro(parametro, horas,idButton,titulo,lb)
 {
   $("#alerta").hide();
   $("#recomendaciones").hide();
@@ -1052,10 +1052,10 @@ function cambioParametro(parametro, horas,id,titulo,lb)
   reset_botones();
   ponerReocmendaciones();
   
-  if(!($("#"+id).hasClass("bloqueado")))
+  if(!($("#"+idButton).hasClass("bloqueado")))
   {
     
-    cambioBotonActivo(id);
+    cambioBotonActivo(idButton);
     changeMovilOption(parametro,horas);
     var estado =  $("#estado_primer_select").val();
     var estacion =  $("#estaciones_select").val();
