@@ -309,6 +309,7 @@ $(document).ready(function()
     {
       cambioParametro("CO","8","botonCO","Es un gas incoloro e inodoro que en concentraciones altas puede ser letal ya que forma carboxihemoglobina, la cual impide la oxígenación de la sangre.","CO (ppm)");
     }
+    else { return 0; }
   });
 
   // go-map action
@@ -532,6 +533,7 @@ function ponerReocmendaciones()
     {
       $("#recomendaciones").show();
     }
+    else { return 0; }
   }
 }
 
@@ -539,11 +541,11 @@ function getUltimoRango(p)
 {
   var valor = '';
   for (let index = 0; index < ultimosEstados.length; index++) 
-  {  
+  {
     if(ultimosEstados[index].etiqueta === p)
     {
       valor =  ultimosEstados[index];
-    }    
+    }
   }
 
   return valor;
@@ -934,6 +936,7 @@ function llenarConstaminantes(url, parametro)
           arrSO2 = data;
           $("#botonSO2D").trigger("click");
         }
+        else { return 0; }
       }
       else
       {
@@ -947,6 +950,7 @@ function llenarConstaminantes(url, parametro)
             { 
               $(this).attr("disabled","disabled");
             }
+            else { return 0; }
           }
         );
 
@@ -990,6 +994,7 @@ function llenarConstaminantes(url, parametro)
           $("#botonSO28").addClass("bloqueado");
           $("#botonSO224").addClass("bloqueado");
         }
+        else { return 0; }
       }
       
       if(contador_vacios === 6)
@@ -1001,6 +1006,7 @@ function llenarConstaminantes(url, parametro)
           $(this).removeClass("bloqueado");
         });
       }
+      else { return 0; }
     },
     xhrFields: {
       withCredentials: false
@@ -1054,7 +1060,6 @@ function cambioParametro(parametro, horas,idButton,titulo,lb)
   
   if(!($("#"+idButton).hasClass("bloqueado")))
   {
-    
     cambioBotonActivo(idButton);
     changeMovilOption(parametro,horas);
     var estado =  $("#estado_primer_select").val();
@@ -1114,15 +1119,12 @@ function cambioParametro(parametro, horas,idButton,titulo,lb)
 
       label = "ppm";
     }
-    
+    else { return 0; }
 
     putGrafica(parametro, horas,maximoL);
     promedioFinal =  lastAverageOrData;
 
     var ultimoRango =  getUltimoRango(parametro+''+horas);
-
-
-
 
     if(ultimoRango !== '')
     {
@@ -1155,6 +1157,7 @@ function cambioParametro(parametro, horas,idButton,titulo,lb)
     //   $(".chart-gauge").gaugeIt({ selector: ".chart-gauge", value: getUltimoRango(parametro+''+horas).toFixed(3), label: label, gaugeMaxValue: maximoP*2});
     // }
   }
+  else { return 0; }
 }
 
 function sacaDatoDiario(data,horas,maxValue)
@@ -1190,13 +1193,12 @@ function sacaDatoDiario(data,horas,maxValue)
     
     for (let index = 0; index < arrTemp.length; index++)
     {
-      
       if(arrTemp[index].valororig < maxValue && arrTemp[index].validoorig === 1)
-
       {    
         acumulado += arrTemp[index].valororig;
         promedio++;
       }
+      else { return 0; }
     }
     promedio = 0;
     acumulado = 0;
@@ -1208,7 +1210,8 @@ function sacaDatoDiario(data,horas,maxValue)
 
         acumulado += datos[l].valororig;
         promedio++;
-      } 
+      }
+      else { return 0; }
     }
     if((arrTemp.length * .75) < promedio )
     {
@@ -1257,6 +1260,7 @@ function buscarEstacion(id_estacion)
       estacion = element;
       break;
     }
+    else { return 0; }
   }
   return estacion;
 }
