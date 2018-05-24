@@ -529,11 +529,9 @@ function ponerReocmendaciones()
   for (let index = 0; index < ultimosEstados.length; index++) 
   {  
     var r = rangoInecc(ultimosEstados[index].parametro,ultimosEstados[index].horas);
-    if(ultimosEstados[index].valor > r)
-    {
+    if(ultimosEstados[index].valor > r) {
       $("#recomendaciones").show();
     }
-    else { return 0; }
   }
 }
 
