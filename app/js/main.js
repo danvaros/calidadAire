@@ -934,7 +934,7 @@ function llenarConstaminantes(url, parametro)
         else if("SO2" === parametro)
         {
           arrSO2 = data;
-          $("#botonSO2D").trigger("click");
+          $("#botonSO28").trigger("click");
         }
         else { return 0; }
       }
@@ -990,7 +990,7 @@ function llenarConstaminantes(url, parametro)
 
           arrSO2 = data;
 
-          $("#botonSO2D").addClass("bloqueado");
+          //$("#botonSO2D").addClass("bloqueado");
           $("#botonSO28").addClass("bloqueado");
           $("#botonSO224").addClass("bloqueado");
         }
