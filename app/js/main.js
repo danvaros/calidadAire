@@ -168,7 +168,7 @@ $(document).ready(function()
           borderWidth: 1,
         },
         {
-          label: "Dato horario",
+          label: "Promedio horario",
           backgroundColor: color(window.chartColors.blue).alpha(0.2).rgbString(),
           borderColor: window.chartColors.blue,
           pointBackgroundColor: window.chartColors.blue,
@@ -671,7 +671,7 @@ function putGrafica(parametro,horas,maximo)
     }          
   }
 
-//validamos si es dato horario
+//validamos si es Promedio horario
   if(horas !== "D")
   {
     // Obtiene el último promedio
@@ -688,7 +688,7 @@ function putGrafica(parametro,horas,maximo)
     
   }else
   {
-    // Obtiene el último dato horario
+    // Obtiene el último Promedio horario
     if( valores[valores.length - 1] !== null && valores[valores.length - 1] >= 0 )
     {
       lastAverageOrData =  data[data.length - 1].valororig  ;
@@ -723,11 +723,11 @@ function putGrafica(parametro,horas,maximo)
   var prettyParameter = parameter_decorator(parametro, false);
   //crear la label a mostrar
   if(horas !== "D") {
-    labelsData.labelInfo = "Dato horario de " + prettyParameter + " en " + horas + "hrs";
+    labelsData.labelInfo = "Promedio horario de " + prettyParameter + " en " + horas + "hrs";
     labelsData.labelLimit = "Límite móvil de " + horas + "hrs";
     labelsData.label = "Promedio móvil de " + prettyParameter + " en " + horas + " horas";
   } else {
-    labelsData.labelInfo = "Dato horario de " + prettyParameter;
+    labelsData.labelInfo = "Promedio horario de " + prettyParameter;
     labelsData.labelLimit = "Límite móvil de 1hr";
     labelsData.label = horas;
   }
