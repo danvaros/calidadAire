@@ -91,13 +91,6 @@ $(document).ready(function()
 
   // Get states selected
   $("#estado_primer_select").on("change", function() { ponEstacionesSel() });
-  // Get station selected
-  $("#estaciones_select").on("change", function () 
-    { 
-      if($(this).val() !== "0")
-        ponContaminantesSel() 
-    }
-  );
   // Get states map selected
   $("#estados").on("change", function () { cambiaCoor() });
 
@@ -116,11 +109,11 @@ $(document).ready(function()
   /*fin de instancia del mapa*/
 
   $("#estado_primer_select").html(options_estado());
-  //$("#estaciones_select").html(options_estaciones());
-  $("#contaminantes").change(function()
+
+  $("#estaciones_select").on('change', function()
   {
     $(".forLoader").show();
-    var estacion =  $("#estaciones_select").val();
+    var estacion =  $(this).val();
 
     //ponemos los parametros en la ventana 
     $("#fecha_detalle").html(convertDate(new Date())); 
@@ -1256,23 +1249,6 @@ function sacaDatoDiario(data,horas,maxValue)
     else
       return 0;    
   }
-}
-
-function ponContaminantesSel()
-{
-      var pollutionOptions = '<option value="0">3.-Selecciona Contaminante</option>'+
-      '<option value="PM10_24" title="Las partículas menores o iguales a 10 micras (PM<sub>10</sub>) se depositan en la región extratorácica del tracto respiratorio (nariz, boca, naso, oro y laringofarínge); contienen principalmente materiales de la corteza terrestre y se originan en su mayoría por procesos de desintegración de partículas más grandes. También pueden contener material biológico como polen, esporas, virus o bacterias o provenir de la combustión incompleta de combustibles fósiles.">PM 10 µg/m&sup3;</option>'+
-          '<option value="PM2.5_24" title="Las partículas menores o iguales a 2.5 micras (PM<sub>2.5</sub>) están formadas primordialmente por gases y por material proveniente de la combustión. Se depositan fundamentalmente en la región traqueobronquial (tráquea hasta bronquiolo terminal), aunque pueden ingresar a los alvéolos.">PM 2.5 µg/m&sup3;</option>'+
-          '<option value="SO2_24" title="Gas incoloro que se forma al quemar combustibles fósiles que contienen azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.">SO2 (ppm) Promedio 24 horas</option>'+
-          '<option value="SO2_8" title="Gas incoloro que se forma al quemar combustibles fósiles que contienen azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.">SO2 (ppm) Promedio 8 horas</option>'+
-          '<option value="SO2_D" title="Gas incoloro que se forma al quemar combustibles fósiles que contienen azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.">SO2 (ppm) Dato horario</option>'+
-          '<option value="O3_8" title="Es un compuesto gaseoso incoloro, que posee la capacidad de oxidar materiales, y causa irritación ocular y en las vías respiratorias.">Ozono (O3)(ppm) Promedio 8 horas</option>'+
-          '<option value="O3_D" title="Es un compuesto gaseoso incoloro, que posee la capacidad de oxidar materiales, y causa irritación ocular y en las vías respiratorias.">Ozono (O3)(ppm) Dato horario</option>'+
-          '<option value="NO2_24" title="El dióxido de nitrógeno es un compuesto químico gaseoso de color marrón amarillento, es un gas tóxico e irritante. La exposición a este gas disminuye la capacidad de difusión pulmonar.">NO2 (ppm)</option>'+
-          '<option value="CO_24" title="Es un gas incoloro e inodoro que en concentraciones altas puede ser letal ya que forma carboxihemoglobina, la cual impide la oxigenación de la sangre.">CO (ppm)</option>';
-
-    $("#contaminantes").html(pollutionOptions);
-    $("#contaminantes").trigger( "change" );
 }
 
 function buscarEstacion(id_estacion)
