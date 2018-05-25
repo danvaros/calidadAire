@@ -275,11 +275,11 @@ $(document).ready(function()
   {
     if("PM10" === $(this).val())
     {
-      cambioParametro("PM10","24","botonPM10","Las partículas menores o iguales a 10 micras (PM10) se depositan en la región extratorácica del tracto respiratorio (nariz, boca, naso, oro y laringofarínge); contienen principalmente materiales de la corteza terrestre y se originan en su mayoría por procesos de desintegración de partículas más grandes. También pueden contener material biológico como polen, esporas, virus o bacterias o provenir de la combustión incompleta de combustibles fósiles.","PM10 (µg/m&sup3;)")
+      cambioParametro("PM10", "24", "botonPM10", "Las partículas menores o iguales a 10 micras (PM<sub>10</sub>) se depositan en la región extratorácica del tracto respiratorio (nariz, boca, naso, oro y laringofarínge); contienen principalmente materiales de la corteza terrestre y se originan en su mayoría por procesos de desintegración de partículas más grandes. También pueden contener material biológico como polen, esporas, virus o bacterias o provenir de la combustión incompleta de combustibles fósiles.","PM10 (µg/m&sup3;)")
     }
     else if("PM2.5" === $(this).val())
     {
-      cambioParametro("PM2.5","24","botonPM25","Las partículas menores o iguales a 2.5 micras (PM2.5) están formadas primordialmente por gases y por material proveniente de la combustión. Se depositan fundamentalmente en la región traqueobronquial (tráquea hasta bronquiolo terminal), aunque pueden ingresar a los alvéolos.", "PM2.5 (µg/m&sup3;)");
+      cambioParametro("PM2.5","24","botonPM25","Las partículas menores o iguales a 2.5 micras (PM<sub>2.5</sub>) están formadas primordialmente por gases y por material proveniente de la combustión. Se depositan fundamentalmente en la región traqueobronquial (tráquea hasta bronquiolo terminal), aunque pueden ingresar a los alvéolos.", "PM2.5 (µg/m&sup3;)");
     }
     else if("NO2" === $(this).val())
     {
@@ -719,13 +719,14 @@ function putGrafica(parametro,horas,maximo)
     label: ""
   }
 
+  var prettyParameter = parameter_decorator(parametro, false);
   //crear la label a mostrar
   if(horas !== "D") {
-    labelsData.labelInfo = "Dato horario de " + parametro + " en " + horas + "hrs";
+    labelsData.labelInfo = "Dato horario de " + prettyParameter + " en " + horas + "hrs";
     labelsData.labelLimit = "Límite móvil de " + horas + "hrs";
-    labelsData.label = "Promedio móvil de " + parametro + " en " + horas + " horas";
+    labelsData.label = "Promedio móvil de " + prettyParameter + " en " + horas + " horas";
   } else {
-    labelsData.labelInfo = "Dato horario de " + parametro;
+    labelsData.labelInfo = "Dato horario de " + prettyParameter;
     labelsData.labelLimit = "Límite móvil de 1hr";
     labelsData.label = horas;
   }
@@ -1048,6 +1049,33 @@ function changeMovilOption(parametro,horas)
     $("#conataminatesMovil").val("CO8");
 }
 
+function parameter_decorator(parameter, isHtml) {
+  var decorator = "";
+
+  switch (parameter) {
+    case "PM10":
+      decorator = isHtml ? "PM<sub>10</sub>" : "PM₁₀";
+      break;
+    case "PM2.5":
+      decorator = isHtml ? "PM<sub>2.5</sub>" : "PM₂.₅";
+      break;
+    case "SO2":
+      decorator = isHtml ? "SO<sub>2</sub>" : "SO₂";
+      break;
+    case "NO2":
+      decorator = isHtml ? "NO<sub>2</sub>" : "NO₂";
+      break;
+    case "O3":
+      decorator = isHtml ? "O<sub>3</sub>" : "O₃";
+      break;
+    default:
+      decorator = "CO";
+      break;
+  }
+
+  return decorator;
+}
+
 function cambioParametro(parametro, horas,idButton,titulo,lb)
 {
   $("#alerta").hide();
@@ -1063,9 +1091,9 @@ function cambioParametro(parametro, horas,idButton,titulo,lb)
     var estado =  $("#estado_primer_select").val();
     var estacion =  $("#estaciones_select").val();
 
-    $("#contaminante_detalle").html(parametro);
-    $("#contaminante_grafica").html(parametro);
-    $("#tituloTexto").html(parametro);
+    $("#contaminante_detalle").html(parameter_decorator(parametro, true));
+    $("#contaminante_grafica").html(parameter_decorator(parametro, true));
+    $("#tituloTexto").html(parameter_decorator(parametro, true));
     $("#textoTitulo").html(titulo);
 
     //porEstaciones(estado,estacion,parametro,horas);
@@ -1233,8 +1261,8 @@ function sacaDatoDiario(data,horas,maxValue)
 function ponContaminantesSel()
 {
       var pollutionOptions = '<option value="0">3.-Selecciona Contaminante</option>'+
-      '<option value="PM10_24" title="Las partículas menores o iguales a 2.5 micras (PM2.5) están formadas primordialmente por gases y por material proveniente de la combustión. Se depositan fundamentalmente en la región traqueobronquial (tráquea hasta bronquiolo terminal), aunque pueden ingresar a los alvéolos.">PM 10 µg/m&sup3;</option>'+
-          '<option value="PM2.5_24" title="Las partículas menores o iguales a 2.5 micras (PM2.5) están formadas primordialmente por gases y por material proveniente de la combustión. Se depositan fundamentalmente en la región traqueobronquial (tráquea hasta bronquiolo terminal), aunque pueden ingresar a los alvéolos.">PM 2.5 µg/m&sup3;</option>'+
+      '<option value="PM10_24" title="Las partículas menores o iguales a 10 micras (PM<sub>10</sub>) se depositan en la región extratorácica del tracto respiratorio (nariz, boca, naso, oro y laringofarínge); contienen principalmente materiales de la corteza terrestre y se originan en su mayoría por procesos de desintegración de partículas más grandes. También pueden contener material biológico como polen, esporas, virus o bacterias o provenir de la combustión incompleta de combustibles fósiles.">PM 10 µg/m&sup3;</option>'+
+          '<option value="PM2.5_24" title="Las partículas menores o iguales a 2.5 micras (PM<sub>2.5</sub>) están formadas primordialmente por gases y por material proveniente de la combustión. Se depositan fundamentalmente en la región traqueobronquial (tráquea hasta bronquiolo terminal), aunque pueden ingresar a los alvéolos.">PM 2.5 µg/m&sup3;</option>'+
           '<option value="SO2_24" title="Gas incoloro que se forma al quemar combustibles fósiles que contienen azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.">SO2 (ppm) Promedio 24 horas</option>'+
           '<option value="SO2_8" title="Gas incoloro que se forma al quemar combustibles fósiles que contienen azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.">SO2 (ppm) Promedio 8 horas</option>'+
           '<option value="SO2_D" title="Gas incoloro que se forma al quemar combustibles fósiles que contienen azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.">SO2 (ppm) Dato horario</option>'+
