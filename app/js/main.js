@@ -1085,7 +1085,7 @@ function cambioParametro(parametro, horas, idButton, lb)
   $("#recomendaciones").hide();
   
   reset_botones();
-  ponerReocmendaciones();
+  //ponerReocmendaciones();
   
   if(!($("#"+idButton).hasClass("bloqueado")))
   {
@@ -1172,14 +1172,14 @@ function cambioParametro(parametro, horas, idButton, lb)
       $(".date-gauge").html("");
     }
     
-    
-    // if(promedioFinal > 0)
-    // {
-    //   if(maximoP < promedioFinal)
-    //     $("#recomendaciones").show();
+    if(promedioFinal > 0)
+    {
+      if(maximoP < promedioFinal)
+      {
+        $("#recomendaciones").show();      
+      }
+    }
 
-      
-    // }
     // else
     // {
     //   $(".chart-gauge").html("");
