@@ -725,12 +725,12 @@ function putGrafica(parametro,horas,maximo)
   var prettyParameter = parameter_decorator(parametro, false);
   //crear la label a mostrar
   if(horas !== "D") {
-    labelsData.labelInfo = "Promedio horario de " + prettyParameter + " en " + horas + "hrs";
-    labelsData.labelLimit = "Límite móvil de " + horas + "hrs";
-    labelsData.label = "Promedio móvil de " + prettyParameter + " en " + horas + " horas";
+    labelsData.labelInfo = "Promedio horario de " + prettyParameter + " en " + horas + "hrs.";
+    labelsData.labelLimit = "Límite NOM";
+    labelsData.label = "Promedio móvil de " + horas + " hrs. para " + prettyParameter;
   } else {
     labelsData.labelInfo = "Promedio horario de " + prettyParameter;
-    labelsData.labelLimit = "Límite móvil de 1hr";
+    labelsData.labelLimit = "Límite NOM";
     labelsData.label = horas;
   }
 
