@@ -753,6 +753,14 @@ option {
   font-size: 16px;
 }
 
+/* modal styles */
+@media (min-width:992px){.modal-lg{width:960px;}}
+.close {
+  color: #fff;
+  opacity: .7;
+  filter: alpha(opacity=70);
+}
+
 /*
 ** Formatos de datos
 */
