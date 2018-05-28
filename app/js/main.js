@@ -52,6 +52,8 @@ $(document).ready(function()
 {
   $("#estados").val("Aguascalientes");
   $(".forLoader").removeClass("hide").slideUp();
+
+  $('#infoModal').modal();
   
   $("#myModal").on("hidden.bs.modal", function () 
   {

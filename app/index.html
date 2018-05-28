@@ -142,224 +142,252 @@
     </div>
 
 	<div class="container">
-	    <div class="row">
-	      <div class="col col-xs-12 hidden-xs">
-	        <div id="mapid"></div>
-	      </div>
+    <div class="row">
+      <div class="col col-xs-12 hidden-xs">
+        <div id="mapid"></div>
       </div>
+    </div>
 	</div>
 
 	<div class="container hidden-xs">
-	    <div class="row">
-	      <div class="col col-xs-12">
-          <h3>Datos</h3>
-          <hr class="red">
-	        <div class="data-table">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>Nombre</th>
-                    <th>Institución</th>
-                    <th>Formato</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr id="dato" data-href="https://datos.gob.mx/busca/dataset/proveedores-comercializacion-y-cultivos">
-                    <td id="nombreDato" class="">Calidad de aire</td>
-                    <td id="institucionDato" width="25%" class="">INECC</td>
-                    <td width="10%">
-                      <a
-                        href="https://datos.gob.mx/busca/organization/inecc" 
-                        id="tipoDato" 
-                        data-format="XLS" 
-                        class="dataset-format">JSON</a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-	      </div>
-	    </div>
-	</div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-      <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Mensaje</h4>
+    <div class="row">
+      <div class="col col-xs-12">
+        <h3>Datos</h3>
+        <hr class="red">
+        <div class="data-table">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Institución</th>
+                  <th>Formato</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr id="dato" data-href="https://datos.gob.mx/busca/dataset/proveedores-comercializacion-y-cultivos">
+                  <td id="nombreDato" class="">Calidad de aire</td>
+                  <td id="institucionDato" width="25%" class="">INECC</td>
+                  <td width="10%">
+                    <a
+                      href="https://datos.gob.mx/busca/organization/inecc" 
+                      id="tipoDato" 
+                      data-format="XLS" 
+                      class="dataset-format">JSON</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <div class="modal-body">
-            El parámetro seleccionado no cuenta con lecturas en los últimos días.
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal"> Aceptar</button>
-          </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Info modal -->
+  <div class="modal fade" id="infoModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4>Información</h4>
+        </div>
+        <div class="modal-body">
+          <p>
+            En este sitio encontrarás los niveles de contaminación que afectan la calidad del aire de las localidades donde se encuentran
+            las 131 estaciones automáticas de monitoreo que comparten datos de calidad del aire al Sistema Nacional de Información de
+            la Calidad del Aire (SINAICA) a lo largo del territorio nacional.
+          </p>
+          <p>
+            Estas estaciones son operadas por personal de los gobiernos de estados y/o municipios, siendo el Instituto Nacional de Ecología
+            y Cambio Climático (INECC) quién colecta la información y la difunde a través del SINAICA.
+          </p>
+          <p>
+            Para mayor información, consulta las secciones de preguntas frecuentes, el glosario de términos y las Normas Oficiales Mexicanas
+            en materia de salud.
+          </p>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <p class="titulo"><strong id="titulo_detalle">Ciudad Fernández</strong></p>
-          </div>
-          <div class="modal-body">
-            <!-- esto sera el modal -->
-
-              <div class="row ">
-                <div class="col-xs-12">
-                    <div id="alerta" class="alert alert-danger">
-                      No es posible obtener el valor solicitado para este día.
-                    </div>
-                </div>
-                  
-                <div class="col-xs-3 hidden-xs">
-                  <div class="col-xs-4">
-                    <img class="img-responsive" src="imagenes/fecha.png">
-                  </div>
-                  <div class="col-xs-8">
-                    <p><b>Fecha</b></p>
-                    <p id="fecha_detalle">24/05/17</p>
-                  </div>
-                  <div class="col-xs-4">
-                    <img class="img-responsive" src="imagenes/estacion.png">
-                  </div>
-                  <div class="col-xs-8">
-                    <p><b>Estación:</b></p>
-                    <p id="estacion_detalle">XAL-Xalostoc</p>
-                  </div>
-                  <div class="col-xs-4 temperatura">
-                    <img class="img-responsive" src="imagenes/temperatura.png">
-                  </div>
-                  <div class="col-xs-8 temperatura">
-                    <p><b>Temperatura:</b></p>
-                    <p id="temperatura_detalle"></p>
-                  </div>
-                  <div class="col-xs-4">
-                    <img class="img-responsive" src="imagenes/contaminante.png">
-                  </div>
-                  <div class="col-xs-8">
-                    <p><b >Contaminante:</b></p>
-                    <p id="contaminante_detalle">PM<sub>10</sub>, 104</p>
-                  </div>
-                </div>
-                <div class="col-xs-9 hidden-xs">
-                    <div class="col-xs-12">
-                        <p class="titulo"><strong>Valores máximos registrados del contaminante <span id="contaminante_grafica"> XXX </span></strong></p>
-                    </div>
-                    <div id="max-values" class="margenes_pop">
-                      <div class="row">
-                        <div class="col-xs-4">
-                          <p data-toggle="tooltip" data-id="PM10" data-hour="24" data-placement="bottom" data-code="PM10 (µg/m&sup3;)" data-title="Las partículas menores o iguales a 10 micras (PM&#8321;&#8320;) se depositan en la región extratorácica del tracto respiratorio (nariz, boca, naso, oro y laringofarínge); contienen principalmente materiales de la corteza terrestre y se originan en su mayoría por procesos de desintegración de partículas más grandes. También pueden contener material biológico como
-                    polen, esporas, virus o bacterias o provenir de la combustión incompleta de combustibles fósiles." class="active_pop boton_pop"
-                            id="botonPM10">PM<sub>10</sub> (µg/m&sup3;) 24 horas</p>
-                        </div>
-                        <div class="col-xs-4">
-                          <p data-toggle="tooltip" data-id="PM2.5" data-hour="24" data-placement="bottom" data-code="PM25; (µg/m&sup3;)" data-title="Las partículas menores o iguales a 2.5 micras (PM&#8322;.&#8325;) están formadas primordialmente por gases y por material proveniente de la combustión. Se depositan fundamentalmente en la región traqueobronquial (tráquea hasta bronquiolo terminal), aunque pueden ingresar a los alvéolos."
-                            class="boton_pop" id="botonPM25">PM<sub>2.5</sub> (µg/m&sup3;) 24 horas</p>
-                        </div>
-                        <div class="col-xs-4">
-                          <p data-toggle="tooltip" data-id="NO2" data-hour="D" data-placement="bottom" data-code="NO2 (ppm)" data-title="El dióxido de nitrógeno es un compuesto químico gaseoso de color marrón amarillento, es un gas tóxico e irritante. La exposición a este gas disminuye la capacidad de difusión pulmonar."
-                            class="boton_pop" id="botonNO2">NO<sub>2</sub> (ppm) Promedio horario</p>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-xs-4">
-                          <p data-toggle="tooltip" data-id="SO2" data-hour="8" data-placement="bottom" data-code="SO2 (ppm)" data-title="Gas incoloro que se forma al quemar combustibles fósiles que contienen azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios."
-                            class="boton_pop" id="botonSO28">SO<sub>2</sub> (ppm) 8 horas</p>
-                        </div>
-                        <div class="col-xs-4">
-                          <p data-toggle="tooltip" data-id="SO2" data-hour="24" data-placement="bottom" data-code="SO2 (ppm)" data-title="Gas incoloro que se forma al quemar combustibles fósiles que contienen azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios."
-                            class="boton_pop" id="botonSO224">SO<sub>2</sub> (ppm) 24 horas</p>
-                        </div>
-                        <div class="col-xs-4">
-                          <p data-toggle="tooltip" data-id="CO" data-hour="8" data-placement="bottom" data-code="C0 (ppm)" data-title="Es un gas incoloro e inodoro que en concentraciones altas puede ser letal ya que forma carboxihemoglobina, la cual impide la oxigenación de la sangre."
-                            class="boton_pop" id="botonCO">CO (ppm) 8 horas</p>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-xs-4">
-                          <p data-toggle="tooltip" data-id="O3" data-hour="D" data-placement="bottom" data-code="O3 (ppm)" data-title="Es un compuesto gaseoso incoloro, que posee la capacidad de oxidar materiales, y causa irritación ocular y en las vías respiratorias."
-                            class="boton_pop" id="botonO3D">O<sub>3</sub> (ppm) Promedio horario</p>
-                        </div>
-                        <div class="col-xs-4">
-                          <p data-toggle="tooltip" data-id="O3" data-hour="8" data-placement="bottom" data-code="O3 (ppm)" data-title="Es un compuesto gaseoso incoloro, que posee la capacidad de oxidar materiales, y causa irritación ocular y en las vías respiratorias."
-                            class="boton_pop" id="botonO38">O<sub>3</sub> (ppm) 8 horas</p>
-                        </div>
-                      </div>
-                    </div>
-                </div>
-                <div class="col-xs-12 hidden-sm hidden-md hidden-lg text-center">
-                  <p>
-                    <span id="estacion_detalle_m">XAL-Xalostoc </span>
-                    <span id="fecha_detalle_m"><b>24/05/17</b></span>
-                  </p>
-                  <select name="conataminatesMovil" id="conataminatesMovil">
-                    <option value="PM10">PM&#8321;&#8320; (µg/m&sup3;) 24 horas</option>
-                    <option value="PM2.5">PM&#8322;.&#8325; (µg/m&sup3;) 24 horas</option>
-                    <option value="NO2">NO&#8322; (ppm) Promedio horario</option>
-                    <option value="SO28">SO&#8322; (ppm) 8 horas</option>
-                    <option value="SO224">SO&#8322; (ppm) 24 horas</option>
-                    <option value="CO8">CO (ppm) 8 horas</option>
-                    <option value="O3D">O&#8323; (ppm) Promedio horario</option>
-                    <option value="O38">O&#8323; (ppm) 8 horas</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-xs-12 col-sm-4 text-center">
-                    <div class="chart-gauge"></div>
-                    <div class="date-gauge"></div>
-                </div>
-                <div class="col-xs-12 col-sm-8">
-                  <div class="col-xs-12">
-                    <h5 id="tituloTexto">parametro</h5>
-                    <p id="textoTitulo">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias, delectus voluptate error libero, repudiandae </p>
-                    <div id="recomendaciones">
-                      <h6>Recomendaciones</h6>
-                      <p>Reducir el tiempo de exposición en exteriores, sobre todo de sectores vulnerables</p>
-                      <ul>
-                        <li>Niños</li>
-                        <li>Adultos mayores</li>
-                        <li>Mujeres embarazadas</li>
-                        <li>Personas con problemas respiratorios y cardiovasculares</li>
-                      </ul>
-                      <p>Evitar salir a realizar actividades deportivas.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row hidden-xs">
-                <div class="col-xs-12 offset-m1 offset-l2">
-                  <canvas id="myChart"></canvas>
-                </div>
-                <div class="col-xs-12 botonera">
-                  <a href="#" class="parametro">3 días</a>
-                  <a href="#" class="parametro">7 días</a>
-                  <a href="#" class="parametro">14 días</a>
-                  <a href="#" id="pinta_primero" class="parametro active">28 días</a>
-                </div>
-                <input type="hidden" name="estacion" id="estacion_id" value="">
-                <input type="hidden" name="ciudad" id="ciudad" value="">
-                <div class="col-md-12">
-                  <p class="info-text">*Datos preliminares del SMCA que no han pasado por el proceso de validación</p>
-                </div>
-              </div>
-
-          </div> <!-- fin del body  -->
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-          </div>
-
+  <!-- Modal -->
+  <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Mensaje</h4>
+        </div>
+        <div class="modal-body">
+          El parámetro seleccionado no cuenta con lecturas en los últimos días.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal"> Aceptar</button>
+        </div>
       </div>
     </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <p class="titulo"><strong id="titulo_detalle">Ciudad Fernández</strong></p>
+        </div>
+        <div class="modal-body">
+          <!-- esto sera el modal -->
+
+            <div class="row ">
+              <div class="col-xs-12">
+                  <div id="alerta" class="alert alert-danger">
+                    No es posible obtener el valor solicitado para este día.
+                  </div>
+              </div>
+                
+              <div class="col-xs-3 hidden-xs">
+                <div class="col-xs-4">
+                  <img class="img-responsive" src="imagenes/fecha.png">
+                </div>
+                <div class="col-xs-8">
+                  <p><b>Fecha</b></p>
+                  <p id="fecha_detalle">24/05/17</p>
+                </div>
+                <div class="col-xs-4">
+                  <img class="img-responsive" src="imagenes/estacion.png">
+                </div>
+                <div class="col-xs-8">
+                  <p><b>Estación:</b></p>
+                  <p id="estacion_detalle">XAL-Xalostoc</p>
+                </div>
+                <div class="col-xs-4 temperatura">
+                  <img class="img-responsive" src="imagenes/temperatura.png">
+                </div>
+                <div class="col-xs-8 temperatura">
+                  <p><b>Temperatura:</b></p>
+                  <p id="temperatura_detalle"></p>
+                </div>
+                <div class="col-xs-4">
+                  <img class="img-responsive" src="imagenes/contaminante.png">
+                </div>
+                <div class="col-xs-8">
+                  <p><b >Contaminante:</b></p>
+                  <p id="contaminante_detalle">PM<sub>10</sub>, 104</p>
+                </div>
+              </div>
+              <div class="col-xs-9 hidden-xs">
+                  <div class="col-xs-12">
+                      <p class="titulo"><strong>Valores máximos registrados del contaminante <span id="contaminante_grafica"> XXX </span></strong></p>
+                  </div>
+                  <div id="max-values" class="margenes_pop">
+                    <div class="row">
+                      <div class="col-xs-4">
+                        <p data-toggle="tooltip" data-id="PM10" data-hour="24" data-placement="bottom" data-code="PM10 (µg/m&sup3;)" data-title="Las partículas menores o iguales a 10 micras (PM&#8321;&#8320;) se depositan en la región extratorácica del tracto respiratorio (nariz, boca, naso, oro y laringofarínge); contienen principalmente materiales de la corteza terrestre y se originan en su mayoría por procesos de desintegración de partículas más grandes. También pueden contener material biológico como
+                  polen, esporas, virus o bacterias o provenir de la combustión incompleta de combustibles fósiles." class="active_pop boton_pop"
+                          id="botonPM10">PM<sub>10</sub> (µg/m&sup3;) 24 horas</p>
+                      </div>
+                      <div class="col-xs-4">
+                        <p data-toggle="tooltip" data-id="PM2.5" data-hour="24" data-placement="bottom" data-code="PM25; (µg/m&sup3;)" data-title="Las partículas menores o iguales a 2.5 micras (PM&#8322;.&#8325;) están formadas primordialmente por gases y por material proveniente de la combustión. Se depositan fundamentalmente en la región traqueobronquial (tráquea hasta bronquiolo terminal), aunque pueden ingresar a los alvéolos."
+                          class="boton_pop" id="botonPM25">PM<sub>2.5</sub> (µg/m&sup3;) 24 horas</p>
+                      </div>
+                      <div class="col-xs-4">
+                        <p data-toggle="tooltip" data-id="NO2" data-hour="D" data-placement="bottom" data-code="NO2 (ppm)" data-title="El dióxido de nitrógeno es un compuesto químico gaseoso de color marrón amarillento, es un gas tóxico e irritante. La exposición a este gas disminuye la capacidad de difusión pulmonar."
+                          class="boton_pop" id="botonNO2">NO<sub>2</sub> (ppm) Promedio horario</p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-4">
+                        <p data-toggle="tooltip" data-id="SO2" data-hour="8" data-placement="bottom" data-code="SO2 (ppm)" data-title="Gas incoloro que se forma al quemar combustibles fósiles que contienen azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios."
+                          class="boton_pop" id="botonSO28">SO<sub>2</sub> (ppm) 8 horas</p>
+                      </div>
+                      <div class="col-xs-4">
+                        <p data-toggle="tooltip" data-id="SO2" data-hour="24" data-placement="bottom" data-code="SO2 (ppm)" data-title="Gas incoloro que se forma al quemar combustibles fósiles que contienen azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios."
+                          class="boton_pop" id="botonSO224">SO<sub>2</sub> (ppm) 24 horas</p>
+                      </div>
+                      <div class="col-xs-4">
+                        <p data-toggle="tooltip" data-id="CO" data-hour="8" data-placement="bottom" data-code="C0 (ppm)" data-title="Es un gas incoloro e inodoro que en concentraciones altas puede ser letal ya que forma carboxihemoglobina, la cual impide la oxigenación de la sangre."
+                          class="boton_pop" id="botonCO">CO (ppm) 8 horas</p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-4">
+                        <p data-toggle="tooltip" data-id="O3" data-hour="D" data-placement="bottom" data-code="O3 (ppm)" data-title="Es un compuesto gaseoso incoloro, que posee la capacidad de oxidar materiales, y causa irritación ocular y en las vías respiratorias."
+                          class="boton_pop" id="botonO3D">O<sub>3</sub> (ppm) Promedio horario</p>
+                      </div>
+                      <div class="col-xs-4">
+                        <p data-toggle="tooltip" data-id="O3" data-hour="8" data-placement="bottom" data-code="O3 (ppm)" data-title="Es un compuesto gaseoso incoloro, que posee la capacidad de oxidar materiales, y causa irritación ocular y en las vías respiratorias."
+                          class="boton_pop" id="botonO38">O<sub>3</sub> (ppm) 8 horas</p>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              <div class="col-xs-12 hidden-sm hidden-md hidden-lg text-center">
+                <p>
+                  <span id="estacion_detalle_m">XAL-Xalostoc </span>
+                  <span id="fecha_detalle_m"><b>24/05/17</b></span>
+                </p>
+                <select name="conataminatesMovil" id="conataminatesMovil">
+                  <option value="PM10">PM&#8321;&#8320; (µg/m&sup3;) 24 horas</option>
+                  <option value="PM2.5">PM&#8322;.&#8325; (µg/m&sup3;) 24 horas</option>
+                  <option value="NO2">NO&#8322; (ppm) Promedio horario</option>
+                  <option value="SO28">SO&#8322; (ppm) 8 horas</option>
+                  <option value="SO224">SO&#8322; (ppm) 24 horas</option>
+                  <option value="CO8">CO (ppm) 8 horas</option>
+                  <option value="O3D">O&#8323; (ppm) Promedio horario</option>
+                  <option value="O38">O&#8323; (ppm) 8 horas</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-12 col-sm-4 text-center">
+                  <div class="chart-gauge"></div>
+                  <div class="date-gauge"></div>
+              </div>
+              <div class="col-xs-12 col-sm-8">
+                <div class="col-xs-12">
+                  <h5 id="tituloTexto">parametro</h5>
+                  <p id="textoTitulo">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias, delectus voluptate error libero, repudiandae </p>
+                  <div id="recomendaciones">
+                    <h6>Recomendaciones</h6>
+                    <p>Reducir el tiempo de exposición en exteriores, sobre todo de sectores vulnerables</p>
+                    <ul>
+                      <li>Niños</li>
+                      <li>Adultos mayores</li>
+                      <li>Mujeres embarazadas</li>
+                      <li>Personas con problemas respiratorios y cardiovasculares</li>
+                    </ul>
+                    <p>Evitar salir a realizar actividades deportivas.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row hidden-xs">
+              <div class="col-xs-12 offset-m1 offset-l2">
+                <canvas id="myChart"></canvas>
+              </div>
+              <div class="col-xs-12 botonera">
+                <a href="#" class="parametro">3 días</a>
+                <a href="#" class="parametro">7 días</a>
+                <a href="#" class="parametro">14 días</a>
+                <a href="#" id="pinta_primero" class="parametro active">28 días</a>
+              </div>
+              <input type="hidden" name="estacion" id="estacion_id" value="">
+              <input type="hidden" name="ciudad" id="ciudad" value="">
+              <div class="col-md-12">
+                <p class="info-text">*Datos preliminares del SMCA que no han pasado por el proceso de validación</p>
+              </div>
+            </div>
+
+        </div> <!-- fin del body  -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
     </div>
+  </div>
 
   </main>
 
