@@ -376,6 +376,7 @@ function ponerTemperatura(url)
       if(temperatura !== "")
       {
         $("#temperatura_detalle").text(temperatura+' ℃');
+        $("#temperatura_detalle_m").text(temperatura + ' ℃');
       }
       else
       {
