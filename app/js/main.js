@@ -28,6 +28,8 @@ var arrO3 = [];
 var arrSO2 = [];
 var extension = "";
 
+var hourSelected = "";
+
 var dataHour = {
   "D": "1hr",
   "8": "8hrs",
@@ -91,11 +93,13 @@ $(document).ready(function()
 
   // Get maxvalues
   $("#max-values p").on("click", function() {
-  
-    cambioParametro(
+    hourSelected = $(this).attr("data-hour");
+
+    llenarConstaminantes(generaUrl(
       $(this).attr("data-id"),
-      $(this).attr("data-hour"),
-      $(this).attr("id")
+      $("#estaciones_select").val(),
+      (24 * 28)),
+      $(this).attr("data-id")
     );
   });
 
@@ -278,39 +282,39 @@ $(document).ready(function()
   {
     if("PM10" === $(this).val())
     {
-      cambioParametro("PM10", "24", "botonPM10", "PM10 (µg/m&sup3;)")
+      cambioParametro("PM10", "24", "botonPM10")
     }
     else if("PM2.5" === $(this).val())
     {
-      cambioParametro("PM2.5", "24", "botonPM25", "PM2.5 (µg/m&sup3;)");
+      cambioParametro("PM2.5", "24", "botonPM25");
     }
     else if("NO2" === $(this).val())
     {
-      cambioParametro("NO2", "D",  "botonNO2", "NO2 (ppm)")
+      cambioParametro("NO2", "D",  "botonNO2")
     }
     else if("SO2D" === $(this).val())
     {
-      cambioParametro("SO2", "D", "botonSO2D", "SO2 (ppm)")
+      cambioParametro("SO2", "D", "botonSO2D")
     }
     else if("SO28" === $(this).val())
     {
-      cambioParametro("SO2", "8", "botonSO28", "SO2 (ppm)");
+      cambioParametro("SO2", "8", "botonSO28");
     }
     else if("SO224" === $(this).val())
     {
-      cambioParametro("SO2", "24", "botonSO224", "SO2 (ppm)");
+      cambioParametro("SO2", "24", "botonSO224");
     }
     else if("O3D" === $(this).val())
     {
-      cambioParametro("O3", "D", "botonO3D", "O3 (ppm)");
+      cambioParametro("O3", "D", "botonO3D");
     }
     else if("O38" === $(this).val())
     {
-      cambioParametro("O3", "8", "botonO38", "O3 (ppm)");
+      cambioParametro("O3", "8", "botonO38");
     }
     else if("CO8" === $(this).val())
     {
-      cambioParametro("CO", "8", "botonCO", "CO (ppm)");
+      cambioParametro("CO", "8", "botonCO");
     }
     else { return 0; }
   });
@@ -916,32 +920,42 @@ function llenarConstaminantes(url, parametro)
         if("PM10" === parametro)
         {
           arrPM10 = data;
-          $("#botonPM10").trigger("click");
+          cambioParametro("PM10", "24", "botonPM10");
         }
         else if("PM2.5" === parametro)
         {
           arrPM2 = data;
-          $("#botonPM25").trigger("click");
+          cambioParametro("PM2.5", "24", "botonPM25");
         }
         else if("NO2" === parametro)
         {
           arrNO2 = data;
-          $("#botonNO2").trigger("click");
+          cambioParametro("NO2", "D", "botonNO2");
         }
         else if("CO" === parametro)
         {
           arrCO = data;
-          $("#botonCO").trigger("click");
+          cambioParametro("CO", "8", "botonCO");
         }
-        else if("O3" === parametro)
+        else if ("O3" === parametro && hourSelected === "")
         {
           arrO3 = data;
-          $("#botonO3D").trigger("click");
+          cambioParametro("O3", "D", "botonO3D");
         }
-        else if("SO2" === parametro)
+        else if ("O3" === parametro && hourSelected !== "")
+        {
+          arrO3 = data;
+          cambioParametro("O3", hourSelected, "botonO3" + hourSelected);
+        }
+        else if ("SO2" === parametro && hourSelected === "")
         {
           arrSO2 = data;
-          $("#botonSO28").trigger("click");
+          cambioParametro("SO2", "8", "botonSO28");
+        }
+        else if ("SO2" === parametro && hourSelected !== "")
+        {
+          arrSO2 = data;
+          cambioParametro("SO2", hourSelected, "botonSO2" + hourSelected);
         }
         else { return 0; }
       }
@@ -1084,12 +1098,12 @@ function parameter_decorator(parameter, isHtml) {
   return decorator;
 }
 
-function cambioParametro(parametro, horas, idButton, lb)
+function cambioParametro(parametro, horas, idButton)
 {
   $("#alerta").hide();
   $("#recomendaciones").hide();
   
-  reset_botones();
+  //reset_botones();
   //ponerReocmendaciones();
   
   if(!($("#"+idButton).hasClass("bloqueado")))
