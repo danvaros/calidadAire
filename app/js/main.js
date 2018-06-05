@@ -370,7 +370,7 @@ function ponerTemperatura(url)
     success: function( data, textStatus, jqxhr )
     {
       var temperatura = "";
-      for (let index = 0; index < data.results.length; index++) {
+      for (var index = 0; index < data.results.length; index++) {
         if(data.results[index].valororig <= 60 && data.results[index].valororig >= -50)
         {
           temperatura = data.results[index].valororig.toFixed(2);
@@ -398,8 +398,8 @@ function ponerTemperatura(url)
 function buscarCiudad(idEstacion)
 {
   var city = "";
-  for (let index = 0; index < estaciones_json.length; index++) {
-    const element = estaciones_json[index];
+  for (var index = 0; index < estaciones_json.length; index++) {
+    var element = estaciones_json[index];
     if(element.id.toString() === idEstacion.toString())
     {
       city =  element.city;
@@ -445,9 +445,9 @@ function convertDate(inputFormat)
 function options_estado()
 {
   var stateOptions  = '<option value="0">1.-Selecciona un estado</option>';
-  for (let index = 0; index < coor_estado.length; index++)
+  for (var index = 0; index < coor_estado.length; index++)
   {
-    const element = coor_estado[index];
+    var element = coor_estado[index];
     stateOptions += '<option value="'+element.estado+'">'+element.estado+'</option>'
   }
 
@@ -521,7 +521,7 @@ function getNewDatas(data) {
 
 function existeUltimoPromedio(e)
 {  
-  for (let l = 0; l < ultimosEstados.length; l++) 
+  for (var l = 0; l < ultimosEstados.length; l++) 
   {  
     if(ultimosEstados[l].etiqueta === e)
     {
@@ -534,7 +534,7 @@ function existeUltimoPromedio(e)
 
 function ponerReocmendaciones()
 {
-  for (let index = 0; index < ultimosEstados.length; index++) 
+  for (var index = 0; index < ultimosEstados.length; index++) 
   {  
     var r = rangoInecc(ultimosEstados[index].parametro,ultimosEstados[index].horas);
     if(ultimosEstados[index].valor > r) {
@@ -546,7 +546,7 @@ function ponerReocmendaciones()
 function getUltimoRango(p)
 {
   var valor = '';
-  for (let index = 0; index < ultimosEstados.length; index++) 
+  for (var index = 0; index < ultimosEstados.length; index++) 
   {
     if(ultimosEstados[index].etiqueta === p)
     {
@@ -567,14 +567,14 @@ function putGrafica(parametro,horas,maximo)
   var data = dataLocal.results;
   var valores = [];
   var promediosMoviles = [];
-  const hora = 3600000;
+  var hora = 3600000;
   etiquetas = [];
   lbls.days = [];
   lbls.hours = [];
   var e = parametro+''+horas;
 
   var newInd = 0;
-  for (let index = 0; index < data.length; index++) 
+  for (var index = 0; index < data.length; index++) 
   {
     if(data[index].valororig < maximo && data[index].valororig !== null && data[index].valororig >= 0 )
     {
@@ -624,10 +624,10 @@ function putGrafica(parametro,horas,maximo)
       {
         var acumulado = 0;
         var numValoresValidos = 0;
-        const dActual = hacerFechaValida(data[index].date).getTime();
+        var dActual = hacerFechaValida(data[index].date).getTime();
         var dPasada = dActual - (hora * horas);
 
-        for (let l = index; l >= index - (horas-1); l--) 
+        for (var l = index; l >= index - (horas-1); l--) 
         {
           var fechaValidar = hacerFechaValida(data[l].date);
        
@@ -866,7 +866,7 @@ function ponEstacionesSel()
   var x = document.getElementById("estado_primer_select").value;
   var contenido = '<option value="0">2.-Seleccionar estación</option>';
   var numEstaciones = 0;
-  for (let index = 0; index < estaciones_json.length; index++)
+  for (var index = 0; index < estaciones_json.length; index++)
   {
     var element =  estaciones_json[index];
     if(element.state === x && element.activa)
@@ -978,7 +978,7 @@ function llenarConstaminantes(url, parametro)
         //desabilitamos el boton del parametro que estamos consultando
         if("PM2.5" === parametro)
         {
-          arrPM25 = data;
+          arrPM2 = data;
           $("#botonPM25").addClass("bloqueado");
         }
         else if("PM10" === parametro)
@@ -1039,7 +1039,7 @@ function llenarConstaminantes(url, parametro)
 
 function generaUrl(parametro,id_estacion,horas)
 {
-  const dActual = new Date();
+  var dActual = new Date();
   var dPasada = new Date();
 
   dPasada.setHours(dActual.getHours() - horas);
@@ -1212,14 +1212,14 @@ function sacaDatoDiario(data,horas,maxValue)
 {
   if(horas !== "D")
   {
-    const dActual = new Date();
+    var dActual = new Date();
     var dPasada = new Date();
     dPasada.setHours(dActual.getHours() - horas);
 
     var datos =  data.results;
     var arrTemp = [];
 
-    for (let index = datos.length - 1; index > 0;  index--)
+    for (var index = datos.length - 1; index > 0;  index--)
     {
 
       var fechaValida = hacerFechaValida(datos[index]["date"]);
@@ -1239,7 +1239,7 @@ function sacaDatoDiario(data,horas,maxValue)
     var acumulado = 0;
 
     
-    for (let index = 0; index < arrTemp.length; index++)
+    for (var index = 0; index < arrTemp.length; index++)
     {
       if(arrTemp[index].valororig < maxValue && arrTemp[index].validoorig === 1)
       {    
@@ -1251,7 +1251,7 @@ function sacaDatoDiario(data,horas,maxValue)
     promedio = 0;
     acumulado = 0;
     var tamDatos = datos.length-1;
-    for (let l = tamDatos; l > tamDatos - horas; l--)
+    for (var l = tamDatos; l > tamDatos - horas; l--)
     {    
       if(datos[l].valororig < maxValue && datos[l].validoorig === 1)
       {   
@@ -1283,7 +1283,7 @@ function sacaDatoDiario(data,horas,maxValue)
 function buscarEstacion(id_estacion)
 {
   var estacion = 0 ;
-  for (let index = 0; index < estaciones_json.length; index++)
+  for (var index = 0; index < estaciones_json.length; index++)
   {
     var element =  estaciones_json[index];
     if(element.id === id_estacion)
