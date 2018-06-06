@@ -13,3 +13,7 @@ gulp.task('compressjs', function (cb) {
     cb
   );
 });
+
+gulp.task('compressjs:watch', function () {
+  gulp.watch('app/js/*.js', ['compressjs']);
+});
