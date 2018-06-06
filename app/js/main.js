@@ -29,6 +29,7 @@ var arrSO2 = [];
 var extension = "";
 
 var hourSelected = "";
+var stationSelected = "";
 
 var dataHour = {
   "D": "1hr",
@@ -95,10 +96,12 @@ $(document).ready(function()
   $("#max-values p").on("click", function() {
     hourSelected = $(this).attr("data-hour");
 
-    llenarConstaminantes(generaUrl(
-      $(this).attr("data-id"),
-      $("#estaciones_select").val(),
-      (24 * 28)),
+    llenarConstaminantes(
+      generaUrl(
+        $(this).attr("data-id"),
+        stationSelected,
+        (24 * 28)
+      ),
       $(this).attr("data-id")
     );
   });
@@ -138,10 +141,12 @@ $(document).ready(function()
     $("#estacion_detalle").html($("#estaciones_select option:selected").text()); 
     $("#estacion_detalle_m").html('<b>'+$("#estaciones_select option:selected").text()+'</b>'); 
     
-    $("#textoTitulo").html($("#" + idPollutant).attr("data-original-title")); 
- 
     var idPollutant = "botonPM10";
-    cambioBotonActivo(idPollutant); 
+    $("#textoTitulo").html($("#" + idPollutant).attr("data-original-title")); 
+    cambioBotonActivo(idPollutant);
+
+    // Set station selected (because exist 2 different ways to get station)
+    stationSelected = estacion;
 
     //vamos a llenar los arreglos de todos los coantaminantes
     llenarConstaminantes(generaUrl('PM10', estacion, (24*28)),'PM10');
@@ -1282,16 +1287,16 @@ function sacaDatoDiario(data,horas,maxValue)
 
 function buscarEstacion(id_estacion)
 {
-  var estacion = 0 ;
+  var estacion = {};
   for (var index = 0; index < estaciones_json.length; index++)
   {
-    var element =  estaciones_json[index];
+    var element = estaciones_json[index];
     if(element.id === id_estacion)
     {
       estacion = element;
       break;
     }
-    else { return 0; }
+    else { estacion = estacion; }
   }
   return estacion;
 }
