@@ -104,6 +104,10 @@ $(document).ready(function()
       ),
       $(this).attr("data-id")
     );
+
+    // Set 28 days again
+    $(".parametro").removeClass("active");
+    $("#pinta_primero").addClass("active");
   });
 
   // Get states selected
@@ -248,7 +252,7 @@ $(document).ready(function()
     var tam_dataset = (chart.data.datasets[0].data.length);
     chart.data.labels =  etiquetas;
     
-    if(ant > boton){
+    if (ant > boton) {
       var tam =  ant - boton;
       for (var i = 0; i < tam; i++) {
         ant_val_arr.push(chart.data.datasets[0].data.splice(0, 1));
@@ -262,7 +266,7 @@ $(document).ready(function()
         ant_lab_arr_horas.push(chart.data.labels.horas.splice(0,1));
          
       }
-    }else if(ant < boton){
+    } else if(ant < boton) {
       var tam = boton - ant;
       for (var i = 0; i < tam; i++) {
         chart.data.datasets[0].data.unshift(ant_val_arr.pop()[0]);
@@ -275,7 +279,6 @@ $(document).ready(function()
         chart.data.labels.dias.unshift(ant_lab_arr_dias.pop()[0]);
         chart.data.labels.horas.unshift(ant_lab_arr_horas.pop()[0]);
       }
-      
     }
 
     ant = boton;
