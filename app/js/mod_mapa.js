@@ -53,7 +53,7 @@ $(document).ready(function()
         llenarConstaminantes(generaUrl("SO2", estacion, (24*28)),"SO2");
         llenarConstaminantes(generaUrl("O3", estacion, (24*28)),"O3");
         llenarConstaminantes(generaUrl("CO", estacion, (24*28)),"CO");
-        ponerTemperatura(generaUrl("'TMP", estacion, (3)),"TMP");
+        ponerTemperatura(generaUrl("TMP", estacion, (3)),"TMP");
     });
 
 
