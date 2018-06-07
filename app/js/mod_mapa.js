@@ -45,6 +45,8 @@ $(document).ready(function()
 
         // Set station selected (because exist 2 different ways to get station)
         stationSelected = estacion;
+        // Reset the hour selected to prevent pollutants with unexist hours
+        hourSelected = "";
 
         //vamos a llenar los arreglos de todos los coantaminantes
         llenarConstaminantes(generaUrl("PM10", estacion, (24*28)),"PM10");
