@@ -105,9 +105,7 @@ $(document).ready(function()
       $(this).attr("data-id")
     );
 
-    // Set 28 days again
-    $(".parametro").removeClass("active");
-    $("#pinta_primero").addClass("active");
+    resetButtonDays();
   });
 
   // Get states selected
@@ -148,6 +146,8 @@ $(document).ready(function()
     var idPollutant = "botonPM10";
     $("#textoTitulo").html($("#" + idPollutant).attr("data-original-title")); 
     cambioBotonActivo(idPollutant);
+
+    resetButtonDays();
 
     // Set station selected (because exist 2 different ways to get station)
     stationSelected = estacion;
@@ -403,6 +403,12 @@ function ponerTemperatura(url)
     crossDomain: true,
     async:true
   });
+}
+
+function resetButtonDays() {
+  // Set 28 days again
+  $(".parametro").removeClass("active");
+  $("#pinta_primero").addClass("active");
 }
 
 function buscarCiudad(idEstacion)
