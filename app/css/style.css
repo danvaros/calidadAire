@@ -538,6 +538,8 @@ option {
 .white-text,
 .white-text a { color: #fff; }
 
+#note-nom-24hrs { display: none; }
+
 
 /* BETA TAG
 ********************/

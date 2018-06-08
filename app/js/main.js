@@ -749,10 +749,13 @@ function putGrafica(parametro,horas,maximo)
     labelsData.labelInfo = "Promedio horario de " + prettyParameter + " en " + horas + "hrs.";
     labelsData.labelLimit = "Límite NOM";
     labelsData.label = "Promedio móvil de " + horas + " hrs. para " + prettyParameter;
-    if (horas === "24")
+    if (horas === "24") {
       labelsData.label += " **";
-    else
+      $("#note-nom-24hrs").css("display", "block");
+    } else {
       labelsData.label += "";
+      $("#note-nom-24hrs").css("display", "none");
+    }
   } else {
     labelsData.labelInfo = "Promedio horario de " + prettyParameter;
     labelsData.labelLimit = "Límite NOM";
