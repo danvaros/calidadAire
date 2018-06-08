@@ -43,6 +43,8 @@ $(document).ready(function()
         $("#textoTitulo").html($("#" + idPollutant).attr("data-original-title"));
         cambioBotonActivo(idPollutant);
 
+        resetButtonDays();
+
         // Set station selected (because exist 2 different ways to get station)
         stationSelected = estacion;
         // Reset the hour selected to prevent pollutants with unexist hours
