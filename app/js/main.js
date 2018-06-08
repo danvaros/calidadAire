@@ -116,7 +116,7 @@ $(document).ready(function()
   /* instancia del mapa*/
   mymap.panTo(new L.LatLng(24.8, -100));
 
-  var OpenStreetMap_BlackAndWhite = L.tileLayer("http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png",
+  var OpenStreetMap_BlackAndWhite = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
   {
     maxZoom: 18,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
