@@ -53,7 +53,7 @@ var pollutantsDescription = {
 
 $(document).ready(function()
 {
-  $("#estados").val("Aguascalientes");
+  $("#estados").val("0");
   $(".forLoader").removeClass("hide").slideUp();
 
   $('#infoModal').modal();
