@@ -28,6 +28,9 @@ var arrO3 = [];
 var arrSO2 = [];
 var extension = "";
 
+var hourSelected = "";
+var stationSelected = "";
+
 var dataHour = {
   "D": "1hr",
   "8": "8hrs",
@@ -44,13 +47,13 @@ var pollutantsDescription = {
   "PM2.5": "Las partículas menores o iguales a 2.5 micras (PM<sub>2.5</sub>) están formadas primordialmente por gases y por material proveniente de la combustión. Se depositan fundamentalmente en la región traqueobronquial (tráquea hasta bronquiolo terminal), aunque pueden ingresar a los alvéolos.",
   "NO2": "El dióxido de nitrógeno es un compuesto químico gaseoso de color marrón amarillento, es un gas tóxico e irritante. La exposición a este gas disminuye la capacidad de difusión pulmonar.",
   "SO2": "Gas incoloro que se forma al quemar combustibles fósiles que contienen azufre. La exposición a niveles altos de este contaminante produce irritación e inflamación de garganta y bronquios.",
-  "03": "Es un compuesto gaseoso incoloro, que posee la capacidad de oxidar materiales, y causa irritación ocular y en las vías respiratorias.",
+  "O3": "Es un compuesto gaseoso incoloro, que posee la capacidad de oxidar materiales, y causa irritación ocular y en las vías respiratorias.",
   "CO": "Es un gas incoloro e inodoro que en concentraciones altas puede ser letal ya que forma carboxihemoglobina, la cual impide la oxigenación de la sangre."
 }
 
 $(document).ready(function()
 {
-  $("#estados").val("Aguascalientes");
+  $("#estados").val("0");
   $(".forLoader").removeClass("hide").slideUp();
 
   $('#infoModal').modal();
@@ -91,12 +94,18 @@ $(document).ready(function()
 
   // Get maxvalues
   $("#max-values p").on("click", function() {
-  
-    cambioParametro(
-      $(this).attr("data-id"),
-      $(this).attr("data-hour"),
-      $(this).attr("id")
+    hourSelected = $(this).attr("data-hour");
+
+    llenarConstaminantes(
+      generaUrl(
+        $(this).attr("data-id"),
+        stationSelected,
+        (24 * 28)
+      ),
+      $(this).attr("data-id")
     );
+
+    resetButtonDays();
   });
 
   // Get states selected
@@ -134,10 +143,16 @@ $(document).ready(function()
     $("#estacion_detalle").html($("#estaciones_select option:selected").text()); 
     $("#estacion_detalle_m").html('<b>'+$("#estaciones_select option:selected").text()+'</b>'); 
     
-    $("#textoTitulo").html($("#" + idPollutant).attr("data-original-title")); 
- 
     var idPollutant = "botonPM10";
-    cambioBotonActivo(idPollutant); 
+    $("#textoTitulo").html($("#" + idPollutant).attr("data-original-title")); 
+    cambioBotonActivo(idPollutant);
+
+    resetButtonDays();
+
+    // Set station selected (because exist 2 different ways to get station)
+    stationSelected = estacion;
+    // Reset the hour selected to prevent pollutants with unexist hours
+    hourSelected = "";
 
     //vamos a llenar los arreglos de todos los coantaminantes
     llenarConstaminantes(generaUrl('PM10', estacion, (24*28)),'PM10');
@@ -239,7 +254,7 @@ $(document).ready(function()
     var tam_dataset = (chart.data.datasets[0].data.length);
     chart.data.labels =  etiquetas;
     
-    if(ant > boton){
+    if (ant > boton) {
       var tam =  ant - boton;
       for (var i = 0; i < tam; i++) {
         ant_val_arr.push(chart.data.datasets[0].data.splice(0, 1));
@@ -253,7 +268,7 @@ $(document).ready(function()
         ant_lab_arr_horas.push(chart.data.labels.horas.splice(0,1));
          
       }
-    }else if(ant < boton){
+    } else if(ant < boton) {
       var tam = boton - ant;
       for (var i = 0; i < tam; i++) {
         chart.data.datasets[0].data.unshift(ant_val_arr.pop()[0]);
@@ -266,7 +281,6 @@ $(document).ready(function()
         chart.data.labels.dias.unshift(ant_lab_arr_dias.pop()[0]);
         chart.data.labels.horas.unshift(ant_lab_arr_horas.pop()[0]);
       }
-      
     }
 
     ant = boton;
@@ -278,39 +292,39 @@ $(document).ready(function()
   {
     if("PM10" === $(this).val())
     {
-      cambioParametro("PM10", "24", "botonPM10", "PM10 (µg/m&sup3;)")
+      cambioParametro("PM10", "24", "botonPM10")
     }
     else if("PM2.5" === $(this).val())
     {
-      cambioParametro("PM2.5", "24", "botonPM25", "PM2.5 (µg/m&sup3;)");
+      cambioParametro("PM2.5", "24", "botonPM25");
     }
     else if("NO2" === $(this).val())
     {
-      cambioParametro("NO2", "D",  "botonNO2", "NO2 (ppm)")
+      cambioParametro("NO2", "D",  "botonNO2")
     }
     else if("SO2D" === $(this).val())
     {
-      cambioParametro("SO2", "D", "botonSO2D", "SO2 (ppm)")
+      cambioParametro("SO2", "D", "botonSO2D")
     }
     else if("SO28" === $(this).val())
     {
-      cambioParametro("SO2", "8", "botonSO28", "SO2 (ppm)");
+      cambioParametro("SO2", "8", "botonSO28");
     }
     else if("SO224" === $(this).val())
     {
-      cambioParametro("SO2", "24", "botonSO224", "SO2 (ppm)");
+      cambioParametro("SO2", "24", "botonSO224");
     }
     else if("O3D" === $(this).val())
     {
-      cambioParametro("O3", "D", "botonO3D", "O3 (ppm)");
+      cambioParametro("O3", "D", "botonO3D");
     }
     else if("O38" === $(this).val())
     {
-      cambioParametro("O3", "8", "botonO38", "O3 (ppm)");
+      cambioParametro("O3", "8", "botonO38");
     }
     else if("CO8" === $(this).val())
     {
-      cambioParametro("CO", "8", "botonCO", "CO (ppm)");
+      cambioParametro("CO", "8", "botonCO");
     }
     else { return 0; }
   });
@@ -366,7 +380,7 @@ function ponerTemperatura(url)
     success: function( data, textStatus, jqxhr )
     {
       var temperatura = "";
-      for (let index = 0; index < data.results.length; index++) {
+      for (var index = 0; index < data.results.length; index++) {
         if(data.results[index].valororig <= 60 && data.results[index].valororig >= -50)
         {
           temperatura = data.results[index].valororig.toFixed(2);
@@ -376,6 +390,7 @@ function ponerTemperatura(url)
       if(temperatura !== "")
       {
         $("#temperatura_detalle").text(temperatura+' ℃');
+        $("#temperatura_detalle_m").text(temperatura + ' ℃');
       }
       else
       {
@@ -390,11 +405,17 @@ function ponerTemperatura(url)
   });
 }
 
+function resetButtonDays() {
+  // Set 28 days again
+  $(".parametro").removeClass("active");
+  $("#pinta_primero").addClass("active");
+}
+
 function buscarCiudad(idEstacion)
 {
   var city = "";
-  for (let index = 0; index < estaciones_json.length; index++) {
-    const element = estaciones_json[index];
+  for (var index = 0; index < estaciones_json.length; index++) {
+    var element = estaciones_json[index];
     if(element.id.toString() === idEstacion.toString())
     {
       city =  element.city;
@@ -440,9 +461,9 @@ function convertDate(inputFormat)
 function options_estado()
 {
   var stateOptions  = '<option value="0">1.-Selecciona un estado</option>';
-  for (let index = 0; index < coor_estado.length; index++)
+  for (var index = 0; index < coor_estado.length; index++)
   {
-    const element = coor_estado[index];
+    var element = coor_estado[index];
     stateOptions += '<option value="'+element.estado+'">'+element.estado+'</option>'
   }
 
@@ -516,7 +537,7 @@ function getNewDatas(data) {
 
 function existeUltimoPromedio(e)
 {  
-  for (let l = 0; l < ultimosEstados.length; l++) 
+  for (var l = 0; l < ultimosEstados.length; l++) 
   {  
     if(ultimosEstados[l].etiqueta === e)
     {
@@ -529,7 +550,7 @@ function existeUltimoPromedio(e)
 
 function ponerReocmendaciones()
 {
-  for (let index = 0; index < ultimosEstados.length; index++) 
+  for (var index = 0; index < ultimosEstados.length; index++) 
   {  
     var r = rangoInecc(ultimosEstados[index].parametro,ultimosEstados[index].horas);
     if(ultimosEstados[index].valor > r) {
@@ -541,7 +562,7 @@ function ponerReocmendaciones()
 function getUltimoRango(p)
 {
   var valor = '';
-  for (let index = 0; index < ultimosEstados.length; index++) 
+  for (var index = 0; index < ultimosEstados.length; index++) 
   {
     if(ultimosEstados[index].etiqueta === p)
     {
@@ -562,14 +583,14 @@ function putGrafica(parametro,horas,maximo)
   var data = dataLocal.results;
   var valores = [];
   var promediosMoviles = [];
-  const hora = 3600000;
+  var hora = 3600000;
   etiquetas = [];
   lbls.days = [];
   lbls.hours = [];
   var e = parametro+''+horas;
 
   var newInd = 0;
-  for (let index = 0; index < data.length; index++) 
+  for (var index = 0; index < data.length; index++) 
   {
     if(data[index].valororig < maximo && data[index].valororig !== null && data[index].valororig >= 0 )
     {
@@ -619,10 +640,10 @@ function putGrafica(parametro,horas,maximo)
       {
         var acumulado = 0;
         var numValoresValidos = 0;
-        const dActual = hacerFechaValida(data[index].date).getTime();
+        var dActual = hacerFechaValida(data[index].date).getTime();
         var dPasada = dActual - (hora * horas);
 
-        for (let l = index; l >= index - (horas-1); l--) 
+        for (var l = index; l >= index - (horas-1); l--) 
         {
           var fechaValidar = hacerFechaValida(data[l].date);
        
@@ -728,6 +749,13 @@ function putGrafica(parametro,horas,maximo)
     labelsData.labelInfo = "Promedio horario de " + prettyParameter + " en " + horas + "hrs.";
     labelsData.labelLimit = "Límite NOM";
     labelsData.label = "Promedio móvil de " + horas + " hrs. para " + prettyParameter;
+    if (horas === "24") {
+      labelsData.label += " **";
+      $("#note-nom-24hrs").css("display", "block");
+    } else {
+      labelsData.label += "";
+      $("#note-nom-24hrs").css("display", "none");
+    }
   } else {
     labelsData.labelInfo = "Promedio horario de " + prettyParameter;
     labelsData.labelLimit = "Límite NOM";
@@ -857,7 +885,7 @@ function ponEstacionesSel()
   var x = document.getElementById("estado_primer_select").value;
   var contenido = '<option value="0">2.-Seleccionar estación</option>';
   var numEstaciones = 0;
-  for (let index = 0; index < estaciones_json.length; index++)
+  for (var index = 0; index < estaciones_json.length; index++)
   {
     var element =  estaciones_json[index];
     if(element.state === x && element.activa)
@@ -911,32 +939,42 @@ function llenarConstaminantes(url, parametro)
         if("PM10" === parametro)
         {
           arrPM10 = data;
-          $("#botonPM10").trigger("click");
+          cambioParametro("PM10", "24", "botonPM10");
         }
         else if("PM2.5" === parametro)
         {
           arrPM2 = data;
-          $("#botonPM25").trigger("click");
+          cambioParametro("PM2.5", "24", "botonPM25");
         }
         else if("NO2" === parametro)
         {
           arrNO2 = data;
-          $("#botonNO2").trigger("click");
+          cambioParametro("NO2", "D", "botonNO2");
         }
         else if("CO" === parametro)
         {
           arrCO = data;
-          $("#botonCO").trigger("click");
+          cambioParametro("CO", "8", "botonCO");
         }
-        else if("O3" === parametro)
+        else if ("O3" === parametro && hourSelected === "")
         {
           arrO3 = data;
-          $("#botonO3D").trigger("click");
+          cambioParametro("O3", "D", "botonO3D");
         }
-        else if("SO2" === parametro)
+        else if ("O3" === parametro && hourSelected !== "")
+        {
+          arrO3 = data;
+          cambioParametro("O3", hourSelected, "botonO3" + hourSelected);
+        }
+        else if ("SO2" === parametro && hourSelected === "")
         {
           arrSO2 = data;
-          $("#botonSO28").trigger("click");
+          cambioParametro("SO2", "8", "botonSO28");
+        }
+        else if ("SO2" === parametro && hourSelected !== "")
+        {
+          arrSO2 = data;
+          cambioParametro("SO2", hourSelected, "botonSO2" + hourSelected);
         }
         else { return 0; }
       }
@@ -959,7 +997,7 @@ function llenarConstaminantes(url, parametro)
         //desabilitamos el boton del parametro que estamos consultando
         if("PM2.5" === parametro)
         {
-          arrPM25 = data;
+          arrPM2 = data;
           $("#botonPM25").addClass("bloqueado");
         }
         else if("PM10" === parametro)
@@ -1020,7 +1058,7 @@ function llenarConstaminantes(url, parametro)
 
 function generaUrl(parametro,id_estacion,horas)
 {
-  const dActual = new Date();
+  var dActual = new Date();
   var dPasada = new Date();
 
   dPasada.setHours(dActual.getHours() - horas);
@@ -1079,12 +1117,12 @@ function parameter_decorator(parameter, isHtml) {
   return decorator;
 }
 
-function cambioParametro(parametro, horas, idButton, lb)
+function cambioParametro(parametro, horas, idButton)
 {
   $("#alerta").hide();
   $("#recomendaciones").hide();
   
-  reset_botones();
+  //reset_botones();
   //ponerReocmendaciones();
   
   if(!($("#"+idButton).hasClass("bloqueado")))
@@ -1193,14 +1231,14 @@ function sacaDatoDiario(data,horas,maxValue)
 {
   if(horas !== "D")
   {
-    const dActual = new Date();
+    var dActual = new Date();
     var dPasada = new Date();
     dPasada.setHours(dActual.getHours() - horas);
 
     var datos =  data.results;
     var arrTemp = [];
 
-    for (let index = datos.length - 1; index > 0;  index--)
+    for (var index = datos.length - 1; index > 0;  index--)
     {
 
       var fechaValida = hacerFechaValida(datos[index]["date"]);
@@ -1220,7 +1258,7 @@ function sacaDatoDiario(data,horas,maxValue)
     var acumulado = 0;
 
     
-    for (let index = 0; index < arrTemp.length; index++)
+    for (var index = 0; index < arrTemp.length; index++)
     {
       if(arrTemp[index].valororig < maxValue && arrTemp[index].validoorig === 1)
       {    
@@ -1232,7 +1270,7 @@ function sacaDatoDiario(data,horas,maxValue)
     promedio = 0;
     acumulado = 0;
     var tamDatos = datos.length-1;
-    for (let l = tamDatos; l > tamDatos - horas; l--)
+    for (var l = tamDatos; l > tamDatos - horas; l--)
     {    
       if(datos[l].valororig < maxValue && datos[l].validoorig === 1)
       {   
@@ -1263,16 +1301,16 @@ function sacaDatoDiario(data,horas,maxValue)
 
 function buscarEstacion(id_estacion)
 {
-  var estacion = 0 ;
-  for (let index = 0; index < estaciones_json.length; index++)
+  var estacion = {};
+  for (var index = 0; index < estaciones_json.length; index++)
   {
-    var element =  estaciones_json[index];
+    var element = estaciones_json[index];
     if(element.id === id_estacion)
     {
       estacion = element;
       break;
     }
-    else { return 0; }
+    else { estacion = estacion; }
   }
   return estacion;
 }

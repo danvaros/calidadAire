@@ -33,18 +33,22 @@ $(document).ready(function()
         $("#fecha_detalle").html(convertDate(new Date()));
         $("#fecha_detalle_m").html(convertDate(new Date()));
 
-        $("#contaminante_detalle").html("PM10");
-        $("#contaminante_grafica").html("PM10");
-
         var objEstacion = buscarEstacion(estacion);
         
-        $("#titulo_detalle").html(buscarCiudad(estacion));
-        
+        $("#titulo_detalle").html(buscarCiudad(estacion))
         $("#estacion_detalle").html( objEstacion.city+" - "+objEstacion.nombre);
         $("#estacion_detalle_m").html("<b>"+objEstacion.city+" - "+objEstacion.nombre+"</b>");
 
-        $("#tituloTexto").html("PM10");
-        $("#textoTitulo").html("Las partículas menores o iguales a 2.5 micras (PM2.5) están formadas primordialmente por gases y por material proveniente de la combustión. Se depositan fundamentalmente en la región traqueobronquial (tráquea hasta bronquiolo terminal), aunque pueden ingresar a los alvéolos.");
+        var idPollutant = "botonPM10";
+        $("#textoTitulo").html($("#" + idPollutant).attr("data-original-title"));
+        cambioBotonActivo(idPollutant);
+
+        resetButtonDays();
+
+        // Set station selected (because exist 2 different ways to get station)
+        stationSelected = estacion;
+        // Reset the hour selected to prevent pollutants with unexist hours
+        hourSelected = "";
 
         //vamos a llenar los arreglos de todos los coantaminantes
         llenarConstaminantes(generaUrl("PM10", estacion, (24*28)),"PM10");
@@ -53,7 +57,7 @@ $(document).ready(function()
         llenarConstaminantes(generaUrl("SO2", estacion, (24*28)),"SO2");
         llenarConstaminantes(generaUrl("O3", estacion, (24*28)),"O3");
         llenarConstaminantes(generaUrl("CO", estacion, (24*28)),"CO");
-        ponerTemperatura(generaUrl('TMP', estacion, (3)),'TMP');
+        ponerTemperatura(generaUrl("TMP", estacion, (3)),"TMP");
     });
 
 

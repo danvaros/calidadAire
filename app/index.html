@@ -103,7 +103,8 @@
         <div class="col-xs-3">
           <div class="input-field col s6 m2 l2">
             <select id="estados" name="estados" class="form-control">
-              <option value="Aguascalientes" selected>Aguascalientes</option>
+              <option value="0" disabled selected>Selecciona un estado</option>
+              <option value="Aguascalientes">Aguascalientes</option>
               <option value="Baja California">Baja California</option>
               <option value="Baja California Sur">Baja California Sur</option>
               <option value="Campeche">Campeche</option>
@@ -328,6 +329,10 @@
                   <span id="estacion_detalle_m">XAL-Xalostoc </span>
                   <span id="fecha_detalle_m"><b>24/05/17</b></span>
                 </p>
+                <p class="temperatura">
+                  <strong>Temperatura:</strong>
+                  <span id="temperatura_detalle_m">20 ℃</span>
+                </p>
                 <select name="conataminatesMovil" id="conataminatesMovil">
                   <option value="PM10">PM&#8321;&#8320; (µg/m&sup3;) 24 horas</option>
                   <option value="PM2.5">PM&#8322;.&#8325; (µg/m&sup3;) 24 horas</option>
@@ -378,6 +383,10 @@
               <input type="hidden" name="ciudad" id="ciudad" value="">
               <div class="col-md-12">
                 <p class="info-text">*Datos preliminares del SMCA que no han pasado por el proceso de validación</p>
+                <p id="note-nom-24hrs" class="info-text">
+                  **La NOM correspondiente establece el uso de promedios diarios, pero a fin de conocer la evolución del contaminante hora
+                  a hora se emplean los promedios móviles de 24 hrs.
+                </p>
               </div>
             </div>
 
@@ -404,11 +413,11 @@
     <script src="js/vendor/jquery.gaugeIt.js"></script>
 
     <!-- local-->
-    <script src="js/utileria.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/dist/utileria.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/vendor/moment.min.js"></script>
-    <script src="js/main.js" type="text/javascript" charset="utf-8"></script>
-    <script src="js/estados_mexico.js" type="text/javascript" charset="utf-8"></script>
-    <script src="js/estaciones_json.js" type="text/javascript" charset="utf-8"></script>
-    <script src="js/mod_mapa.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/dist/main.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/dist/estados_mexico.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/dist/estaciones_json.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/dist/mod_mapa.js" type="text/javascript" charset="utf-8"></script>
   </body>
 </html>

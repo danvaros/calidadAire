@@ -2,3 +2,5 @@
 .vscode/
 app/node_modules/
 app/package-lock.json
+node_modules/
+package-lock.json
