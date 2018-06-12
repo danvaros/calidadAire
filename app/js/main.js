@@ -659,6 +659,12 @@ function putGrafica(parametro,horas,maximo)
         if(numValoresValidos  >= (horas * .75)) 
         {
           var p = acumulado/horas;
+
+          if (parametro === "PM10" || parametro === "PM2.5")
+            p = Math.trunc(p);
+          else
+            p = p;
+
           promediosMoviles.push(p);
           var r = existeUltimoPromedio(e);
           
