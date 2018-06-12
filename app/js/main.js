@@ -636,14 +636,14 @@ function putGrafica(parametro,horas,maximo)
 
     if(horas !== "D")
     {
-      if(index >= horas-1)
+      if(index >= horas)
       {
         var acumulado = 0;
         var numValoresValidos = 0;
         var dActual = hacerFechaValida(data[index].date).getTime();
         var dPasada = dActual - (hora * horas);
 
-        for (var l = index; l >= index - (horas-1); l--) 
+        for (var l = index; l >= index - (horas); l--) 
         {
           var fechaValidar = hacerFechaValida(data[l].date);
        
@@ -658,7 +658,7 @@ function putGrafica(parametro,horas,maximo)
 
         if(numValoresValidos  >= (horas * .75)) 
         {
-          var p = acumulado/horas;
+          var p = acumulado/numValoresValidos;
 
           if (parametro === "PM10" || parametro === "PM2.5")
             p = Math.trunc(p);
